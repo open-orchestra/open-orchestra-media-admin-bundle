@@ -10,15 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "open-orchestra/open-orchestra-base-bundle": "*",
-        "open-orchestra/open-orchestra-base-api-bundle": "*",
-        "open-orchestra/open-orchestra-display-bundle": "*",
-        "open-orchestra/open-orchestra-media-bundle": "*",
-        "open-orchestra/open-orchestra-user-bundle": "*",
-        "open-orchestra/open-orchestra-model-interface": "*",
-        "braincrafted/bootstrap-bundle": "2.1.2",
-        "stfalcon/tinymce-bundle": "0.3.8",
-        "solution/mongo-odm-aggregation-bundle": "*"
+        "open-orchestra/open-orchestra-cms-bundle": "*",
+        "open-orchestra/open-orchestra-media-bundle": "*"
     },
     "require-dev": {
         "open-orchestra/open-orchestra-model-bundle": "dev-master",
@@ -32,12 +25,6 @@
     },
     "autoload": {
         "psr-0": {
-            "OpenOrchestra\\LogBundle": "",
-            "OpenOrchestra\\BackofficeBundle": "",
-            "OpenOrchestra\\Backoffice": "",
-            "OpenOrchestra\\GroupBundle": "",
-            "OpenOrchestra\\ApiBundle": "",
-            "OpenOrchestra\\UserAdminBundle": "",
             "OpenOrchestra\\MediaAdminBundle": ""
         }
     },

@@ -6,4 +6,3 @@ languages:
   Python: false
 exclude_paths:
   - "vendor/*"
-  - "BackofficeBundle/Resources/public/smartadmin/*"
