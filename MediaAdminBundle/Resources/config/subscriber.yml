@@ -1,6 +1,7 @@
 parameters:
     open_orchestra_media_admin.subscriber.update_media_reference.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber
     open_orchestra_media_admin.subscriber.media_cache_invalidate.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
+    open_orchestra_log.subscriber.media.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.update_media_reference:
@@ -17,3 +18,9 @@ services:
             - @open_orchestra_base.manager.tag
         tags:
             - { name: kernel.event_subscriber }
+    open_orchestra_log.subscriber.media:
+        class: %open_orchestra_log.subscriber.media.class%
+        arguments: [@logger]
+        tags:
+            - { name: kernel.event_subscriber }
+            - { name: monolog.logger, channel: openorchestra }
