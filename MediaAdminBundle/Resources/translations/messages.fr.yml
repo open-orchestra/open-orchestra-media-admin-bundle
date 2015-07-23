@@ -84,3 +84,12 @@ open_orchestra_media_admin:
         meta: Méta
         delete_question: Souhaitez-vous supprimer ce média
         delete_explanation: Cette opération est non réversible.
+    log:
+        media:
+            add_image: Ajoute un média nommé media_name
+            delete: Supprime un média nommé media_name
+            resize: Redimensionne un média nommé media_name
+        folder:
+            create: Crée un nouveau dossier nommé folder_name
+            delete: Supprime un dossier nommé folder_name
+            update: Met à jour un dossier nommé folder_name
