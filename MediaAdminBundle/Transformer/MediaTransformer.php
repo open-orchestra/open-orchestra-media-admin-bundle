@@ -6,6 +6,7 @@ use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\MediaFacade;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class MediaTransformer
@@ -14,15 +15,19 @@ class MediaTransformer extends AbstractTransformer
 {
     protected $thumbnailConfig;
     protected $translationChoiceManager;
+    protected $mediaDomain;
+
 
     /**
      * @param array                    $thumbnailConfig
      * @param TranslationChoiceManager $translationChoiceManager
+     * @param string                   $mediaDomain
      */
-    public function __construct(array $thumbnailConfig, TranslationChoiceManager $translationChoiceManager)
+    public function __construct(array $thumbnailConfig, TranslationChoiceManager $translationChoiceManager, $mediaDomain)
     {
         $this->thumbnailConfig = $thumbnailConfig;
         $this->translationChoiceManager = $translationChoiceManager;
+        $this->mediaDomain = $mediaDomain;
     }
 
     /**
@@ -40,14 +45,11 @@ class MediaTransformer extends AbstractTransformer
         $facade->isDeletable = $mixed->isDeletable();
         $facade->alt = $this->translationChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
-        $facade->displayedImage = $this->generateRoute('open_orchestra_media_get', array(
-            'key' => $mixed->getThumbnail()
-        ));
+
+        $facade->displayedImage = $this->generateMediaUrl($mixed->getThumbnail());
 
         foreach ($this->thumbnailConfig as $format => $thumbnail) {
-            $facade->addThumbnail($format, $this->generateRoute('open_orchestra_media_get', array(
-                'key' => $format . '-' . $mixed->getFilesystemName()
-            )));
+            $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));
             $facade->addLink('_self_format_' . $format, $this->generateRoute('open_orchestra_media_admin_media_override',
                 array('format' => $format, 'mediaId' => $mixed->getId())
             ));
@@ -73,5 +75,18 @@ class MediaTransformer extends AbstractTransformer
     public function getName()
     {
         return 'media';
+    }
+
+    /**
+     * @param $key
+     *
+     * @return string
+     */
+    protected function generateMediaUrl($key)
+    {
+        $route = $this->generateRoute('open_orchestra_media_get',
+            array('key' => $key),
+            UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->mediaDomain . $route;
     }
 }
