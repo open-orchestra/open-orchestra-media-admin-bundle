@@ -2,6 +2,7 @@ parameters:
     open_orchestra_api.transformer.media.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaTransformer
     open_orchestra_api.transformer.media_collection.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaCollectionTransformer
     open_orchestra_media_admin.transformer.embed_site_to_siteid.class: OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer
+    open_orchestra_media_admin.transformer.no_image_available_icon: /bundles/openorchestramediaadmin/images/no_image_available.jpg
 
 services:
     open_orchestra_api.transformer.media:
@@ -10,6 +11,7 @@ services:
             - %open_orchestra_media.thumbnail.configuration%
             - @open_orchestra_backoffice.manager.translation_choice
             - %open_orchestra_media.media_domain%
+            - %open_orchestra_media_admin.transformer.no_image_available_icon%
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_collection:
