@@ -5,6 +5,7 @@ GalleryCollectionView = OrchestraView.extend(
 
   initialize: (options) ->
     @options = @reduceOption(options, [
+      'folderId'
       'medias'
       'title'
       'listUrl'
@@ -44,18 +45,12 @@ GalleryCollectionView = OrchestraView.extend(
 
   clickAdd: (event) ->
     event.preventDefault()
-    viewContext = @
     if $('#main .' + $(event.target).attr('class')).length
       displayLoader('div[role="container"]')
-      Backbone.history.navigate('/add')
-      $.ajax
-        url: @options.medias.get('links')._self_add
-        method: 'GET'
-        success: (response) ->
-          viewClass = appConfigurationView.getConfiguration('media', 'addEntity')
-          new viewClass(viewContext.addOption(
-            html: response
-          ))
+      Backbone.history.navigate(appRouter.generateUrl('addMedia',
+        'folderId':  @options.folderId
+      ))
+      MediaAddFormLoad(@options.medias, @options.title, @options.listUrl)
 
   addConfigurationButton: ->
     if @options.medias.get('links')._self_folder != undefined
