@@ -40,7 +40,7 @@ class FolderController extends BaseController
             }
             $folderManager->deleteTree($folder);
             $this->dispatchEvent(FolderEvents::FOLDER_DELETE, new FolderEvent($folder));
-            $this->get('doctrine.odm.mongodb.document_manager')->flush();
+            $this->get('object_manager')->flush();
         }
 
         return new Response('', 200);
