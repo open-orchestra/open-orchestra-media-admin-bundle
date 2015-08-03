@@ -84,7 +84,7 @@ class MediaController extends BaseController
         }
 
         $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
-        $documentManager = $this->get('document_manager');
+        $documentManager = $this->get('object_manager');
         $documentManager->remove($media);
         $documentManager->flush();
 
