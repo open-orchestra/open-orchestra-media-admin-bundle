@@ -16,19 +16,17 @@ class MediaTransformer extends AbstractTransformer
     protected $thumbnailConfig;
     protected $translationChoiceManager;
     protected $mediaDomain;
-    protected $noImageAvailableIcon;
+
     /**
      * @param array                    $thumbnailConfig
      * @param TranslationChoiceManager $translationChoiceManager
      * @param string                   $mediaDomain
-     * @param string                   $noImageAvailableIcon
      */
-    public function __construct(array $thumbnailConfig, TranslationChoiceManager $translationChoiceManager, $mediaDomain, $noImageAvailableIcon)
+    public function __construct(array $thumbnailConfig, TranslationChoiceManager $translationChoiceManager, $mediaDomain)
     {
         $this->thumbnailConfig = $thumbnailConfig;
         $this->translationChoiceManager = $translationChoiceManager;
         $this->mediaDomain = $mediaDomain;
-        $this->noImageAvailableIcon = $noImageAvailableIcon;
     }
 
     /**
@@ -81,12 +79,12 @@ class MediaTransformer extends AbstractTransformer
     /**
      * @param $key
      *
-     * @return string
+     * @return null|string
      */
     protected function generateMediaUrl($key)
     {
         if ($key === null) {
-            return $this->noImageAvailableIcon;
+            return null;
         } else {
             $route = $this->generateRoute('open_orchestra_media_get',
                 array('key' => $key),
