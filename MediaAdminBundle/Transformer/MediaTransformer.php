@@ -89,6 +89,7 @@ class MediaTransformer extends AbstractTransformer
             $route = $this->generateRoute('open_orchestra_media_get',
                 array('key' => $key),
                 UrlGeneratorInterface::ABSOLUTE_PATH);
+
             return $this->mediaDomain . $route;
         }
     }
