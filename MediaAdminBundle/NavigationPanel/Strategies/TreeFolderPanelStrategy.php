@@ -1,15 +1,15 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\LeftPanel\Strategies;
+namespace OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies;
 
-use OpenOrchestra\Backoffice\LeftPanel\Strategies\AbstractLeftPanelStrategy;
+use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AbstractNavigationPanelStrategy;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
  * Class TreeFolderPanel
  */
-class TreeFolderPanelStrategy extends AbstractLeftPanelStrategy
+class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
 {
     const ROLE_ACCESS_TREE_FOLDER = 'ROLE_ACCESS_TREE_FOLDER';
 
