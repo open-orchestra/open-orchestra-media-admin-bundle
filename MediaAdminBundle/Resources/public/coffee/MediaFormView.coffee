@@ -1,6 +1,6 @@
 MediaFormView = OrchestraView.extend(
-  events:
-    'submit': 'addEventOnForm'
+
+  extendView : [ 'submitAdmin' ]
 
   initialize: (options) ->
     @options = @reduceOption(options, [
@@ -11,6 +11,8 @@ MediaFormView = OrchestraView.extend(
     @loadTemplates [
       'OpenOrchestraBackofficeBundle:BackOffice:Underscore/fullPageFormView'
     ]
+    @options.formView = 'showMediaForm'
+    @options.entityType = 'media'
     return
 
   render: ->
@@ -21,19 +23,5 @@ MediaFormView = OrchestraView.extend(
     $("[data-prototype]", @options.domContainer).each ->
       PO.formPrototypes.addPrototype $(this)
       return
-    return
-
-  addEventOnForm: (event) ->
-    event.preventDefault()
-    viewContext = @
-    $('form', @options.domContainer).ajaxSubmit
-      context:
-        button: $(".submit_form",event.currentTarget).parent()
-      success: (response) ->
-        formChannel.trigger 'formSubmit'
-        viewClass = appConfigurationView.getConfiguration('media', 'showMediaForm')
-        new viewClass(viewContext.addOption(
-          html: response
-        ))
     return
 )
