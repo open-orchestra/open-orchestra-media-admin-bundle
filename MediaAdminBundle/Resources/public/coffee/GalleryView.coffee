@@ -18,7 +18,7 @@ GalleryView = OrchestraView.extend(
         @mediaClass = "media-remove"
         @mediaLogo = "fa-trash-o"
     else
-      unset @events['click .superbox-img'] if @events['click .superbox-img']?
+      delete @events['click .superbox-img'] if @events['click .superbox-img']?
       @mediaClass = "media-select"
       @mediaLogo = "fa-check-circle"
     @options.thumbnails = @options.media.get("thumbnails")

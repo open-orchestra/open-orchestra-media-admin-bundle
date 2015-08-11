@@ -90,7 +90,7 @@ class MediaTransformer extends AbstractTransformer
                 array('key' => $key),
                 UrlGeneratorInterface::ABSOLUTE_PATH);
 
-            return $this->mediaDomain . $route;
+            return '//' . $this->mediaDomain . $route;
         }
     }
 }
