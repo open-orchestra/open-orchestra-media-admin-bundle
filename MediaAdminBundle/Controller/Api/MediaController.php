@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Class MediaController
  *
  * @Config\Route("media")
+ *
+ * @Api\Serialize()
  */
 class MediaController extends BaseController
 {
@@ -25,8 +27,6 @@ class MediaController extends BaseController
      *
      * @Config\Route("/{mediaId}", name="open_orchestra_api_media_show")
      * @Config\Method({"GET"})
-     *
-     * @Api\Serialize()
      *
      * @return FacadeInterface
      */
@@ -42,7 +42,6 @@ class MediaController extends BaseController
      *
      * @Config\Route("", name="open_orchestra_api_media_list")
      * @Config\Method({"GET"})
-     * @Api\Serialize()
      *
      * @return FacadeInterface
      */
@@ -88,6 +87,6 @@ class MediaController extends BaseController
         $documentManager->remove($media);
         $documentManager->flush();
 
-        return new Response('', 200);
+        return array();
     }
 }

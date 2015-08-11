@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Class FolderController
  *
  * @Config\Route("folder")
+ *
+ * @Api\Serialize()
  */
 class FolderController extends BaseController
 {
@@ -43,6 +45,6 @@ class FolderController extends BaseController
             $this->get('object_manager')->flush();
         }
 
-        return new Response('', 200);
+        return array();
     }
 }
