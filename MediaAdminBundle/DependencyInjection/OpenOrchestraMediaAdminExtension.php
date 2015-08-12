@@ -21,7 +21,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('transformer.yml');
-        $loader->load('navigationpanel.yml');
+        $loader->load('navigation_panel.yml');
         $loader->load('subscriber.yml');
         $loader->load('form.yml');
         $loader->load('manager.yml');
@@ -29,7 +29,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('generator.yml');
         $loader->load('display.yml');
         $loader->load('icon.yml');
-        $loader->load('extractreference.yml');
+        $loader->load('extract_reference.yml');
 
         $this->addMediaFieldType($container);
     }
