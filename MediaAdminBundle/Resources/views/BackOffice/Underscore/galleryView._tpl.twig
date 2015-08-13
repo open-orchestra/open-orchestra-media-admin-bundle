@@ -1,34 +1,34 @@
 <div class="figure superbox-list">
-    <img
-        class="superbox-img selectable"
-        title="<%= media.get('name') %>"
-        alt="<%= media.get('name') %>"
-        height="117px"
-        <% if (typeof media.get('displayed_image') != 'undefined') { %>
-                src="<%= media.get('displayed_image') %>"
-        <% } else if (media.get('mime_type') == 'application/pdf') { %>
-            {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-pdf.png' %}
+    <div class="img-container superbox-img selectable" >
+        <img
+            title="<%= media.get('name') %>"
+            alt="<%= media.get('name') %>"
+            <% if (typeof media.get('thumbnails')["media_thumbnail"] != 'undefined') { %>
+                    src="<%= media.get('thumbnails')["media_thumbnail"] %>"
+            <% } else if (media.get('mime_type') == 'application/pdf') { %>
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-pdf.png' %}
                 src="{{ asset_url }}"
-            {% endimage %}
-        <% } else if (media.get('mime_type').indexOf('audio') > -1 ) { %>
-            {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-audio.png' %}
-            src="{{ asset_url }}"
-            {% endimage %}
-        <% } else if (media.get('mime_type').indexOf('video') > -1 ) { %>
-            {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-video.png' %}
-            src="{{ asset_url }}"
-            {% endimage %}
-        <% } else if (media.get('mime_type').indexOf('text') > -1 ) { %>
-            {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-content.png' %}
-            src="{{ asset_url }}"
-            {% endimage %}
-        <% } else { %>
-            {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/no_image_available.jpg' %}
-                src="{{ asset_url }}"
-            {% endimage %}
-        <% } %>
-    />
-    <div class="caption" style="display: none">
+                {% endimage %}
+            <% } else if (media.get('mime_type').indexOf('audio') > -1 ) { %>
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-audio.png' %}
+                    src="{{ asset_url }}"
+                {% endimage %}
+            <% } else if (media.get('mime_type').indexOf('video') > -1 ) { %>
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-video.png' %}
+                    src="{{ asset_url }}"
+                {% endimage %}
+            <% } else if (media.get('mime_type').indexOf('text') > -1 ) { %>
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-content.png' %}
+                    src="{{ asset_url }}"
+                {% endimage %}
+            <% } else { %>
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/no_image_available.jpg' %}
+                    src="{{ asset_url }}"
+                {% endimage %}
+            <% } %>
+        />
+    </div>
+    <div class="caption">
         <span class='title'> <%= media.get('name') %> </span>
         <% if (typeof mediaClass != 'undefined' && typeof mediaLogo != undefined) { %>
             <span class="tool <%= mediaClass %>"><i class='fa <%= mediaLogo %>'></i></span>
