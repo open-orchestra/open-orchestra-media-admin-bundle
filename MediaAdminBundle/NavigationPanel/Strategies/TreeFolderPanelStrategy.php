@@ -67,7 +67,7 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
      */
     public function getWeight()
     {
-        return 6;
+        return 60;
     }
 
     /**
