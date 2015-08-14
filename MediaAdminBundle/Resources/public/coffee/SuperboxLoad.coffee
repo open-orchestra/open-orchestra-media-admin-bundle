@@ -5,8 +5,13 @@ SuperboxLoad = (folderId, mediaId) ->
     success: (response) ->
       mediaModel = new GalleryModel
       mediaModel.set response
-      viewClass = appConfigurationView.getConfiguration('media', 'showSuperbox')
+      options =
+          domContainer : $('#content')
+          media: mediaModel
+          listUrl: appRouter.generateUrl('listFolder', folderId: folderId)
+      new CropFormView(options)
+      ###      viewClass = appConfigurationView.getConfiguration('media', 'showSuperbox')
       new viewClass(
         media: mediaModel
-        listUrl: appRouter.generateUrl('listFolder', folderId: folderId))
+        listUrl: appRouter.generateUrl('listFolder', folderId: folderId))###
   return
