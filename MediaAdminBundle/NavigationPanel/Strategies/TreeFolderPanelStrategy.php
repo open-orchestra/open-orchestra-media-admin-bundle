@@ -63,6 +63,14 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     }
 
     /**
+     * @return int
+     */
+    public function getWeight()
+    {
+        return 60;
+    }
+
+    /**
      * @return string
      */
     public function getRole()
