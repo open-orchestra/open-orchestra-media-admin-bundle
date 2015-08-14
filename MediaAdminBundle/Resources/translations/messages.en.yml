@@ -31,6 +31,7 @@ open_orchestra_media_admin:
             rectangle: Rectangle (100p x 70p)
             max_width: Fixed width (100p)
             max_height: Fixed height (100p)
+            media_thumbnail: Media Preview
             list:
                 keyword: Mot-clé
             meta:

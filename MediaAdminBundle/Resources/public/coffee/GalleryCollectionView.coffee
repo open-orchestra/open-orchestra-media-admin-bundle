@@ -30,7 +30,6 @@ GalleryCollectionView = OrchestraView.extend(
       @addDeleteButton()
     for mediaKey of @options.medias.get(@options.medias.get('collection_name'))
       @addElementToView(@options.medias.get(@options.medias.get('collection_name'))[mediaKey])
-    $(".figure").width @options.domContainer.find("img").width()
 
   addElementToView: (mediaData) ->
     mediaModel = new GalleryModel
