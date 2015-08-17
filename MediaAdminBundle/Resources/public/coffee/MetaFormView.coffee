@@ -19,11 +19,11 @@ MetaFormView = OrchestraView.extend(
       @initMetaForm()
     else
       @setElement @options.html
-      @$el.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
-        listUrl: @options.listUrl
-      )
       @options.domContainer.html @$el
       activateForm(@, @options.domContainer)
+      @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
+        listUrl: @options.listUrl
+      )
 
   initMetaForm : ->
     currentView = @
