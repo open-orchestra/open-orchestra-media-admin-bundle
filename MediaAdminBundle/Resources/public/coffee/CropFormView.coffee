@@ -21,16 +21,14 @@ CropFormView = OrchestraView.extend(
       media: @options.media
       listUrl: @options.listUrl
     )
-    @options.domContainer.html @$el
-
     @addPreview()
     @initCrop()
-    displayLoader('#alternative-loader')
+    displayLoader('#alternative-loader', @$el)
 
   initCrop: ->
     currentView = @
     $(".media-override-format-form", @$el).hide()
-    displayLoader('#selector-loader')
+    displayLoader('#selector-loader', @$el)
     $.ajax
       url: @options.media.get('links')._self_crop
       method: 'GET'
@@ -44,7 +42,7 @@ CropFormView = OrchestraView.extend(
     $('.media_crop_preview', @$el).append('<img class="media_crop_original" src="' + @options.media.get('displayed_image') + '" style="max-width:600px;">')
     for thumbnail of @options.media.get('thumbnails')
       $('.media_crop_preview', @$el).append('<img class="media_crop_' + thumbnail + '" src="' + @options.media.get('thumbnails')[thumbnail] + '" style="display: none;">')
-    displayLoader('#image-loader')
+    displayLoader('#image-loader', @$el)
 
   changeView: (e) ->
     $('#crop-group').hide()
@@ -143,10 +141,10 @@ CropFormView = OrchestraView.extend(
           currentView.refreshImages()
 
   refreshImages: ->
-      format = $('#media_crop_format').val()
-      newSrc = $('.media_crop_' + format).attr('src').split('?')[0] + '?' + Math.random()
-      $('.media_crop_' + format).attr 'src', newSrc
-      $(".media-override-format-form").hide()
-      $('#image-loader').hide()
-      @showPreview(format)
+    format = $('#media_crop_format').val()
+    newSrc = $('.media_crop_' + format).attr('src').split('?')[0] + '?' + Math.random()
+    $('.media_crop_' + format).attr 'src', newSrc
+    $(".media-override-format-form").hide()
+    $('#image-loader').hide()
+    @showPreview(format)
 )
