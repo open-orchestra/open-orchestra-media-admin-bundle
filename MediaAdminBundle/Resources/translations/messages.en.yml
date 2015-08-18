@@ -66,6 +66,7 @@ open_orchestra_media_admin:
                     new: New media
                     delete: Remove media
                 thumbnail_format: Thumbnail format
+                width: Width
                 image_format :
                     label: Image format (full view)
                     helper: Image format (full view)

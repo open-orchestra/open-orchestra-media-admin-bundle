@@ -66,6 +66,7 @@ open_orchestra_media_admin:
                     new: Nouveau média
                     delete: Retirer le média
                 thumbnail_format: Format des vignettes
+                width: Largeur
                 image_format :
                     label: Format de l'image (vue complète)
                     helper: Format de l'image (vue complète)
