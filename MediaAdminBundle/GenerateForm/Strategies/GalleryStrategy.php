@@ -73,6 +73,10 @@ class GalleryStrategy extends AbstractBlockStrategy
                 ),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
             ))
+            ->add('width', 'text', array(
+                'required' => false,
+                'label' => 'open_orchestra_media_admin.block.gallery.form.width',
+            ))
             ;
     }
 
