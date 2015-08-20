@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use OpenOrchestra\Media\Event\MediaEvent;
 use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\Media\Model\MediaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,6 +89,7 @@ class MediaController extends AbstractAdminController
         if ($form->isValid()) {
             $data = $form->getData();
             $mediaRepository = $this->get('open_orchestra_media.repository.media');
+            /** @var MediaInterface $media */
             $media = $mediaRepository->find($mediaId);
 
             $uploadedMediaManager = $this->get('open_orchestra_media.manager.uploaded_media');
