@@ -74,16 +74,24 @@ CropFormView = OrchestraView.extend(
 
     $(".media-override-format-form").hide()
     $('#crop-group').show()
-
     @cropParam['$preview'] = $('#preview-pane', @$el)
     @cropParam['$pimg'] = $('#preview-pane .preview-container img', @$el)
     @cropParam['$pcnt'] = $('#preview-pane .preview-container', @$el)
     @cropParam['xsize'] = @cropParam['$pcnt'].width()
     @cropParam['ysize'] = @cropParam['$pcnt'].height()
+
+    #take real image size without CSS
+    naturalImage = new Image();
+    naturalImage.src = $("img.superbox-current-img", "#crop-group").attr("src");
+    naturalWidth = naturalImage.width
+    naturalHeight = naturalImage.height
+    naturalImage.remove
+
     $('.superbox-current-img').Jcrop({
         onChange: @updatePreview
         onSelect: @updateCoords
         boxWidth: 600
+        trueSize: [naturalWidth, naturalHeight]
       }, ->
         bounds = @getBounds()
         viewContext.cropParam['boundx'] = bounds[0]
@@ -147,4 +155,10 @@ CropFormView = OrchestraView.extend(
     $(".media-override-format-form").hide()
     $('#image-loader').hide()
     @showPreview(format)
+
+  updateCoords: (c) ->
+    $('#media_crop_x').val c.x
+    $('#media_crop_y').val c.y
+    $('#media_crop_w').val c.w
+    $('#media_crop_h').val c.h
 )
