@@ -5,11 +5,12 @@ namespace OpenOrchestra\MediaAdminBundle\DataFixtures\MongoDB;
 use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\BackofficeBundle\DataFixtures\MongoDB\AbstractLoadRoleData;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
+use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
 
 /**
  * Class LoadRoleData
  */
-class LoadRoleData extends AbstractLoadRoleData
+class LoadRoleData extends AbstractLoadRoleData implements OrchestraFunctionalFixturesInterface
 {
     /**
      * @param ObjectManager $manager
