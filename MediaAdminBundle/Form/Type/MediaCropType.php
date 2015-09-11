@@ -30,6 +30,7 @@ class MediaCropType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('id', 'hidden');
         $builder->add('x', 'hidden');
         $builder->add('y', 'hidden');
         $builder->add('h', 'hidden');

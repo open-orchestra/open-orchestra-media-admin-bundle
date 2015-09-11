@@ -97,7 +97,7 @@ class MediaController extends AbstractAdminController
      */
     public function cropAction(Request $request, $mediaId)
     {
-        $form = $this->createForm('media_crop', null, array(
+        $form = $this->createForm('media_crop', array('id' => $mediaId), array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
                 'mediaId' => $mediaId,
             ))
