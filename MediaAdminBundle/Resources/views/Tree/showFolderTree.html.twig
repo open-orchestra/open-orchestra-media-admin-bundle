@@ -1,7 +1,18 @@
 {% extends 'OpenOrchestraMediaAdminBundle:Tree:tree.html.twig' %}
 
+{% set skin = 'bo' %}
 {% set name = 'open_orchestra_media_admin.left_menu.editorial.media'|trans %}
 
-{% block menu %}
-    {{ macros.menu_folder(folders, 'first') }}
+{% block name %}
+<a href="#">
+    <span class="menu-item-parent">
+        {{ name }}
+    </span>
+</a>
+{% endblock %}
+
+{% block menu_container %}
+<ul class="{{ name }}-connectedSortable">
+    {{ menu }}
+</ul>
 {% endblock %}

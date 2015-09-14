@@ -1,5 +1,9 @@
-{% import "OpenOrchestraMediaAdminBundle:Tree:tree-macros.html.twig" as macros %}
+{% extends 'OpenOrchestraMediaAdminBundle:Tree:tree.html.twig' %}
 
+{% set skin = 'modal' %}
+
+{% block menu_container %}
 <ul>
-    {{ macros.menu_modal_folder(folders, 'first') }}
+    {{ menu }}
 </ul>
+{% endblock %}

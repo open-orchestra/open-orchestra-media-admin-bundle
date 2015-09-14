@@ -36,7 +36,7 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     /**
      * @return string
      */
-    public function show($template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig', $parentId = null)
+    public function show($template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig', $parentId = null, $isAjax = false)
     {
         $siteId = $this->currentSiteManager->getCurrentSiteId();
         $folders = $this->folderRepository->findAllFolderBySiteAndParent($siteId, $parentId);
@@ -46,6 +46,7 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
 
         return $this->render( $template, array(
             'folders' => $folders,
+            'ajax' => $isAjax,
         ));
     }
 

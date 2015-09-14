@@ -51,29 +51,40 @@ class MediaController extends AbstractAdminController
     }
 
     /**
+     * @param string  $parentId
+     * @param boolean $modal
+     *
      * @Config\Route("/media/list/folders", name="open_orchestra_media_admin_media_list_form", defaults={"parentId" = null})
      * @Config\Route("/media/list/folders/{parentId}", name="open_orchestra_media_admin_media_list_form")
+     * @Config\Route("/modal/media/list/folders", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null, "modal" = true})
+     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form", defaults={"modal" = true})
      * @Config\Method({"GET"})
      *
      * @return Response
      */
-    public function showFoldersAction($parentId)
+    public function showFoldersAction($parentId, $modal=false)
     {
         $template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig';
-        return $this->get('open_orchestra_media_admin.navigation_panel.folder')->show($template, $parentId);
+        if ($modal) {
+            $template = 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig';
+        }
+
+        return $this->showFolders($template, $parentId);
     }
 
     /**
-     * @Config\Route("/modal/media/list/folders", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null})
-     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form")
-     * @Config\Method({"GET"})
+     * @param string $template
+     * @param string $parentId
      *
      * @return Response
      */
-    public function showModalFoldersAction($parentId)
+    private function showFolders($template, $parentId)
     {
-        $template = 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig';
-        return $this->get('open_orchestra_media_admin.navigation_panel.folder')->show($template, $parentId);
+        $templating = $this->get('templating');
+        $treeFolderPanelStrategy = $this->get('open_orchestra_media_admin.navigation_panel.folder');
+        $treeFolderPanelStrategy->setTemplating($templating);
+
+        return new Response($treeFolderPanelStrategy->show($template, $parentId, !is_null($parentId)));
     }
 
     /**

@@ -1,10 +1,12 @@
 {% import "OpenOrchestraMediaAdminBundle:Tree:tree-macros.html.twig" as macros %}
-<a href="#">
-    <span class="menu-item-parent">
-        {{ name }}
-    </span>
-</a>
-<ul class="{{ name }}-connectedSortable">
-    {% block menu %}
+
+{% set menu = macros.buildMenuFolder(folders, skin, 'first') %}
+
+{% if ajax %}
+    {{ menu }}
+{% else %}
+    {% block name %}
     {% endblock %}
-</ul>
+    {% block menu_container %}
+    {% endblock %}
+{% endif %}
