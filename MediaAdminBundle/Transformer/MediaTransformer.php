@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
+use OpenOrchestra\Media\Thumbnail\Strategies\ImageToThumbnailManager;
 use OpenOrchestra\MediaAdminBundle\Facade\MediaFacade;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -46,12 +47,14 @@ class MediaTransformer extends AbstractTransformer
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
 
         $facade->displayedImage = $this->generateMediaUrl($mixed->getThumbnail());
-
-        foreach ($this->thumbnailConfig as $format => $thumbnail) {
-            $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));
-            $facade->addLink('_self_format_' . $format, $this->generateRoute('open_orchestra_media_admin_media_override',
-                array('format' => $format, 'mediaId' => $mixed->getId())
-            ));
+        if (strpos($mixed->getMimeType(), ImageToThumbnailManager::MIME_TYPE_FRAGMENT_IMAGE) === 0) {
+            foreach ($this->thumbnailConfig as $format => $thumbnail) {
+                $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));
+                $facade->addLink('_self_format_' . $format,
+                    $this->generateRoute('open_orchestra_media_admin_media_override',
+                        array('format' => $format, 'mediaId' => $mixed->getId())
+                    ));
+            }
         }
 
         $facade->addLink('_self_select', $mixed->getId());
