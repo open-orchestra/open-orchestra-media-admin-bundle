@@ -51,19 +51,40 @@ class MediaController extends AbstractAdminController
     }
 
     /**
-     * @Config\Route("/media/list/folders", name="open_orchestra_media_admin_media_list_form")
+     * @param string  $parentId
+     * @param boolean $modal
+     *
+     * @Config\Route("/media/list/folders", name="open_orchestra_media_admin_media_list_form", defaults={"parentId" = null})
+     * @Config\Route("/media/list/folders/{parentId}", name="open_orchestra_media_admin_media_list_form")
+     * @Config\Route("/modal/media/list/folders", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null, "modal" = true})
+     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form", defaults={"modal" = true})
      * @Config\Method({"GET"})
      *
      * @return Response
      */
-    public function showFoldersAction()
+    public function showFoldersAction($parentId, $modal=false)
     {
-        $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
-        $rootFolders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
+        $template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig';
+        if ($modal) {
+            $template = 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig';
+        }
 
-        return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig', array(
-                'folders' => $rootFolders,
-        ));
+        return $this->showFolders($template, $parentId);
+    }
+
+    /**
+     * @param string $template
+     * @param string $parentId
+     *
+     * @return Response
+     */
+    private function showFolders($template, $parentId)
+    {
+        $templating = $this->get('templating');
+        $treeFolderPanelStrategy = $this->get('open_orchestra_media_admin.navigation_panel.folder');
+        $treeFolderPanelStrategy->setTemplating($templating);
+
+        return new Response($treeFolderPanelStrategy->show($template, $parentId, !is_null($parentId)));
     }
 
     /**

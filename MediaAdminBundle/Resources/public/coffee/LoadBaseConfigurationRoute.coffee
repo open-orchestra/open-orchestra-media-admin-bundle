@@ -10,8 +10,8 @@
     return
 
   router.route 'folder/:folderId/list', 'listFolder', (folderId) ->
-    @initDisplayRouteChanges()
-    GalleryLoad folderId
+    if @initDisplayRouteChanges()
+      GalleryLoad folderId
     return
 
   router.route 'folder/:folderId/add/media', 'addMedia', (folderId) ->
