@@ -54,10 +54,8 @@ class MediaController extends AbstractAdminController
      * @param string  $parentId
      * @param boolean $modal
      *
-     * @Config\Route("/media/list/folders", name="open_orchestra_media_admin_media_list_form", defaults={"parentId" = null})
-     * @Config\Route("/media/list/folders/{parentId}", name="open_orchestra_media_admin_media_list_form")
-     * @Config\Route("/modal/media/list/folders", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null, "modal" = true})
-     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form", defaults={"modal" = true})
+     * @Config\Route("/media/list/folders/{parentId}", name="open_orchestra_media_admin_media_list_form", defaults={"parentId" = null})
+     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null, "modal" = true})
      * @Config\Method({"GET"})
      *
      * @return Response
