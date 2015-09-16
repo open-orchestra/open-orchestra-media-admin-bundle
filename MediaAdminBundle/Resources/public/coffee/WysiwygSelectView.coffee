@@ -33,7 +33,11 @@ WysiwygSelectView = OrchestraView.extend(
     tinymce.get(editorId).execCommand(
       'mceInsertContent',
       false,
-      '<img class="tinymce-media" src="' + $('#preview_thumbnail', @$el).attr('src') + '"/>'
+      do ->
+        src = $('#preview_thumbnail', @$el).attr('src');
+        id = $('#media_crop_id', @el).val();
+        format = $('#media_crop_format', @$el).val();
+        '<img class="tinymce-media" src="' + src + '" data-id="' + id + '" data-format="' + format + '" />';
     )
     modalContainer.find('.mediaModalClose').click()
 )

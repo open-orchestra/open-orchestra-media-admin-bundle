@@ -69,6 +69,7 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->form->buildForm($this->builder, array());
 
+        Phake::verify($this->builder)->add('id', 'hidden');
         Phake::verify($this->builder)->add('x', 'hidden');
         Phake::verify($this->builder)->add('y', 'hidden');
         Phake::verify($this->builder)->add('h', 'hidden');
