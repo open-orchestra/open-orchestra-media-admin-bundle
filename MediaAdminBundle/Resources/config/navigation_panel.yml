@@ -7,5 +7,7 @@ services:
         arguments:
             - @open_orchestra_media.repository.media_folder
             - @open_orchestra_backoffice.context_manager
+            - %open_orchestra_backoffice.navigation_panel.menu.editorial%
+            - 245
         tags:
             - { name: open_orchestra_backoffice.navigation_panel.strategy }

@@ -26,11 +26,15 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     /**
      * @param FolderRepositoryInterface $folderRepository
      * @param CurrentSiteIdInterface    $currentSiteManager
+     * @param string                    $parent
+     * @param int                       $weight
      */
-    public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager)
+    public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager, $parent, $weight)
     {
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
+        $this->parent = $parent;
+        $this->weight = $weight;
     }
 
     /**
@@ -53,25 +57,9 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     /**
      * @return string
      */
-    public function getParent()
-    {
-        return self::EDITORIAL;
-    }
-
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'folders';
-    }
-
-    /**
-     * @return int
-     */
-    public function getWeight()
-    {
-        return 60;
     }
 
     /**
