@@ -6,11 +6,11 @@ SuperboxLoad = (folderId, mediaId) ->
       mediaModel = new GalleryModel
       mediaModel.set response
       listUrl = appRouter.generateUrl('listFolder', folderId: folderId)
-      showTabMedia(mediaModel)
+      showTabMedia(mediaModel, listUrl)
 
   return
 
-showTabMedia = (mediaModel) ->
+showTabMedia = (mediaModel, listUrl) ->
   options =
     media: mediaModel
     listUrl: listUrl
