@@ -31,10 +31,9 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
      */
     public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager, $parent, $weight)
     {
+        parent::__construct('folders', self::ROLE_ACCESS_TREE_FOLDER, $weight, $parent);
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
-        $this->parent = $parent;
-        $this->weight = $weight;
     }
 
     /**
@@ -52,21 +51,5 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
             'folders' => $folders,
             'ajax' => $isAjax,
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'folders';
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole()
-    {
-        return self::ROLE_ACCESS_TREE_FOLDER;
     }
 }
