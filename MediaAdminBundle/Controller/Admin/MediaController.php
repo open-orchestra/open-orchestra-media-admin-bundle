@@ -51,23 +51,18 @@ class MediaController extends AbstractAdminController
     }
 
     /**
-     * @param string  $parentId
-     * @param boolean $modal
-     *
-     * @Config\Route("/media/list/folders/{parentId}", name="open_orchestra_media_admin_media_list_form", defaults={"parentId" = null})
-     * @Config\Route("/modal/media/list/folders/{parentId}", name="open_orchestra_media_admin_modal_media_list_form", defaults={"parentId" = null, "modal" = true})
+     * @Config\Route("/media/list/folders", name="open_orchestra_media_admin_media_list_form")
      * @Config\Method({"GET"})
      *
      * @return Response
      */
-    public function showFoldersAction($parentId, $modal=false)
+    public function showFoldersAction()
     {
-        $template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig';
-        if ($modal) {
-            $template = 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig';
-        }
-
-        return $this->showFolders($template, $parentId);
+        $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
+        $rootFolders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
+        return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig', array(
+            'folders' => $rootFolders,
+        ));
     }
 
     /**

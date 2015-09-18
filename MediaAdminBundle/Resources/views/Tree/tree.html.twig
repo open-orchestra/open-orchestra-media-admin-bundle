@@ -2,11 +2,7 @@
 
 {% set menu = macros.buildMenuFolder(folders, skin, 'first') %}
 
-{% if ajax %}
-    {{ menu }}
-{% else %}
-    {% block name %}
-    {% endblock %}
-    {% block menu_container %}
-    {% endblock %}
-{% endif %}
+{% block name %}
+{% endblock %}
+{% block menu_container %}
+{% endblock %}
