@@ -36,17 +36,13 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     /**
      * @return string
      */
-    public function show($template = 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig', $parentId = null, $isAjax = false)
+    public function show()
     {
         $siteId = $this->currentSiteManager->getCurrentSiteId();
-        $folders = $this->folderRepository->findAllFolderBySiteAndParent($siteId, $parentId);
-        foreach ($folders as $folder) {
-            $folder->removeSubFolders();
-        }
+        $rootFolders = $this->folderRepository->findAllRootFolderBySiteId($siteId);
 
-        return $this->render( $template, array(
-            'folders' => $folders,
-            'ajax' => $isAjax,
+       return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig', array(
+           'folders' => $rootFolders,
         ));
     }
 
