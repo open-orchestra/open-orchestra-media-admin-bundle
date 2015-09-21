@@ -26,9 +26,12 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
     /**
      * @param FolderRepositoryInterface $folderRepository
      * @param CurrentSiteIdInterface    $currentSiteManager
+     * @param string                    $parent
+     * @param int                       $weight
      */
-    public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager)
+    public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager, $parent, $weight)
     {
+        parent::__construct('folders', self::ROLE_ACCESS_TREE_FOLDER, $weight, $parent);
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
     }
@@ -44,37 +47,5 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
        return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showFolderTree.html.twig', array(
            'folders' => $rootFolders,
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getParent()
-    {
-        return self::EDITORIAL;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'folders';
-    }
-
-    /**
-     * @return int
-     */
-    public function getWeight()
-    {
-        return 60;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole()
-    {
-        return self::ROLE_ACCESS_TREE_FOLDER;
     }
 }
