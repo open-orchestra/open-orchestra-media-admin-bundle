@@ -25,12 +25,8 @@
                     src="{{ asset_url }}"
                     {% endimage %}
                 <% } %>
-            <% } else if (media.get('mime_type').indexOf('text') > -1 ) { %>
-                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-content.png' %}
-                    src="{{ asset_url }}"
-                {% endimage %}
             <% } else { %>
-                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/no_image_available.jpg' %}
+                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-content.png' %}
                     src="{{ asset_url }}"
                 {% endimage %}
             <% } %>
