@@ -9,7 +9,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\DisplayBlock\Strategies\GalleryStrategy as BaseGalleryStrategy;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Class GalleryStrategy
