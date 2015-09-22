@@ -66,21 +66,6 @@ class MediaController extends AbstractAdminController
     }
 
     /**
-     * @param string $template
-     * @param string $parentId
-     *
-     * @return Response
-     */
-    private function showFolders($template, $parentId)
-    {
-        $templating = $this->get('templating');
-        $treeFolderPanelStrategy = $this->get('open_orchestra_media_admin.navigation_panel.folder');
-        $treeFolderPanelStrategy->setTemplating($templating);
-
-        return new Response($treeFolderPanelStrategy->show($template, $parentId, !is_null($parentId)));
-    }
-
-    /**
      * @param Request $request
      * @param string  $mediaId
      *
