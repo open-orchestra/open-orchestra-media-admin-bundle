@@ -6,6 +6,7 @@ use OpenOrchestra\BackofficeBundle\EventSubscriber\AddSubmitButtonSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Class MediaType
@@ -33,7 +34,10 @@ class MediaType extends AbstractType
     {
         $builder->add('file', 'file', array(
             'label' => 'open_orchestra_media_admin.form.media.file',
-            'label_attr' => array('accept' => implode(',', $this->mimeTypes))
+            'label_attr' => array('accept' => implode(',', $this->mimeTypes)),
+            'constraints' => array(new File(array(
+                    'mimeTypes' => $this->mimeTypes
+            )))
         ));
 
         $builder->addEventSubscriber(new AddSubmitButtonSubscriber());

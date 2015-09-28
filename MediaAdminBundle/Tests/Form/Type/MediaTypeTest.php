@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\MediaType;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Class MediaTypeTest
@@ -16,7 +17,7 @@ class MediaTypeTest extends \PHPUnit_Framework_TestCase
     protected $form;
 
     protected $mediaClass = 'site';
-    protected $allowedMimeTypes = array('image/*', 'video/*');
+    protected $allowedMimeTypes = array('image/jpeg', 'video/mpeg');
 
     /**
      * Set up the test
@@ -55,8 +56,12 @@ class MediaTypeTest extends \PHPUnit_Framework_TestCase
 
         Phake::verify($builder)->add('file', 'file', array(
             'label' => 'open_orchestra_media_admin.form.media.file',
-            'label_attr' => array('accept' => implode(',', $this->allowedMimeTypes))
+            'label_attr' => array('accept' => implode(',', $this->allowedMimeTypes)),
+            'constraints' => array(new File(array(
+                    'mimeTypes' => $this->allowedMimeTypes
+            )))
         ));
+
         Phake::verify($builder)->addEventSubscriber(Phake::anyParameters());
     }
 
