@@ -13,13 +13,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MediaType extends AbstractType
 {
     protected $mediaClass;
+    protected $mimeTypes;
 
     /**
      * @param string $mediaClass
+     * @param array  $allowedMimeTypes
      */
-    public function __construct($mediaClass)
+    public function __construct($mediaClass, $allowedMimeTypes)
     {
         $this->mediaClass = $mediaClass;
+        $this->mimeTypes = $allowedMimeTypes;
     }
 
     /**
@@ -30,6 +33,7 @@ class MediaType extends AbstractType
     {
         $builder->add('file', 'file', array(
             'label' => 'open_orchestra_media_admin.form.media.file',
+            'label_attr' => array('accept' => implode(',', $this->mimeTypes))
         ));
 
         $builder->addEventSubscriber(new AddSubmitButtonSubscriber());
@@ -54,5 +58,4 @@ class MediaType extends AbstractType
     {
         return 'media';
     }
-
 }

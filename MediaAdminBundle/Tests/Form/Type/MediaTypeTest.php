@@ -16,13 +16,14 @@ class MediaTypeTest extends \PHPUnit_Framework_TestCase
     protected $form;
 
     protected $mediaClass = 'site';
+    protected $allowedMimeTypes = array('image/*', 'video/*');
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->form = new MediaType($this->mediaClass);
+        $this->form = new MediaType($this->mediaClass, $this->allowedMimeTypes);
     }
 
     /**
@@ -52,7 +53,10 @@ class MediaTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->form->buildForm($builder, array());
 
-        Phake::verify($builder)->add('file', 'file', array('label' => 'open_orchestra_media_admin.form.media.file'));
+        Phake::verify($builder)->add('file', 'file', array(
+            'label' => 'open_orchestra_media_admin.form.media.file',
+            'label_attr' => array('accept' => implode(',', $this->allowedMimeTypes))
+        ));
         Phake::verify($builder)->addEventSubscriber(Phake::anyParameters());
     }
 

@@ -14,11 +14,26 @@ parameters:
                 icon: false
         use_callback_tinymce_init: true
 
+    open_orchestra_media_admin.allowed_mime_type:
+            - image/jpeg
+            - image/png
+            - image/gif
+            - audio/mpeg
+            - video/mpeg
+            - video/mp4
+            - video/quicktime
+            - video/x-ms-wmv
+            - video/x-msvideo
+            - video/x-flv
+            - video/webm
+            - application/pdf
+
 services:
     open_orchestra_media_admin.type.media:
         class: %open_orchestra_media_admin.type.media.class%
         arguments:
             - %open_orchestra_media.document.media.class%
+            - %open_orchestra_media_admin.allowed_mime_type%
         tags:
             - { name: form.type, alias: media}
     open_orchestra_media_admin.type.folder:
