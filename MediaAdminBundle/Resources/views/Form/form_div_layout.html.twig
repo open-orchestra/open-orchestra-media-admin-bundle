@@ -22,8 +22,5 @@
 
 {% block tinymce_widget %}
     {{ block('textarea_widget') }}
-  <script>
-      function tinymce_button_mediamanager(){};
-  </script>
   <div id="{{ id }}_modal" class="select_media_modal" data-url="{{ path('open_orchestra_media_admin_media_list_form') }}" ></div>
 {% endblock %}

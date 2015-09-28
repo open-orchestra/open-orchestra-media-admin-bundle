@@ -9,7 +9,7 @@ parameters:
     open_orchestra_media_admin.tinymce:
         tinymce_buttons:
             mediamanager:
-                title: "mediamanager"
+                title: open_orchestra_media_admin.mediamanager
                 image: "asset[bundles/openorchestramediaadmin/images/icon/ico-image.png]"
                 icon: false
         use_callback_tinymce_init: true
