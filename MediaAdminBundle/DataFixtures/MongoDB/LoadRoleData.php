@@ -17,7 +17,12 @@ class LoadRoleData extends AbstractLoadRoleData implements OrchestraFunctionalFi
      */
     function load(ObjectManager $manager)
     {
-        $manager->persist($this->generateRole(TreeFolderPanelStrategy::ROLE_ACCESS_TREE_FOLDER));
+        $manager->persist(
+            $this->generateRole(
+                TreeFolderPanelStrategy::ROLE_ACCESS_TREE_FOLDER,
+                array('en' => 'Manage media assets', 'fr' => 'Gérer les médias')
+            )
+        );
 
         $manager->flush();
     }
