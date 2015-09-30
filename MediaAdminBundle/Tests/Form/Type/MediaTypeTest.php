@@ -61,8 +61,6 @@ class MediaTypeTest extends \PHPUnit_Framework_TestCase
                     'mimeTypes' => $this->allowedMimeTypes
             )))
         ));
-
-        Phake::verify($builder)->addEventSubscriber(Phake::anyParameters());
     }
 
     /**
