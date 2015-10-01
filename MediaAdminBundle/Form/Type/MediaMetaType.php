@@ -55,7 +55,7 @@ class MediaMetaType extends AbstractType
             'required' => false
         ));
 
-        if(array_key_exists('disabled', $options)) {
+        if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);
         }
     }

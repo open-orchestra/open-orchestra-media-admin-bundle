@@ -37,7 +37,7 @@ class FolderType extends AbstractType
                 'required' => false,
                 'embed' => true
             ));
-        if(array_key_exists('disabled', $options)) {
+        if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);
         }
     }
