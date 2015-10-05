@@ -24,9 +24,8 @@
         "bin-dir" : "bin"
     },
     "autoload": {
-        "psr-0": {
-            "OpenOrchestra\\MediaAdminBundle": ""
+        "psr-4": {
+            "OpenOrchestra\\MediaAdminBundle\\": "MediaAdminBundle/"
         }
-    },
-    "target-dir": "OpenOrchestra"
+    }
 }
