@@ -12,6 +12,7 @@ WysiwygSelectView = OrchestraView.extend(
     ])
     @loadTemplates [
         'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/previewImageView',
+        'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
       ]
     return
 
@@ -30,14 +31,16 @@ WysiwygSelectView = OrchestraView.extend(
     event.preventDefault()
     modalContainer = @$el.closest(".mediaModalContainer")
     editorId = modalContainer.data("input")
+    currentView = @
     tinymce.get(editorId).execCommand(
       'mceInsertContent',
       false,
       do ->
-        src = $('#preview_thumbnail', @$el).attr('src');
-        id = $('#media_crop_id', @el).val();
-        format = $('#media_crop_format', @$el).val();
-        '<img class="tinymce-media" src="' + src + '" data-id="' + id + '" data-format="' + format + '" />';
+        currentView.renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
+          media_id: $('#media_crop_id', @el).val()
+          media_src: $('#preview_thumbnail', @$el).attr('src')
+          media_format: $('#media_crop_format', @$el).val()
+        );
     )
     modalContainer.find('.mediaModalClose').click()
 )
