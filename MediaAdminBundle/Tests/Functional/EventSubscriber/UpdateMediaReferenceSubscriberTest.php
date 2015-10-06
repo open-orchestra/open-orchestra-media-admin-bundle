@@ -53,7 +53,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
         parent::setUp();
 
         $nodeRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.node');
-        $this->node = $nodeRepository->findOneByNodeIdAndLanguageAndSiteIdInLastVersion('root', 'en', '2');
+        $this->node = $nodeRepository->findInLastVersion('root', 'en', '2');
         $mediaRepository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media');
         $this->medias = array(
             $mediaRepository->findOneByName("Image 03"),
