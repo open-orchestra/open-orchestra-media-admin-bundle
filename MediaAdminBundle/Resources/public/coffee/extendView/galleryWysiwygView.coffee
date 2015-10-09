@@ -22,13 +22,20 @@ extendView['galleryWysiwygView'] =
         )
 
   sendToTiny: ->
+    tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
+    if 0 == @options.media.get('mime_type').indexOf('audio/')
+      tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/audio'
+
+    tag = @renderTemplate tagTemplate,
+      media_id: @options.media.get('id')
+      media_src: @options.original
+      media_format: null
+
     modalContainer = @$el.closest(".mediaModalContainer")
     editorId = modalContainer.data("input")
-    src = @options.original;
-    id = @options.media.get('id');
     tinymce.get(editorId).execCommand(
       'mceInsertContent',
       false,
-      '<img class="tinymce-media" src="' + src + '" data-id="' + id + '" />'
+      tag
     )
     modalContainer.find('.mediaModalClose').click()
