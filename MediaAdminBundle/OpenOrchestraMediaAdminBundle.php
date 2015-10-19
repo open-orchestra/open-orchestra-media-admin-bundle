@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle;
 
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\ExtractReferenceCompilerPass;
+use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\RoleCompilerPass;
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\TinymceCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -23,5 +24,6 @@ class OpenOrchestraMediaAdminBundle extends Bundle
         $container->addCompilerPass(new ExtractReferenceCompilerPass());
         $container->addCompilerPass(new TwigGlobalsCompilerPass());
         $container->addCompilerPass(new TinymceCompilerPass());
+        $container->addCompilerPass(new RoleCompilerPass());
     }
 }
