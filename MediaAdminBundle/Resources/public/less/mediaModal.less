@@ -6,32 +6,82 @@
         height: 90%;
 
         .modal-content {
-          height: 100%;
-        }
+            height: 100%;
 
-        .modal-body-menu {
-            float: left;
-            width: 200px;
-            min-height: 449px;
-            border-right: 1px solid #E5E5E5;
+            .modal-body {
+                height: 100%;
 
-            ul {
-                padding-left: 10px;
+                .modal-body-menu {
+                    float: left;
+                    width: 200px;
+                    height: calc(~"100% - 55px");
+                    padding-bottom: 10px;
 
-                a:hover {
-                    cursor: pointer;
+                    ul {
+                        padding-left: 10px;
+
+                        a:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .modal-body-menu>ul {
+                    overflow-y: scroll;
+                    overflow-x: hidden;
+                    height: 100%;
+                }
+
+                .modal-body-content {
+                    float: left;
+                    margin-left: 15px;
+                    width: 741px;
+                    height: calc(~"100% - 55px");
+
+                    section {
+                        height: 100%;
+
+                        .row {
+                            height: 100%;
+
+                            article {
+                                height: 100%;
+
+                                .jarviswidget {
+                                    height: 100%;
+                                }
+
+                                .jarviswidget>div {
+                                    height: calc(~"100% - 44px");
+                                    padding:10px 0 0 30px;
+
+                                    .widget-body {
+                                        height: 100%;
+
+                                        div[role=container] {
+                                            height: calc(~"100% - 30px");
+                                            overflow-y: scroll;
+                                            overflow-x: hidden;
+                                        }
+                                    }
+                                    .widget-body>div:not([role=container]) {
+                                        padding-top: 12px;
+                                        padding-left: 19px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .modal-body-content>.row {
+                    display: none;
+                }
+
+                .modal-body-end {
+                    clear: both;
                 }
             }
-        }
-
-        .modal-body-content {
-            float: left;
-            margin-left: 15px;
-            width: 741px;
-        }
-
-        .modal-body-end {
-            clear: both;
         }
     }
 }
