@@ -24,6 +24,13 @@ MediaModalView = OrchestraView.extend(
 
   render: (options) ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaModalView', @options)
+    opts =
+      accordion: true
+      speed: $.menu_speed
+      closedSign: "<em class=\"fa fa-plus-square-o\"></em>"
+      openedSign: "<em class=\"fa fa-minus-square-o\"></em>"
+    $(@el).jarvismenu opts
+
     if currentModal != null
       $('.modal-dialog', currentModal).replaceWith $('.modal-dialog', @$el)
     else
