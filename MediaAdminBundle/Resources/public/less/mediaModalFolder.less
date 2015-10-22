@@ -1,0 +1,63 @@
+.modal-body-menu {
+    nav {
+        > ul {
+            width: 100%;
+
+            > li {
+                > ul::before {
+                    border-left: none;
+                }
+
+                > a b {
+                    right: 0px;
+                    top: 0px;
+                }
+            }
+
+            ul li::before {
+                border-top: none;
+            }
+        }
+
+        ul {
+            li.open {
+                > a,
+                > a b {
+                    color: #3276b1 !important;
+                }
+            }
+
+            li {
+                a {
+                    color: #3276b1;
+                    padding: 0;
+                }
+
+                a:active {
+                    background: transparent !important;
+                }
+
+                a:hover {
+                    color: #3276b1;
+                }
+            }
+
+            ul {
+                background: transparent;
+                padding: 0;
+
+                > li:hover b {
+                    color: #3276b1;
+                }
+
+                li > a:hover {
+                    background-color: transparent;
+                }
+
+                b {
+                    color: #3276b1;
+                }
+            }
+        }
+    }
+}
