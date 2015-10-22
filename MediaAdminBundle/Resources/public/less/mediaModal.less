@@ -14,8 +14,14 @@
                 .modal-body-menu {
                     float: left;
                     width: 200px;
-                    height: calc(~"100% - 55px");
+                    height: 100%;
                     padding-bottom: 10px;
+
+                    > ul {
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+                        height: 100%;
+                    }
 
                     ul {
                         padding-left: 10px;
@@ -26,17 +32,15 @@
                     }
                 }
 
-                .modal-body-menu>ul {
-                    overflow-y: scroll;
-                    overflow-x: hidden;
-                    height: 100%;
-                }
-
                 .modal-body-content {
                     float: left;
                     margin-left: 15px;
                     width: 741px;
                     height: calc(~"100% - 55px");
+
+                    > .row {
+                        display: none;
+                    }
 
                     section {
                         height: 100%;
@@ -49,33 +53,30 @@
 
                                 .jarviswidget {
                                     height: 100%;
-                                }
 
-                                .jarviswidget>div {
-                                    height: calc(~"100% - 44px");
-                                    padding:10px 0 0 30px;
+                                    > div {
+                                        height: calc(~"100% - 44px");
+                                        padding:10px 0 0 30px;
 
-                                    .widget-body {
-                                        height: 100%;
+                                        .widget-body {
+                                            height: 100%;
 
-                                        div[role=container] {
-                                            height: calc(~"100% - 30px");
-                                            overflow-y: scroll;
-                                            overflow-x: hidden;
+                                            > div:not([role=container]) {
+                                                padding-top: 12px;
+                                                padding-left: 19px;
+                                            }
+
+                                            div[role=container] {
+                                                height: calc(~"100% - 30px");
+                                                overflow-y: scroll;
+                                                overflow-x: hidden;
+                                            }
                                         }
-                                    }
-                                    .widget-body>div:not([role=container]) {
-                                        padding-top: 12px;
-                                        padding-left: 19px;
                                     }
                                 }
                             }
                         }
                     }
-                }
-
-                .modal-body-content>.row {
-                    display: none;
                 }
 
                 .modal-body-end {

@@ -83,6 +83,21 @@ class FolderController extends AbstractAdminController
     }
 
     /**
+     * @Config\Route("/folder/list", name="open_orchestra_media_admin_media_list_form")
+     * @Config\Method({"GET"})
+     *
+     * @return Response
+     */
+    public function showFoldersAction()
+    {
+        $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
+        $rootFolders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
+        return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig', array(
+            'folders' => $rootFolders,
+        ));
+    }
+
+    /**
      * @param FolderInterface $folder
      * @param string          $url
      *
