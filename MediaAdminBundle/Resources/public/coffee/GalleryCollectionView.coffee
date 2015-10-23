@@ -44,7 +44,7 @@ GalleryCollectionView = OrchestraView.extend(
 
   clickAdd: (event) ->
     event.preventDefault()
-    if $('#main .' + $(event.target).attr('class')).length
+    if $('#main .' + $(event.target).attr('class').split(' ').join(' .')).length
       displayLoader('div[role="container"]')
       Backbone.history.navigate(appRouter.generateUrl('addMedia',
         'folderId':  @options.folderId
