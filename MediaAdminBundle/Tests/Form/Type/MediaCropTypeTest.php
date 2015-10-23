@@ -67,6 +67,10 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildForm()
     {
+        $formView = Phake::mock('Symfony\Component\Form\FormView');
+        $formInterface = Phake::mock('Symfony\Component\Form\FormInterface');
+        $options = array();
+
         $this->form->buildForm($this->builder, array());
 
         Phake::verify($this->builder)->add('id', 'hidden');
@@ -85,5 +89,8 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
             'empty_value' => 'open_orchestra_media_admin.form.media.original_image',
             'required' => false,
         ));
+
+        $this->form->buildView($formView, $formInterface, $options);
+        $this->assertEquals($formView->vars['no_form_end_button'], true);
     }
 }
