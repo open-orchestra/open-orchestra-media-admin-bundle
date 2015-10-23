@@ -91,6 +91,6 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->form->buildView($formView, $formInterface, $options);
-        $this->assertEquals($formView->vars['no_form_end_button'], true);
+        $this->assertEquals($formView->vars['no_submit_button'], true);
     }
 }
