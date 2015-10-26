@@ -1,13 +1,15 @@
 formChannel = new (Backbone.Wreqr.EventAggregator)
-
 currentModal = null
 
 MediaModalView = OrchestraView.extend(
+
+  extendView : ['breadcrumbAware']
+
   events:
     'click .mediaModalClose': 'closeModal'
     'click .media-modal-menu-folder' : 'showFolder'
-    'click .ajax-add': 'openForm'
-    'click .media-modal-menu-new-folder' : 'openForm'
+    'click .ajax-add': 'openFormMedia'
+    'click .media-modal-menu-new-folder' : 'openFormFolder'
 
   initialize: (options) ->
     @options = @reduceOption(options, [
@@ -47,8 +49,13 @@ MediaModalView = OrchestraView.extend(
       currentModal.modal "hide"
 
   showFolder: (event) ->
+    @updateNavigation($(event.target))
     displayLoader $(".modal-body-content", @$el)
     GalleryLoad $(event.target).attr('id'), @options.galleryView, $(".modal-body-content", @$el)
+
+  updateNavigation: (node) ->
+    $('.modal-body-menu nav .active', @el).removeClass("active");
+    node.parent().addClass("active");
 
   reloadFolder: ->
     displayLoader $('.modal-body-menu', @$el)
@@ -60,12 +67,21 @@ MediaModalView = OrchestraView.extend(
         $('.modal-body-menu', currentModal).html response
     return
 
-  openForm: (event) ->
+  openFormMedia: (event) ->
     event.preventDefault()
+    @openForm event
+
+  openFormFolder: (event) ->
+    event.preventDefault()
+    @updateNavigation($(event.target))
+    @openForm event
+
+  openForm: (event) ->
     displayLoader $(".modal-body-content", @$el)
     folderName = $(".js-widget-title", @$el).text()
     domContainer = $(".modal-body-content", @$el)
     @listenToOnce(formChannel, 'formSubmit', @reloadFolder) if $(event.target).hasClass('media-modal-menu-new-folder')
+    title = @getPath().join(' > ')
     $.ajax
       url: $(event.target).data('url')
       method: 'GET'
@@ -74,6 +90,6 @@ MediaModalView = OrchestraView.extend(
         new viewClass(
             html: response
             domContainer: domContainer
-            title: $.trim(folderName)
+            title: title
           )
 )
