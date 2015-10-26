@@ -1,4 +1,5 @@
 extendView = extendView || {}
+
 extendView['galleryWysiwygView'] =
   mediaSelect: (event) ->
     event.preventDefault()
@@ -19,6 +20,7 @@ extendView['galleryWysiwygView'] =
           html: response
           thumbnails: viewContext.options.thumbnails
           original: viewContext.options.original
+          mediaName: viewContext.options.media.get('name')
         )
 
   sendToTiny: ->

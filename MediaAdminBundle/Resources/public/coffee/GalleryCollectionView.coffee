@@ -1,5 +1,8 @@
 
 GalleryCollectionView = OrchestraView.extend(
+
+  extendView: ['breadcrumbAware']
+
   events:
     'click a.ajax-add': 'clickAdd'
 
@@ -24,10 +27,12 @@ GalleryCollectionView = OrchestraView.extend(
       links: @options.medias.get('links')
     )
     @options.domContainer.html @$el
-    $('.js-widget-title', @options.domContainer).text @options.title
     if !@options.modal
+      $('.js-widget-title', @options.domContainer).text @options.title
       @addConfigurationButton()
       @addDeleteButton()
+    else
+      $('.js-widget-title', @options.domContainer).text @getPath().join(' > ')
     for mediaKey of @options.medias.get(@options.medias.get('collection_name'))
       @addElementToView(@options.medias.get(@options.medias.get('collection_name'))[mediaKey])
 
