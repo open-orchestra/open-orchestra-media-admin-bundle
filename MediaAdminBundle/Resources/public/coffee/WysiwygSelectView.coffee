@@ -1,4 +1,7 @@
 WysiwygSelectView = OrchestraView.extend(
+
+  extendView: ['breadcrumbAware']
+
   events:
     'click #sendToTiny': 'sendToTiny'
     'change #media_crop_format' : 'changeCropFormat'
@@ -8,11 +11,14 @@ WysiwygSelectView = OrchestraView.extend(
       'domContainer'
       'html'
       'thumbnails'
-      'original'
+      'original',
+      'mediaName'
     ])
     @loadTemplates [
         'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/previewImageView',
-        'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
+        'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
+        'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/header',
+        'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer'
       ]
     return
 
@@ -20,12 +26,22 @@ WysiwygSelectView = OrchestraView.extend(
     @setElement $(@options.html).append(@renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/previewImageView'
       src: @options.original
     ))
+    header = @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/header')
+    footer = @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer')
+    @$el.html header + @$el.html() + footer
     @options.domContainer.html @$el
+    path = @getPath()
+    path.push @options.mediaName
+    $('.js-widget-title', @options.domContainer).html path.join(' > ')
 
   changeCropFormat: (event) ->
     format = $(event.currentTarget).val()
     image = @options.thumbnails[format] || @options.original
+    $('#preview_thumbnail', @$el).hide()
     $('#preview_thumbnail', @$el).attr 'src', image
+    $('#preview_thumbnail', @$el).load ->
+      $('#preview_thumbnail', @$el).show()
+      return
 
   sendToTiny: (event) ->
     event.preventDefault()
