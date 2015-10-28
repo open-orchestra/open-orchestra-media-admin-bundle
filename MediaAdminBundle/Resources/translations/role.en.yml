@@ -1,2 +1,5 @@
 open_orchestra_role:
-    role_access_tree_folder: Manage media assets
+    role_access_media_folder: Manage media folders
+    role_access_create_media_folder: Create a media folder
+    role_access_update_media_folder: Update a media folder
+    role_access_delete_media_folder: Remove a media folder

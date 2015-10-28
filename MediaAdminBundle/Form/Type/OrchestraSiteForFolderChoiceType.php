@@ -75,7 +75,7 @@ class OrchestraSiteForFolderChoiceType extends AbstractType
         $userGroups = $this->tokenStorage->getToken()->getUser()->getGroups();
         /** @var GroupInterface $group */
         foreach ($userGroups as $group) {
-            if (in_array($group->getSite()->getSiteId(), $siteIds) && ($group->hasRole('ROLE_ACCESS_TREE_FOLDER'))) {
+            if (in_array($group->getSite()->getSiteId(), $siteIds) && ($group->hasRole('ROLE_ACCESS_MEDIA_FOLDER'))) {
                 $choices[$group->getSite()->getSiteId()] = $group->getSite()->getName();
             }
         }
