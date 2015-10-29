@@ -48,15 +48,15 @@ class OrchestraSiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->groupA = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupA)->getSite()->thenReturn($this->site1);
-        Phake::when($this->groupA)->hasRole('ROLE_ACCESS_MEDIA_FOLDER')->thenReturn(true);
+        Phake::when($this->groupA)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(true);
 
         $this->groupB = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupB)->getSite()->thenReturn($this->site2);
-        Phake::when($this->groupB)->hasRole('ROLE_ACCESS_MEDIA_FOLDER')->thenReturn(false);
+        Phake::when($this->groupB)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(false);
 
         $this->groupC = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupC)->getSite()->thenReturn($this->siteDeleted);
-        Phake::when($this->groupC)->hasRole('ROLE_ACCESS_MEDIA_FOLDER')->thenReturn(true);
+        Phake::when($this->groupC)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(true);
 
         $this->user = Phake::mock('OpenOrchestra\UserBundle\Document\User');
         Phake::when($this->user)->getGroups()->thenReturn(array($this->groupA, $this->groupB, $this->groupC));

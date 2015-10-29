@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
 use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
@@ -63,20 +64,29 @@ class OrchestraSiteForFolderChoiceType extends AbstractType
     protected function getChoices()
     {
         $sites = $this->siteRepository->findByDeleted(false);
-
         $choices = array();
+        $availablesSites = array();
 
-        $siteIds = array();
         /** @var SiteInterface $site */
         foreach ($sites as $site) {
-            $siteIds[] = $site->getSiteId();
+            $availablesSites[$site->getSiteId()] = $site->getName();
         }
 
         $userGroups = $this->tokenStorage->getToken()->getUser()->getGroups();
         /** @var GroupInterface $group */
         foreach ($userGroups as $group) {
-            if (in_array($group->getSite()->getSiteId(), $siteIds) && ($group->hasRole('ROLE_ACCESS_MEDIA_FOLDER'))) {
-                $choices[$group->getSite()->getSiteId()] = $group->getSite()->getName();
+
+            if ($group->hasRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
+
+                if ($group->getSite()) {
+
+                    if (isset($availablesSites[$group->getSite()->getSiteId()])) {
+                        $choices[$group->getSite()->getSiteId()] = $group->getSite()->getName();
+                    }
+                } else {
+
+                    return $availablesSites;
+                }
             }
         }
 
