@@ -1,2 +1,5 @@
 open_orchestra_role:
-    role_access_tree_folder: Gérer les médias
+    role_access_media_folder: Gérer les dossiers de la médiathèque
+    role_access_create_media_folder: Créer un dossier de la médiathèque
+    role_access_update_media_folder: Modifier un dossier de la médiathèque
+    role_access_delete_media_folder: Supprimer un dossier de la médiathèque

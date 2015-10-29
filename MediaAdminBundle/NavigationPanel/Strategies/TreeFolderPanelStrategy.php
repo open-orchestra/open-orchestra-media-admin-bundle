@@ -11,7 +11,10 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
  */
 class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
 {
-    const ROLE_ACCESS_TREE_FOLDER = 'ROLE_ACCESS_TREE_FOLDER';
+    const ROLE_ACCESS_MEDIA_FOLDER = 'ROLE_ACCESS_MEDIA_FOLDER';
+    const ROLE_ACCESS_CREATE_MEDIA_FOLDER = 'ROLE_ACCESS_CREATE_MEDIA_FOLDER';
+    const ROLE_ACCESS_UPDATE_MEDIA_FOLDER = 'ROLE_ACCESS_UPDATE_MEDIA_FOLDER';
+    const ROLE_ACCESS_DELETE_MEDIA_FOLDER = 'ROLE_ACCESS_DELETE_MEDIA_FOLDER';
 
     /**
      * @var FolderRepositoryInterface
@@ -29,9 +32,13 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
      * @param string                    $parent
      * @param int                       $weight
      */
-    public function __construct(FolderRepositoryInterface $folderRepository, CurrentSiteIdInterface $currentSiteManager, $parent, $weight)
-    {
-        parent::__construct('folders', self::ROLE_ACCESS_TREE_FOLDER, $weight, $parent);
+    public function __construct(
+        FolderRepositoryInterface $folderRepository,
+        CurrentSiteIdInterface $currentSiteManager,
+        $parent,
+        $weight
+    ){
+        parent::__construct('folders', self::ROLE_ACCESS_MEDIA_FOLDER, $weight, $parent);
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
     }

@@ -21,7 +21,10 @@ class RoleCompilerPass extends AbstractRoleCompilerPass
     public function process(ContainerBuilder $container)
     {
         $this->addRoles($container, array(
-            TreeFolderPanelStrategy::ROLE_ACCESS_TREE_FOLDER,
+            TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER,
+            TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER,
+            TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER,
+            TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER
         ));
     }
 }
