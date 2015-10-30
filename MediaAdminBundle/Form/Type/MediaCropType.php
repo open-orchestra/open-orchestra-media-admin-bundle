@@ -4,7 +4,6 @@ namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class MediaCropType
@@ -12,16 +11,14 @@ use Symfony\Component\Translation\TranslatorInterface;
 class MediaCropType extends AbstractType
 {
     protected $thumbnailConfig;
-    protected $translator;
 
     /**
      * @param array               $thumbnailConfig
      * @param TranslatorInterface $translator
      */
-    public function __construct(array $thumbnailConfig, TranslatorInterface $translator)
+    public function __construct(array $thumbnailConfig)
     {
         $this->thumbnailConfig = $thumbnailConfig;
-        $this->translator = $translator;
     }
 
     /**
