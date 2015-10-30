@@ -24,7 +24,10 @@ class RoleCompilerPass extends AbstractRoleCompilerPass
             TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER,
             TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER,
             TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER,
-            TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER
+            TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER,
+            TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA,
+            TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA,
+            TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA,
         ));
     }
 }

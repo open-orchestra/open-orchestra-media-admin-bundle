@@ -1,5 +1,5 @@
 <div class="figure superbox-list">
-    <div class="img-container superbox-img selectable" >
+    <div class="img-container superbox-img <% if (!updateRole) { %>no-pointer<% } %> selectable" >
         <img
             title="<%= media.get('name') %>"
             alt="<%= media.get('name') %>"

@@ -16,6 +16,7 @@ class ApiControllersSecurityTest extends BaseApiControllersSecurityTest
     {
         return array(
             array('/api/folder/folderId/delete', 'DELETE'),
+            array('/api/media/mediaId/delete', 'DELETE'),
         );
     }
 }

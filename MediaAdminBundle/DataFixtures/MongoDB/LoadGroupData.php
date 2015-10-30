@@ -85,6 +85,9 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface, 
             $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER);
             $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER);
             $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER);
+            $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA);
+            $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA);
+            $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA);
         } else {
             $group->addRole($role);
         }
