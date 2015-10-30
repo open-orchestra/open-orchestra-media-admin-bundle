@@ -51,7 +51,7 @@ class MediaCropType extends AbstractType
         $choices = array();
 
         foreach ($this->thumbnailConfig as $key => $thumbnail) {
-            $choices[$key] = $this->translator->trans('open_orchestra_media_admin.form.media.' . $key);
+            $choices[$key] = 'open_orchestra_media_admin.form.media.' . $key;
         }
 
         return $choices;
