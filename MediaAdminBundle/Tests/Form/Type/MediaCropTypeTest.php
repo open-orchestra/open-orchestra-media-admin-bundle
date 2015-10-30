@@ -16,18 +16,13 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
     protected $form;
 
     protected $builder;
-    protected $translator;
     protected $thumbnailConfig;
-    protected $translatedString;
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->translatedString = 'translated';
-        $this->translator = Phake::mock('Symfony\Component\Translation\TranslatorInterface');
-        Phake::when($this->translator)->trans(Phake::anyParameters())->thenReturn($this->translatedString);
 
         $this->builder = Phake::mock('Symfony\Component\Form\FormBuilder');
         Phake::when($this->builder)->add(Phake::anyParameters())->thenReturn($this->builder);
@@ -43,7 +38,7 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->form = new MediaCropType($this->thumbnailConfig, $this->translator);
+        $this->form = new MediaCropType($this->thumbnailConfig);
     }
 
     /**
@@ -74,12 +69,10 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
         Phake::verify($this->builder)->add('y', 'hidden');
         Phake::verify($this->builder)->add('h', 'hidden');
         Phake::verify($this->builder)->add('w', 'hidden');
-        Phake::verify($this->translator)->trans('open_orchestra_media_admin.form.media.rectangle');
-        Phake::verify($this->translator)->trans('open_orchestra_media_admin.form.media.max_width');
         Phake::verify($this->builder)->add('format', 'choice', array(
             'choices' => array(
-                'rectangle' => $this->translatedString,
-                'max_width' => $this->translatedString,
+                'rectangle' => 'open_orchestra_media_admin.form.media.rectangle',
+                'max_width' => 'open_orchestra_media_admin.form.media.max_width',
             ),
             'label' => 'open_orchestra_media_admin.form.media.format',
             'empty_value' => 'open_orchestra_media_admin.form.media.original_image',
