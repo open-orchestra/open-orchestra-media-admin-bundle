@@ -4,7 +4,6 @@ namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class MediaCropType
@@ -12,16 +11,13 @@ use Symfony\Component\Translation\TranslatorInterface;
 class MediaCropType extends AbstractType
 {
     protected $thumbnailConfig;
-    protected $translator;
 
     /**
-     * @param array               $thumbnailConfig
-     * @param TranslatorInterface $translator
+     * @param array $thumbnailConfig
      */
-    public function __construct(array $thumbnailConfig, TranslatorInterface $translator)
+    public function __construct(array $thumbnailConfig)
     {
         $this->thumbnailConfig = $thumbnailConfig;
-        $this->translator = $translator;
     }
 
     /**
@@ -51,7 +47,7 @@ class MediaCropType extends AbstractType
         $choices = array();
 
         foreach ($this->thumbnailConfig as $key => $thumbnail) {
-            $choices[$key] = $this->translator->trans('open_orchestra_media_admin.form.media.' . $key);
+            $choices[$key] = 'open_orchestra_media_admin.form.media.' . $key;
         }
 
         return $choices;
