@@ -46,7 +46,6 @@ services:
         class: %open_orchestra_media_admin.type.media_crop.class%
         arguments:
             - %open_orchestra_media.thumbnail.configuration%
-            - @translator
         tags:
             - { name: form.type, alias: media_crop}
     open_orchestra_media_admin.type.media_meta:
