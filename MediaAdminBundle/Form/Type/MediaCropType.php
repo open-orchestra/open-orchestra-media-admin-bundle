@@ -14,7 +14,7 @@ class MediaCropType extends AbstractType
     protected $thumbnailConfig;
 
     /**
-     * @param array               $thumbnailConfig
+     * @param array $thumbnailConfig
      */
     public function __construct(array $thumbnailConfig)
     {
