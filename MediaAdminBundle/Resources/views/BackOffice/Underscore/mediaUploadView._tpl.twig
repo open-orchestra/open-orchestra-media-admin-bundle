@@ -1,0 +1,38 @@
+{% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/header._tpl.twig' %}
+
+<div role="container">
+
+    <div class="flow-error">
+        Your browser, unfortunately, is not supported by Flow.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+    </div>
+
+    <div
+        class="flow-drop"
+        data-url="{{ path('open_orchestra_api_media_upload') }}"
+        ondragenter="jQuery(this).addClass('flow-dragover');"
+        ondragend="jQuery(this).removeClass('flow-dragover');"
+        ondrop="jQuery(this).removeClass('flow-dragover');"
+    >
+        Drop files here to upload or <a class="flow-browse-folder"><u>select folder</u></a> or <a class="flow-browse"><u>select from your computer</u></a> or <a class="flow-browse-image"><u>select images</u></a>
+    </div>
+
+    <div class="flow-progress">
+        <table>
+            <tr>
+                <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+                <td class="progress-text" nowrap="nowrap"></td>
+                <td class="progress-pause" nowrap="nowrap">
+                    <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="/img/flow_js/resume.png" title="Resume upload" /></a>
+                    <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="/img/flow_js/pause.png" title="Pause upload" /></a>
+                    <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="/img/flow_js/cancel.png" title="Cancel upload" /></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <ul class="flow-list"></ul>
+
+    {% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList._tpl.twig' %}
+</div>
+
+{% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer._tpl.twig' %}

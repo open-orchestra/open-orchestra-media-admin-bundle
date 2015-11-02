@@ -1,4 +1,3 @@
-
 GalleryCollectionView = OrchestraView.extend(
 
   extendView: ['breadcrumbAware']

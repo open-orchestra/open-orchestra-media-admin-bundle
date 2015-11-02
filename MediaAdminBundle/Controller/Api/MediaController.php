@@ -90,4 +90,16 @@ class MediaController extends BaseController
 
         return array();
     }
+
+    /**
+     * @param $request
+     *
+     * @Config\Route("/upload", name="open_orchestra_api_media_upload")
+     * 
+     * @return Response
+     */
+    public function uploadAction(Request $request)
+    {
+        return array();
+    }
 }

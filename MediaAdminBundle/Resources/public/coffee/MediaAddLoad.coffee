@@ -17,7 +17,7 @@ MediaAddFormLoad = (medias, title, listUrl, container = "#content") ->
     url: medias.get('links')._self_add
     method: 'GET'
     success: (response) ->
-      viewClass = appConfigurationView.getConfiguration('media', 'addEntity')
+      viewClass = appConfigurationView.getConfiguration('media', 'uploadMedia')
       new viewClass(
         html: response
         listUrl: listUrl
