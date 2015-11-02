@@ -30,8 +30,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         TranslationChoiceManager $translationChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker
-    )
-    {
+    ) {
         parent::__construct($authorizationChecker);
         $this->thumbnailConfig = $thumbnailConfig;
         $this->translationChoiceManager = $translationChoiceManager;
