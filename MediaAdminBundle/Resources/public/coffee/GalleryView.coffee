@@ -12,6 +12,8 @@ GalleryView = OrchestraView.extend(
       'media'
       'domContainer'
     ])
+    @updateRole = @options.media.get("links")._self_crop && @options.media.get("links")._self_meta
+
     if !@options.modal
       @events['click .superbox-img'] = 'superboxOpen'
       if @options.media.get('is_deletable')
@@ -35,6 +37,7 @@ GalleryView = OrchestraView.extend(
       media: @options.media
       mediaClass: @mediaClass
       mediaLogo: @mediaLogo
+      updateRole: @updateRole
     )
     @options.domContainer.append @$el
 
@@ -42,9 +45,10 @@ GalleryView = OrchestraView.extend(
     @$el.find(".caption").slideToggle(150)
 
   superboxOpen: ->
-    listUrl = Backbone.history.fragment
-    Backbone.history.navigate(listUrl + '/media/' + @options.media.id + '/edit')
-    showTabMedia(@options.media, listUrl)
+    if @updateRole
+      listUrl = Backbone.history.fragment
+      Backbone.history.navigate(listUrl + '/media/' + @options.media.id + '/edit')
+      showTabMedia(@options.media, listUrl)
 
   confirmRemoveMedia: (event) ->
     smartConfirm(

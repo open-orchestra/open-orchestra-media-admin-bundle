@@ -6,7 +6,6 @@ use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade;
 
 /**
@@ -33,7 +32,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
             $facade->addMedia($this->getTransformer('media')->transform($media));
         }
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
+        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA)) {
             $facade->addLink('_self_add', $this->generateRoute('open_orchestra_media_admin_media_new', array(
                 'folderId' => $folderId
             )));

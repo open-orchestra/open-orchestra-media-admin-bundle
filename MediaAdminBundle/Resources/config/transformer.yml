@@ -10,6 +10,7 @@ services:
             - %open_orchestra_media.thumbnail.configuration%
             - @open_orchestra_backoffice.manager.translation_choice
             - %open_orchestra_media.media_domain%
+            - @security.authorization_checker
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_collection:
