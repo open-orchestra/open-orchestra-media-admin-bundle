@@ -22,7 +22,7 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/new/{folderId}", name="open_orchestra_media_admin_media_new")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_CREATE_MEDIA')")
+     * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA')")
      *
      * @return Response
      */
@@ -59,7 +59,7 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/{mediaId}/crop", name="open_orchestra_media_admin_media_crop")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_UPDATE_MEDIA')")
+     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
      *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
@@ -111,7 +111,7 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/override/{mediaId}/{format}", name="open_orchestra_media_admin_media_override")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_UPDATE_MEDIA')")
+     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
      *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
@@ -149,7 +149,7 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/{mediaId}/meta", name="open_orchestra_media_admin_media_meta")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_UPDATE_MEDIA')")
+     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
      *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
