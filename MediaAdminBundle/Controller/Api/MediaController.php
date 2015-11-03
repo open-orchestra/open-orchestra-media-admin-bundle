@@ -71,7 +71,7 @@ class MediaController extends BaseController
      * @Config\Route("/{mediaId}/delete", name="open_orchestra_api_media_delete")
      * @Config\Method({"DELETE"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_DELETE_MEDIA')")
+     * @Config\Security("is_granted('ROLE_ACCESS_DELETE_MEDIA')")
      *
      * @return Response
      * @throws MediaNotDeletableException
