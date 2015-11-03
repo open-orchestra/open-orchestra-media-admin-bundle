@@ -92,14 +92,34 @@ class MediaController extends BaseController
     }
 
     /**
-     * @param $request
+     * @param Request $request
+     * @param string  $folderId
      *
-     * @Config\Route("/upload", name="open_orchestra_api_media_upload")
+     * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
      * 
      * @return Response
      */
-    public function uploadAction(Request $request)
+    public function uploadAction($folderId, Request $request)
     {
+        $uploadedFile = $request->files->get('file');
+
+        if ($uploadedFile) {
+            $folderRepository = $this->get('open_orchestra_media.repository.media_folder');
+            $folder = $folderRepository->find($folderId);
+
+            $mediaClass = $this->container->getParameter('open_orchestra_media.document.media.class');
+            $media = new $mediaClass();
+            $media->setMediaFolder($folder);
+            $media->setFile($uploadedFile);
+
+            $documentManager = $this->get('object_manager');
+            $documentManager->persist($media);
+
+            if ($documentManager->flush()) {
+                $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('open_orchestra_media_admin.form.media.success'));
+            }
+        }
+
         return array();
     }
 }

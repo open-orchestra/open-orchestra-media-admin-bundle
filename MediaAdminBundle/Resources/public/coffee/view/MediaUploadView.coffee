@@ -18,7 +18,7 @@ MediaUploadView = OrchestraView.extend(
 
   renderSubmitFile: ->
     r = new Flow(
-      target: $('div.flow-drop').data('url')
+      target: @options.uploadUrl
       chunkSize: 1024 * 1024
       testChunks: false)
 

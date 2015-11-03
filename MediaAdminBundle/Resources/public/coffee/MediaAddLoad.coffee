@@ -13,6 +13,7 @@ MediaAddLoad = (folderId) ->
       MediaAddFormLoad(medias, title, listUrl)
 
 MediaAddFormLoad = (medias, title, listUrl, container = "#content") ->
+  uploadUrl = medias.get('links')._self_upload
   $.ajax
     url: medias.get('links')._self_add
     method: 'GET'
@@ -21,6 +22,7 @@ MediaAddFormLoad = (medias, title, listUrl, container = "#content") ->
       new viewClass(
         html: response
         listUrl: listUrl
+        uploadUrl: uploadUrl
         title: title
         domContainer: $(container)
       )
