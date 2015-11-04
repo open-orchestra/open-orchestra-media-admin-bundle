@@ -6,6 +6,8 @@ use OpenOrchestra\ApiBundle\Tests\Functional\Controller\ApiControllersSecurityTe
 
 /**
  * Class ApiControllersSecurityTest
+ *
+ * @group media
  */
 class ApiControllersSecurityTest extends BaseApiControllersSecurityTest
 {

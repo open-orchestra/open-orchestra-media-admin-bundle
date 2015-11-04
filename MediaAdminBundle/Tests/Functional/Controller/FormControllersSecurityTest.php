@@ -6,6 +6,8 @@ use OpenOrchestra\BackofficeBundle\Tests\Functional\Controller\FormControllersSe
 
 /**
  * Class FormControllersSecurityTest
+ *
+ * @group media
  */
 class FormControllersSecurityTest extends BaseFormControllersSecurityTest
 {

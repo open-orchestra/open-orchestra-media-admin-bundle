@@ -6,6 +6,8 @@ use OpenOrchestra\BackofficeBundle\Tests\Functional\Controller\AbstractControlle
 
 /**
  * Class MediaControllerTest
+ *
+ * @group media
  */
 class MediaControllerTest extends AbstractControllerTest
 {

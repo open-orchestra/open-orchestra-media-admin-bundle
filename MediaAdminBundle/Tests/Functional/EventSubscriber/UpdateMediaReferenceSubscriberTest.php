@@ -14,6 +14,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class UpdateMediaReferenceSubscriberTest
+ *
+ * @group media
  */
 class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
 {
