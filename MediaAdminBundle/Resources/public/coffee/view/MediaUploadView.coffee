@@ -2,10 +2,23 @@ MediaUploadView = OrchestraView.extend(
 
   extendView: ['submitAdmin']
 
+  events:
+    'dragenter .flow-drop': 'dragEnter'
+    'dragend .flow-drop': 'dragEnd'
+    'drop .flow-drop': 'dragEnd'
+    'click .progress-resume-link': 'resume'
+    'click .progress-pause-link': 'pause'
+    'click .progress-cancel-link': 'cancel'
+
   initialize: (options) ->
     @options = options
+    @r = new Flow(
+      target: @options.uploadUrl
+      chunkSize: 1024 * 1024
+      testChunks: false)
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaUploadView'
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/uploadProgress'
     ]
     return
 
@@ -16,34 +29,43 @@ MediaUploadView = OrchestraView.extend(
     @renderSubmitFile()
     return
 
-  renderSubmitFile: ->
-    r = new Flow(
-      target: @options.uploadUrl
-      chunkSize: 1024 * 1024
-      testChunks: false)
+  dragEnter: ->
+    $('.flow-drop').addClass('flow-dragover')
 
-    # Flow.js isn't supported, fall back on a different method
-    if !r.support
+  dragEnd: ->
+    $('.flow-drop').removeClass('flow-dragover')
+
+  resume: ->
+    @r.upload();
+
+  pause: ->
+    @r.pause();
+
+  cancel: ->
+    @r.cancel();
+
+  renderSubmitFile: ->
+    if !@r.support
       $('.flow-error').show()
       return
 
-    # Show a place for dropping/selecting files
-    $('.flow-drop').show()
-    r.assignDrop $('.flow-drop')[0]
-    r.assignBrowse $('.flow-browse')[0]
-    r.assignBrowse $('.flow-browse-folder')[0], true
-    r.assignBrowse $('.flow-browse-image')[0], false, false, accept: 'image/*'
+    @r.assignDrop $('.flow-drop')[0]
+    @r.assignBrowse $('.flow-browse')[0]
+    @r.assignBrowse $('.flow-browse-folder')[0], true
 
-    # Handle file add event
-    r.on 'fileAdded', (file) ->
-      # Show progress bar
+    viewContext = @
+
+    @r.on 'fileAdded', (file) ->
       $('.flow-progress, .flow-list').show()
-      # Add the file to the list
-      $('.flow-list').append '<li class="flow-file flow-file-' + file.uniqueIdentifier + '">' + 'Uploading <span class="flow-file-name"></span> ' + '<span class="flow-file-size"></span> ' + '<span class="flow-file-progress"></span> ' + '<a href="" class="flow-file-download" target="_blank">' + 'Download' + '</a> ' + '<span class="flow-file-pause">' + ' <img src="/img/flow_js/pause.png" title="Pause upload" />' + '</span>' + '<span class="flow-file-resume">' + ' <img src="/img/flow_js/resume.png" title="Resume upload" />' + '</span>' + '<span class="flow-file-cancel">' + ' <img src="/img/flow_js/cancel.png" title="Cancel upload" />' + '</span>'
+
+      progressText = viewContext.renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/uploadProgress',
+        uniqueIdentifier: file.uniqueIdentifier
+      )
+
+      $('.flow-list').append progressText
       $self = $('.flow-file-' + file.uniqueIdentifier)
       $self.find('.flow-file-name').text file.name
       $self.find('.flow-file-size').text readablizeBytes(file.size)
-      $self.find('.flow-file-download').attr('href', '/download/' + file.uniqueIdentifier).hide()
       $self.find('.flow-file-pause').on 'click', ->
         file.pause()
         $self.find('.flow-file-pause').hide()
@@ -60,61 +82,50 @@ MediaUploadView = OrchestraView.extend(
         return
       return
 
-    r.on 'filesSubmitted', (file) ->
-      r.upload()
+    @r.on 'filesSubmitted', (file) ->
+      viewContext.r.upload()
       return
 
-    r.on 'complete', ->
-      # Hide pause/resume when the upload has completed
+    @r.on 'complete', ->
       $('.flow-progress .progress-resume-link, .flow-progress .progress-pause-link').hide()
       return
 
-    r.on 'fileSuccess', (file, message) ->
+    @r.on 'fileSuccess', (file, message) ->
       $self = $('.flow-file-' + file.uniqueIdentifier)
-      # Reflect that the file upload has completed
-      $self.find('.flow-file-progress').text '(completed)'
+      $self.find('.flow-file-progress').text '(' + $('#uploadCompleted').text() + ')'
       $self.find('.flow-file-pause, .flow-file-resume').remove()
-      $self.find('.flow-file-download').attr('href', '/download/' + file.uniqueIdentifier).show()
       return
 
-    r.on 'fileError', (file, message) ->
-      # Reflect that the file upload has resulted in error
-      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html '(file could not be uploaded: ' + message + ')'
+    @r.on 'fileError', (file, message) ->
+      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html '(' + $('#uploadFailed').text() + message + ')'
       return
 
-    r.on 'fileProgress', (file) ->
-      # Handle progress for both the file and the overall upload
-      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html Math.floor(file.progress() * 100) + '% ' + readablizeBytes(file.averageSpeed) + '/s ' + secondsToStr(file.timeRemaining()) + ' remaining'
-      $('.progress-bar').css width: Math.floor(r.progress() * 100) + '%'
+    @r.on 'fileProgress', (file) ->
+      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html Math.floor(file.progress() * 100) + '% ' + readablizeBytes(file.averageSpeed) + '/s ' + secondsToStr(file.timeRemaining()) + ' ' + $('#uploadRemaining').text()
+      $('.progress-bar').css width: Math.floor(viewContext.r.progress() * 100) + '%'
       return
 
-    r.on 'uploadStart', ->
-      # Show pause, hide resume
+    @r.on 'uploadStart', ->
       $('.flow-progress .progress-resume-link').hide()
       $('.flow-progress .progress-pause-link').show()
       return
 
-#    r.on 'catchAll', ->
-#      console.log.apply console, arguments
-#      return
-
     window.r =
       pause: ->
-        r.pause()
-        # Show resume, hide pause
+        viewContext.r.pause()
         $('.flow-file-resume').show()
         $('.flow-file-pause').hide()
         $('.flow-progress .progress-resume-link').show()
         $('.flow-progress .progress-pause-link').hide()
         return
       cancel: ->
-        r.cancel()
+        viewContext.r.cancel()
         $('.flow-file').remove()
         return
       upload: ->
         $('.flow-file-pause').show()
         $('.flow-file-resume').hide()
-        r.resume()
+        viewContext.r.resume()
         return
-      flow: r
+      flow: @r
 )
