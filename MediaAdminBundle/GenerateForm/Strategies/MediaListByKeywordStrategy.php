@@ -28,7 +28,7 @@ class MediaListByKeywordStrategy extends AbstractBlockStrategy
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('keywords', 'orchestra_keywords', array(
+        $builder->add('keywords', 'oo_keywords_choice', array(
             'embedded' => false,
             'label' => 'open_orchestra_media_admin.form.media.list.keyword',
             'required' => false,

@@ -34,11 +34,11 @@ class MediaMetaType extends AbstractType
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this->translateValueInitializer, 'preSetData'));
 
-        $builder->add('titles', 'translated_value_collection', array(
+        $builder->add('titles', 'oo_translated_value_collection', array(
             'label' => 'open_orchestra_media_admin.form.media.meta.title',
             'required' => false,
         ));
-        $builder->add('alts', 'translated_value_collection', array(
+        $builder->add('alts', 'oo_translated_value_collection', array(
             'label' => 'open_orchestra_media_admin.form.media.meta.alt',
             'required' => false,
         ));
@@ -50,7 +50,7 @@ class MediaMetaType extends AbstractType
             'label' => 'open_orchestra_media_admin.form.media.meta.comment',
             'required' => false,
         ));
-        $builder->add('keywords', 'orchestra_keywords', array(
+        $builder->add('keywords', 'oo_keywords_choice', array(
             'label' => 'open_orchestra_media_admin.form.media.meta.keywords',
             'required' => false
         ));
