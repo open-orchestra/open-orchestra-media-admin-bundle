@@ -67,7 +67,7 @@ GalleryView = OrchestraView.extend(
       url: @options.media.get("links")._self_delete
       method: 'Delete'
       success: (response) ->
-        target.parents(".superbox-list").remove()
+        Backbone.history.loadUrl(Backbone.history.getFragment())
 
   mediaSelect : (event) ->
     event.preventDefault()
