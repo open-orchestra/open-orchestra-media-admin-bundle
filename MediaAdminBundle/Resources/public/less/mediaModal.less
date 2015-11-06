@@ -9,13 +9,17 @@
             height: 100%;
 
             .modal-body {
-                height: 100%;
+                height: calc(~"100% - 55px");
 
                 .modal-body-menu {
                     float: left;
                     width: 200px;
                     height: 100%;
                     padding-bottom: 10px;
+
+                    > nav {
+                        padding-bottom: 0;
+                    }
 
                     > ul {
                         overflow-y: scroll;
@@ -36,7 +40,6 @@
                     float: left;
                     margin-left: 15px;
                     width: 741px;
-                    height: calc(~"100% - 55px");
 
                     > .row {
                         display: none;
