@@ -62,7 +62,7 @@ class GalleryStrategy extends AbstractBlockStrategy
                 'attr' => array('help_text' => 'open_orchestra_media_admin.block.gallery.form.image_format.helper'),
             ))
             ->add('pictures', 'collection', array(
-                'type' => 'orchestra_media',
+                'type' => 'oo_media_choice',
                 'constraints' => new NotBlank(),
                 'allow_add' => true,
                 'attr' => array(

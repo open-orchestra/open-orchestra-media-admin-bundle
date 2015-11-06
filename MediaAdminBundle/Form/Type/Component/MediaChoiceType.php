@@ -1,15 +1,15 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Form\Type;
+namespace OpenOrchestra\MediaAdminBundle\Form\Type\Component;
 
-use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\OrchestraMediaTransformer;
+use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class OrchestraMediaType
+ * Class MediaChoiceType
  */
-class OrchestraMediaType extends AbstractType
+class MediaChoiceType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,7 +17,7 @@ class OrchestraMediaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new OrchestraMediaTransformer());
+        $builder->addModelTransformer(new MediaChoiceTransformer());
     }
 
     /**
@@ -33,6 +33,6 @@ class OrchestraMediaType extends AbstractType
      */
     public function getName()
     {
-        return 'orchestra_media';
+        return 'oo_media_choice';
     }
 }

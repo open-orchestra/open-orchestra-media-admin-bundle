@@ -1,17 +1,17 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
+namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type\Component;
 
 use Phake;
-use OpenOrchestra\MediaAdminBundle\Form\Type\OrchestraMediaType;
+use OpenOrchestra\MediaAdminBundle\Form\Type\Component\MediaChoiceType;
 
 /**
- * Class OrchestraMediaTypeTest
+ * Class MediaChoiceTypeTest
  */
-class OrchestraMediaTypeTest extends \PHPUnit_Framework_TestCase
+class MediaChoiceTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var OrchestraMediaType
+     * @var MediaChoiceType
      */
     protected $form;
 
@@ -20,7 +20,7 @@ class OrchestraMediaTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->form = new OrchestraMediaType();
+        $this->form = new MediaChoiceType();
     }
     
     /**
@@ -36,7 +36,7 @@ class OrchestraMediaTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testName()
     {
-        $this->assertSame('orchestra_media', $this->form->getName());
+        $this->assertSame('oo_media_choice', $this->form->getName());
     }
     
     /**

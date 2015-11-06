@@ -2,16 +2,16 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\DataTransformer;
 
-use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\OrchestraMediaTransformer;
+use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
- * Class OrchestraMediaTransformerTest
+ * Class MediaChoiceTransformerTest
  */
-class OrchestraMediaTransformerTest extends \PHPUnit_Framework_TestCase
+class MediaChoiceTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var OrchestraMediaTransformer
+     * @var MediaChoiceTransformer
      */
     protected $transformer;
 
@@ -20,7 +20,7 @@ class OrchestraMediaTransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->transformer = new OrchestraMediaTransformer();
+        $this->transformer = new MediaChoiceTransformer();
     }
 
     /**

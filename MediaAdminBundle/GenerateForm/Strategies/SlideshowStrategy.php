@@ -45,7 +45,7 @@ class SlideshowStrategy extends AbstractBlockStrategy
             'constraints' => new NotBlank(),
         ));
         $builder->add('pictures', 'collection', array(
-            'type' => 'orchestra_media',
+            'type' => 'oo_media_choice',
             'constraints' => new NotBlank(),
             'allow_add' => true,
             'attr' => array(

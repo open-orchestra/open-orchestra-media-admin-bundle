@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer;
 
 /**
- * Class OrchestraSiteForFolderChoiceType
+ * Class SiteForFolderChoiceType
  */
-class OrchestraSiteForFolderChoiceType extends AbstractType
+class SiteForFolderChoiceType extends AbstractType
 {
     protected $siteRepository;
     protected $tokenStorage;
@@ -100,7 +100,7 @@ class OrchestraSiteForFolderChoiceType extends AbstractType
      */
     public function getName()
     {
-        return 'orchestra_site_for_folder_choice';
+        return 'oo_site_for_folder_choice';
     }
 
     /**

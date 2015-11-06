@@ -3,12 +3,12 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
 use Phake;
-use OpenOrchestra\MediaAdminBundle\Form\Type\OrchestraSiteForFolderChoiceType;
+use OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType;
 
 /**
- * Class OrchestraSiteForFolderChoiceTypeTest
+ * Class SiteForFolderChoiceTypeTest
  */
-class OrchestraSiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
+class SiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
 {
     protected $site1;
     protected $siteId1 = 'site_id_1';
@@ -69,7 +69,7 @@ class OrchestraSiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
 
         $this->embedSiteToSiteIdTransformer = Phake::mock('OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer');
 
-        $this->form = new OrchestraSiteForFolderChoiceType(
+        $this->form = new SiteForFolderChoiceType(
             $this->siteRepository,
             $this->tokenStorage,
             $this->embedSiteToSiteIdTransformer
@@ -83,7 +83,7 @@ class OrchestraSiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testName()
     {
-        $this->assertSame('orchestra_site_for_folder_choice', $this->form->getName());
+        $this->assertSame('oo_site_for_folder_choice', $this->form->getName());
     }
 
     /**

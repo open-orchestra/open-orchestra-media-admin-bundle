@@ -35,7 +35,7 @@ class MediaController extends AbstractAdminController
         $media = new $mediaClass();
         $media->setMediaFolder($folder);
 
-        $form = $this->createForm('media', $media, array(
+        $form = $this->createForm('oo_media', $media, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_new', array(
                 'folderId' => $folderId,
             ))
@@ -66,7 +66,7 @@ class MediaController extends AbstractAdminController
      */
     public function cropAction(Request $request, $mediaId)
     {
-        $form = $this->createForm('media_crop', array('id' => $mediaId), array(
+        $form = $this->createForm('oo_media_crop', array('id' => $mediaId), array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
                 'mediaId' => $mediaId,
             ))
@@ -121,7 +121,7 @@ class MediaController extends AbstractAdminController
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
 
-        $form = $this->createForm('media', null, array(
+        $form = $this->createForm('oo_media', null, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_override', array(
                 'mediaId' => $mediaId,
                 'format' => $format
@@ -159,7 +159,7 @@ class MediaController extends AbstractAdminController
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
 
-        $form = $this->createForm('media_meta', $media, array(
+        $form = $this->createForm('oo_media_meta', $media, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
                 'mediaId' => $mediaId,
             ))

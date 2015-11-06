@@ -31,7 +31,7 @@ class FolderType extends AbstractType
             ->add('name', 'text', array(
                 'label' => 'open_orchestra_media_admin.form.folder.name'
             ))
-            ->add('sites', 'orchestra_site_for_folder_choice', array(
+            ->add('sites', 'oo_site_for_folder_choice', array(
                 'label' => 'open_orchestra_media_admin.form.folder.site',
                 'multiple' => true,
                 'required' => false,
@@ -59,7 +59,7 @@ class FolderType extends AbstractType
      */
     public function getName()
     {
-        return 'folder';
+        return 'oo_folder';
     }
 
 }

@@ -7,9 +7,9 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
- * Class OrchestraMediaTransformer
+ * Class MediaChoiceTransformer
  */
-class OrchestraMediaTransformer implements DataTransformerInterface
+class MediaChoiceTransformer implements DataTransformerInterface
 {
     /**
      * @param mixed $value The value in the original representation

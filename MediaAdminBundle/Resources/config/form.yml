@@ -3,8 +3,8 @@ parameters:
     open_orchestra_media_admin.type.folder.class: OpenOrchestra\MediaAdminBundle\Form\Type\FolderType
     open_orchestra_media_admin.type.media_crop.class: OpenOrchestra\MediaAdminBundle\Form\Type\MediaCropType
     open_orchestra_media_admin.type.media_meta.class: OpenOrchestra\MediaAdminBundle\Form\Type\MediaMetaType
-    open_orchestra_media_admin.type.orchestra_media.class: OpenOrchestra\MediaAdminBundle\Form\Type\OrchestraMediaType
-    open_orchestra_media_admin.type.orchestra_site_for_folder_choice.class: OpenOrchestra\MediaAdminBundle\Form\Type\OrchestraSiteForFolderChoiceType
+    open_orchestra_media_admin.type.media_choice.class: OpenOrchestra\MediaAdminBundle\Form\Type\Component\MediaChoiceType
+    open_orchestra_media_admin.type.site_for_folder_choice.class: OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType
 
     open_orchestra_media_admin.tinymce:
         tinymce_buttons:
@@ -35,35 +35,35 @@ services:
             - %open_orchestra_media.document.media.class%
             - %open_orchestra_media_admin.allowed_mime_type%
         tags:
-            - { name: form.type, alias: media}
+            - { name: form.type, alias: oo_media}
     open_orchestra_media_admin.type.folder:
         class: %open_orchestra_media_admin.type.folder.class%
         arguments:
             - %open_orchestra_media.document.media_folder.class%
         tags:
-            - { name: form.type, alias: folder}
+            - { name: form.type, alias: oo_folder}
     open_orchestra_media_admin.type.media_crop:
         class: %open_orchestra_media_admin.type.media_crop.class%
         arguments:
             - %open_orchestra_media.thumbnail.configuration%
         tags:
-            - { name: form.type, alias: media_crop}
+            - { name: form.type, alias: oo_media_crop}
     open_orchestra_media_admin.type.media_meta:
         class: %open_orchestra_media_admin.type.media_meta.class%
         arguments:
             - @open_orchestra_backoffice.listener.translate_value_initializer
             - %open_orchestra_media.document.media.class%
         tags:
-            - { name: form.type, alias: media_meta}
-    open_orchestra_media_admin.type.orchestra_media:
-        class: %open_orchestra_media_admin.type.orchestra_media.class%
+            - { name: form.type, alias: oo_media_meta}
+    open_orchestra_media_admin.type.media_choice:
+        class: %open_orchestra_media_admin.type.media_choice.class%
         tags:
-            - { name: form.type, alias: orchestra_media}
-    open_orchestra_media_admin.type.orchestra_site_for_folder_choice:
-        class: %open_orchestra_media_admin.type.orchestra_site_for_folder_choice.class%
+            - { name: form.type, alias: oo_media_choice}
+    open_orchestra_media_admin.type.site_for_folder_choice:
+        class: %open_orchestra_media_admin.type.site_for_folder_choice.class%
         arguments:
             - @open_orchestra_model.repository.site
             - @security.token_storage
             - @open_orchestra_media_admin.transformer.embed_site_to_siteid
         tags:
-            - { name: form.type, alias: orchestra_site_for_folder_choice}
+            - { name: form.type, alias: oo_site_for_folder_choice}
