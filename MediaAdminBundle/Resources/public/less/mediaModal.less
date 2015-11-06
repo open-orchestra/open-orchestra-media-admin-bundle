@@ -38,6 +38,15 @@
                     width: 741px;
                     height: calc(~"100% - 55px");
 
+                    form[name=media_crop] {
+                        position: relative;
+                        height: inherit;
+
+                        #preview_thumbnail {
+                            max-height: calc(~"100% - 55px");
+                        }
+                    }
+
                     > .row {
                         display: none;
                     }
