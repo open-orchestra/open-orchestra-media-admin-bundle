@@ -94,8 +94,9 @@ class MediaController extends BaseController
     /**
      * @param Request $request
      * @param string  $folderId
-     *
+     * 
      * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
+     * Config\Method({"POST"})
      * 
      * @return Response
      */
@@ -114,10 +115,6 @@ class MediaController extends BaseController
 
             $documentManager = $this->get('object_manager');
             $documentManager->persist($media);
-
-            if ($documentManager->flush()) {
-                $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('open_orchestra_media_admin.form.media.success'));
-            }
         }
 
         return array();
