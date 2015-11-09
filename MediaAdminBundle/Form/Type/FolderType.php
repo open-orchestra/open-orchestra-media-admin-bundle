@@ -29,6 +29,9 @@ class FolderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', 'hidden', array(
+                'disabled' => true
+            ))
             ->add('name', 'text', array(
                 'label' => 'open_orchestra_media_admin.form.folder.name'
             ))
