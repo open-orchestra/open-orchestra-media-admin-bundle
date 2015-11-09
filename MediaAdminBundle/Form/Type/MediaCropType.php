@@ -72,6 +72,6 @@ class MediaCropType extends AbstractType
      */
     public function getName()
     {
-        return 'media_crop';
+        return 'oo_media_crop';
     }
 }

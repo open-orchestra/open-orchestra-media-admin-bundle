@@ -1,7 +1,7 @@
 CropFormView = OrchestraView.extend(
 
   events:
-    'change select#media_crop_format': 'changeView'
+    'change select#oo_media_crop_format': 'changeView'
     'click a#crop_action_button': 'setupCrop'
     'click a#upload_action_button': 'setupOverrideForm'
     'click a#crop_button': 'cropImage'
@@ -111,7 +111,7 @@ CropFormView = OrchestraView.extend(
     $('#crop-group').hide()
     $(".media-override-format-form").hide()
     $('#alternative-loader-container').show()
-    format = $('#media_crop_format').val()
+    format = $('#oo_media_crop_format').val()
     linkFormat = '_self_format_' + format
     $.ajax
       url: @options.media.get('links')[linkFormat]
@@ -123,7 +123,7 @@ CropFormView = OrchestraView.extend(
 
   cropImage: (e) ->
     e.preventDefault()
-    $("#media_crop").submit()
+    $("#oo_media_crop").submit()
 
   addEventOnCropForm: (e) ->
     e.preventDefault()
@@ -149,7 +149,7 @@ CropFormView = OrchestraView.extend(
           currentView.refreshImages()
 
   refreshImages: ->
-    format = $('#media_crop_format').val()
+    format = $('#oo_media_crop_format').val()
     newSrc = $('.media_crop_' + format).attr('src').split('?')[0] + '?' + Math.random()
     $('.media_crop_' + format).attr 'src', newSrc
     $(".media-override-format-form").hide()
@@ -157,8 +157,8 @@ CropFormView = OrchestraView.extend(
     @showPreview(format)
 
   updateCoords: (c) ->
-    $('#media_crop_x').val c.x
-    $('#media_crop_y').val c.y
-    $('#media_crop_w').val c.w
-    $('#media_crop_h').val c.h
+    $('#oo_media_crop_x').val c.x
+    $('#oo_media_crop_y').val c.y
+    $('#oo_media_crop_w').val c.w
+    $('#oo_media_crop_h').val c.h
 )

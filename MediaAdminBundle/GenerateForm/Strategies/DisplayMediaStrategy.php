@@ -47,7 +47,7 @@ class DisplayMediaStrategy extends AbstractBlockStrategy
                 'label' => 'open_orchestra_media_admin.block.gallery.form.image_format.label',
                 'attr' => array('help_text' => 'open_orchestra_media_admin.block.gallery.form.image_format.helper'),
             ))
-            ->add('picture', 'orchestra_media', array(
+            ->add('picture', 'oo_media_choice', array(
                 'constraints' => new NotBlank(),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
             ))

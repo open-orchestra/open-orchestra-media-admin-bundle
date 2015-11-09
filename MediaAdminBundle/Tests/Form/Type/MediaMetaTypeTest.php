@@ -40,7 +40,7 @@ class MediaMetaTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testName()
     {
-        $this->assertSame('media_meta', $this->form->getName());
+        $this->assertSame('oo_media_meta', $this->form->getName());
     }
 
     /**

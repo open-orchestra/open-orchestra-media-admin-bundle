@@ -107,7 +107,7 @@ class FolderController extends AbstractAdminController
      */
     protected function generateForm(FolderInterface $folder, $url)
     {
-        $form = $this->createForm('folder', $folder, array('action' => $url));
+        $form = $this->createForm('oo_folder', $folder, array('action' => $url));
 
         return $form;
     }

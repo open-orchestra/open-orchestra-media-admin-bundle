@@ -61,6 +61,6 @@ class MediaType extends AbstractType
      */
     public function getName()
     {
-        return 'media';
+        return 'oo_media';
     }
 }
