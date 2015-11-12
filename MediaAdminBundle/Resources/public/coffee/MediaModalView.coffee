@@ -49,9 +49,10 @@ MediaModalView = OrchestraView.extend(
       currentModal.modal "hide"
 
   showFolder: (event) ->
-    @updateNavigation($(event.target))
-    displayLoader $(".modal-body-content", @$el)
-    GalleryLoad $(event.target).attr('id'), @options.galleryView, $(".modal-body-content", @$el)
+    if $(event.target).attr('id')
+      @updateNavigation($(event.target))
+      displayLoader $(".modal-body-content", @$el)
+      GalleryLoad $(event.target).attr('id'), @options.galleryView, $(".modal-body-content", @$el)
 
   updateNavigation: (node) ->
     $('.modal-body-menu nav .active', @el).removeClass("active");
