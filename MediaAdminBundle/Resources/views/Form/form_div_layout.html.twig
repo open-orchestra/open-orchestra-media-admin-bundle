@@ -20,7 +20,7 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block tinymce_widget %}
-    {{ block('textarea_widget') }}
-  <div id="{{ id }}_modal" class="select_media_modal" data-url="{{ path('open_orchestra_media_admin_media_list_form') }}" ></div>
+{% block oo_tinymce_widget %}
+      {{ block('textarea_widget') }}
+      <div id="{{ id }}_modal" class="select_media_modal" data-url="{{ path('open_orchestra_media_admin_media_list_form') }}" ></div>
 {% endblock %}
