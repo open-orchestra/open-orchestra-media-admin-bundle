@@ -12,7 +12,6 @@ use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\MediaNotDeletableExc
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Flow\Basic as FlowBasic;
 
 /**
  * Class MediaController
@@ -35,7 +34,8 @@ class MediaController extends BaseController
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
 
-        return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media')->transform($media);
     }
 
     /**
@@ -51,18 +51,21 @@ class MediaController extends BaseController
         $folderId = $request->get('folderId');
         /** @var FolderInterface $folder */
         $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
-        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
+        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')
+            ->isDeletable($folder);
         $parentId = null;
         if ($folder->getParent() instanceof FolderInterface) {
             $parentId = $folder->getParent()->getId();
         }
-        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
+        $mediaCollection = $this->get('open_orchestra_media.repository.media')
+            ->findByFolderId($folderId);
 
-        return $this->get('open_orchestra_api.transformer_manager')->get('media_collection')->transform(
-            $mediaCollection,
-            $folderId,
-            $folderDeletable,
-            $parentId
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media_collection')->transform(
+                $mediaCollection,
+                $folderId,
+                $folderDeletable,
+                $parentId
         );
     }
 
@@ -104,58 +107,17 @@ class MediaController extends BaseController
     public function uploadAction($folderId, Request $request)
     {
         $uploadedFile = $request->files->get('file');
+        $saveMediaManager = $this->get('open_orchestra_media.manager.save_media');
 
-        if ($uploadedFile) {
-            $tmpDir = $this->getParameter('open_orchestra_media.tmp_dir');
-            $fileName = $this->generateTmpName($uploadedFile);
+        if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
-            if (FlowBasic::save($tmpDir . '/' . $fileName, $tmpDir)) {
-                $media = $this->createMedia($uploadedFile, $fileName);
+            $media = $this->container->get('open_orchestra_media.manager.media')
+                ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
 
-                return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
-            }
+            return $this->get('open_orchestra_api.transformer_manager')
+                ->get('media')->transform($media);
         }
 
         return array();
-    }
-
-    /**
-     * Generate the tmp file name used to glue chunk files
-     * 
-     * @param Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile
-     * 
-     * @return string
-     */
-    protected function generateTmpName($uploadedFile)
-    {
-        $tmpDir = $this->getParameter('open_orchestra_media.tmp_dir');
-
-        return sha1(uniqid(mt_rand(), true))
-            . pathinfo($tmpDir . '/' . $uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)
-            . '.' . $uploadedFile->guessClientExtension();
-    }
-
-    /**
-     * @param Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile
-     * @param string                                             $fileName
-     * 
-     * @return OpenOrchestra\Media\Model\MediaInterface
-     */
-    protected function createMedia($uploadedFile, $fileName)
-    {
-        $folderRepository = $this->get('open_orchestra_media.repository.media_folder');
-        $folder = $folderRepository->find($folderId);
-
-        $mediaClass = $this->container->getParameter('open_orchestra_media.document.media.class');
-        $media = new $mediaClass();
-        $media->setMediaFolder($folder);
-        $media->setFile($uploadedFile);
-        $media->setFilesystemName($fileName);
-
-        $documentManager = $this->get('object_manager');
-        $documentManager->persist($media);
-        $documentManager->flush();
-
-        return $media;
     }
 }
