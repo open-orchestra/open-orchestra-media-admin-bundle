@@ -3,6 +3,7 @@ jQuery ->
     'addFolderConfigurationButton': FolderConfigurationButtonView
     'addFolderDeleteButton': FolderDeleteButtonView
     'showGalleryCollection': GalleryCollectionView
+    'showMediaForm': MediaFormView
     'showMediaModal': MediaModalView
     'showGallery': GalleryView
     'showWysiwygSelect': WysiwygSelectView
