@@ -1,8 +1,4 @@
 ((router) ->
-  router.addRoutePattern('listFolder', 'folder/:folderId/list');
-  router.addRoutePattern('addMedia', 'folder/:folderId/add/media');
-  router.addRoutePattern('mediaEdit', 'folder/:folderId/list/media/:mediaId/edit');
-
   router.route 'folder/:folderId/list/media/:mediaId/edit', 'mediaEdit', (folderId, mediaId) ->
     @initDisplayRouteChanges '#' + folderId
     @addRoutePattern 'apiMediaEdit', $('#' + folderId).data('media-edit-url')
