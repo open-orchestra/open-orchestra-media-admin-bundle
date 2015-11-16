@@ -6,9 +6,6 @@ MediaUploadView = OrchestraView.extend(
     'dragenter .flow-drop': 'dragEnter'
     'dragend .flow-drop': 'dragEnd'
     'drop .flow-drop': 'dragEnd'
-    'click .progress-resume-link': 'resume'
-    'click .progress-pause-link': 'pause'
-    'click .progress-cancel-link': 'cancel'
 
   initialize: (options) ->
     @options = options
@@ -34,15 +31,6 @@ MediaUploadView = OrchestraView.extend(
 
   dragEnd: ->
     $('.flow-drop').removeClass('flow-dragover')
-
-  resume: ->
-    @r.upload();
-
-  pause: ->
-    @r.pause();
-
-  cancel: ->
-    @r.cancel();
 
   renderSubmitFile: ->
     if !@r.support
@@ -86,10 +74,6 @@ MediaUploadView = OrchestraView.extend(
       viewContext.r.upload()
       return
 
-    @r.on 'complete', ->
-      $('.flow-progress .progress-resume-link, .flow-progress .progress-pause-link').hide()
-      return
-
     @r.on 'fileSuccess', (file, message) ->
       $self = $('.flow-file-' + file.uniqueIdentifier)
       $self.find('.flow-file-progress').text '(' + $('#uploadCompleted').text() + ')'
@@ -105,18 +89,11 @@ MediaUploadView = OrchestraView.extend(
       $('.progress-bar').css width: Math.floor(viewContext.r.progress() * 100) + '%'
       return
 
-    @r.on 'uploadStart', ->
-      $('.flow-progress .progress-resume-link').hide()
-      $('.flow-progress .progress-pause-link').show()
-      return
-
     window.r =
       pause: ->
         viewContext.r.pause()
         $('.flow-file-resume').show()
         $('.flow-file-pause').hide()
-        $('.flow-progress .progress-resume-link').show()
-        $('.flow-progress .progress-pause-link').hide()
         return
       cancel: ->
         viewContext.r.cancel()
