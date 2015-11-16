@@ -26,12 +26,8 @@ MediaModalView = OrchestraView.extend(
 
   render: (options) ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaModalView', @options)
-    opts =
-      accordion: true
-      speed: $.menu_speed
-      closedSign: "<em class=\"fa fa-plus-square-o\"></em>"
-      openedSign: "<em class=\"fa fa-minus-square-o\"></em>"
-    $(@el).jarvismenu opts
+
+    @initMenu()
 
     if currentModal != null
       $('.modal-dialog', currentModal).replaceWith $('.modal-dialog', @$el)
@@ -43,6 +39,16 @@ MediaModalView = OrchestraView.extend(
         currentModal = null
         this.remove()
         return
+
+  initMenu: (activeNode) ->
+    @updateNavigation(activeNode) if activeNode?
+    
+    opts =
+      accordion: true
+      speed: $.menu_speed
+      closedSign: "<em class=\"fa fa-plus-square-o\"></em>"
+      openedSign: "<em class=\"fa fa-minus-square-o\"></em>"
+    $(@el).jarvismenu opts
 
   closeModal: ->
     if currentModal
@@ -64,8 +70,10 @@ MediaModalView = OrchestraView.extend(
     $.ajax
       url: @options.url
       method: 'GET'
+      context: @
       success: (response) ->
         $('.modal-body-menu', currentModal).html response
+        @initMenu($('#media-modal-' + $('#folder_id').val()))
     return
 
   openFormFolder: (event) ->
