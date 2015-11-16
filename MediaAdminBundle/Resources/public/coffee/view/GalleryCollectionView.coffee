@@ -1,4 +1,3 @@
-
 GalleryCollectionView = OrchestraView.extend(
 
   extendView: ['breadcrumbAware']
@@ -56,7 +55,7 @@ GalleryCollectionView = OrchestraView.extend(
       Backbone.history.navigate(appRouter.generateUrl('addMedia',
         'folderId':  @options.folderId
       ))
-      MediaAddFormLoad(@options.medias, @options.title, @options.listUrl)
+      MediaAddUploadLoad(@options.medias, @options.title)
 
   addConfigurationButton: ->
     if @options.medias.get('links')._self_folder != undefined

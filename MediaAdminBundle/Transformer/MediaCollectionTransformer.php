@@ -38,6 +38,12 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
             )));
         }
 
+        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
+            $facade->addLink('_self_upload', $this->generateRoute('open_orchestra_api_media_upload', array(
+                'folderId' => $folderId
+            )));
+        }
+
         if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER)) {
             $facade->addLink('_self_folder', $this->generateRoute('open_orchestra_media_admin_folder_form', array(
                 'folderId' => $folderId

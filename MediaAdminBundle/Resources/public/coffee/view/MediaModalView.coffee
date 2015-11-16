@@ -70,6 +70,7 @@ MediaModalView = OrchestraView.extend(
 
   openFormFolder: (event) ->
     @updateNavigation($(event.target))
+    @listenToOnce(formChannel, 'formSubmit', @reloadFolder)
     @openForm event
 
   openForm: (event) ->
@@ -77,7 +78,6 @@ MediaModalView = OrchestraView.extend(
     displayLoader $(".modal-body-content", @$el)
     folderName = $(".js-widget-title", @$el).text()
     domContainer = $(".modal-body-content", @$el)
-    @listenToOnce(formChannel, 'formSubmit', @reloadFolder) if $(event.target).hasClass('media-modal-menu-new-folder')
     title = @getPath().join(' > ')
     $.ajax
       url: $(event.target).data('url')

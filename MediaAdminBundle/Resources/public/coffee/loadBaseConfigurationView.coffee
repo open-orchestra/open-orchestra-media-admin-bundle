@@ -9,5 +9,6 @@ jQuery ->
     'showWysiwygSelect': WysiwygSelectView
     'showMetaForm': MetaFormView
     'showCropForm': CropFormView
+    'uploadMedia': MediaUploadView
 
   $.extend true, window.appConfigurationView.baseConfigurations,baseMediaConfiguration

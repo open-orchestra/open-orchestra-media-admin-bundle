@@ -34,7 +34,8 @@ class MediaController extends BaseController
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
 
-        return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media')->transform($media);
     }
 
     /**
@@ -50,18 +51,21 @@ class MediaController extends BaseController
         $folderId = $request->get('folderId');
         /** @var FolderInterface $folder */
         $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
-        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
+        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')
+            ->isDeletable($folder);
         $parentId = null;
         if ($folder->getParent() instanceof FolderInterface) {
             $parentId = $folder->getParent()->getId();
         }
-        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
+        $mediaCollection = $this->get('open_orchestra_media.repository.media')
+            ->findByFolderId($folderId);
 
-        return $this->get('open_orchestra_api.transformer_manager')->get('media_collection')->transform(
-            $mediaCollection,
-            $folderId,
-            $folderDeletable,
-            $parentId
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media_collection')->transform(
+                $mediaCollection,
+                $folderId,
+                $folderDeletable,
+                $parentId
         );
     }
 
@@ -87,6 +91,32 @@ class MediaController extends BaseController
         $documentManager = $this->get('object_manager');
         $documentManager->remove($media);
         $documentManager->flush();
+
+        return array();
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $folderId
+     * 
+     * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
+     * Config\Method({"POST"})
+     * 
+     * @return FacadeInterface|array
+     */
+    public function uploadAction($folderId, Request $request)
+    {
+        $uploadedFile = $request->files->get('file');
+        $saveMediaManager = $this->get('open_orchestra_media.manager.save_media');
+
+        if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
+
+            $media = $this->container->get('open_orchestra_media.manager.media')
+                ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
+
+            return $this->get('open_orchestra_api.transformer_manager')
+                ->get('media')->transform($media);
+        }
 
         return array();
     }
