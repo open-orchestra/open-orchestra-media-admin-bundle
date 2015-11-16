@@ -2,8 +2,10 @@ FolderFormView = OrchestraModalView.extend(
 
   onViewReady: ->
     if @options.submitted
-      displayMenu()
-
+      listUrl = appRouter.generateUrl('listFolder',
+        'folderId': $('#oo_folder_id', @$el).val()
+      )
+      displayMenu(listUrl)
 )
 
 jQuery ->
