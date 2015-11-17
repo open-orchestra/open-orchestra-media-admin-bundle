@@ -26,6 +26,9 @@ GalleryCollectionView = OrchestraView.extend(
   render: ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/galleryCollectionView'
       links: @options.medias.get('links')
+      BOroute: '#' + appRouter.generateUrl('addMedia',
+        folderId: @options.folderId
+      )
     )
     @options.domContainer.html @$el
     if !@options.modal
@@ -49,13 +52,14 @@ GalleryCollectionView = OrchestraView.extend(
     return
 
   clickAdd: (event) ->
-    event.preventDefault()
-    if $('#main .' + $(event.target).attr('class').split(' ').join(' .')).length
-      displayLoader('div[role="container"]')
-      Backbone.history.navigate(appRouter.generateUrl('addMedia',
-        'folderId':  @options.folderId
-      ))
-      MediaAddUploadLoad(@options.medias, @options.title)
+    if @options.domContainer.parents('.mediaModalContainer').length > 0
+      event.preventDefault()
+      viewClass = appConfigurationView.getConfiguration('media', 'uploadMedia')
+      new viewClass(
+        uploadUrl: @options.medias.get('links')._self_add
+        title: @options.title
+        domContainer: @options.domContainer
+      )
 
   addConfigurationButton: ->
     if @options.medias.get('links')._self_folder != undefined

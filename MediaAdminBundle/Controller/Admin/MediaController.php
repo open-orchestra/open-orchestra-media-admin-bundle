@@ -17,43 +17,6 @@ class MediaController extends AbstractAdminController
 {
     /**
      * @param Request $request
-     * @param string  $folderId
-     *
-     * @Config\Route("/media/new/{folderId}", name="open_orchestra_media_admin_media_new")
-     * @Config\Method({"GET", "POST"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA')")
-     *
-     * @return Response
-     */
-    public function newAction(Request $request, $folderId)
-    {
-        $folderRepository = $this->get('open_orchestra_media.repository.media_folder');
-        $folder = $folderRepository->find($folderId);
-
-        $mediaClass = $this->container->getParameter('open_orchestra_media.document.media.class');
-        $media = new $mediaClass();
-        $media->setMediaFolder($folder);
-
-        $form = $this->createForm('oo_media', $media, array(
-            'action' => $this->generateUrl('open_orchestra_media_admin_media_new', array(
-                'folderId' => $folderId,
-            ))
-        ));
-
-        $form->handleRequest($request);
-
-        $this->handleForm(
-            $form,
-            $this->get('translator')->trans('open_orchestra_media_admin.form.media.success'),
-            $media
-        );
-
-        return $this->renderAdminForm($form);
-    }
-
-    /**
-     * @param Request $request
      * @param string  $mediaId
      *
      * @Config\Route("/media/{mediaId}/crop", name="open_orchestra_media_admin_media_crop")

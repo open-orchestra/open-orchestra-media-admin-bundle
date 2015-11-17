@@ -13,7 +13,7 @@ MediaAddLoad = (folderId) ->
       MediaAddFormLoad(medias, title, listUrl)
 
 MediaAddFormLoad = (medias, title, listUrl, container = "#content") ->
-  uploadUrl = medias.get('links')._self_upload
+  uploadUrl = medias.get('links')._self_add
   $.ajax
     url: medias.get('links')._self_add
     method: 'GET'
@@ -26,11 +26,3 @@ MediaAddFormLoad = (medias, title, listUrl, container = "#content") ->
         title: title
         domContainer: $(container)
       )
-
-MediaAddUploadLoad = (medias, title, container = "#content") ->
-  viewClass = appConfigurationView.getConfiguration('media', 'uploadMedia')
-  new viewClass(
-    uploadUrl: medias.get('links')._self_upload
-    title: title
-    domContainer: $(container)
-  )
