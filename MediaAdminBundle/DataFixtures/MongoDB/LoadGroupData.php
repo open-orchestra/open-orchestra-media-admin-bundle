@@ -14,7 +14,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 /**
  * Class LoadGroupData
  */
-class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface, OrchestraProductionFixturesInterface, OrchestraFunctionalFixturesInterface
+class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface, OrchestraProductionFixturesInterface
 {
     /**
      * @param ObjectManager $manager

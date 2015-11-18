@@ -11,7 +11,7 @@ use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterfa
 /**
  * Class LoadUserData
  */
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, OrchestraProductionFixturesInterface, OrchestraFunctionalFixturesInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, OrchestraProductionFixturesInterface
 {
     /**
      * @param ObjectManager $manager
