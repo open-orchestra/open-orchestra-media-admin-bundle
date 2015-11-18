@@ -25,19 +25,6 @@ class MediaControllerTest extends AbstractControllerTest
     }
 
     /**
-     * Test media form
-     */
-    public function testMediaForm()
-    {
-        $mediaFolderRepository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media_folder');
-        $mediaFolder = $mediaFolderRepository->findOneByName('Images folder');
-
-        $url = '/admin/media/new/' . $mediaFolder->getId();
-        $this->client->request('GET', $url);
-        $this->assertForm($this->client->getResponse());
-    }
-
-    /**
      * @param string $form
      *
      * @dataProvider provideFormType
