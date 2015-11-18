@@ -8,7 +8,6 @@ MediaModalView = OrchestraView.extend(
   events:
     'click .mediaModalClose': 'closeModal'
     'click .media-modal-menu-folder' : 'showFolder'
-    'click .ajax-add': 'openForm'
     'click .media-modal-menu-new-folder' : 'openFormFolder'
 
   initialize: (options) ->
@@ -69,12 +68,9 @@ MediaModalView = OrchestraView.extend(
     return
 
   openFormFolder: (event) ->
+    event.preventDefault()
     @updateNavigation($(event.target))
     @listenToOnce(formChannel, 'formSubmit', @reloadFolder)
-    @openForm event
-
-  openForm: (event) ->
-    event.preventDefault()
     displayLoader $(".modal-body-content", @$el)
     folderName = $(".js-widget-title", @$el).text()
     domContainer = $(".modal-body-content", @$el)
