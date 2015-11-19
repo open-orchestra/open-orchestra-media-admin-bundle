@@ -5,7 +5,7 @@
         {{ 'open_orchestra_media_admin.form.upload.unsupported'|trans|raw }}
     </div>
 
-    <div class="flow-drop">
+    <div class="flow-drop" data-format="{{ media_allowed_mime_types|join(',') }}">
         <div class="dz-default dz-message">
             <span class="text-center">
                 <span class="font-lg visible-xs-block visible-sm-block visible-lg-block">
@@ -34,9 +34,15 @@
 
     <ul class="flow-list"></ul>
 
-    <span class="hidden-info" id="uploadFailed">{{ 'open_orchestra_media_admin.form.upload.failed'|trans }}</span>
-    <span class="hidden-info" id="uploadRemaining">{{ 'open_orchestra_media_admin.form.upload.remaining'|trans }}</span>
-    <span class="hidden-info" id="uploadCompleted">{{ 'open_orchestra_media_admin.form.upload.completed'|trans }}</span>
+    <span class="hidden-info" id="uploadFailed">
+        {{ 'open_orchestra_media_admin.form.upload.failed'|trans }}
+    </span>
+    <span class="hidden-info" id="uploadRemaining">
+        {{ 'open_orchestra_media_admin.form.upload.remaining'|trans }}
+    </span>
+    <span class="hidden-info" id="uploadCompleted">
+        {{ 'open_orchestra_media_admin.form.upload.completed'|trans }}
+    </span>
 
     {% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList._tpl.twig' %}
 </div>

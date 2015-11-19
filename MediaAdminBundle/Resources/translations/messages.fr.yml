@@ -44,7 +44,10 @@ open_orchestra_media_admin:
             custom_type:
                 media: Média
         upload:
-            unsupported: Votre navigateur n'est pas supporté par Flow.js. La bibliothèque requiert le support de <a href="http://www.w3.org/TR/FileAPI/">l'API de fichier HTML5</a> ainsi que <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">le découpage de fichier</a>.
+            unsupported: >
+                Votre navigateur n'est pas supporté par Flow.js. La bibliothèque requiert le support
+                de <a href="http://www.w3.org/TR/FileAPI/">l'API de fichier HTML5</a> ainsi que
+                <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">le découpage de fichier</a>.
             drop: Déposez vos fichiers ici pour les uploader
             or: ou
             folder: Sélectionner un dossier de votre ordinateur
@@ -55,6 +58,7 @@ open_orchestra_media_admin:
             failed: le fichier n'a pu être uploadé :
             remaining: restantes
             completed: Achevé
+            not_allowed: Format non autorisé
     left_menu:
         tree:
             new_media_folder: Nouveau répertoire
