@@ -101,9 +101,9 @@ class MediaController extends BaseController
      * 
      * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
      * Config\Method({"POST"})
-     * 
+     *
      * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA')")
-     * 
+     *
      * @return FacadeInterface|Response
      */
     public function uploadAction($folderId, Request $request)
