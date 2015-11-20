@@ -119,14 +119,14 @@ class MediaController extends BaseController
 
                 return $this->get('open_orchestra_api.transformer_manager')
                     ->get('media')->transform($media);
-            } else {
-                $translator = $this->container->get('translator');
-
-                return new Response(
-                    $translator->trans('open_orchestra_media_admin.form.upload.not_allowed'),
-                    403
-                );
             }
+
+            $translator = $this->container->get('translator');
+
+            return new Response(
+                $translator->trans('open_orchestra_media_admin.form.upload.not_allowed'),
+                403
+            );
         }
 
         return new Response('', 202);
