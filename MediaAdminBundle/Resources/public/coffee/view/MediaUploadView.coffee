@@ -37,9 +37,11 @@ MediaUploadView = OrchestraView.extend(
       $('.flow-error').show()
       return
 
+    allowedMimeTypes = $('.flow-drop').data('format')
+
     @r.assignDrop $('.flow-drop')[0]
-    @r.assignBrowse $('.flow-browse')[0]
     @r.assignBrowse $('.flow-browse-folder')[0], true
+    @r.assignBrowse $('.flow-browse')[0], false, false, {accept: allowedMimeTypes}
 
     viewContext = @
 

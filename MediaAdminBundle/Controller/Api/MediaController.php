@@ -104,7 +104,7 @@ class MediaController extends BaseController
      *
      * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA')")
      *
-     * @return FacadeInterface|array
+     * @return FacadeInterface|Response
      */
     public function uploadAction($folderId, Request $request)
     {
@@ -113,13 +113,22 @@ class MediaController extends BaseController
 
         if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
-            $media = $this->container->get('open_orchestra_media.manager.media')
-                ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
+            if ($saveMediaManager->isFileAllowed($filename)) {
+                $media = $this->container->get('open_orchestra_media.manager.media')
+                    ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
 
-            return $this->get('open_orchestra_api.transformer_manager')
-                ->get('media')->transform($media);
+                return $this->get('open_orchestra_api.transformer_manager')
+                    ->get('media')->transform($media);
+            }
+
+            $translator = $this->container->get('translator');
+
+            return new Response(
+                $translator->trans('open_orchestra_media_admin.form.upload.not_allowed'),
+                403
+            );
         }
 
-        return array();
+        return new Response('', 202);
     }
 }
