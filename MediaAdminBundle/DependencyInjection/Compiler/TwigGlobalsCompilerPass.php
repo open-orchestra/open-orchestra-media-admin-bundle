@@ -23,17 +23,6 @@ class TwigGlobalsCompilerPass implements CompilerPassInterface
             $formResources = $container->getParameter('twig.form.resources');
             $formResources[] = 'OpenOrchestraMediaAdminBundle:Form:form_div_layout.html.twig';
             $container->setParameter('twig.form.resources', $formResources);
-
-            if ($container->hasParameter('open_orchestra_media_admin.allowed_mime_type')) {
-                $twig = $container->getDefinition('twig');
-                $twig->addMethodCall(
-                    'addGlobal',
-                    array(
-                        'media_allowed_mime_types',
-                        $container->getParameter('open_orchestra_media_admin.allowed_mime_type')
-                    )
-                );
-            }
         }
     }
 }
