@@ -30,7 +30,7 @@ FolderDeleteButtonView = OrchestraView.extend(
 
   deleteFolder: ->
     if @options.medias.get('parent_id') == undefined
-      redirectUrl = appRouter.generateUrl('showHome')
+      redirectUrl = appRouter.generateUrl('showDashboard')
     else
       redirectUrl = appRouter.generateUrl('listFolder', appRouter.addParametersToRoute(
         'folderId':  @options.medias.get('parent_id')
@@ -39,6 +39,7 @@ FolderDeleteButtonView = OrchestraView.extend(
       url:  @options.medias.get('links')._self_delete
       method: 'DELETE'
       success: ->
-        Backbone.history.loadUrl(redirectUrl)
-        displayMenu(redirectUrl)
+        appRouter.navigate redirectUrl,
+            trigger: true
+        displayMenu redirectUrl
 )
