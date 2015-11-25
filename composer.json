@@ -12,6 +12,7 @@
     "require": {
         "open-orchestra/open-orchestra-cms-bundle": "*",
         "open-orchestra/open-orchestra-media-bundle": "*",
+        "open-orchestra/open-orchestra-media-file-bundle": "*",
         "flowjs/flow-php-server": "*"
     },
     "require-dev": {
