@@ -19,6 +19,9 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     protected $thumbnailManager;
     protected $uploadedMediaManager;
     protected $allowedMimeTypes = array('mimeType1', 'image/jpeg');
+    protected $documentManager;
+    protected $folderRepository;
+    protected $mediaClass;
 
     /**
      * Set up the test
@@ -28,68 +31,17 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
         $this->tmpDir = __DIR__.'/images';
         $this->uploadedMediaManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager');
         $this->thumbnailManager = Phake::mock('OpenOrchestra\Media\Thumbnail\ThumbnailManager');
+        $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
+        $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
 
         $this->mediaManager = new SaveMediaManager(
             $this->tmpDir,
             $this->thumbnailManager,
             $this->uploadedMediaManager,
-            $this->allowedMimeTypes
-        );
-    }
-
-    /**
-     * @param string $fileName
-     * @param string $fileExtension
-     * @param string $mediaId
-     *
-     * @dataProvider provideFileNameAndExtension
-     */
-    public function testSaveMedia($fileName, $fileExtension, $mediaId)
-    {
-        $media = $this->createMockMedia($fileName, $fileExtension, $mediaId);
-
-        $this->mediaManager->saveMedia($media);
-
-        $this->assertSaveMedia($media);
-    }
-
-    /**
-     * @return array
-     */
-    public function provideFileNameAndExtension()
-    {
-        return array(
-            array('test', 'jpg', 'fakeId1'),
-            array('image', 'png', 'fakeId2'),
-            array('fichier', 'pdf', 'fakeId3'),
-        );
-    }
-
-    /**
-     * @param string $name
-     * @param string $fileExtension
-     *
-     * @dataProvider provideFileName
-     */
-    public function testUploadMedia($name, $fileExtension)
-    {
-        $media = $this->createMockMedia($name, $fileExtension, '1');
-
-        $fileName = $media->getFilesystemName();
-
-        $this->mediaManager->uploadMedia($media);
-
-        $this->assertUploadMedia($media, $fileName);
-    }
-
-    /**
-     * @return array
-     */
-    public function provideFileName()
-    {
-        return array(
-            array('What-are-you-talking-about', 'jpg'),
-            array('rectangle-reference', 'jpg'),
+            $this->allowedMimeTypes,
+            $this->documentManager,
+            $this->folderRepository,
+            $this->mediaClass
         );
     }
 
