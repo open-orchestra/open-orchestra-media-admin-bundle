@@ -109,7 +109,7 @@ class MediaController extends BaseController
     public function uploadAction($folderId, Request $request)
     {
         $uploadedFile = $request->files->get('file');
-        $saveMediaManager = $this->get('open_orchestra_media.manager.save_media');
+        $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
         if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
