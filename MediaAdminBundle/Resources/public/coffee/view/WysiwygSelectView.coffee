@@ -4,7 +4,7 @@ WysiwygSelectView = OrchestraView.extend(
 
   events:
     'click #sendToTiny': 'sendToTiny'
-    'change #media_crop_format' : 'changeCropFormat'
+    'change #oo_media_crop_format' : 'changeCropFormat'
 
   initialize: (options) ->
     @options = @reduceOption(options, [
