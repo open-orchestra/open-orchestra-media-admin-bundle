@@ -114,7 +114,7 @@ class MediaController extends BaseController
         if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
             if ($saveMediaManager->isFileAllowed($filename)) {
-                $media = $this->container->get('open_orchestra_media.manager.media')
+                $media = $saveMediaManager
                     ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
 
                 return $this->get('open_orchestra_api.transformer_manager')

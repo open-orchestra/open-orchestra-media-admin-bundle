@@ -11,19 +11,29 @@ use OpenOrchestra\Media\Model\MediaInterface;
 interface SaveMediaManagerInterface
 {
     /**
-     * @param MediaInterface $media
-     */
-    public function saveMedia(MediaInterface $media);
-
-    /**
-     * @param MediaInterface $media
-     */
-    public function uploadMedia(MediaInterface $media);
-
-    /**
      * @param UploadedFile $uploadedFile
      * 
      * @return string|null
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile);
+
+    /**
+     * Return true if the file is allowed to be uploaded based on its mime type
+     * 
+     * @param $filename
+     * 
+     * @return bool
+     */
+    public function isFileAllowed($filename);
+
+    /**
+     * Create a media to fit an uploaded file
+     * 
+     * @param UploadedFile $uploadedFile
+     * @param string       $filename
+     * @param string       $folderId
+     * 
+     * @return MediaInterface
+     */
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId);
 }

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\Thumbnail\ThumbnailManager;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Flow\Basic as FlowBasic;
 
 /**
@@ -17,48 +19,35 @@ class SaveMediaManager implements SaveMediaManagerInterface
     protected $thumbnailManager;
     protected $uploadedMediaManager;
     protected $allowedMimeTypes;
+    protected $documentManager;
+    protected $folderRepository;
+    protected $mediaClass;
 
     /**
-     * @param string               $tmpDir
-     * @param ThumbnailManager     $thumbnailManager
-     * @param UploadedMediaManager $uploadedMediaManager
-     * @param array                $allowedMimeTypes
+     * @param string                    $tmpDir
+     * @param ThumbnailManager          $thumbnailManager
+     * @param UploadedMediaManager      $uploadedMediaManager
+     * @param array                     $allowedMimeTypes
+     * @param DocumentManager           $documentManager
+     * @param FolderRepositoryInterface $folderRepository
+     * @param string                    $mediaClass
      */
     public function __construct(
         $tmpDir,
         ThumbnailManager $thumbnailManager,
         UploadedMediaManager $uploadedMediaManager,
-        array $allowedMimeTypes
-    ){
+        array $allowedMimeTypes,
+        DocumentManager $documentManager,
+        FolderRepositoryInterface $folderRepository,
+        $mediaClass
+    ) {
         $this->tmpDir = $tmpDir;
         $this->thumbnailManager = $thumbnailManager;
         $this->uploadedMediaManager = $uploadedMediaManager;
         $this->allowedMimeTypes = $allowedMimeTypes;
-    }
-
-    /**
-     * @param MediaInterface $media
-     */
-    public function saveMedia(MediaInterface $media)
-    {
-        if (null !== ($file = $media->getFile())) {
-            $media->setName($file->getClientOriginalName());
-            $media->setMimeType($file->getClientMimeType());
-            $this->thumbnailManager->generateThumbnailName($media);
-        }
-    }
-
-    /**
-     * @param MediaInterface $media
-     */
-    public function uploadMedia(MediaInterface $media)
-    {
-         if (null !== $media->getFile()) {
-             $fileName = $media->getFilesystemName();
-             $tmpFilePath = $this->tmpDir . '/' . $fileName;
-             $this->uploadedMediaManager->uploadContent($fileName, file_get_contents($tmpFilePath));
-             $this->thumbnailManager->generateThumbnail($media);
-         }
+        $this->documentManager = $documentManager;
+        $this->folderRepository = $folderRepository;
+        $this->mediaClass = $mediaClass;
     }
 
     /**
@@ -97,4 +86,39 @@ class SaveMediaManager implements SaveMediaManagerInterface
 
         return in_array($fileMimeType, $this->allowedMimeTypes);
     }
+
+    /**
+     * Create a media to fit an uploaded file
+     * 
+     * @param UploadedFile $uploadedFile
+     * @param string       $filename
+     * @param string       $folderId
+     * 
+     * @return MediaInterface
+     */
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId)
+    {
+        $media = new $this->mediaClass();
+        $media->setFile($uploadedFile);
+        $media->setFilesystemName($filename);
+        $media->setMediaFolder($this->folderRepository->find($folderId));
+
+        if (null !== $uploadedFile) {
+            $media->setName($uploadedFile->getClientOriginalName());
+            $media->setMimeType($uploadedFile->getClientMimeType());
+            $this->thumbnailManager->generateThumbnailName($media);
+        }
+
+        $this->documentManager->persist($media);
+        $this->documentManager->flush();
+
+        if (null !== $uploadedFile) {
+            $tmpFilePath = $this->tmpDir . '/' . $filename;
+            $this->uploadedMediaManager->uploadContent($filename, file_get_contents($tmpFilePath));
+            $this->thumbnailManager->generateThumbnail($media);
+        }
+
+        return $media;
+    }
 }
+
