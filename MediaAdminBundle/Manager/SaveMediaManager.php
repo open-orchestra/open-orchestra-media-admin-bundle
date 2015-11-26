@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Manager;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\Media\Thumbnail\ThumbnailManager;
+use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailManager;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;

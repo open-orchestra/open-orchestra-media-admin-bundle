@@ -5,7 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\Media\Thumbnail\Strategies\ImageToThumbnailManager;
+use OpenOrchestra\MediaAdmin\Thumbnail\Strategies\ImageToThumbnailManager;
 use OpenOrchestra\MediaAdminBundle\Facade\MediaFacade;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

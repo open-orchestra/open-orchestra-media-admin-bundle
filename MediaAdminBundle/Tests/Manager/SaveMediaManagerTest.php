@@ -30,7 +30,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->tmpDir = __DIR__.'/images';
         $this->uploadedMediaManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager');
-        $this->thumbnailManager = Phake::mock('OpenOrchestra\Media\Thumbnail\ThumbnailManager');
+        $this->thumbnailManager = Phake::mock('OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailManager');
         $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
         $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
 
