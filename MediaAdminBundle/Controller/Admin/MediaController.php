@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
-use OpenOrchestra\Media\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;

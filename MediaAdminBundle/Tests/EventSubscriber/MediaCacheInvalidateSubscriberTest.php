@@ -32,7 +32,7 @@ class MediaCacheInvalidateSubscriberTest extends \PHPUnit_Framework_TestCase
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getId()->thenReturn($this->mediaId);
 
-        $this->event = Phake::mock('OpenOrchestra\Media\Event\MediaEvent');
+        $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
         Phake::when($this->event)->getMedia()->thenReturn($this->media);
     }
 

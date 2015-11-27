@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
-use OpenOrchestra\Media\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

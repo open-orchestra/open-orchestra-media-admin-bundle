@@ -3,9 +3,9 @@
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
 use OpenOrchestra\LogBundle\EventSubscriber\AbstractLogSubscriber;
-use OpenOrchestra\Media\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
-use OpenOrchestra\Media\Event\FolderEvent;
+use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\Media\Model\MediaInterface;

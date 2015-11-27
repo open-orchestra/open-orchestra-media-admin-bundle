@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
-use OpenOrchestra\Media\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\Manager\ImageResizerManager;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;

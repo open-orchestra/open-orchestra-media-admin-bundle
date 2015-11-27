@@ -28,7 +28,7 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->event = Phake::mock('OpenOrchestra\Media\Event\MediaEvent');
+        $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
 
         $this->imageResizerManager = Phake::mock('OpenOrchestra\MediaAdmin\Manager\ImageResizerManager');
 
