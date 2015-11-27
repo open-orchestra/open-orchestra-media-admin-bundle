@@ -7,7 +7,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailManager;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Flow\Basic as FlowBasic;
 
 /**
@@ -19,7 +19,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
     protected $thumbnailManager;
     protected $uploadedMediaManager;
     protected $allowedMimeTypes;
-    protected $documentManager;
+    protected $objectManager;
     protected $folderRepository;
     protected $mediaClass;
 
@@ -28,7 +28,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * @param ThumbnailManager          $thumbnailManager
      * @param UploadedMediaManager      $uploadedMediaManager
      * @param array                     $allowedMimeTypes
-     * @param DocumentManager           $documentManager
+     * @param objectManager             $objectManager
      * @param FolderRepositoryInterface $folderRepository
      * @param string                    $mediaClass
      */
@@ -37,7 +37,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         ThumbnailManager $thumbnailManager,
         UploadedMediaManager $uploadedMediaManager,
         array $allowedMimeTypes,
-        DocumentManager $documentManager,
+        ObjectManager $objectManager,
         FolderRepositoryInterface $folderRepository,
         $mediaClass
     ) {
@@ -45,7 +45,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $this->thumbnailManager = $thumbnailManager;
         $this->uploadedMediaManager = $uploadedMediaManager;
         $this->allowedMimeTypes = $allowedMimeTypes;
-        $this->documentManager = $documentManager;
+        $this->objectManager = $objectManager;
         $this->folderRepository = $folderRepository;
         $this->mediaClass = $mediaClass;
     }
@@ -109,8 +109,8 @@ class SaveMediaManager implements SaveMediaManagerInterface
             $this->thumbnailManager->generateThumbnailName($media);
         }
 
-        $this->documentManager->persist($media);
-        $this->documentManager->flush();
+        $this->objectManager->persist($media);
+        $this->objectManager->flush();
 
         if (null !== $uploadedFile) {
             $tmpFilePath = $this->tmpDir . '/' . $filename;

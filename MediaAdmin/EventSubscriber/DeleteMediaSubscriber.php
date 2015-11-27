@@ -69,5 +69,4 @@ class DeleteMediaSubscriber implements EventSubscriberInterface
             KernelEvents::TERMINATE => 'removeMedias',
         );
     }
-
 }

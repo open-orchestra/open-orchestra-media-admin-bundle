@@ -84,8 +84,6 @@ class ImageResizerManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->manager->crop($this->media, $x, $y, $h, $w, $format);
 
-//        TODO Check why travis sees two different strings
-//        $this->assertFileEquals($this->tmpDir . '/'. $format . '-reference-crop.jpg', $this->tmpDir . '/'. $format . '-' . $this->file);
         Phake::verify($this->dispatcher)->dispatch(Phake::anyParameters());
     }
 

@@ -20,7 +20,7 @@ interface SaveMediaManagerInterface
     /**
      * Return true if the file is allowed to be uploaded based on its mime type
      * 
-     * @param $filename
+     * @param string $filename
      * 
      * @return bool
      */

@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\Thumbnail\Strategies;
 
+use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -20,7 +21,7 @@ class ImageToThumbnailManager implements ThumbnailInterface
     /**
      * @param $tmpDir
      */
-    public function __construct($tmpDir, $dispatcher)
+    public function __construct($tmpDir, TraceableEventDispatcherInterface $dispatcher)
     {
         $this->tmpDir = $tmpDir;
         $this->dispatcher = $dispatcher;
