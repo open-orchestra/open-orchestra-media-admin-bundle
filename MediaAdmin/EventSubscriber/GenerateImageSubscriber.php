@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use OpenOrchestra\Media\Event\MediaEvent;
-use OpenOrchestra\Media\Manager\ImageResizerManager;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\Manager\ImageResizerManager;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;

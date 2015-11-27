@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
 use OpenOrchestra\MediaAdmin\EventSubscriber\DeleteMediaSubscriber;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use Phake;
 use Symfony\Component\HttpKernel\KernelEvents;
 

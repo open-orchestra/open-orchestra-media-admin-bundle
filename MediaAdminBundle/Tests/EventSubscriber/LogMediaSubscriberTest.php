@@ -5,8 +5,8 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 use OpenOrchestra\LogBundle\Tests\EventSubscriber\LogAbstractSubscriberTest;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber;
 use Phake;
-use OpenOrchestra\Media\FolderEvents;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\FolderEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 
 /**
  * Class LogMediaSubscriberTest

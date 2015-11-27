@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\Thumbnail\Strategies;
 
 use OpenOrchestra\Media\Event\MediaEvent;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailInterface;
 

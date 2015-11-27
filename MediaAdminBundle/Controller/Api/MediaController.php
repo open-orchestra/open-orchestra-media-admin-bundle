@@ -5,7 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\Media\Event\MediaEvent;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\MediaNotDeletableException;

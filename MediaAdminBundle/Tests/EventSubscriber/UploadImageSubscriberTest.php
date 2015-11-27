@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
 use Phake;
 use OpenOrchestra\MediaAdmin\EventSubscriber\UploadImageSubscriber;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 
 /**
  * Class UploadImageSubscriberTest
@@ -24,7 +24,7 @@ class UploadImageSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $this->subscriber = new UploadImageSubscriber($this->uploadedMediaManager);
 
-        $this->event = Phake::mock('OpenOrchestra\Media\Event\ImagickEvent');
+        $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\ImagickEvent');
     }
 
     /**

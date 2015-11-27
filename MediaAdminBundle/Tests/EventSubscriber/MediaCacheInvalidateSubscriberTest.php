@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
 use Phake;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 
 /**
  * Class MediaCacheInvalidateSubscriberTest

@@ -5,7 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\Media\Event\FolderEvent;
-use OpenOrchestra\Media\FolderEvents;
+use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\FolderNotDeletableException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Response;

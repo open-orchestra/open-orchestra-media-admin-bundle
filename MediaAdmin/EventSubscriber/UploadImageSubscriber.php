@@ -4,8 +4,8 @@ namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use OpenOrchestra\Media\MediaEvents;
-use OpenOrchestra\Media\Event\ImagickEvent;
+use OpenOrchestra\MediaAdmin\MediaEvents;
+use OpenOrchestra\MediaAdmin\Event\ImagickEvent;
 
 /**
  * Class UploadImageSubscriber

@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Event\MediaEvent;
 use OpenOrchestra\DisplayBundle\Manager\CacheableManager;
 use OpenOrchestra\BaseBundle\Manager\TagManager;

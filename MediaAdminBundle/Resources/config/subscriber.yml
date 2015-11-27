@@ -30,7 +30,7 @@ services:
     open_orchestra_media_admin.subscriber.generate_image:
         class: %open_orchestra_media_admin.subscriber.generate_image.class%
         arguments:
-            - @open_orchestra_media.manager.image_resizer
+            - @open_orchestra_media_admin.manager.image_resizer
         tags:
              - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.delete_media:

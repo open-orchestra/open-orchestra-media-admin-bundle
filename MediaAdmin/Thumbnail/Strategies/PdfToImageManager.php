@@ -2,8 +2,8 @@
 
 namespace OpenOrchestra\MediaAdmin\Thumbnail\Strategies;
 
-use OpenOrchestra\Media\Imagick\OrchestraImagickFactoryInterface;
-use OpenOrchestra\Media\Imagick\OrchestraImagickInterface;
+use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickFactoryInterface;
+use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailInterface;
 

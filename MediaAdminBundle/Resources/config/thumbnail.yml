@@ -12,7 +12,7 @@ services:
         arguments:
             - %open_orchestra_media.tmp_dir%
             - %media.directory%
-            - @open_orchestra_media.imagick.factory
+            - @open_orchestra_media_admin.imagick.factory
         tags:
             - { name: open_orchestra_media_admin.thumbnail.strategy }
     open_orchestra_media_admin.thumbnail.video_to_image:

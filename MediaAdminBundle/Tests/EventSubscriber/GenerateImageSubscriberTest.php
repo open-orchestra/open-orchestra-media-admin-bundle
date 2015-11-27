@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
 use Phake;
 use OpenOrchestra\MediaAdmin\EventSubscriber\GenerateImageSubscriber;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -30,7 +30,7 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
     {
         $this->event = Phake::mock('OpenOrchestra\Media\Event\MediaEvent');
 
-        $this->imageResizerManager = Phake::mock('OpenOrchestra\Media\Manager\ImageResizerManager');
+        $this->imageResizerManager = Phake::mock('OpenOrchestra\MediaAdmin\Manager\ImageResizerManager');
 
         $this->media1 = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media1)->getFilesystemName()->thenReturn($this->file1);

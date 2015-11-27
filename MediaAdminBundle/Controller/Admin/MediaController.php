@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use OpenOrchestra\Media\Event\MediaEvent;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +50,7 @@ class MediaController extends AbstractAdminController
                 $uploadedMediaManager->getFileContent($filename)
             );
 
-            $this->get('open_orchestra_media.manager.image_resizer')->crop(
+            $this->get('open_orchestra_media_admin.manager.image_resizer')->crop(
                 $media,
                 $data['x'],
                 $data['y'],
@@ -97,7 +97,7 @@ class MediaController extends AbstractAdminController
             $file = $form->getData()->getFile();
             $tmpDir = $this->container->getParameter('open_orchestra_media.tmp_dir');
             $file->move($tmpDir, $format . '-' . $media->getFilesystemName());
-            $this->get('open_orchestra_media.manager.image_resizer')->override($media, $format);
+            $this->get('open_orchestra_media_admin.manager.image_resizer')->override($media, $format);
 
             $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
         }
