@@ -19,7 +19,22 @@ class OpenOrchestraMediaAdminExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
+        $thumbnail = $config['thumbnail'];
+        $thumbnail['media_thumbnail'] = array('max_width' => '117', 'max_height' => '117');
+        $container->setParameter('open_orchestra_media_admin.thumbnail.configuration', $thumbnail);
+        $container->setParameter(
+            'open_orchestra_media_admin.resize.compression_quality',
+            $config['compression_quality']
+        );
+
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
+        );
         $loader->load('transformer.yml');
         $loader->load('navigation_panel.yml');
         $loader->load('subscriber.yml');
@@ -30,6 +45,9 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('display.yml');
         $loader->load('icon.yml');
         $loader->load('extract_reference.yml');
+        $loader->load('thumbnail.yml');
+        $loader->load('service.yml');
+        $loader->load('mime_type.yml');
 
         $this->addMediaFieldType($container);
     }

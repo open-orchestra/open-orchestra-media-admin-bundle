@@ -1,0 +1,15 @@
+parameters:
+    open_orchestra_media_admin.ffmpeg_video.manager.class: OpenOrchestra\MediaAdmin\Video\FFmpegVideoManager
+    ffmpeg.factory.class: FFMpeg\FFMpeg
+    open_orchestra_media_admin.imagick.factory.class: OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickFactory
+
+services:
+    ffmpeg.video:
+        class: %ffmpeg.factory.class%
+        factory: [%ffmpeg.factory.class%, create]
+    open_orchestra_media_admin.ffmpeg_video.manager:
+        class: %open_orchestra_media_admin.ffmpeg_video.manager.class%
+        arguments:
+            - @ffmpeg.video
+    open_orchestra_media_admin.imagick.factory:
+        class: %open_orchestra_media_admin.imagick.factory.class%

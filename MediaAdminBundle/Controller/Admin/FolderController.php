@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
-use OpenOrchestra\Media\Event\FolderEvent;
-use OpenOrchestra\Media\FolderEvents;
+use OpenOrchestra\MediaAdmin\Event\FolderEvent;
+use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

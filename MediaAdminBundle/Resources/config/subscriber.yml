@@ -2,6 +2,9 @@ parameters:
     open_orchestra_media_admin.subscriber.update_media_reference.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber
     open_orchestra_media_admin.subscriber.media_cache_invalidate.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
     open_orchestra_log.subscriber.media.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
+    open_orchestra_media_admin.subscriber.generate_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\GenerateImageSubscriber
+    open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\DeleteMediaSubscriber
+    open_orchestra_media_admin.subscriber.upload_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\UploadImageSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.update_media_reference:
@@ -24,3 +27,22 @@ services:
         tags:
             - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: openorchestra }
+    open_orchestra_media_admin.subscriber.generate_image:
+        class: %open_orchestra_media_admin.subscriber.generate_image.class%
+        arguments:
+            - @open_orchestra_media_admin.manager.image_resizer
+        tags:
+             - { name: kernel.event_subscriber }
+    open_orchestra_media_admin.subscriber.delete_media:
+        class: %open_orchestra_media_admin.subscriber.delete_media.class%
+        arguments:
+            - @open_orchestra_media_file.manager.uploaded_media
+            - %open_orchestra_media_admin.thumbnail.configuration%
+        tags:
+            - { name: kernel.event_subscriber }
+    open_orchestra_media_admin.subscriber.upload_image:
+        class: %open_orchestra_media_admin.subscriber.upload_image.class%
+        arguments:
+            - @open_orchestra_media_file.manager.uploaded_media
+        tags:
+             - { name: kernel.event_subscriber }

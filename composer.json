@@ -13,7 +13,9 @@
         "open-orchestra/open-orchestra-cms-bundle": "*",
         "open-orchestra/open-orchestra-media-bundle": "*",
         "open-orchestra/open-orchestra-media-file-bundle": "*",
-        "flowjs/flow-php-server": "*"
+        "flowjs/flow-php-server": "*",
+        "ext-imagick": "*",
+        "php-ffmpeg/php-ffmpeg": "~0.6"
     },
     "require-dev": {
         "open-orchestra/open-orchestra-model-bundle": "dev-master",
@@ -27,7 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "OpenOrchestra\\MediaAdminBundle\\": "MediaAdminBundle/"
+            "OpenOrchestra\\MediaAdminBundle\\": "MediaAdminBundle/",
+            "OpenOrchestra\\MediaAdmin\\": "MediaAdmin/"
         }
     }
 }

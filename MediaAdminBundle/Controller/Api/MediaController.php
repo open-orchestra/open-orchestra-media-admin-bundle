@@ -4,8 +4,8 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\Media\Event\MediaEvent;
-use OpenOrchestra\Media\MediaEvents;
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\MediaNotDeletableException;
@@ -109,12 +109,12 @@ class MediaController extends BaseController
     public function uploadAction($folderId, Request $request)
     {
         $uploadedFile = $request->files->get('file');
-        $saveMediaManager = $this->get('open_orchestra_media.manager.save_media');
+        $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
         if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
             if ($saveMediaManager->isFileAllowed($filename)) {
-                $media = $this->container->get('open_orchestra_media.manager.media')
+                $media = $saveMediaManager
                     ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
 
                 return $this->get('open_orchestra_api.transformer_manager')
