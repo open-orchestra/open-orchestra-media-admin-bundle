@@ -46,7 +46,7 @@ class MediaController extends AbstractAdminController
             $uploadedMediaManager = $this->get('open_orchestra_media_file.manager.uploaded_media');
             $filename = $media->getFilesystemName();
             $this->get('filesystem')->dumpFile(
-                $this->container->getParameter('open_orchestra_media.tmp_dir') . '/' . $filename,
+                $this->container->getParameter('open_orchestra_media_admin.tmp_dir') . '/' . $filename,
                 $uploadedMediaManager->getFileContent($filename)
             );
 
@@ -95,7 +95,7 @@ class MediaController extends AbstractAdminController
 
         if ($form->isValid()) {
             $file = $form->getData()->getFile();
-            $tmpDir = $this->container->getParameter('open_orchestra_media.tmp_dir');
+            $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
             $file->move($tmpDir, $format . '-' . $media->getFilesystemName());
             $this->get('open_orchestra_media_admin.manager.image_resizer')->override($media, $format);
 

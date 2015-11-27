@@ -37,7 +37,7 @@ services:
         class: %open_orchestra_media_admin.subscriber.delete_media.class%
         arguments:
             - @open_orchestra_media_file.manager.uploaded_media
-            - %open_orchestra_media.thumbnail.configuration%
+            - %open_orchestra_media_admin.thumbnail.configuration%
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.upload_image:

@@ -11,7 +11,7 @@ services:
     open_orchestra_media_admin.manager.save_media:
         class: %open_orchestra_media_admin.manager.save_media.class%
         arguments:
-            - %open_orchestra_media.tmp_dir%
+            - %open_orchestra_media_admin.tmp_dir%
             - @open_orchestra_media_admin.thumbnail_manager
             - @open_orchestra_media_file.manager.uploaded_media
             - %open_orchestra_media_admin.allowed_mime_type%
@@ -21,8 +21,8 @@ services:
     open_orchestra_media_admin.manager.image_resizer:
         class: %open_orchestra_media_admin.manager.image_resizer.class%
         arguments:
-            - %open_orchestra_media.tmp_dir%
-            - %open_orchestra_media.thumbnail.configuration%
-            - %open_orchestra_media.resize.compression_quality%
+            - %open_orchestra_media_admin.tmp_dir%
+            - %open_orchestra_media_admin.thumbnail.configuration%
+            - %open_orchestra_media_admin.resize.compression_quality%
             - @event_dispatcher
             - @open_orchestra_media_admin.imagick.factory

@@ -10,7 +10,7 @@ services:
     open_orchestra_media_admin.thumbnail.pdf_to_image:
         class: %open_orchestra_media_admin.thumbnail.pdf_to_image.class%
         arguments:
-            - %open_orchestra_media.tmp_dir%
+            - %open_orchestra_media_admin.tmp_dir%
             - %media.directory%
             - @open_orchestra_media_admin.imagick.factory
         tags:
@@ -18,7 +18,7 @@ services:
     open_orchestra_media_admin.thumbnail.video_to_image:
         class: %open_orchestra_media_admin.thumbnail.video_to_image.class%
         arguments:
-            - %open_orchestra_media.tmp_dir%
+            - %open_orchestra_media_admin.tmp_dir%
             - %media.directory%
             - @open_orchestra_media_admin.ffmpeg_video.manager
         tags:
@@ -26,7 +26,7 @@ services:
     open_orchestra_media_admin.thumbnail.image_to_thumbnail:
         class: %open_orchestra_media_admin.thumbnail.image_to_thumbnail.class%
         arguments:
-            - %open_orchestra_media.tmp_dir%
+            - %open_orchestra_media_admin.tmp_dir%
             - @event_dispatcher
         tags:
             - { name: open_orchestra_media_admin.thumbnail.strategy }
