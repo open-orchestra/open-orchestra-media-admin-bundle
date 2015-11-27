@@ -19,7 +19,7 @@ services:
         class: %open_orchestra_media_admin.type.media.class%
         arguments:
             - %open_orchestra_media.document.media.class%
-            - %open_orchestra_media.allowed_mime_type%
+            - %open_orchestra_media_admin.allowed_mime_type%
         tags:
             - { name: form.type, alias: oo_media}
     open_orchestra_media_admin.type.folder:

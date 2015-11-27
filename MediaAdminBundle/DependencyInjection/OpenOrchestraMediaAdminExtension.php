@@ -32,6 +32,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('extract_reference.yml');
         $loader->load('thumbnail.yml');
         $loader->load('service.yml');
+        $loader->load('mime_type.yml');
 
         $this->addMediaFieldType($container);
     }
