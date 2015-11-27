@@ -19,7 +19,8 @@ class ImageToThumbnailManager implements ThumbnailInterface
     protected $dispatcher;
 
     /**
-     * @param $tmpDir
+     * @param string                            $tmpDir
+     * @param TraceableEventDispatcherInterface $dispatcher
      */
     public function __construct($tmpDir, TraceableEventDispatcherInterface $dispatcher)
     {
