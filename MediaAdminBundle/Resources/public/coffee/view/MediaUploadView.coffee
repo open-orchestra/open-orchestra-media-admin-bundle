@@ -20,7 +20,9 @@ MediaUploadView = OrchestraView.extend(
     return
 
   render: ->
-    @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaUploadView')
+    @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaUploadView',
+       listUrl : @options.listUrl
+    )
     @options.domContainer.html @$el
     $('.js-widget-title', @options.domContainer).html @options.title
     @renderSubmitFile()
@@ -79,7 +81,7 @@ MediaUploadView = OrchestraView.extend(
     @r.on 'fileSuccess', (file, message) ->
       $self = $('.flow-file-' + file.uniqueIdentifier)
       $self.find('.flow-file-progress').text '(' + $('#uploadCompleted').text() + ')'
-      $self.find('.flow-file-pause, .flow-file-resume').remove()
+      $self.find('.flow-file-pause, .flow-file-resume, .flow-file-cancel').remove()
       return
 
     @r.on 'fileError', (file, message) ->
