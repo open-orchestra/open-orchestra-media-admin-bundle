@@ -78,16 +78,4 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
         $this->subscriber->addMedia($this->event);
         $this->assertCount(2, $this->subscriber->medias);
     }
-
-    /**
-     * Test image generation
-     */
-    public function testGenerateImage()
-    {
-        $this->subscriber->medias[] = $this->media1;
-
-        $this->subscriber->generateImages();
-
-        Phake::verify($this->imagickImageManager)->generateAllThumbnails($this->media1);
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,13 +16,18 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
 {
     public $medias = array();
     protected $fileAlternativesManager;
+    protected $objectManager;
 
     /**
      * @param fileAlternativesManager  $fileAlternativesManager
+     * @param ObjectManager            $objectManager
      */
-    public function __construct(FileAlternativesManager $fileAlternativesManager)
-    {
+    public function __construct(
+        FileAlternativesManager $fileAlternativesManager,
+        ObjectManager $objectManager
+    ) {
         $this->fileAlternativesManager = $fileAlternativesManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -31,6 +37,8 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
     {
         $media = $event->getMedia();
         $this->medias[] = $media;
+            $media = $this->fileAlternativesManager->generateThumbnail($media);
+            $media = $this->fileAlternativesManager->generateAlternatives($media);
     }
 
     /**
@@ -40,10 +48,11 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
     {
         /** @var MediaInterface $media */
         foreach ($this->medias as $media) {
-            $media = $this->fileAlternativesManager->generateThumbnail($media);
-            $media = $this->fileAlternativesManager->generateAlternatives($media);
-            // Todo: Flush updated media with thumbnailname
+//            $media = $this->fileAlternativesManager->generateThumbnail($media);
+//            $media = $this->fileAlternativesManager->generateAlternatives($media);
         }
+
+        $this->objectManager->flush();
     }
 
     /**

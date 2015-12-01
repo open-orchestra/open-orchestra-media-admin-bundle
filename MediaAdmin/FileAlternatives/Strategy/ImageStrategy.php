@@ -2,8 +2,9 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
+use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class ImageStrategy
@@ -11,6 +12,26 @@ use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 class ImageStrategy implements FileAlternativesStrategyInterface
 {
     const MIME_TYPE_FRAGMENT_IMAGE = 'image';
+
+    protected $imageManager;
+    protected $tmpDir;
+    protected $thumbnailFormat;
+    protected $formats;
+
+    /**
+     * @param ImageManagerInterface $imageManager
+     */
+    public function __construct(
+        ImageManagerInterface $imageManager,
+        $tmpDir,
+        $thumbnailFormat,
+        array $formats
+    ) {
+        $this->imageManager = $imageManager;
+        $this->tmpDir = $tmpDir;
+        $this->thumbnailFormat = $thumbnailFormat;
+        $this->formats = $formats;
+    }
 
     /**
      * @param MediaInterface $media
@@ -29,15 +50,25 @@ class ImageStrategy implements FileAlternativesStrategyInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
-        $media->setThumbnail($media->getFilesystemName()); // <= good practice to generate thumbnail name ????
-        // TODO: generate file
+        $this->imageManager->generateAlternative(
+            $media,
+            self::THUMBNAIL_PREFIX,
+            $this->thumbnailFormat
+        );
+        $media->setThumbnail(self::THUMBNAIL_PREFIX . '-' . $media->getFilesystemName());
 
         return $media;
     }
 
     public function generateAlternatives(MediaInterface $media)
     {
-        // TODO: generate alternatives
+        $filePath = $this->tmpDir . '/' . $media->getFilesystemName();
+
+        foreach ($this->formats as $key => $format) {
+            $this->imageManager->resizeAndSaveImage($media, $key, $filePath);
+        }
+
+        unlink($filePath);
 
         return $media;
     }

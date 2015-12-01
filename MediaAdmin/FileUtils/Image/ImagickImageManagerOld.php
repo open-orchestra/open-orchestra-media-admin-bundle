@@ -7,6 +7,6 @@ use \Imagick;
 /**
  * Class ImagickImageManagerOld
  */
-class ImagickImageManagerOld extends Imagick implements ImageManagerOldInterface
+class ImagickImageManagerOld extends Imagick
 {
 }

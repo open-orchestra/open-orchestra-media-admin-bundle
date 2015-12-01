@@ -11,6 +11,15 @@ use OpenOrchestra\Media\Model\MediaInterface;
 class FileAlternativesManager
 {
     protected $strategies = array();
+    protected $defaultStrategy;
+
+    /**
+     * @param FileAlternativesStrategyInterface $defaultStrategy
+     */
+    public function __construct(FileAlternativesStrategyInterface $defaultStrategy)
+    {
+        $this->defaultStrategy = $defaultStrategy;
+    }
 
     /**
      * Add $strategy to the manager
@@ -37,7 +46,7 @@ class FileAlternativesManager
             }
         }
 
-        return $media;
+        return $this->defaultStrategy->generateThumbnail($media);
     }
 
     /**

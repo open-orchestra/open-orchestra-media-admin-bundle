@@ -51,5 +51,6 @@ services:
         class: %open_orchestra_media_admin.subscriber.media_file_modified.class%
         arguments:
             - @open_orchestra_media_admin.file_alternatives.manager
+            - @object_manager
         tags:
              - { name: kernel.event_subscriber }

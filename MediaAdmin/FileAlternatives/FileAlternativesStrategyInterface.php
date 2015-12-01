@@ -9,7 +9,9 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 interface FileAlternativesStrategyInterface
 {
-    public function generateThumbnail(MediaInterface $media);
+     const THUMBNAIL_PREFIX = 'thumbnail';
+
+     public function generateThumbnail(MediaInterface $media);
 
     public function generateAlternatives(MediaInterface $media);
 }

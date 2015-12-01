@@ -5,7 +5,6 @@ namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 use Imagick;
 use OpenOrchestra\MediaAdmin\Event\ImagickEvent;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -44,18 +43,6 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * @param MediaInterface $media
-     */
-    public function generateAllThumbnails(MediaInterface $media)
-    {
-        $filePath = $this->tmpDir . '/' . $media->getFilesystemName();
-        foreach ($this->formats as $key => $format) {
-            $this->resizeAndSaveImage($media, $key, $filePath);
-        }
-        unlink($filePath);
-    }
-
-    /**
-     * @param MediaInterface $media
      * @param int            $x
      * @param int            $y
      * @param int            $h
@@ -83,11 +70,11 @@ class ImagickImageManager implements ImageManagerInterface
     }
 
     /**
-     * @param MediaInterface           $media
-     * @param ImageManagerOldInterface $image
-     * @param string                   $key
+     * @param MediaInterface $media
+     * @param Imagick        $image
+     * @param string         $key
      */
-    protected function saveImage(MediaInterface $media, ImageManagerOldInterface $image, $key)
+    protected function saveImage(MediaInterface $media, Imagick $image, $key)
     {
         $image->setImageCompression(Imagick::COMPRESSION_JPEG);
         $image->setImageCompressionQuality($this->compressionQuality);
@@ -101,10 +88,10 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Resize an image keeping its ratio
      *
-     * @param string                   $format
-     * @param ImageManagerOldInterface $image
+     * @param array   $format
+     * @param Imagick $image
      */
-    protected function resizeImage($format, ImageManagerOldInterface $image)
+    protected function resizeImage($format, Imagick $image)
     {
         $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
         $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
@@ -125,10 +112,10 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Resize an image keeping its ratio to the width $width
      * 
-     * @param ImageManagerOldInterface $image
-     * @param int                      $width
+     * @param Imagick $image
+     * @param int     $width
      */
-    protected function resizeOnWidth(ImageManagerOldInterface $image, $width)
+    protected function resizeOnWidth(Imagick $image, $width)
     {
         $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
     }
@@ -136,24 +123,33 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Resize an image keeping its ratio to the height $height
      * 
-     * @param ImageManagerOldInterface $image
-     * @param int                      $height
+     * @param Imagick $image
+     * @param int     $height
      */
-    protected function resizeOnHeight(ImageManagerOldInterface $image, $height)
+    protected function resizeOnHeight(Imagick $image, $height)
     {
         $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
     }
 
     /**
      * @param MediaInterface $media
-     * @param $format
-     * @param $filePath
+     * @param string         $format
+     * @param string         $filePath
      */
-    protected function resizeAndSaveImage(MediaInterface $media, $format, $filePath)
+    public function resizeAndSaveImage(MediaInterface $media, $format, $filePath)
     {
         $image = $this->imagickFactory->create($filePath);
         $this->resizeImage($this->formats[$format], $image);
 
         $this->saveImage($media, $image, $format);
+    }
+
+    public function generateAlternative(MediaInterface $media, $formatName, $formatSize)
+    {
+        $filePath = $this->tmpDir . '/' . $media->getFilesystemName();
+        $image = $this->imagickFactory->create($filePath);
+        $this->resizeImage($formatSize, $image);
+
+        $this->saveImage($media, $image, $formatName);
     }
 }

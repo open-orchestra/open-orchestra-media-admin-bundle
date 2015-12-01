@@ -53,7 +53,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->alt = $this->translationChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
 
-        $facade->displayedImage = $this->generateMediaUrl($mixed->getThumbnail());
+        $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
         if (strpos($mixed->getMimeType(), ImageToThumbnailManager::MIME_TYPE_FRAGMENT_IMAGE) === 0) {
             foreach ($this->thumbnailConfig as $format => $thumbnail) {
                 $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));

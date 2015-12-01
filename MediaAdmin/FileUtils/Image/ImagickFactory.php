@@ -12,7 +12,7 @@ class ImagickFactory
     /**
      * @param mixed|null $files
      *
-     * @return ImageManagerOldInterface
+     * @return Imagick
      */
     public function create($files = null)
     {

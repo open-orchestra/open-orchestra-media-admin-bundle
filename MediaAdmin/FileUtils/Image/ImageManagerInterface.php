@@ -24,4 +24,11 @@ interface ImageManagerInterface
      * @param string         $format
      */
     public function override(MediaInterface $media, $format);
+
+    /**
+     * @param MediaInterface $media
+     * @param string         $format
+     * @param string         $filePath
+     */
+    public function resizeAndSaveImage(MediaInterface $media, $format, $filePath);
 }

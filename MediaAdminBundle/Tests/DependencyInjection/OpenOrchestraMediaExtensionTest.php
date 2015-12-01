@@ -45,15 +45,13 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
                 array(
                 'max_height' => array('max_height' => 100),
                 'max_width' => array('max_width' => 100),
-                'rectangle' => array('max_width' => 100, 'max_height' => 70),
-                'media_thumbnail' => array('max_width' => 117, 'max_height' => 117),
+                'rectangle' => array('max_width' => 100, 'max_height' => 70)
             )),
             array('value', 'fake_tmp', 10000,
                 array(
                 'max_height' => array('max_height' => 5000),
                 'max_width' => array('max_width' => 5000),
-                'rectangle' => array('max_width' => 5000, 'max_height' => 5000),
-                'media_thumbnail' => array('max_width' => 117, 'max_height' => 117),
+                'rectangle' => array('max_width' => 5000, 'max_height' => 5000)
             ))
         );
     }
