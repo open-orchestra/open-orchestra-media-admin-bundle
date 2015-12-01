@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Video;
+namespace OpenOrchestra\MediaAdmin\FileUtils\Video;
 
 /**
  * Interface VideoManagerInterface

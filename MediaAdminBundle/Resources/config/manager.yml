@@ -12,12 +12,12 @@ services:
         class: %open_orchestra_media_admin.manager.save_media.class%
         arguments:
             - %open_orchestra_media_admin.tmp_dir%
-            - @open_orchestra_media_admin.thumbnail_manager
             - @open_orchestra_media_file.manager.uploaded_media
             - %open_orchestra_media_admin.allowed_mime_type%
             - @object_manager
             - @open_orchestra_media.repository.media_folder
             - %open_orchestra_media.document.media.class%
+            - @event_dispatcher
     open_orchestra_media_admin.manager.image_resizer:
         class: %open_orchestra_media_admin.manager.image_resizer.class%
         arguments:

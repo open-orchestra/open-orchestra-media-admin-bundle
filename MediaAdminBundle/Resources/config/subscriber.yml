@@ -5,6 +5,7 @@ parameters:
     open_orchestra_media_admin.subscriber.generate_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\GenerateImageSubscriber
     open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\DeleteMediaSubscriber
     open_orchestra_media_admin.subscriber.upload_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\UploadImageSubscriber
+    open_orchestra_media_admin.subscriber.media_file_modified.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaFileModifiedSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.update_media_reference:
@@ -44,5 +45,11 @@ services:
         class: %open_orchestra_media_admin.subscriber.upload_image.class%
         arguments:
             - @open_orchestra_media_file.manager.uploaded_media
+        tags:
+             - { name: kernel.event_subscriber }
+    open_orchestra_media_admin.subscriber.media_file_modified:
+        class: %open_orchestra_media_admin.subscriber.media_file_modified.class%
+        arguments:
+            - @open_orchestra_media_admin.file_alternatives.manager
         tags:
              - { name: kernel.event_subscriber }

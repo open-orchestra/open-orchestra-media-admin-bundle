@@ -1,11 +1,11 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Imagick;
+namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 /**
- * Interface OrchestraImagickInterface
+ * Interface ImageManagerInterface
  */
-interface OrchestraImagickInterface
+interface ImageManagerInterface
 {
     /**
      * @param mixed|null $files

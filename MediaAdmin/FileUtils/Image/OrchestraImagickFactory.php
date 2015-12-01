@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Imagick;
+namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 /**
  * Class OrchestraImagickFactory
@@ -10,7 +10,7 @@ class OrchestraImagickFactory implements OrchestraImagickFactoryInterface
     /**
      * @param mixed|null $files
      *
-     * @return OrchestraImagickInterface
+     * @return ImageManagerInterface
      */
     public function create($files = null)
     {

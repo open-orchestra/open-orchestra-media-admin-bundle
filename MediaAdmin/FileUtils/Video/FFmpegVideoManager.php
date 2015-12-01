@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Video;
+namespace OpenOrchestra\MediaAdmin\FileUtils\Video;
 
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\TimeCode;
@@ -29,6 +29,6 @@ class FFmpegVideoManager implements VideoManagerInterface
     {
         $video = $this->ffmpeg->open($pathVideo);
         $video->frame(TimeCode::fromSeconds($timeFrame))
-              ->save($pathFrame);
+            ->save($pathFrame);
     }
 }

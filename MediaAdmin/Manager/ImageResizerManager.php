@@ -4,8 +4,8 @@ namespace OpenOrchestra\MediaAdmin\Manager;
 
 use Imagick;
 use OpenOrchestra\MediaAdmin\Event\ImagickEvent;
-use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickFactoryInterface;
-use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactoryInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -84,10 +84,10 @@ class ImageResizerManager
 
     /**
      * @param MediaInterface            $media
-     * @param OrchestraImagickInterface $image
+     * @param ImageManagerInterface     $image
      * @param string                    $key
      */
-    protected function saveImage(MediaInterface $media, OrchestraImagickInterface $image, $key)
+    protected function saveImage(MediaInterface $media, ImageManagerInterface $image, $key)
     {
         $image->setImageCompression(Imagick::COMPRESSION_JPEG);
         $image->setImageCompressionQuality($this->compressionQuality);
@@ -101,10 +101,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio
      *
-     * @param string                    $format
-     * @param OrchestraImagickInterface $image
+     * @param string                $format
+     * @param ImageManagerInterface $image
      */
-    protected function resizeImage($format, OrchestraImagickInterface $image)
+    protected function resizeImage($format, ImageManagerInterface $image)
     {
         $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
         $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
@@ -125,10 +125,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio to the width $width
      * 
-     * @param OrchestraImagickInterface $image
-     * @param int                       $width
+     * @param ImageManagerInterface $image
+     * @param int                   $width
      */
-    protected function resizeOnWidth(OrchestraImagickInterface $image, $width)
+    protected function resizeOnWidth(ImageManagerInterface $image, $width)
     {
         $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
     }
@@ -136,10 +136,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio to the height $height
      * 
-     * @param OrchestraImagickInterface $image
-     * @param int                       $height
+     * @param ImageManagerInterface $image
+     * @param int                   $height
      */
-    protected function resizeOnHeight(OrchestraImagickInterface $image, $height)
+    protected function resizeOnHeight(ImageManagerInterface $image, $height)
     {
         $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
     }

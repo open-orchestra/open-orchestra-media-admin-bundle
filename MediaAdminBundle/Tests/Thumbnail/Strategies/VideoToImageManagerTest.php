@@ -21,7 +21,7 @@ class VideoToImageManagerTest extends AbstractStrategyTest
     {
         parent::setUp();
 
-        $this->videoManager = Phake::mock('OpenOrchestra\MediaAdmin\Video\VideoManagerInterface');
+        $this->videoManager = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface');
         $this->manager = new VideoToImageManager($this->tmpDir, $this->tmpDir, $this->videoManager);
     }
 

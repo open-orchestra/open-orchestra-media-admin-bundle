@@ -1,0 +1,11 @@
+parameters:
+    open_orchestra_media_admin.file_alternatives.manager.class: OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager
+    open_orchestra_media_admin.file_alternatives.strategy.image.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy
+
+services:
+    open_orchestra_media_admin.file_alternatives.manager:
+        class: %open_orchestra_media_admin.file_alternatives.manager.class%
+    open_orchestra_media_admin.file_alternatives.strategy.image:
+        class: %open_orchestra_media_admin.file_alternatives.strategy.image.class%
+        tags:
+            - { name: open_orchestra_media_admin.file_alternatives.strategy }

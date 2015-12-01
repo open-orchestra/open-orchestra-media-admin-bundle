@@ -4,7 +4,7 @@ namespace OpenOrchestra\MediaAdmin\Thumbnail\Strategies;
 
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailInterface;
-use OpenOrchestra\MediaAdmin\Video\VideoManagerInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface;
 
 /**
  * Class VideoToImageManager

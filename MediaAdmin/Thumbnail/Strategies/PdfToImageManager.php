@@ -2,8 +2,8 @@
 
 namespace OpenOrchestra\MediaAdmin\Thumbnail\Strategies;
 
-use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickFactoryInterface;
-use OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactoryInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailInterface;
 
@@ -67,12 +67,12 @@ class PdfToImageManager implements ThumbnailInterface
     }
 
     /**
-     * @param OrchestraImagickInterface $imagick
-     * @param MediaInterface $media
+     * @param ImageManagerInterface $imagick
+     * @param MediaInterface        $media
      *
      * @return MediaInterface
      */
-    protected function createThumbnail(OrchestraImagickInterface $imagick, MediaInterface $media)
+    protected function createThumbnail(ImageManagerInterface $imagick, MediaInterface $media)
     {
         $imagick->setImageFormat('jpg');
         $imagick->setCompression(75);

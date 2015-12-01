@@ -51,8 +51,8 @@ class ImageResizerManagerTest extends \PHPUnit_Framework_TestCase
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->file);
 
-        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickFactory');
-        $imagick = Phake::mock('OpenOrchestra\MediaAdmin\Imagick\OrchestraImagickInterface');
+        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactory');
+        $imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface');
         Phake::when($imagick)->getImageWidth()->thenReturn($this->imageWidth);
         Phake::when($imagick)->getImageHeight()->thenReturn($this->imageHeight);
         Phake::when($imagickFactory)->create(Phake::anyParameters())->thenReturn($imagick);
