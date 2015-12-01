@@ -2,6 +2,8 @@
 
 namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
+use OpenOrchestra\Media\Model\MediaInterface;
+
 /**
  * Interface ImageManagerInterface
  */

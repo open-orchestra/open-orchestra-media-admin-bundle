@@ -30,7 +30,7 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
     {
         $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
 
-        $this->imagickImageManager = Phake::mock('OpenOrchestra\MediaAdmin\Manager\ImagickImageManager');
+        $this->imagickImageManager = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManager');
 
         $this->media1 = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media1)->getFilesystemName()->thenReturn($this->file1);

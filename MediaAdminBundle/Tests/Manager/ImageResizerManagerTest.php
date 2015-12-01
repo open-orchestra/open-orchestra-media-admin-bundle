@@ -2,8 +2,8 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Manager;
 
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManager;
 use Phake;
-use OpenOrchestra\MediaAdmin\Manager\ImagickImageManager;
 
 /**
  * Class ImagickImageManagerTest
@@ -51,7 +51,7 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->file);
 
-        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManagerOld');
+        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory');
         $imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface');
         Phake::when($imagick)->getImageWidth()->thenReturn($this->imageWidth);
         Phake::when($imagick)->getImageHeight()->thenReturn($this->imageHeight);
