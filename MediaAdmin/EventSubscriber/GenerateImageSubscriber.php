@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
-use OpenOrchestra\MediaAdmin\Manager\ImageResizerManager;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManager;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -16,14 +16,14 @@ class GenerateImageSubscriber implements EventSubscriberInterface
 {
     public $medias = array();
 
-    protected $imageResizerManager;
+    protected $imagickImageManager;
 
     /**
-     * @param ImageResizerManager $imageResizerManager
+     * @param ImagickImageManager $imagickImageManager
      */
-    public function __construct(ImageResizerManager $imageResizerManager)
+    public function __construct(ImagickImageManager $imagickImageManager)
     {
-        $this->imageResizerManager = $imageResizerManager;
+        $this->imagickImageManager = $imagickImageManager;
     }
 
     /**
@@ -42,7 +42,7 @@ class GenerateImageSubscriber implements EventSubscriberInterface
     {
         /** @var MediaInterface $media */
         foreach ($this->medias as $media) {
-            $this->imageResizerManager->generateAllThumbnails($media);
+            $this->imagickImageManager->generateAllThumbnails($media);
         }
     }
 

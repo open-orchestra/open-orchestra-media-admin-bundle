@@ -8,86 +8,18 @@ namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 interface ImageManagerInterface
 {
     /**
-     * @param mixed|null $files
+     * @param MediaInterface $media
+     * @param int            $x
+     * @param int            $y
+     * @param int            $h
+     * @param int            $w
+     * @param string         $format
      */
-    public function __construct($files = null);
+    public function crop(MediaInterface $media, $x, $y, $h, $w, $format);
 
     /**
-     * @param string $format
-     *
-     * @return bool
+     * @param MediaInterface $media
+     * @param string         $format
      */
-    public function setImageFormat($format);
-
-    /**
-     * @param int $compression
-     *
-     * @return bool
-     */
-    public function setCompression($compression);
-
-    /**
-     * @param string|null $filename
-     *
-     * @return bool
-     */
-    public function writeImage($filename = null);
-
-    /**
-     * @param int $compression
-     *
-     * @return bool
-     */
-    public function setImageCompression($compression);
-
-    /**
-     * @param int $quality
-     *
-     * @return bool
-     */
-    public function setImageCompressionQuality($quality);
-
-    /**
-     * @return bool
-     */
-    public function stripImage();
-
-    /**
-     * @param mixed $background
-     *
-     * @return bool
-     */
-    public function setImageBackgroundColor($background);
-
-    /**
-     * @return int
-     */
-    public function getImageWidth();
-
-    /**
-     * @return int
-     */
-    public function getImageHeight();
-
-    /**
-     * @param int   $columns
-     * @param int   $rows
-     * @param int   $filter
-     * @param float $blur
-     * @param bool|false $bestfit
-     *
-     * @return bool
-     */
-    public function resizeImage($columns, $rows, $filter, $blur, $bestfit = false);
-
-    /**
-     * @param int $width
-     * @param int $height
-     * @param int $x
-     * @param int $y
-     *
-     * @return bool
-     */
-    public function cropImage($width, $height, $x, $y);
-
+    public function override(MediaInterface $media, $format);
 }

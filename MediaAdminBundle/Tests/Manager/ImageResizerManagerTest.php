@@ -3,15 +3,15 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\Manager;
 
 use Phake;
-use OpenOrchestra\MediaAdmin\Manager\ImageResizerManager;
+use OpenOrchestra\MediaAdmin\Manager\ImagickImageManager;
 
 /**
- * Class ImageResizerManagerTest
+ * Class ImagickImageManagerTest
  */
-class ImageResizerManagerTest extends \PHPUnit_Framework_TestCase
+class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ImageResizerManager
+     * @var ImagickImageManager
      */
     protected $manager;
 
@@ -51,13 +51,13 @@ class ImageResizerManagerTest extends \PHPUnit_Framework_TestCase
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->file);
 
-        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactory');
-        $imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface');
+        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManagerOld');
+        $imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface');
         Phake::when($imagick)->getImageWidth()->thenReturn($this->imageWidth);
         Phake::when($imagick)->getImageHeight()->thenReturn($this->imageHeight);
         Phake::when($imagickFactory)->create(Phake::anyParameters())->thenReturn($imagick);
 
-        $this->manager = new ImageResizerManager(
+        $this->manager = new ImagickImageManager(
             $this->tmpDir,
             $this->formats,
             $this->compressionQuality,

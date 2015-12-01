@@ -19,8 +19,8 @@ class PdfToImageManagerTest extends AbstractStrategyTest
     {
         parent::setUp();
 
-        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactory');
-        $this->imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface');
+        $imagickFactory = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManagerOld');
+        $this->imagick = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface');
         Phake::when($imagickFactory)->create(Phake::anyParameters())->thenReturn($this->imagick);
 
         $this->manager = new PdfToImageManager($this->tmpDir, $this->tmpDir, $imagickFactory);

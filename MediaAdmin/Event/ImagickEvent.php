@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\Event;
 
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -15,9 +15,9 @@ class ImagickEvent extends Event
 
     /**
      * @param string                    $fileName
-     * @param ImageManagerInterface $fileContent
+     * @param ImageManagerOldInterface  $fileContent
      */
-    public function __construct($fileName, ImageManagerInterface $fileContent)
+    public function __construct($fileName, ImageManagerOldInterface $fileContent)
     {
         $this->fileName = $fileName;
         $this->fileContent = $fileContent;

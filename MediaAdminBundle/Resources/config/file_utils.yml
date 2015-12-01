@@ -1,0 +1,24 @@
+parameters:
+    open_orchestra_media_admin.file_utils.manager.ffmpeg_video.class: OpenOrchestra\MediaAdmin\FileUtils\Video\FFmpegVideoManager
+    ffmpeg.factory.class: FFMpeg\FFMpeg
+    open_orchestra_media_admin.imagick.factory.class: OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory
+    open_orchestra_media_admin.file_utils.manager.image.class: OpenOrchestra\MediaAdmin\Manager\ImagickImageManager
+
+services:
+    ffmpeg.video:
+        class: %ffmpeg.factory.class%
+        factory: [%ffmpeg.factory.class%, create]
+    open_orchestra_media_admin.file_utils.manager.ffmpeg_video:
+        class: %open_orchestra_media_admin.file_utils.manager.ffmpeg_video.class%
+        arguments:
+            - @ffmpeg.video
+    open_orchestra_media_admin.imagick.factory:
+        class: %open_orchestra_media_admin.imagick.factory.class%
+    open_orchestra_media_admin.file_utils.manager.image:
+        class: %open_orchestra_media_admin.file_utils.manager.image.class%
+        arguments:
+            - %open_orchestra_media_admin.tmp_dir%
+            - %open_orchestra_media_admin.thumbnail.configuration%
+            - %open_orchestra_media_admin.resize.compression_quality%
+            - @event_dispatcher
+            - @open_orchestra_media_admin.imagick.factory

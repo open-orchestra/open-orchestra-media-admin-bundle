@@ -1,19 +1,19 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Manager;
+namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 use Imagick;
 use OpenOrchestra\MediaAdmin\Event\ImagickEvent;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\OrchestraImagickFactoryInterface;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
+use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerOldInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class ImageResizerManager
+ * Class ImagickImageManager
  */
-class ImageResizerManager
+class ImagickImageManager implements ImageManagerInterface
 {
     protected $compressionQuality;
     protected $dispatcher;
@@ -22,18 +22,18 @@ class ImageResizerManager
     protected $imagickFactory;
 
     /**
-     * @param string                           $tmpDir
-     * @param array                            $formats
-     * @param int                              $compressionQuality
-     * @param EventDispatcherInterface         $dispatcher
-     * @param OrchestraImagickFactoryInterface $imagickFactory
+     * @param string                   $tmpDir
+     * @param array                    $formats
+     * @param int                      $compressionQuality
+     * @param EventDispatcherInterface $dispatcher
+     * @param ImagickFactory           $imagickFactory
      */
     public function __construct(
         $tmpDir,
         array $formats,
         $compressionQuality,
         $dispatcher,
-        OrchestraImagickFactoryInterface $imagickFactory
+        ImagickFactory $imagickFactory
     ) {
         $this->compressionQuality = $compressionQuality;
         $this->dispatcher = $dispatcher;
@@ -83,11 +83,11 @@ class ImageResizerManager
     }
 
     /**
-     * @param MediaInterface            $media
-     * @param ImageManagerInterface     $image
-     * @param string                    $key
+     * @param MediaInterface           $media
+     * @param ImageManagerOldInterface $image
+     * @param string                   $key
      */
-    protected function saveImage(MediaInterface $media, ImageManagerInterface $image, $key)
+    protected function saveImage(MediaInterface $media, ImageManagerOldInterface $image, $key)
     {
         $image->setImageCompression(Imagick::COMPRESSION_JPEG);
         $image->setImageCompressionQuality($this->compressionQuality);
@@ -101,10 +101,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio
      *
-     * @param string                $format
-     * @param ImageManagerInterface $image
+     * @param string                   $format
+     * @param ImageManagerOldInterface $image
      */
-    protected function resizeImage($format, ImageManagerInterface $image)
+    protected function resizeImage($format, ImageManagerOldInterface $image)
     {
         $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
         $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
@@ -125,10 +125,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio to the width $width
      * 
-     * @param ImageManagerInterface $image
-     * @param int                   $width
+     * @param ImageManagerOldInterface $image
+     * @param int                      $width
      */
-    protected function resizeOnWidth(ImageManagerInterface $image, $width)
+    protected function resizeOnWidth(ImageManagerOldInterface $image, $width)
     {
         $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
     }
@@ -136,10 +136,10 @@ class ImageResizerManager
     /**
      * Resize an image keeping its ratio to the height $height
      * 
-     * @param ImageManagerInterface $image
-     * @param int                   $height
+     * @param ImageManagerOldInterface $image
+     * @param int                      $height
      */
-    protected function resizeOnHeight(ImageManagerInterface $image, $height)
+    protected function resizeOnHeight(ImageManagerOldInterface $image, $height)
     {
         $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
     }

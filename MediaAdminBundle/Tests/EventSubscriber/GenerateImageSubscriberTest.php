@@ -20,7 +20,7 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
     protected $event;
     protected $media1;
     protected $media2;
-    protected $imageResizerManager;
+    protected $imagickImageManager;
     protected $file1 = 'What-are-you-talking-about.jpg';
 
     /**
@@ -30,13 +30,13 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
     {
         $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
 
-        $this->imageResizerManager = Phake::mock('OpenOrchestra\MediaAdmin\Manager\ImageResizerManager');
+        $this->imagickImageManager = Phake::mock('OpenOrchestra\MediaAdmin\Manager\ImagickImageManager');
 
         $this->media1 = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media1)->getFilesystemName()->thenReturn($this->file1);
         $this->media2 = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
 
-        $this->subscriber = new GenerateImageSubscriber($this->imageResizerManager);
+        $this->subscriber = new GenerateImageSubscriber($this->imagickImageManager);
     }
 
     /**
@@ -88,6 +88,6 @@ class GenerateImageSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $this->subscriber->generateImages();
 
-        Phake::verify($this->imageResizerManager)->generateAllThumbnails($this->media1);
+        Phake::verify($this->imagickImageManager)->generateAllThumbnails($this->media1);
     }
 }

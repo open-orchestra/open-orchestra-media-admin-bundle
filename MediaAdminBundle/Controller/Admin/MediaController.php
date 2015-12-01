@@ -50,7 +50,7 @@ class MediaController extends AbstractAdminController
                 $uploadedMediaManager->getFileContent($filename)
             );
 
-            $this->get('open_orchestra_media_admin.manager.image_resizer')->crop(
+            $this->get('open_orchestra_media_admin.file_utils.manager.image')->crop(
                 $media,
                 $data['x'],
                 $data['y'],
@@ -97,7 +97,7 @@ class MediaController extends AbstractAdminController
             $file = $form->getData()->getFile();
             $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
             $file->move($tmpDir, $format . '-' . $media->getFilesystemName());
-            $this->get('open_orchestra_media_admin.manager.image_resizer')->override($media, $format);
+            $this->get('open_orchestra_media_admin.file_utils.manager.image')->override($media, $format);
 
             $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
         }

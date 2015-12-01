@@ -1,7 +1,6 @@
 parameters:
     open_orchestra_media_admin.manager.media_folder.class: OpenOrchestra\MediaAdminBundle\Manager\FolderManager
     open_orchestra_media_admin.manager.save_media.class: OpenOrchestra\MediaAdminBundle\Manager\SaveMediaManager
-    open_orchestra_media_admin.manager.image_resizer.class: OpenOrchestra\MediaAdmin\Manager\ImageResizerManager
 
 services:
     open_orchestra_media_admin.manager.media_folder:
@@ -18,11 +17,3 @@ services:
             - @open_orchestra_media.repository.media_folder
             - %open_orchestra_media.document.media.class%
             - @event_dispatcher
-    open_orchestra_media_admin.manager.image_resizer:
-        class: %open_orchestra_media_admin.manager.image_resizer.class%
-        arguments:
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.thumbnail.configuration%
-            - %open_orchestra_media_admin.resize.compression_quality%
-            - @event_dispatcher
-            - @open_orchestra_media_admin.imagick.factory
