@@ -64,6 +64,6 @@ class FileAlternativesManager
             }
         }
 
-        return $media;
+        return $this->defaultStrategy->generateAlternatives($media);
     }
 }

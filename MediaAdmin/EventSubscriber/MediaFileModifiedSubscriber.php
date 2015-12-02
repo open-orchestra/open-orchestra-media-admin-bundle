@@ -37,8 +37,6 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
     {
         $media = $event->getMedia();
         $this->medias[] = $media;
-            $media = $this->fileAlternativesManager->generateThumbnail($media);
-            $media = $this->fileAlternativesManager->generateAlternatives($media);
     }
 
     /**
@@ -48,8 +46,8 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
     {
         /** @var MediaInterface $media */
         foreach ($this->medias as $media) {
-//            $media = $this->fileAlternativesManager->generateThumbnail($media);
-//            $media = $this->fileAlternativesManager->generateAlternatives($media);
+            $media = $this->fileAlternativesManager->generateThumbnail($media);
+            $media = $this->fileAlternativesManager->generateAlternatives($media);
         }
 
         $this->objectManager->flush();

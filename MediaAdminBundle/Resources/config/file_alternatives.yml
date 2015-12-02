@@ -15,6 +15,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.image:
         class: %open_orchestra_media_admin.file_alternatives.strategy.image.class%
         arguments:
+            - @open_orchestra_media_file.manager.uploaded_media
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.thumbnail_format%
