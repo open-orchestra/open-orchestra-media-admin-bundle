@@ -18,23 +18,27 @@ class ImageStrategy implements FileAlternativesStrategyInterface
     protected $imageManager;
     protected $tmpDir;
     protected $thumbnailFormat;
-    protected $formats;
+    protected $alternativeFormats;
 
     /**
+     * @param UploadedMediaManager  $uploadedMediaManager
      * @param ImageManagerInterface $imageManager
+     * @param string                $tmpDir
+     * @param array                 $thumbnailFormat
+     * @param array                 $alternativeFormats
      */
     public function __construct(
         UploadedMediaManager $uploadedMediaManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
-        $thumbnailFormat,
-        array $formats
+        array $thumbnailFormat,
+        array $alternativeFormats
     ) {
         $this->uploadedMediaManager = $uploadedMediaManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnailFormat = $thumbnailFormat;
-        $this->formats = $formats;
+        $this->alternativeFormats = $alternativeFormats;
     }
 
     /**
@@ -76,13 +80,15 @@ class ImageStrategy implements FileAlternativesStrategyInterface
      */
     public function generateAlternatives(MediaInterface $media)
     {
-        $filePath = $this->tmpDir . '/' . $media->getFilesystemName();
+        $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
 
-        foreach ($this->formats as $key => $format) {
+        foreach ($this->alternativeFormats as $key => $format) {
             $this->generateAlternative($media->getFilesystemName(), $key, $format);
         }
 
-        unlink($filePath);
+        if (trim($filePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
+            unlink($filePath);
+        }
 
         return $media;
     }
@@ -99,7 +105,7 @@ class ImageStrategy implements FileAlternativesStrategyInterface
     protected function generateAlternative($fileName, $formatName, array $formatSize)
     {
         $alternativePath = $this->imageManager->generateAlternative(
-            $this->tmpDir . '/' . $fileName,
+            $this->tmpDir . DIRECTORY_SEPARATOR . $fileName,
             $formatSize
         );
 
@@ -109,7 +115,9 @@ class ImageStrategy implements FileAlternativesStrategyInterface
                 $alternativeName,
                 file_get_contents($alternativePath)
             );
-            unlink($alternativePath);
+            if (trim($alternativePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
+                unlink($alternativePath);
+            }
         }
 
         return $alternativeName;

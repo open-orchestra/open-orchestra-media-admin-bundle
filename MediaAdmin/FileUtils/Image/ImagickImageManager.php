@@ -13,7 +13,6 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class ImagickImageManager implements ImageManagerInterface
 {
-    protected $compressionQuality;
     protected $tmpDir;
     protected $formats;
     protected $imagickFactory;
@@ -21,18 +20,13 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * @param string                   $tmpDir
      * @param array                    $formats
-     * @param int                      $compressionQuality
-     * @param EventDispatcherInterface $dispatcher
      * @param ImagickFactory           $imagickFactory
      */
     public function __construct(
         $tmpDir,
         array $formats,
-        $compressionQuality,
-        $dispatcher,
         ImagickFactory $imagickFactory
     ) {
-        $this->compressionQuality = $compressionQuality;
         $this->tmpDir = $tmpDir;
         $this->formats = $formats;
         $this->imagickFactory = $imagickFactory;
@@ -95,7 +89,7 @@ class ImagickImageManager implements ImageManagerInterface
 
         $pathInfo = pathinfo($filePath);
         $alternativePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . time() . $pathInfo['basename'];
-        $this->saveImage($alternativePath, $image);
+        $this->saveImage($alternativePath, $image, $format['compression_quality']);
 
         return $alternativePath;
     }
@@ -159,13 +153,14 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * @param MediaInterface $media
      * @param Imagick        $image
+     * @param integer        $compression_quality
      * 
      * @return Imagick
      */
-    protected function saveImage($filePath, Imagick $image)
+    protected function saveImage($filePath, Imagick $image, $compression_quality)
     {
         $image->setImageCompression(Imagick::COMPRESSION_JPEG);
-        $image->setImageCompressionQuality($this->compressionQuality);
+        $image->setImageCompressionQuality($compression_quality);
         $image->stripImage();
         $image->writeImage($filePath);
 

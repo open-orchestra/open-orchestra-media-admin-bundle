@@ -19,6 +19,6 @@ services:
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.thumbnail_format%
-            - %open_orchestra_media_admin.thumbnail.configuration%
+            - %open_orchestra_media_admin.files.alternatives.image.formats%
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }

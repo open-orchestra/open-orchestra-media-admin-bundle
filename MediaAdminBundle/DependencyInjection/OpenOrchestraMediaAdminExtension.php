@@ -24,16 +24,15 @@ class OpenOrchestraMediaAdminExtension extends Extension
 
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
         $container->setParameter(
-            'open_orchestra_media_admin.resize.compression_quality',
-            $config['compression_quality']
-        );
-        $container->setParameter(
             'open_orchestra_media_admin.files.thumbnail_format',
-            array('max_width' => '117', 'max_height' => '117')
+            array('max_width' => '117', 'max_height' => '117', 'compression_quality' => '75')
         );
 
-        $thumbnail = $config['thumbnail'];
-        $container->setParameter('open_orchestra_media_admin.thumbnail.configuration', $thumbnail);
+        $alternativesImages = $config['alternatives']['image'];
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.image.formats',
+            $alternativesImages
+        );
 
         $loader = new Loader\YamlFileLoader(
             $container,

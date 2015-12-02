@@ -1,11 +1,14 @@
 open_orchestra_media_admin:
     tmp_dir: fake_tmp
-    compression_quality: 10000
-    thumbnail:
-        max_height:
-            max_height: 5000
-        max_width:
-            max_width: 5000
-        rectangle:
-            max_width: 5000
-            max_height: 5000
+    alternatives:
+        image:
+            max_height:
+                max_height: 5000
+                compression_quality: 10000
+            max_width:
+                max_width: 5000
+                compression_quality: 10000
+            rectangle:
+                max_width: 5000
+                max_height: 5000
+                compression_quality: 10000

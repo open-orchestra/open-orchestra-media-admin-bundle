@@ -26,12 +26,8 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($tmp, $container->getParameter('open_orchestra_media_admin.tmp_dir'));
         $this->assertEquals(
-            $compression,
-            $container->getParameter('open_orchestra_media_admin.resize.compression_quality')
-        );
-        $this->assertEquals(
             $thumbnail,
-            $container->getParameter('open_orchestra_media_admin.thumbnail.configuration')
+            $container->getParameter('open_orchestra_media_admin.files.alternatives.image.formats')
         );
     }
 
@@ -43,15 +39,15 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
         return array(
             array('empty', '/tmp', 75,
                 array(
-                'max_height' => array('max_height' => 100),
-                'max_width' => array('max_width' => 100),
-                'rectangle' => array('max_width' => 100, 'max_height' => 70)
+                'max_height' => array('max_height' => 100, 'compression_quality' => 75),
+                'max_width' => array('max_width' => 100, 'compression_quality' => 75),
+                'rectangle' => array('max_width' => 100, 'max_height' => 70, 'compression_quality' => 75)
             )),
             array('value', 'fake_tmp', 10000,
                 array(
-                'max_height' => array('max_height' => 5000),
-                'max_width' => array('max_width' => 5000),
-                'rectangle' => array('max_width' => 5000, 'max_height' => 5000)
+                'max_height' => array('max_height' => 5000, 'compression_quality' => 10000),
+                'max_width' => array('max_width' => 5000, 'compression_quality' => 10000),
+                'rectangle' => array('max_width' => 5000, 'max_height' => 5000, 'compression_quality' => 10000)
             ))
         );
     }

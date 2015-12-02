@@ -18,8 +18,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
     protected $media;
     protected $formats;
     protected $tmpDir;
-    protected $dispatcher;
-    protected $compressionQuality;
     protected $file = 'What-are-you-talking-about.jpg';
     protected $imageWidth = 10;
     protected $imageHeight = 10;
@@ -31,22 +29,22 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compressionQuality = 75;
         $this->tmpDir = __DIR__ . '/images';
         $this->formats = array(
             'max_width' => array(
                 'max_width' => 100,
+                'compression_quality' => 75
             ),
             'max_height' => array(
                 'max_height' => 100,
+                'compression_quality' => 75
             ),
             'rectangle' => array(
                 'width' => 70,
                 'height' => 50,
+                'compression_quality' => 75
             ),
         );
-
-        $this->dispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->file);
@@ -60,8 +58,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager = new ImagickImageManager(
             $this->tmpDir,
             $this->formats,
-            $this->compressionQuality,
-            $this->dispatcher,
             $imagickFactory
         );
     }
@@ -85,8 +81,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($this->tmpDir .'/' . $format . '-' . $this->file);
 
         $this->manager->crop($this->media, $x, $y, $h, $w, $format);
-
-        Phake::verify($this->dispatcher)->dispatch(Phake::anyParameters());
     }
 
     /**
@@ -115,7 +109,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($this->tmpDir . '/' . $fileName);
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->overrideFile);
         $this->manager->override($this->media, $format);
-        Phake::verify($this->dispatcher)->dispatch(Phake::anyParameters());
     }
 
     /**
