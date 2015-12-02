@@ -11,7 +11,21 @@ interface FileAlternativesStrategyInterface
 {
      const THUMBNAIL_PREFIX = 'thumbnail';
 
+    /**
+     * Generate a thumbnail for $media
+     *
+     * @param MediaInterface $media
+     *
+     * @return MediaInterface
+     */
      public function generateThumbnail(MediaInterface $media);
 
-    public function generateAlternatives(MediaInterface $media);
+    /**
+     * Generate all aternatives for $media
+     *
+     * @param MediaInterface $media
+     *
+     * @return MediaInterface
+     */
+     public function generateAlternatives(MediaInterface $media);
 }

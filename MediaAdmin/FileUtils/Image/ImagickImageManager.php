@@ -33,56 +33,10 @@ class ImagickImageManager implements ImageManagerInterface
     }
 
     /**
-     * @param MediaInterface $media
-     * @param int            $x
-     * @param int            $y
-     * @param int            $h
-     * @param int            $w
-     * @param string         $format
-     */
-    public function crop(MediaInterface $media, $x, $y, $h, $w, $format)
-    {
-        $image = $this->imagickFactory->create($this->tmpDir . '/' . $media->getFilesystemName());
-        $image->cropImage($w, $h, $x, $y);
-        $this->resizeImage($this->formats[$format], $image);
-
-        $this->saveImage($media, $image, $format);
-    }
-
-    /**
-     * @param MediaInterface $media
-     * @param string         $format
-     */
-    public function override(MediaInterface $media, $format)
-    {
-        $filename = $format . '-' . $media->getFilesystemName();
-        $filePath = $this->tmpDir . '/' . $filename;
-        $this->resizeAndSaveImage($media, $format, $filePath);
-    }
-
-    /**
-     * @param MediaInterface $media
-     * @param string         $format
-     * @param string         $filePath
-     */
-    public function resizeAndSaveImage(MediaInterface $media, $format, $filePath)
-    {
-        $image = $this->imagickFactory->create($filePath);
-        $this->resizeImage($this->formats[$format], $image);
-
-        $this->saveImage($media, $image, $format);
-    }
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
      * @param string $filePath
      * @param array  $format
      */
-    public function generateAlternative($filePath, $format)
+    public function generateAlternative($filePath, array $format)
     {
         $image = $this->imagickFactory->create($filePath);
         $image = $this->resizeImage($format, $image);
@@ -165,5 +119,70 @@ class ImagickImageManager implements ImageManagerInterface
         $image->writeImage($filePath);
 
         return $image;
+    }
+
+    /**
+     * Extract an image from the $page of $filePath
+     * 
+     * @param string  $filePath
+     * @param integer $page
+     * 
+     * @return string
+     */
+    public function extractImageFromPdf($filePath, $page = 0)
+    {
+        $image = $this->imagickFactory->create($filePath);
+        $image->setIteratorIndex($page);
+
+        $pathInfo = pathinfo($filePath);
+        $extractedImagePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR
+            . time() . $pathInfo['basename'] . '-' . $page . '.jpg';
+
+        $image->writeImage($extractedImagePath);
+
+        return $extractedImagePath;
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param MediaInterface $media
+     * @param int            $x
+     * @param int            $y
+     * @param int            $h
+     * @param int            $w
+     * @param string         $format
+     */
+    public function crop(MediaInterface $media, $x, $y, $h, $w, $format)
+    {
+        $image = $this->imagickFactory->create($this->tmpDir . '/' . $media->getFilesystemName());
+        $image->cropImage($w, $h, $x, $y);
+        $this->resizeImage($this->formats[$format], $image);
+
+        $this->saveImage($media, $image, $format);
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param string         $format
+     */
+    public function override(MediaInterface $media, $format)
+    {
+        $filename = $format . '-' . $media->getFilesystemName();
+        $filePath = $this->tmpDir . '/' . $filename;
+        $this->resizeAndSaveImage($media, $format, $filePath);
+    }
+
+    /**
+     * @param MediaInterface $media
+     * @param string         $format
+     * @param string         $filePath
+     */
+    public function resizeAndSaveImage(MediaInterface $media, $format, $filePath)
+    {
+        $image = $this->imagickFactory->create($filePath);
+        $this->resizeImage($this->formats[$format], $image);
+
+        $this->saveImage($media, $image, $format);
     }
 }

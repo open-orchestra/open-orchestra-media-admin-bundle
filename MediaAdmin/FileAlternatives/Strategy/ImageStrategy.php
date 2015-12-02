@@ -104,6 +104,7 @@ class ImageStrategy implements FileAlternativesStrategyInterface
      */
     protected function generateAlternative($fileName, $formatName, array $formatSize)
     {
+        $alternativeName = '';
         $alternativePath = $this->imageManager->generateAlternative(
             $this->tmpDir . DIRECTORY_SEPARATOR . $fileName,
             $formatSize
