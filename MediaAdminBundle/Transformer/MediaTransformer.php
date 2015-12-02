@@ -5,7 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdmin\Thumbnail\Strategies\ImageToThumbnailManager;
+use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy;
 use OpenOrchestra\MediaAdminBundle\Facade\MediaFacade;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -54,7 +54,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
 
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
-        if (strpos($mixed->getMimeType(), ImageToThumbnailManager::MIME_TYPE_FRAGMENT_IMAGE) === 0) {
+        if (strpos($mixed->getMimeType(), ImageStrategy::MIME_TYPE_FRAGMENT_IMAGE) === 0) {
             foreach ($this->thumbnailConfig as $format => $thumbnail) {
                 $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));
                 $facade->addLink('_self_format_' . $format,

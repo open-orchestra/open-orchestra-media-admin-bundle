@@ -21,14 +21,20 @@ class FFmpegVideoManager implements VideoManagerInterface
     }
 
     /**
-     * @param string $pathVideo
-     * @param string $pathFrame
+     * @param string $filePath
      * @param int    $timeFrame
+     * 
+     * @return string
      */
-    public function createFrame($pathVideo, $pathFrame, $timeFrame)
+    public function extractImageFromVideo($filePath, $timeFrame = 1)
     {
-        $video = $this->ffmpeg->open($pathVideo);
-        $video->frame(TimeCode::fromSeconds($timeFrame))
-            ->save($pathFrame);
+        $pathInfo = pathinfo($filePath);
+        $extractedImagePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR
+            . time() . $pathInfo['basename'] . '-' . $timeFrame . '.jpg';
+
+        $video = $this->ffmpeg->open($filePath);
+        $video->frame(TimeCode::fromSeconds($timeFrame))->save($extractedImagePath);
+
+        return $extractedImagePath;
     }
 }

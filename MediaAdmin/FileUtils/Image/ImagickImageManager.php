@@ -107,7 +107,7 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * @param MediaInterface $media
      * @param Imagick        $image
-     * @param integer        $compression_quality
+     * @param int            $compression_quality
      * 
      * @return Imagick
      */
@@ -124,20 +124,19 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Extract an image from the $page of $filePath
      * 
-     * @param string  $filePath
-     * @param integer $page
+     * @param string $filePath
+     * @param int    $page
      * 
      * @return string
      */
     public function extractImageFromPdf($filePath, $page = 0)
     {
-        $image = $this->imagickFactory->create($filePath);
-        $image->setIteratorIndex($page);
-
         $pathInfo = pathinfo($filePath);
         $extractedImagePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR
             . time() . $pathInfo['basename'] . '-' . $page . '.jpg';
 
+        $image = $this->imagickFactory->create($filePath);
+        $image->setIteratorIndex($page);
         $image->writeImage($extractedImagePath);
 
         return $extractedImagePath;

@@ -4,34 +4,39 @@ namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
- * Class PdfStrategy
+ * Class VideoStrategy
  */
-class PdfStrategy implements FileAlternativesStrategyInterface
+class VideoStrategy implements FileAlternativesStrategyInterface
 {
-    const MIME_TYPE_PDF = 'application/pdf';
+    const MIME_TYPE_FRAGMENT_VIDEO = 'video';
 
     protected $uploadedMediaManager;
+    protected $videoManager;
     protected $imageManager;
     protected $tmpDir;
     protected $thumbnailFormat;
 
     /**
      * @param UploadedMediaManager  $uploadedMediaManager
-     * @param ImageManagerInterface $imageManager
+     * @param VideoManagerInterface $videoManager
+     * @param ImageManager          $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      */
     public function __construct(
         UploadedMediaManager $uploadedMediaManager,
+        VideoManagerInterface $videoManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
         $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->videoManager = $videoManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnailFormat = $thumbnailFormat;
@@ -44,7 +49,7 @@ class PdfStrategy implements FileAlternativesStrategyInterface
      */
     public function support(MediaInterface $media)
     {
-        return self::MIME_TYPE_PDF == $media->getMimeType();
+        return strpos($media->getMimeType(), self::MIME_TYPE_FRAGMENT_VIDEO) === 0;
     }
 
     /**
@@ -59,14 +64,14 @@ class PdfStrategy implements FileAlternativesStrategyInterface
         $fileName = $media->getFilesystemName();
         $thumbnailName = '';
 
-        $extractedImagePath = $this->imageManager->extractImageFromPdf(
+        $extractedImagePath = $this->videoManager->extractImageFromVideo(
             $this->tmpDir . DIRECTORY_SEPARATOR . $fileName
         );
 
         $thumbnailPath = $this->imageManager->generateAlternative($extractedImagePath, $this->thumbnailFormat);
 
         if ($thumbnailPath != '') {
-            $thumbnailName = self::THUMBNAIL_PREFIX . '-' . str_replace('.pdf', '.jpg', $fileName);
+            $thumbnailName = self::THUMBNAIL_PREFIX . '-' . pathinfo($fileName, PATHINFO_FILENAME) . '.jpg';
             $this->uploadedMediaManager->uploadContent($thumbnailName, file_get_contents($thumbnailPath));
 
             if (trim($thumbnailPath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
@@ -105,6 +110,6 @@ class PdfStrategy implements FileAlternativesStrategyInterface
      */
     public function getName()
     {
-        return 'pdf_alternatives_strategy';
+        return 'video_alternatives_strategy';
     }
 }

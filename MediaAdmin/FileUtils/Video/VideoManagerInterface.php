@@ -8,9 +8,12 @@ namespace OpenOrchestra\MediaAdmin\FileUtils\Video;
 interface VideoManagerInterface
 {
     /**
-     * @param string $pathVideo
-     * @param string $pathFrame
+     * Extract an image at $timeFrame from $filePath
+     * 
+     * @param string $filePath
      * @param int    $timeFrame
+     * 
+     * @return string
      */
-    public function createFrame($pathVideo, $pathFrame, $timeFrame);
+    public function extractImageFromVideo($filePath, $timeFrame);
 }
