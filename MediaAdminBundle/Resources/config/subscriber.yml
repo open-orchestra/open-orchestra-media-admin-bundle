@@ -2,9 +2,7 @@ parameters:
     open_orchestra_media_admin.subscriber.update_media_reference.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber
     open_orchestra_media_admin.subscriber.media_cache_invalidate.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
     open_orchestra_log.subscriber.media.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
-    open_orchestra_media_admin.subscriber.generate_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\GenerateImageSubscriber
     open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\DeleteMediaSubscriber
-    open_orchestra_media_admin.subscriber.upload_image.class: OpenOrchestra\MediaAdmin\EventSubscriber\UploadImageSubscriber
     open_orchestra_media_admin.subscriber.media_file_modified.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaFileModifiedSubscriber
 
 services:
@@ -28,12 +26,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: openorchestra }
-    open_orchestra_media_admin.subscriber.generate_image:
-        class: %open_orchestra_media_admin.subscriber.generate_image.class%
-        arguments:
-            - @open_orchestra_media_admin.file_utils.manager.image
-        tags:
-             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.delete_media:
         class: %open_orchestra_media_admin.subscriber.delete_media.class%
         arguments:
@@ -41,12 +33,6 @@ services:
             - %open_orchestra_media_admin.files.alternatives.image.formats%
         tags:
             - { name: kernel.event_subscriber }
-    open_orchestra_media_admin.subscriber.upload_image:
-        class: %open_orchestra_media_admin.subscriber.upload_image.class%
-        arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
-        tags:
-             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.media_file_modified:
         class: %open_orchestra_media_admin.subscriber.media_file_modified.class%
         arguments:

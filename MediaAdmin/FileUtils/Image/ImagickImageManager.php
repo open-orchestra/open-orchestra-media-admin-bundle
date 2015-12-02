@@ -3,7 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 use Imagick;
-use OpenOrchestra\MediaAdmin\Event\ImagickEvent;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -35,6 +34,8 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * @param string $filePath
      * @param array  $format
+     * 
+     * @return string
      */
     public function generateAlternative($filePath, array $format)
     {
@@ -53,6 +54,8 @@ class ImagickImageManager implements ImageManagerInterface
      *
      * @param array   $format
      * @param Imagick $image
+     * 
+     * @return Imagick
      */
     protected function resizeImage(array $format, Imagick $image)
     {
@@ -105,6 +108,8 @@ class ImagickImageManager implements ImageManagerInterface
     }
 
     /**
+     * Compress and save $image
+     * 
      * @param MediaInterface $media
      * @param Imagick        $image
      * @param int            $compression_quality
