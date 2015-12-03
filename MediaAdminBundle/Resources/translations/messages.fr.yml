@@ -100,7 +100,7 @@ open_orchestra_media_admin:
         delete_explanation: Cette opération est non réversible.
     log:
         media:
-            add_image: Ajoute un média nommé media_name
+            add: Ajoute un média nommé media_name
             delete: Supprime un média nommé media_name
             resize: Redimensionne un média nommé media_name
         folder:

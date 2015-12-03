@@ -2,7 +2,7 @@ parameters:
     open_orchestra_media_admin.subscriber.update_media_reference.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber
     open_orchestra_media_admin.subscriber.media_cache_invalidate.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
     open_orchestra_log.subscriber.media.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
-    open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\DeleteMediaSubscriber
+    open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber
     open_orchestra_media_admin.subscriber.media_file_modified.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaFileModifiedSubscriber
 
 services:
@@ -29,8 +29,7 @@ services:
     open_orchestra_media_admin.subscriber.delete_media:
         class: %open_orchestra_media_admin.subscriber.delete_media.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
-            - %open_orchestra_media_admin.files.alternatives.image.formats%
+            - @open_orchestra_media_admin.file_alternatives.manager
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.media_file_modified:

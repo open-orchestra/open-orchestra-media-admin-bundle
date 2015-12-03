@@ -39,7 +39,21 @@ interface FileAlternativesStrategyInterface
     public function generateAlternatives(MediaInterface $media);
 
     /**
-     * return the name of the strategy
+     * Delete the thumbnail of $media
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteThumbnail(MediaInterface $media);
+
+    /**
+     * Delete all aternatives of $media
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteAlternatives(MediaInterface $media);
+
+    /**
+     * Return the name of the strategy
      * 
      * @return string
      */

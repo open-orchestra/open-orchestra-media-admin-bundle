@@ -22,10 +22,8 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
      * @param fileAlternativesManager  $fileAlternativesManager
      * @param ObjectManager            $objectManager
      */
-    public function __construct(
-        FileAlternativesManager $fileAlternativesManager,
-        ObjectManager $objectManager
-    ) {
+    public function __construct(FileAlternativesManager $fileAlternativesManager, ObjectManager $objectManager)
+    {
         $this->fileAlternativesManager = $fileAlternativesManager;
         $this->objectManager = $objectManager;
     }
@@ -59,7 +57,7 @@ class MediaFileModifiedSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            MediaEvents::ADD_MEDIA => 'addMedia',
+            MediaEvents::MEDIA_ADD => 'addMedia',
             KernelEvents::TERMINATE => 'generateAlternatives'
         );
     }

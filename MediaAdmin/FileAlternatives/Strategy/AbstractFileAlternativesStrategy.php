@@ -48,6 +48,38 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     }
 
     /**
+     * Delete the thumbnail of $media
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteThumbnail(MediaInterface $media)
+    {
+        $this->deleteFile($media->getThumbnail());
+    }
+
+    /**
+     * Delete all aternatives of $media
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteAlternatives(MediaInterface $media)
+    {
+        $this->deleteFile($media->getFilesystemName());
+    }
+
+    /**
+     * Remove a media file if it is stored
+     * 
+     * @param string $fileName
+     */
+    protected function deleteFile($fileName)
+    {
+        if ($this->uploadedMediaManager->exists($fileName)) {
+            $this->uploadedMediaManager->deleteContent($fileName);
+        }
+    }
+
+    /**
      * @return string
      */
     abstract public function getName();

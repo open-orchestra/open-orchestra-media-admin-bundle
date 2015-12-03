@@ -80,8 +80,8 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
 
-        foreach ($this->alternativeFormats as $key => $format) {
-            $this->generateAlternative($media->getFilesystemName(), $key, $format);
+        foreach ($this->alternativeFormats as $formatName => $format) {
+            $this->generateAlternative($media->getFilesystemName(), $formatName, $format);
         }
 
         if (trim($filePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
@@ -109,7 +109,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         );
 
         if ($alternativePath != '') {
-            $alternativeName = $formatName . '-' . $fileName;
+            $alternativeName = $this->getAlternativeName($formatName, $fileName);
             $this->uploadedMediaManager->uploadContent(
                 $alternativeName,
                 file_get_contents($alternativePath)
@@ -120,6 +120,33 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         }
 
         return $alternativeName;
+    }
+
+    /**
+     * Return the alternative name
+     * 
+     * @param string $formatName
+     * @param string $fileName
+     * 
+     * @return string
+     */
+    protected function getAlternativeName($formatName, $fileName)
+    {
+        return $formatName . '-' . $fileName;
+    }
+
+    /**
+     * Delete the thumbnail of $media
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteAlternatives(MediaInterface $media)
+    {
+        foreach ($this->alternativeFormats as $formatName => $format) {
+            $this->deleteFile($this->getAlternativeName($formatName, $media->getFilesystemName()));
+        }
+
+        parent::deleteAlternatives($media);
     }
 
     /**

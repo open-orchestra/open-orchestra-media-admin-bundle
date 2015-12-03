@@ -133,7 +133,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         );
 
         $event = new MediaEvent($media);
-        $this->dispatcher->dispatch(MediaEvents::ADD_MEDIA, $event);
+        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
 
         return $media;
     }
