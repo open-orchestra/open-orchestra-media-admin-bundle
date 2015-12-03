@@ -3,13 +3,24 @@
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 
 /**
  * Class DefaultStrategy
  */
-class DefaultStrategy implements FileAlternativesStrategyInterface
+class DefaultStrategy extends AbstractFileAlternativesStrategy
 {
+    protected $thumbnail;
+
+    /**
+     * @param string $tmpDir
+     * @param string $thumbnail
+     */
+    public function __construct($tmpDir, $thumbnail)
+    {
+        $this->tmpDir = $tmpDir;
+        $this->thumbnail = $thumbnail;
+    }
+
     /**
      * @param MediaInterface $media
      *
@@ -27,13 +38,8 @@ class DefaultStrategy implements FileAlternativesStrategyInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
-        // TODO: attribute a default file for thumbnail
+        $media->setThumbnail($this->thumbnail);
 
-        return $media;
-    }
-
-    public function generateAlternatives(MediaInterface $media)
-    {
         return $media;
     }
 

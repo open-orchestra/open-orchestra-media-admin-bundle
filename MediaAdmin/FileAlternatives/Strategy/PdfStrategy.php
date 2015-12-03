@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -10,13 +9,12 @@ use OpenOrchestra\Media\Model\MediaInterface;
 /**
  * Class PdfStrategy
  */
-class PdfStrategy implements FileAlternativesStrategyInterface
+class PdfStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_PDF = 'application/pdf';
 
     protected $uploadedMediaManager;
     protected $imageManager;
-    protected $tmpDir;
     protected $thumbnailFormat;
 
     /**
@@ -79,23 +77,6 @@ class PdfStrategy implements FileAlternativesStrategyInterface
         }
 
         $media->setThumbnail($thumbnailName);
-
-        return $media;
-    }
-
-    /**
-     * Generate all aternatives for $media
-     *
-     * @param MediaInterface $media
-     *
-     * @return MediaInterface
-     */
-    public function generateAlternatives(MediaInterface $media)
-    {
-        if ($media->getFilesystemName() != '') {
-            $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
-            unlink($filePath);
-        }
 
         return $media;
     }

@@ -62,12 +62,10 @@ class SaveMediaManager implements SaveMediaManagerInterface
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile)
     {
-        $filename = sha1(uniqid(mt_rand(), true))
-            . pathinfo(
-                $this->tmpDir . '/' . $uploadedFile->getClientOriginalName(), PATHINFO_FILENAME
-            ) . '.' . $uploadedFile->guessClientExtension();
+        $filename = time() . '-' . $uploadedFile->getClientOriginalName();
 
-        if (FlowBasic::save($this->tmpDir . '/' . $filename, $this->tmpDir)) {
+        if (FlowBasic::save($this->tmpDir . DIRECTORY_SEPARATOR . $filename, $this->tmpDir)) {
+
             return $filename;
         }
 

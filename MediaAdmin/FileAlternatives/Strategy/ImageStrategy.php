@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -10,13 +9,12 @@ use OpenOrchestra\Media\Model\MediaInterface;
 /**
  * Class ImageStrategy
  */
-class ImageStrategy implements FileAlternativesStrategyInterface
+class ImageStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_FRAGMENT_IMAGE = 'image';
 
     protected $uploadedMediaManager;
     protected $imageManager;
-    protected $tmpDir;
     protected $thumbnailFormat;
     protected $alternativeFormats;
 

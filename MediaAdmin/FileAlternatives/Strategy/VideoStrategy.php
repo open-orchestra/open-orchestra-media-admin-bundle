@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
@@ -11,14 +10,13 @@ use OpenOrchestra\Media\Model\MediaInterface;
 /**
  * Class VideoStrategy
  */
-class VideoStrategy implements FileAlternativesStrategyInterface
+class VideoStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_FRAGMENT_VIDEO = 'video';
 
     protected $uploadedMediaManager;
     protected $videoManager;
     protected $imageManager;
-    protected $tmpDir;
     protected $thumbnailFormat;
 
     /**
@@ -84,23 +82,6 @@ class VideoStrategy implements FileAlternativesStrategyInterface
         }
 
         $media->setThumbnail($thumbnailName);
-
-        return $media;
-    }
-
-    /**
-     * Generate all aternatives for $media
-     *
-     * @param MediaInterface $media
-     *
-     * @return MediaInterface
-     */
-    public function generateAlternatives(MediaInterface $media)
-    {
-        if ($media->getFilesystemName() != '') {
-            $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
-            unlink($filePath);
-        }
 
         return $media;
     }

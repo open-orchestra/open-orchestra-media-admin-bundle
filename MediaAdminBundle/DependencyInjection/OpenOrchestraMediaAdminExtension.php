@@ -28,10 +28,19 @@ class OpenOrchestraMediaAdminExtension extends Extension
             array('max_width' => '117', 'max_height' => '117', 'compression_quality' => '75')
         );
 
-        $alternativesImages = $config['alternatives']['image'];
         $container->setParameter(
             'open_orchestra_media_admin.files.alternatives.image.formats',
-            $alternativesImages
+            $config['alternatives']['image']['formats']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.default.thumbnail',
+            $config['alternatives']['default']['thumbnail']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.audio.thumbnail',
+            $config['alternatives']['audio']['thumbnail']
         );
 
         $loader = new Loader\YamlFileLoader(
