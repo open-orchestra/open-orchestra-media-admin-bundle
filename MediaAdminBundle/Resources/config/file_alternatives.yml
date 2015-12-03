@@ -4,6 +4,7 @@ parameters:
     open_orchestra_media_admin.file_alternatives.strategy.image.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy
     open_orchestra_media_admin.file_alternatives.strategy.pdf.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\PdfStrategy
     open_orchestra_media_admin.file_alternatives.strategy.video.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\VideoStrategy
+    open_orchestra_media_admin.file_alternatives.strategy.audio.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\AudioStrategy
 
 services:
     open_orchestra_media_admin.file_alternatives.manager:
@@ -46,5 +47,13 @@ services:
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.thumbnail_format%
+        tags:
+            - { name: open_orchestra_media_admin.file_alternatives.strategy }
+
+    open_orchestra_media_admin.file_alternatives.strategy.audio:
+        class: %open_orchestra_media_admin.file_alternatives.strategy.audio.class%
+        arguments:
+            - %open_orchestra_media_admin.tmp_dir%
+            - %open_orchestra_media_admin.files.alternatives.audio.thumbnail%
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }
