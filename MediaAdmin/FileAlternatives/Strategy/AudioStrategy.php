@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
@@ -17,8 +18,9 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
      * @param string $tmpDir
      * @param string $thumbnail
      */
-    public function __construct($tmpDir, $thumbnail)
+    public function __construct(UploadedMediaManager $uploadedMediaManager, $tmpDir, $thumbnail)
     {
+        $this->uploadedMediaManager = $uploadedMediaManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnail = $thumbnail;
     }
@@ -43,6 +45,16 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
         $media->setThumbnail($this->thumbnail);
 
         return $media;
+    }
+
+    /**
+     * Delete the thumbnail of $media
+     * That strategy does nothing as the thumbnail is the same for all default type medias
+     *
+     * @param MediaInterface $media
+     */
+    public function deleteThumbnail(MediaInterface $media)
+    {
     }
 
     /**

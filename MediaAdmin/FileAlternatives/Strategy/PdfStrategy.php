@@ -13,7 +13,6 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_PDF = 'application/pdf';
 
-    protected $uploadedMediaManager;
     protected $imageManager;
     protected $thumbnailFormat;
 

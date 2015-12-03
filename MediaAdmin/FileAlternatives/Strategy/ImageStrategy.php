@@ -13,7 +13,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_FRAGMENT_IMAGE = 'image';
 
-    protected $uploadedMediaManager;
     protected $imageManager;
     protected $thumbnailFormat;
     protected $alternativeFormats;

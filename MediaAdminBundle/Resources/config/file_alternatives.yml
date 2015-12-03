@@ -15,6 +15,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.default:
         class: %open_orchestra_media_admin.file_alternatives.strategy.default.class%
         arguments:
+            - @open_orchestra_media_file.manager.uploaded_media
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.alternatives.default.thumbnail%
 
@@ -53,6 +54,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.audio:
         class: %open_orchestra_media_admin.file_alternatives.strategy.audio.class%
         arguments:
+            - @open_orchestra_media_file.manager.uploaded_media
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.alternatives.audio.thumbnail%
         tags:

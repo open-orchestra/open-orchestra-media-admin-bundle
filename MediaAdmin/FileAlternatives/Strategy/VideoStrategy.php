@@ -14,7 +14,6 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
 {
     const MIME_TYPE_FRAGMENT_VIDEO = 'video';
 
-    protected $uploadedMediaManager;
     protected $videoManager;
     protected $imageManager;
     protected $thumbnailFormat;

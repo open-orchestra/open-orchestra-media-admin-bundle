@@ -12,6 +12,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrategyInterface
 {
+    protected $uploadedMediaManager;
     protected $tmpDir;
 
     /**
