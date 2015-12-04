@@ -12,6 +12,4 @@ final class MediaEvents
     const MEDIA_UPDATE = 'media.update';
 
     const MEDIA_DELETE = 'media.delete';
-
-    const RESIZE_IMAGE = 'media.resize_image';
 }

@@ -90,7 +90,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $file = $media->getFile();
         $tmpFilePath = $this->tmpDir . '/' . $fileName;
-        Phake::verify($this->mediaStorageManager)->uploadContent($fileName, file_get_contents($tmpFilePath));
+        Phake::verify($this->mediaStorageManager)->uploadFile($fileName, $tmpFilePath);
     }
 
     /**

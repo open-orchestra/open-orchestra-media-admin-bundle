@@ -109,10 +109,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
         if ($alternativePath != '') {
             $alternativeName = $this->getAlternativeName($formatName, $fileName);
-            $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($alternativePath));
-            if (trim($alternativePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
-                unlink($alternativePath);
-            }
+            $this->mediaStorageManager->uploadFile($alternativeName, $alternativePath);
         }
 
         return $alternativeName;
@@ -158,8 +155,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
         $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($newFilePath));
-        unlink($newFilePath);
+        $this->mediaStorageManager->uploadFile($alternativeName, $newFilePath);
 
         return $media;
     }
@@ -184,10 +180,9 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $croppedFilePath = $this->imageManager->cropAndResize($originalFilePath, $x, $y, $h, $w, $formatName);
 
         $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($croppedFilePath));
+        $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);
 
         unlink($originalFilePath);
-        unlink($croppedFilePath);
 
         return $media;
     }

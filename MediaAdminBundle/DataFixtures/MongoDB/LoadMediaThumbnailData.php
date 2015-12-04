@@ -49,7 +49,7 @@ class LoadMediaThumbnailData
         $mediaStorageManager = $this->container->get('open_orchestra_media_file.manager.storage');
         $fileDir = 'web/bundles/openorchestramediaadmin/images/';
 
-        $mediaStorageManager->uploadContent($thumbnailName, file_get_contents($fileDir . DIRECTORY_SEPARATOR . $thumbnailName));
+        $mediaStorageManager->uploadFile($thumbnailName, $fileDir . DIRECTORY_SEPARATOR . $thumbnailName, false);
     }
 
     /**
