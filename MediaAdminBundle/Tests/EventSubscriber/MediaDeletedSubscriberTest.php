@@ -72,7 +72,7 @@ class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
 
         $this->subscriber->deleteMedia($this->event);
 
-//        Phake::verify($this->uploadedMediaManager, Phake::times(2))->exists(Phake::anyParameters());
+//        Phake::verify($this->mediaStorageManager, Phake::times(2))->exists(Phake::anyParameters());
     }
 
     /**

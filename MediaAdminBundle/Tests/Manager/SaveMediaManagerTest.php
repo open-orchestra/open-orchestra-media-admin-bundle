@@ -16,7 +16,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     protected $mediaManager;
 
     protected $tmpDir;
-    protected $uploadedMediaManager;
+    protected $mediaStorageManager;
     protected $allowedMimeTypes = array('mimeType1', 'image/jpeg');
     protected $documentManager;
     protected $folderRepository;
@@ -29,14 +29,14 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tmpDir = __DIR__.'/images';
-        $this->uploadedMediaManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager');
+        $this->mediaStorageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
         $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
         $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
         $this->dispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->mediaManager = new SaveMediaManager(
             $this->tmpDir,
-            $this->uploadedMediaManager,
+            $this->mediaStorageManager,
             $this->allowedMimeTypes,
             $this->documentManager,
             $this->folderRepository,
@@ -90,7 +90,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $file = $media->getFile();
         $tmpFilePath = $this->tmpDir . '/' . $fileName;
-        Phake::verify($this->uploadedMediaManager)->uploadContent($fileName, file_get_contents($tmpFilePath));
+        Phake::verify($this->mediaStorageManager)->uploadContent($fileName, file_get_contents($tmpFilePath));
     }
 
     /**

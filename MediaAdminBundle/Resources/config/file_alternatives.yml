@@ -15,14 +15,14 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.default:
         class: %open_orchestra_media_admin.file_alternatives.strategy.default.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
+            - @open_orchestra_media_file.manager.storage
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.alternatives.default.thumbnail%
 
     open_orchestra_media_admin.file_alternatives.strategy.image:
         class: %open_orchestra_media_admin.file_alternatives.strategy.image.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
+            - @open_orchestra_media_file.manager.storage
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.thumbnail_format%
@@ -33,7 +33,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.pdf:
         class: %open_orchestra_media_admin.file_alternatives.strategy.pdf.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
+            - @open_orchestra_media_file.manager.storage
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.thumbnail_format%
@@ -43,7 +43,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.video:
         class: %open_orchestra_media_admin.file_alternatives.strategy.video.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
+            - @open_orchestra_media_file.manager.storage
             - @open_orchestra_media_admin.file_utils.manager.video
             - @open_orchestra_media_admin.file_utils.manager.image
             - %open_orchestra_media_admin.tmp_dir%
@@ -54,7 +54,7 @@ services:
     open_orchestra_media_admin.file_alternatives.strategy.audio:
         class: %open_orchestra_media_admin.file_alternatives.strategy.audio.class%
         arguments:
-            - @open_orchestra_media_file.manager.uploaded_media
+            - @open_orchestra_media_file.manager.storage
             - %open_orchestra_media_admin.tmp_dir%
             - %open_orchestra_media_admin.files.alternatives.audio.thumbnail%
         tags:

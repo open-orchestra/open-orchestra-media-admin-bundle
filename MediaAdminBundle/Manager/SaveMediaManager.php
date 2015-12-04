@@ -6,7 +6,7 @@ use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -18,7 +18,7 @@ use Flow\Basic as FlowBasic;
 class SaveMediaManager implements SaveMediaManagerInterface
 {
     protected $tmpDir;
-    protected $uploadedMediaManager;
+    protected $mediaStorageManager;
     protected $allowedMimeTypes;
     protected $objectManager;
     protected $folderRepository;
@@ -27,7 +27,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
 
     /**
      * @param string                    $tmpDir
-     * @param UploadedMediaManager      $uploadedMediaManager
+     * @param MediaStorageManager       $mediaStorageManager
      * @param array                     $allowedMimeTypes
      * @param objectManager             $objectManager
      * @param FolderRepositoryInterface $folderRepository
@@ -36,7 +36,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
      */
     public function __construct(
         $tmpDir,
-        UploadedMediaManager $uploadedMediaManager,
+        MediaStorageManager $mediaStorageManager,
         array $allowedMimeTypes,
         ObjectManager $objectManager,
         FolderRepositoryInterface $folderRepository,
@@ -44,7 +44,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         EventDispatcherInterface $dispatcher
     ) {
         $this->tmpDir = $tmpDir;
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->allowedMimeTypes = $allowedMimeTypes;
         $this->objectManager = $objectManager;
         $this->folderRepository = $folderRepository;
@@ -127,7 +127,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setName($uploadedFile->getClientOriginalName());
         $media->setMimeType($uploadedFile->getClientMimeType());
 
-        $this->uploadedMediaManager->uploadContent(
+        $this->mediaStorageManager->uploadContent(
             $filename,
             file_get_contents($this->tmpDir . '/' . $filename)
         );

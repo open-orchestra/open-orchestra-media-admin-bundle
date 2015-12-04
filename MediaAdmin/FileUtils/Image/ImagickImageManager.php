@@ -19,10 +19,8 @@ class ImagickImageManager implements ImageManagerInterface
      * @param array                    $formats
      * @param ImagickFactory           $imagickFactory
      */
-    public function __construct(
-        array $formats,
-        ImagickFactory $imagickFactory
-    ) {
+    public function __construct(array $formats, ImagickFactory $imagickFactory)
+    {
         $this->formats = $formats;
         $this->imagickFactory = $imagickFactory;
     }

@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
@@ -17,18 +17,18 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
-     * @param UploadedMediaManager  $uploadedMediaManager
+     * @param MediaStorageManager   $mediaStorageManager
      * @param ImageManagerInterface $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      */
     public function __construct(
-        UploadedMediaManager $uploadedMediaManager,
+        MediaStorageManager $mediaStorageManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnailFormat = $thumbnailFormat;
@@ -64,7 +64,7 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
 
         if ($thumbnailPath != '') {
             $thumbnailName = self::THUMBNAIL_PREFIX . '-' . str_replace('.pdf', '.jpg', $fileName);
-            $this->uploadedMediaManager->uploadContent($thumbnailName, file_get_contents($thumbnailPath));
+            $this->mediaStorageManager->uploadContent($thumbnailName, file_get_contents($thumbnailPath));
 
             if (trim($thumbnailPath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
                 unlink($thumbnailPath);

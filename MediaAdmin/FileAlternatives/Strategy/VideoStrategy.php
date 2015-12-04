@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -19,20 +19,20 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
-     * @param UploadedMediaManager  $uploadedMediaManager
+     * @param MediaStorageManager  $mediaStorageManager
      * @param VideoManagerInterface $videoManager
      * @param ImageManager          $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      */
     public function __construct(
-        UploadedMediaManager $uploadedMediaManager,
+        MediaStorageManager $mediaStorageManager,
         VideoManagerInterface $videoManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->videoManager = $videoManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
@@ -69,7 +69,7 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
 
         if ($thumbnailPath != '') {
             $thumbnailName = self::THUMBNAIL_PREFIX . '-' . pathinfo($fileName, PATHINFO_FILENAME) . '.jpg';
-            $this->uploadedMediaManager->uploadContent($thumbnailName, file_get_contents($thumbnailPath));
+            $this->mediaStorageManager->uploadContent($thumbnailName, file_get_contents($thumbnailPath));
 
             if (trim($thumbnailPath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
                 unlink($thumbnailPath);

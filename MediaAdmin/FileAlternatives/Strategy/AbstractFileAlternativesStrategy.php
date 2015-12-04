@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
@@ -12,7 +12,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrategyInterface
 {
-    protected $uploadedMediaManager;
+    protected $mediaStorageManager;
     protected $tmpDir;
 
     /**
@@ -75,8 +75,8 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
      */
     protected function deleteFile($fileName)
     {
-        if ($this->uploadedMediaManager->exists($fileName)) {
-            $this->uploadedMediaManager->deleteContent($fileName);
+        if ($this->mediaStorageManager->exists($fileName)) {
+            $this->mediaStorageManager->deleteContent($fileName);
         }
     }
 

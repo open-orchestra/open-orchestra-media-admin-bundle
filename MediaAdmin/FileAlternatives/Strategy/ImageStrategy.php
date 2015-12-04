@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
@@ -18,20 +18,20 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     protected $alternativeFormats;
 
     /**
-     * @param UploadedMediaManager  $uploadedMediaManager
+     * @param MediaStorageManager   $mediaStorageManager
      * @param ImageManagerInterface $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      * @param array                 $alternativeFormats
      */
     public function __construct(
-        UploadedMediaManager $uploadedMediaManager,
+        MediaStorageManager $mediaStorageManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat,
         array $alternativeFormats
     ) {
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnailFormat = $thumbnailFormat;
@@ -109,7 +109,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
         if ($alternativePath != '') {
             $alternativeName = $this->getAlternativeName($formatName, $fileName);
-            $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($alternativePath));
+            $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($alternativePath));
             if (trim($alternativePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
                 unlink($alternativePath);
             }
@@ -158,7 +158,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
         $this->deleteFile($alternativeName);
-        $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($newFilePath));
+        $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($newFilePath));
         unlink($newFilePath);
 
         return $media;
@@ -180,11 +180,11 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
 
-        $originalFilePath = $this->uploadedMediaManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
+        $originalFilePath = $this->mediaStorageManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
         $croppedFilePath = $this->imageManager->cropAndResize($originalFilePath, $x, $y, $h, $w, $formatName);
 
         $this->deleteFile($alternativeName);
-        $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($croppedFilePath));
+        $this->mediaStorageManager->uploadContent($alternativeName, file_get_contents($croppedFilePath));
 
         unlink($originalFilePath);
         unlink($croppedFilePath);

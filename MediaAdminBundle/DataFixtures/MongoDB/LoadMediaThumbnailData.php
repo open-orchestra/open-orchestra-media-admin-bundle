@@ -46,10 +46,10 @@ class LoadMediaThumbnailData
      */
     protected function deployThumbnail($thumbnailName)
     {
-        $uploadMediaManager = $this->container->get('open_orchestra_media_file.manager.uploaded_media');
+        $mediaStorageManager = $this->container->get('open_orchestra_media_file.manager.storage');
         $fileDir = 'web/bundles/openorchestramediaadmin/images/';
 
-        $uploadMediaManager->uploadContent($thumbnailName, file_get_contents($fileDir . DIRECTORY_SEPARATOR . $thumbnailName));
+        $mediaStorageManager->uploadContent($thumbnailName, file_get_contents($fileDir . DIRECTORY_SEPARATOR . $thumbnailName));
     }
 
     /**

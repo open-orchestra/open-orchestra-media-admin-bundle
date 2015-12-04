@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
@@ -18,9 +18,9 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
      * @param string $tmpDir
      * @param string $thumbnail
      */
-    public function __construct(UploadedMediaManager $uploadedMediaManager, $tmpDir, $thumbnail)
+    public function __construct(MediaStorageManager $mediaStorageManager, $tmpDir, $thumbnail)
     {
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->tmpDir = $tmpDir;
         $this->thumbnail = $thumbnail;
     }
