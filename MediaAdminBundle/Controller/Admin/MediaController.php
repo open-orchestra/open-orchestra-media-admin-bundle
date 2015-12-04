@@ -59,7 +59,7 @@ class MediaController extends AbstractAdminController
                 $data['format']
             );
 
-            $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
 
 
@@ -95,11 +95,15 @@ class MediaController extends AbstractAdminController
 
         if ($form->isValid()) {
             $file = $form->getData()->getFile();
-            $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
-            $file->move($tmpDir, $format . '-' . $media->getFilesystemName());
-            $this->get('open_orchestra_media_admin.file_utils.manager.image')->override($media, $format);
 
-            $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
+            $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
+            $tmpFileName = time() . $file->getClientOriginalName();
+            $file->move($tmpDir, $tmpFileName);
+
+            $this->get('open_orchestra_media_admin.file_alternatives.manager')
+                ->overrideAlternative($media, $tmpDir . DIRECTORY_SEPARATOR . $tmpFileName, $format);
+
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
 
         return $this->renderAdminForm($form);

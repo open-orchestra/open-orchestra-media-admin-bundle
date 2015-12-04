@@ -81,6 +81,20 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     }
 
     /**
+     * Override the file alternative for $media with $newFile and run it
+     * 
+     * @param MediaInterface $media
+     * @param string         $newFilePath
+     * @param string         $formatName
+     * 
+     * @return MediaInterface
+     */
+    public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
+    {
+        return $media;
+    }
+
+    /**
      * @return string
      */
     abstract public function getName();

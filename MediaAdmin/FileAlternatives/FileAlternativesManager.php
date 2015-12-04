@@ -102,4 +102,24 @@ class FileAlternativesManager
 
         return $this->defaultStrategy->deleteAlternatives($media);
     }
+
+    /**
+     * Try to find a strategy to override the file alternative for $media and run it
+     * 
+     * @param MediaInterface $media
+     * @param string         $newFilePath
+     * @param string         $formatName
+     * 
+     * @return MediaInterface
+     */
+    public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
+    {
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->support($media)) {
+                return $strategy->overrideAlternative($media, $newFilePath, $formatName);
+            }
+        }
+
+        return $this->defaultStrategy->overrideAlternative($media, $newFilePath, $formatName);
+    }
 }

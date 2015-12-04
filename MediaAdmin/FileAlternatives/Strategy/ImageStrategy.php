@@ -149,6 +149,27 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * Override the file alternative for $media with $newFile and run it
+     * 
+     * @param MediaInterface $media
+     * @param string         $newFilePath
+     * @param string         $formatName
+     * 
+     * @return MediaInterface
+     */
+    public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
+    {
+        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
+        $this->deleteFile($alternativeName);
+        $this->uploadedMediaManager->uploadContent(
+            $alternativeName,
+            file_get_contents($newFilePath)
+        );
+
+        return $media;
+    }
+
+    /**
      * @return string
      */
     public function getName()

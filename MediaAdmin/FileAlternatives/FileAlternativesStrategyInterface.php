@@ -53,6 +53,17 @@ interface FileAlternativesStrategyInterface
     public function deleteAlternatives(MediaInterface $media);
 
     /**
+     * Override the file alternative for $media with $newFile and run it
+     * 
+     * @param MediaInterface $media
+     * @param string         $newFilePath
+     * @param string         $formatName
+     * 
+     * @return MediaInterface
+     */
+    public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName);
+
+    /**
      * Return the name of the strategy
      * 
      * @return string

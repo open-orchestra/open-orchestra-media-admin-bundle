@@ -94,32 +94,4 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
             array(10, 20, 10, 100, 'max_height'),
         );
     }
-
-    /**
-     * Test override
-     *
-     * @param string $format
-     * @param string $fileName
-     *
-     * @dataProvider generateFormatOverride
-     */
-    public function testOverride($format, $fileName)
-    {
-        $this->markTestSkipped('Refactoring en cours.');
-        $this->assertFileExists($this->tmpDir . '/' . $fileName);
-        Phake::when($this->media)->getFilesystemName()->thenReturn($this->overrideFile);
-        $this->manager->override($this->media, $format);
-    }
-
-    /**
-     * @return array
-     */
-    public function generateFormatOverride()
-    {
-        return array(
-            array('max_height', 'max_height-' . $this->overrideFile),
-            array('max_width', 'max_width-' . $this->overrideFile),
-            array('rectangle', 'rectangle-' . $this->overrideFile),
-        );
-    }
 }

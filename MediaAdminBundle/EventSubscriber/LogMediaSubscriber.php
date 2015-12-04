@@ -69,7 +69,7 @@ class LogMediaSubscriber extends AbstractLogSubscriber
     public static function getSubscribedEvents()
     {
         return array(
-            MediaEvents::MEDIA_CROP => 'mediaResize',
+            MediaEvents::MEDIA_UPDATE => 'mediaResize',
             MediaEvents::MEDIA_ADD => 'mediaAdd',
             MediaEvents::MEDIA_DELETE => 'mediaDelete',
             FolderEvents::FOLDER_CREATE => 'folderCreate',

@@ -11,9 +11,9 @@ use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterfa
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
 
 /**
- * Class LoadMediaData
+ * Class LoadMediaThumbnailData
  */
-class LoadMediaData
+class LoadMediaThumbnailData
     extends AbstractFixture
     implements ContainerAwareInterface, OrderedFixtureInterface, OrchestraProductionFixturesInterface
 {

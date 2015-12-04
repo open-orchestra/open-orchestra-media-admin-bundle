@@ -165,28 +165,4 @@ class ImagickImageManager implements ImageManagerInterface
 
         $this->saveImage($media, $image, $format);
     }
-
-    /**
-     * @param MediaInterface $media
-     * @param string         $format
-     */
-    public function override(MediaInterface $media, $format)
-    {
-        $filename = $format . '-' . $media->getFilesystemName();
-        $filePath = $this->tmpDir . '/' . $filename;
-        $this->resizeAndSaveImage($media, $format, $filePath);
-    }
-
-    /**
-     * @param MediaInterface $media
-     * @param string         $format
-     * @param string         $filePath
-     */
-    public function resizeAndSaveImage(MediaInterface $media, $format, $filePath)
-    {
-        $image = $this->imagickFactory->create($filePath);
-        $this->resizeImage($this->formats[$format], $image);
-
-        $this->saveImage($media, $image, $format);
-    }
 }
