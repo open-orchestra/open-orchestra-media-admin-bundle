@@ -16,7 +16,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     protected $media;
-    protected $formats;
     protected $file = 'What-are-you-talking-about.jpg';
     protected $imageWidth = 10;
     protected $imageHeight = 10;
@@ -28,23 +27,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-//        $this->tmpDir = __DIR__ . '/images';
-        $this->formats = array(
-            'fixed_width' => array(
-                'max_width' => 100,
-                'compression_quality' => 75
-            ),
-            'fixed_height' => array(
-                'max_height' => 100,
-                'compression_quality' => 75
-            ),
-            'rectangle' => array(
-                'width' => 70,
-                'height' => 50,
-                'compression_quality' => 75
-            ),
-        );
-
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getFilesystemName()->thenReturn($this->file);
 
@@ -54,7 +36,7 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         Phake::when($imagick)->getImageHeight()->thenReturn($this->imageHeight);
         Phake::when($imagickFactory)->create(Phake::anyParameters())->thenReturn($imagick);
 
-        $this->manager = new ImagickImageManager($this->formats, $imagickFactory);
+        $this->manager = new ImagickImageManager($imagickFactory);
     }
 
     /**

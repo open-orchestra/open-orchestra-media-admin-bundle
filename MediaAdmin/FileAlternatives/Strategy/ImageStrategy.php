@@ -177,7 +177,8 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
 
         $originalFilePath = $this->mediaStorageManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
-        $croppedFilePath = $this->imageManager->cropAndResize($originalFilePath, $x, $y, $h, $w, $formatName);
+        $croppedFilePath = $this->imageManager
+            ->cropAndResize($originalFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
 
         $this->deleteFile($alternativeName);
         $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);

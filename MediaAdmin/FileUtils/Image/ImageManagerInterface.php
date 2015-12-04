@@ -32,12 +32,12 @@ interface ImageManagerInterface
     /**
      * Crop $filePath with ($x, $y, $h, $w) and resize it to the $formatName
      * 
-     * @param $filePath
-     * @param $x
-     * @param $y
-     * @param $h
-     * @param $w
-     * @param $formatName
+     * @param string $filePath
+     * @param int    $x
+     * @param int    $y
+     * @param int    $h
+     * @param int    $w
+     * @param array  $format
      */
-    public function cropAndResize($filePath, $x, $y, $h, $w, $formatName);
+    public function cropAndResize($filePath, $x, $y, $h, $w, array $format);
 }

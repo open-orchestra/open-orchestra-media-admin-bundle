@@ -12,16 +12,13 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class ImagickImageManager implements ImageManagerInterface
 {
-    protected $formats;
     protected $imagickFactory;
 
     /**
-     * @param array                    $formats
      * @param ImagickFactory           $imagickFactory
      */
-    public function __construct(array $formats, ImagickFactory $imagickFactory)
+    public function __construct(ImagickFactory $imagickFactory)
     {
-        $this->formats = $formats;
         $this->imagickFactory = $imagickFactory;
     }
 
@@ -144,23 +141,23 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Crop $filePath with ($x, $y, $h, $w) and resize it to the $formatName
      * 
-     * @param $filePath
-     * @param $x
-     * @param $y
-     * @param $h
-     * @param $w
-     * @param $formatName
+     * @param string $filePath
+     * @param int    $x
+     * @param int    $y
+     * @param int    $h
+     * @param int    $w
+     * @param array  $format
      */
-    public function cropAndResize($filePath, $x, $y, $h, $w, $formatName)
+    public function cropAndResize($filePath, $x, $y, $h, $w, array $format)
     {
         $image = $this->imagickFactory->create($filePath);
         $image->cropImage($w, $h, $x, $y);
-        $image = $this->resizeImage($this->formats[$formatName], $image);
+        $image = $this->resizeImage($format, $image);
 
         $pathInfo = pathinfo($filePath);
         $croppedFilePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . time() . $pathInfo['basename'];
 
-        $this->saveImage($croppedFilePath, $image, $this->formats[$formatName]['compression_quality']);
+        $this->saveImage($croppedFilePath, $image, $format['compression_quality']);
 
         return $croppedFilePath;
     }
