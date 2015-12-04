@@ -10,9 +10,9 @@ use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 
 /**
- * Class MediaFileModifiedSubscriber
+ * Class MediaCreatedSubscriber
  */
-class MediaFileModifiedSubscriber implements EventSubscriberInterface
+class MediaCreatedSubscriber implements EventSubscriberInterface
 {
     public $medias = array();
     protected $fileAlternativesManager;
