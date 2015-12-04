@@ -19,8 +19,8 @@ class MediaCreatedSubscriber implements EventSubscriberInterface
     protected $objectManager;
 
     /**
-     * @param fileAlternativesManager  $fileAlternativesManager
-     * @param ObjectManager            $objectManager
+     * @param fileAlternativesManager $fileAlternativesManager
+     * @param ObjectManager           $objectManager
      */
     public function __construct(FileAlternativesManager $fileAlternativesManager, ObjectManager $objectManager)
     {

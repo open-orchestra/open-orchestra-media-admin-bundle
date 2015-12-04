@@ -18,7 +18,6 @@ class MediaDeletedSubscriber implements EventSubscriberInterface
 
     /**
      * @param FileAlternativesManager $fileAlternativesManager
-     * @param $objectManager
      */
     public function __construct(FileAlternativesManager $fileAlternativesManager)
     {

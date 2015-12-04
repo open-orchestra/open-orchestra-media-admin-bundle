@@ -15,7 +15,7 @@ class ImagickImageManager implements ImageManagerInterface
     protected $imagickFactory;
 
     /**
-     * @param ImagickFactory           $imagickFactory
+     * @param ImagickFactory $imagickFactory
      */
     public function __construct(ImagickFactory $imagickFactory)
     {
@@ -101,9 +101,9 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * Compress and save $image
      * 
-     * @param MediaInterface $media
-     * @param Imagick        $image
-     * @param int            $compression_quality
+     * @param string  $filePath
+     * @param Imagick $image
+     * @param int     $compression_quality
      * 
      * @return Imagick
      */

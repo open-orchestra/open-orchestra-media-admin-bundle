@@ -19,9 +19,9 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
-     * @param MediaStorageManager  $mediaStorageManager
+     * @param MediaStorageManager   $mediaStorageManager
      * @param VideoManagerInterface $videoManager
-     * @param ImageManager          $imageManager
+     * @param ImageManagerInterface $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      */

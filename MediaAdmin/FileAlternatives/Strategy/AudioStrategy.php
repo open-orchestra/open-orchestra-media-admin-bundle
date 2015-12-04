@@ -15,8 +15,9 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnail;
 
     /**
-     * @param string $tmpDir
-     * @param string $thumbnail
+     * @param MediaStorageManager $mediaStorageManager
+     * @param string              $tmpDir
+     * @param string              $thumbnail
      */
     public function __construct(MediaStorageManager $mediaStorageManager, $tmpDir, $thumbnail)
     {
