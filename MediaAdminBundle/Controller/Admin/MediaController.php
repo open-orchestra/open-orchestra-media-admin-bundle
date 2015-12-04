@@ -43,14 +43,7 @@ class MediaController extends AbstractAdminController
             /** @var MediaInterface $media */
             $media = $mediaRepository->find($mediaId);
 
-            $uploadedMediaManager = $this->get('open_orchestra_media_file.manager.uploaded_media');
-            $filename = $media->getFilesystemName();
-            $this->get('filesystem')->dumpFile(
-                $this->container->getParameter('open_orchestra_media_admin.tmp_dir') . '/' . $filename,
-                $uploadedMediaManager->getFileContent($filename)
-            );
-
-            $this->get('open_orchestra_media_admin.file_utils.manager.image')->crop(
+            $this->get('open_orchestra_media_admin.file_alternatives.strategy.image')->cropAlternative(
                 $media,
                 $data['x'],
                 $data['y'],

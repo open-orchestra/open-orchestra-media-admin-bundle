@@ -109,10 +109,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
         if ($alternativePath != '') {
             $alternativeName = $this->getAlternativeName($formatName, $fileName);
-            $this->uploadedMediaManager->uploadContent(
-                $alternativeName,
-                file_get_contents($alternativePath)
-            );
+            $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($alternativePath));
             if (trim($alternativePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
                 unlink($alternativePath);
             }
@@ -161,10 +158,36 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
         $this->deleteFile($alternativeName);
-        $this->uploadedMediaManager->uploadContent(
-            $alternativeName,
-            file_get_contents($newFilePath)
-        );
+        $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($newFilePath));
+        unlink($newFilePath);
+
+        return $media;
+    }
+
+    /**
+     * Crop $media original file with ($x, $y, $h, $w) and resize it to the $formatName
+     * 
+     * @param MediaInterface $media
+     * @param int            $x
+     * @param Int            $y
+     * @param Int            $h
+     * @param Int            $w
+     * @param string         $formatName
+     * 
+     * @return MediaInterface
+     */
+    public function cropAlternative(MediaInterface $media, $x, $y, $h, $w, $formatName)
+    {
+        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
+
+        $originalFilePath = $this->uploadedMediaManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
+        $croppedFilePath = $this->imageManager->cropAndResize($originalFilePath, $x, $y, $h, $w, $formatName);
+
+        $this->deleteFile($alternativeName);
+        $this->uploadedMediaManager->uploadContent($alternativeName, file_get_contents($croppedFilePath));
+
+        unlink($originalFilePath);
+        unlink($croppedFilePath);
 
         return $media;
     }

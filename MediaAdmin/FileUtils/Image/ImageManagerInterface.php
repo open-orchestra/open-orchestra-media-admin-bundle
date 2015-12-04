@@ -30,12 +30,14 @@ interface ImageManagerInterface
     public function extractImageFromPdf($filePath, $page = 0);
 
     /**
-     * @param MediaInterface $media
-     * @param int            $x
-     * @param int            $y
-     * @param int            $h
-     * @param int            $w
-     * @param string         $format
+     * Crop $filePath with ($x, $y, $h, $w) and resize it to the $formatName
+     * 
+     * @param $filePath
+     * @param $x
+     * @param $y
+     * @param $h
+     * @param $w
+     * @param $formatName
      */
-    public function crop(MediaInterface $media, $x, $y, $h, $w, $format);
+    public function cropAndResize($filePath, $x, $y, $h, $w, $formatName);
 }

@@ -17,7 +17,6 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
 
     protected $media;
     protected $formats;
-    protected $tmpDir;
     protected $file = 'What-are-you-talking-about.jpg';
     protected $imageWidth = 10;
     protected $imageHeight = 10;
@@ -29,7 +28,7 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/images';
+//        $this->tmpDir = __DIR__ . '/images';
         $this->formats = array(
             'max_width' => array(
                 'max_width' => 100,
@@ -55,11 +54,7 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
         Phake::when($imagick)->getImageHeight()->thenReturn($this->imageHeight);
         Phake::when($imagickFactory)->create(Phake::anyParameters())->thenReturn($imagick);
 
-        $this->manager = new ImagickImageManager(
-            $this->tmpDir,
-            $this->formats,
-            $imagickFactory
-        );
+        $this->manager = new ImagickImageManager($this->formats, $imagickFactory);
     }
 
     /**
@@ -75,10 +70,10 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('Refactoring en cours.');
 
-        if (file_exists($this->tmpDir .'/' . $format . '-' . $this->file)) {
-            unlink($this->tmpDir .'/' . $format . '-' . $this->file);
+        if (file_exists($format . '-' . $this->file)) {
+            unlink($format . '-' . $this->file);
         }
-        $this->assertFileNotExists($this->tmpDir .'/' . $format . '-' . $this->file);
+        $this->assertFileNotExists($format . '-' . $this->file);
 
         $this->manager->crop($this->media, $x, $y, $h, $w, $format);
     }

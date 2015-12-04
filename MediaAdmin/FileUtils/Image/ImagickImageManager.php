@@ -12,21 +12,17 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class ImagickImageManager implements ImageManagerInterface
 {
-    protected $tmpDir;
     protected $formats;
     protected $imagickFactory;
 
     /**
-     * @param string                   $tmpDir
      * @param array                    $formats
      * @param ImagickFactory           $imagickFactory
      */
     public function __construct(
-        $tmpDir,
         array $formats,
         ImagickFactory $imagickFactory
     ) {
-        $this->tmpDir = $tmpDir;
         $this->formats = $formats;
         $this->imagickFactory = $imagickFactory;
     }
@@ -147,22 +143,27 @@ class ImagickImageManager implements ImageManagerInterface
         return $extractedImagePath;
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     * @param MediaInterface $media
-     * @param int            $x
-     * @param int            $y
-     * @param int            $h
-     * @param int            $w
-     * @param string         $format
+     * Crop $filePath with ($x, $y, $h, $w) and resize it to the $formatName
+     * 
+     * @param $filePath
+     * @param $x
+     * @param $y
+     * @param $h
+     * @param $w
+     * @param $formatName
      */
-    public function crop(MediaInterface $media, $x, $y, $h, $w, $format)
+    public function cropAndResize($filePath, $x, $y, $h, $w, $formatName)
     {
-        $image = $this->imagickFactory->create($this->tmpDir . '/' . $media->getFilesystemName());
+        $image = $this->imagickFactory->create($filePath);
         $image->cropImage($w, $h, $x, $y);
-        $this->resizeImage($this->formats[$format], $image);
+        $image = $this->resizeImage($this->formats[$formatName], $image);
 
-        $this->saveImage($media, $image, $format);
+        $pathInfo = pathinfo($filePath);
+        $croppedFilePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . time() . $pathInfo['basename'];
+
+        $this->saveImage($croppedFilePath, $image, $this->formats[$formatName]['compression_quality']);
+
+        return $croppedFilePath;
     }
 }
