@@ -29,8 +29,8 @@ open_orchestra_media_admin:
             format: Choisissez un format
             original_image: Originel
             rectangle: Rectangle (100p x 70p)
-            max_width: Largeur fixe (100p)
-            max_height: Hauteur fixe (100p)
+            fixed_width: Largeur fixe (100p)
+            fixed_height: Hauteur fixe (100p)
             media_thumbnail: Médiathéque
             list:
                 keyword: Mot-clé

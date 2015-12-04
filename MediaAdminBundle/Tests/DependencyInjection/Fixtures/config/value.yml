@@ -3,10 +3,10 @@ open_orchestra_media_admin:
     alternatives:
         image:
             formats:
-                max_height:
+                fixed_height:
                     max_height: 5000
                     compression_quality: 10000
-                max_width:
+                fixed_width:
                     max_width: 5000
                     compression_quality: 10000
                 rectangle:

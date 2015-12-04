@@ -32,7 +32,7 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
                 'width' => 100,
                 'height' => 100,
             ),
-            'max_width' => array(
+            'fixed_width' => array(
                 'max_width' => 100,
             ),
         );
@@ -75,7 +75,7 @@ class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
         Phake::verify($this->builder)->add('format', 'choice', array(
             'choices' => array(
                 'rectangle' => 'open_orchestra_media_admin.form.media.rectangle',
-                'max_width' => 'open_orchestra_media_admin.form.media.max_width',
+                'fixed_width' => 'open_orchestra_media_admin.form.media.fixed_width',
             ),
             'label' => 'open_orchestra_media_admin.form.media.format',
             'empty_value' => 'open_orchestra_media_admin.form.media.original_image',

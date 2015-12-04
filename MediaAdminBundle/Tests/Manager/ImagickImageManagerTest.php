@@ -30,11 +30,11 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
     {
 //        $this->tmpDir = __DIR__ . '/images';
         $this->formats = array(
-            'max_width' => array(
+            'fixed_width' => array(
                 'max_width' => 100,
                 'compression_quality' => 75
             ),
-            'max_height' => array(
+            'fixed_height' => array(
                 'max_height' => 100,
                 'compression_quality' => 75
             ),
@@ -85,8 +85,8 @@ class ImagickImageManagerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(10, 20, 100, 100, 'rectangle'),
-            array(70, 20, 100, 10, 'max_width'),
-            array(10, 20, 10, 100, 'max_height'),
+            array(70, 20, 100, 10, 'fixed_width'),
+            array(10, 20, 10, 100, 'fixed_height'),
         );
     }
 }
