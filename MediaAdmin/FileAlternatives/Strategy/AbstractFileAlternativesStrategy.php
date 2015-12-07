@@ -16,22 +16,6 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     protected $tmpDir;
 
     /**
-     * @param MediaInterface $media
-     *
-     * @return bool
-     */
-    abstract public function support(MediaInterface $media);
-
-    /**
-     * Generate a thumbnail for $media
-     *
-     * @param MediaInterface $media
-     *
-     * @return MediaInterface
-     */
-    abstract public function generateThumbnail(MediaInterface $media);
-
-    /**
      * Generate all aternatives for $media
      *
      * @param MediaInterface $media
@@ -93,9 +77,4 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     {
         return $media;
     }
-
-    /**
-     * @return string
-     */
-    abstract public function getName();
 }

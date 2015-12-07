@@ -7,7 +7,6 @@ use OpenOrchestra\Media\Model\MediaInterface;
 /**
  * Class FileAlternativesManager
  */
-
 class FileAlternativesManager
 {
     protected $strategies = array();

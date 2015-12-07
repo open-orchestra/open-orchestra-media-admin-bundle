@@ -42,7 +42,7 @@ class LoadMediaThumbnailData
     /**
      * Deploy a logo on the media storage
      * 
-     * @param string $logoName
+     * @param string $thumbnailName
      */
     protected function deployThumbnail($thumbnailName)
     {

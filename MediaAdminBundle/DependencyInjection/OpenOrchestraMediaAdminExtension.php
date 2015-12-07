@@ -25,7 +25,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
         $container->setParameter(
             'open_orchestra_media_admin.files.thumbnail_format',
-            array('max_width' => '117', 'max_height' => '117', 'compression_quality' => '75')
+            $config['thumbnail']
         );
 
         $container->setParameter(

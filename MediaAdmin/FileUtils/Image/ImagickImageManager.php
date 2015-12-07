@@ -53,7 +53,7 @@ class ImagickImageManager implements ImageManagerInterface
         $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
         $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
 
-        if ($maxWidth + $maxHeight != -2) {
+        if (-2 != $maxWidth + $maxHeight) {
             $image->setimagebackgroundcolor('#000000');
             $refRatio = $maxWidth / $maxHeight;
             $imageRatio = $image->getImageWidth() / $image->getImageHeight();

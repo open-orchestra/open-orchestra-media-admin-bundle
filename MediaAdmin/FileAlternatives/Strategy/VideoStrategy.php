@@ -67,12 +67,12 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
 
         $thumbnailPath = $this->imageManager->generateAlternative($extractedImagePath, $this->thumbnailFormat);
 
-        if ($thumbnailPath != '') {
+        if ('' !== $thumbnailPath) {
             $thumbnailName = self::THUMBNAIL_PREFIX . '-' . pathinfo($fileName, PATHINFO_FILENAME) . '.jpg';
             $this->mediaStorageManager->uploadFile($thumbnailName, $thumbnailPath);
         }
 
-        if (trim($extractedImagePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
+        if (trim($extractedImagePath, DIRECTORY_SEPARATOR) !== trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
             unlink($extractedImagePath);
         }
 

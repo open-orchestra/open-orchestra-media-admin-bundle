@@ -22,6 +22,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
             ->scalarNode('tmp_dir')->defaultValue('/tmp')->end()
+            ->arrayNode('thumbnail')->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('max_width')->defaultValue(117)->end()
+                    ->scalarNode('max_height')->defaultValue(117)->end()
+                    ->scalarNode('compression_quality')->defaultValue(75)->end()
+                ->end()
+            ->end()
             ->arrayNode('alternatives')->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('image')->addDefaultsIfNotSet()
