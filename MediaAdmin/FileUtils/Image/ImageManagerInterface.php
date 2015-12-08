@@ -38,6 +38,8 @@ interface ImageManagerInterface
      * @param int    $h
      * @param int    $w
      * @param array  $format
+     * 
+     * @return string
      */
     public function cropAndResize($filePath, $x, $y, $h, $w, array $format);
 }

@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
+use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaCreatedSubscriber
