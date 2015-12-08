@@ -48,8 +48,6 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
      * Generate a thumbnail for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
@@ -72,8 +70,6 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
         }
 
         $media->setThumbnail($thumbnailName);
-
-        return $media;
     }
 
     /**

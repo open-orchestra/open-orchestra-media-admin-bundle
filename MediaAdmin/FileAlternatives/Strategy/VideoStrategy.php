@@ -53,8 +53,6 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
      * Generate a thumbnail for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
@@ -77,8 +75,6 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
         }
 
         $media->setThumbnail($thumbnailName);
-
-        return $media;
     }
 
     /**

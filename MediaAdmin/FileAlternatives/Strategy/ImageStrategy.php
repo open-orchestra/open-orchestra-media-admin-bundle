@@ -52,8 +52,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      * Generate a thumbnail for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
@@ -64,16 +62,12 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         );
 
         $media->setThumbnail($thumbnailName);
-
-        return $media;
     }
 
     /**
      * Generate all aternatives for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateAlternatives(MediaInterface $media)
     {
@@ -86,8 +80,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         if (trim($filePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
             unlink($filePath);
         }
-
-        return $media;
     }
 
     /**
@@ -148,16 +140,12 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      * @param MediaInterface $media
      * @param string         $newFilePath
      * @param string         $formatName
-     * 
-     * @return MediaInterface
      */
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
     {
         $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
         $this->deleteFile($alternativeName);
         $this->mediaStorageManager->uploadFile($alternativeName, $newFilePath);
-
-        return $media;
     }
 
     /**
@@ -169,8 +157,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      * @param Int            $h
      * @param Int            $w
      * @param string         $formatName
-     * 
-     * @return MediaInterface
      */
     public function cropAlternative(MediaInterface $media, $x, $y, $h, $w, $formatName)
     {
@@ -184,8 +170,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);
 
         unlink($originalFilePath);
-
-        return $media;
     }
 
     /**

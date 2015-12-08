@@ -38,14 +38,10 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
 
     /**
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
         $media->setThumbnail($this->thumbnail);
-
-        return $media;
     }
 
     /**

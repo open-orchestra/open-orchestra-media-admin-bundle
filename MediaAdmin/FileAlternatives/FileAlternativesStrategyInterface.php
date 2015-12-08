@@ -24,8 +24,6 @@ interface FileAlternativesStrategyInterface
      * Generate a thumbnail for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media);
 
@@ -33,8 +31,6 @@ interface FileAlternativesStrategyInterface
      * Generate all aternatives for $media
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateAlternatives(MediaInterface $media);
 
@@ -58,8 +54,6 @@ interface FileAlternativesStrategyInterface
      * @param MediaInterface $media
      * @param string         $newFilePath
      * @param string         $formatName
-     * 
-     * @return MediaInterface
      */
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName);
 

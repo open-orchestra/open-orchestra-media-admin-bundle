@@ -34,72 +34,72 @@ class FileAlternativesManager
      * Try to find a strategy to generate the thumbnail for $media and run it
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateThumbnail(MediaInterface $media)
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->generateThumbnail($media);
+                $strategy->generateThumbnail($media);
+
+                return;
             }
         }
 
-        return $this->defaultStrategy->generateThumbnail($media);
+        $this->defaultStrategy->generateThumbnail($media);
     }
 
     /**
      * Try to find a strategy to generate the required file alternatives and run it
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function generateAlternatives(MediaInterface $media)
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->generateAlternatives($media);
+                $strategy->generateAlternatives($media);
+
+                return;
             }
         }
 
-        return $this->defaultStrategy->generateAlternatives($media);
+        $this->defaultStrategy->generateAlternatives($media);
     }
 
     /**
      * Try to find a strategy to delete the thumbnail for $media and run it
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function deleteThumbnail(MediaInterface $media)
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->deleteThumbnail($media);
+                $strategy->deleteThumbnail($media);
+
+                return;
             }
         }
 
-        return $this->defaultStrategy->deleteThumbnail($media);
+        $this->defaultStrategy->deleteThumbnail($media);
     }
 
     /**
      * Try to find a strategy to delete the file alternatives for $media and run it
      *
      * @param MediaInterface $media
-     *
-     * @return MediaInterface
      */
     public function deleteAlternatives(MediaInterface $media)
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->deleteAlternatives($media);
+                $strategy->deleteAlternatives($media);
+
+                return;
             }
         }
 
-        return $this->defaultStrategy->deleteAlternatives($media);
+        $this->defaultStrategy->deleteAlternatives($media);
     }
 
     /**
@@ -108,17 +108,17 @@ class FileAlternativesManager
      * @param MediaInterface $media
      * @param string         $newFilePath
      * @param string         $formatName
-     * 
-     * @return MediaInterface
      */
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->overrideAlternative($media, $newFilePath, $formatName);
+                $strategy->overrideAlternative($media, $newFilePath, $formatName);
+
+                return;
             }
         }
 
-        return $this->defaultStrategy->overrideAlternative($media, $newFilePath, $formatName);
+        $this->defaultStrategy->overrideAlternative($media, $newFilePath, $formatName);
     }
 }
