@@ -16,12 +16,12 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     protected $mediaManager;
 
     protected $tmpDir;
-    protected $thumbnailManager;
-    protected $uploadedMediaManager;
+    protected $mediaStorageManager;
     protected $allowedMimeTypes = array('mimeType1', 'image/jpeg');
     protected $documentManager;
     protected $folderRepository;
     protected $mediaClass;
+    protected $dispatcher;
 
     /**
      * Set up the test
@@ -29,19 +29,19 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tmpDir = __DIR__.'/images';
-        $this->uploadedMediaManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager');
-        $this->thumbnailManager = Phake::mock('OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailManager');
+        $this->mediaStorageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
         $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
         $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
+        $this->dispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->mediaManager = new SaveMediaManager(
             $this->tmpDir,
-            $this->thumbnailManager,
-            $this->uploadedMediaManager,
+            $this->mediaStorageManager,
             $this->allowedMimeTypes,
             $this->documentManager,
             $this->folderRepository,
-            $this->mediaClass
+            $this->mediaClass,
+            $this->dispatcher
         );
     }
 
@@ -90,8 +90,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $file = $media->getFile();
         $tmpFilePath = $this->tmpDir . '/' . $fileName;
-        Phake::verify($this->uploadedMediaManager)->uploadContent($fileName, file_get_contents($tmpFilePath));
-        Phake::verify($this->thumbnailManager)->generateThumbnail($media);
+        Phake::verify($this->mediaStorageManager)->uploadFile($fileName, $tmpFilePath);
     }
 
     /**
@@ -105,7 +104,6 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/'.$fileName .'.'. $fileExtension.'/', $media->getFilesystemName());
         Phake::verify($media)->setName($fileName);
         Phake::verify($media)->setMimeType($fileExtension);
-        Phake::verify($this->thumbnailManager)->generateThumbnailName($media);
     }
 
     /**

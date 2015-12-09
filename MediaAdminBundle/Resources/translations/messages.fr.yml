@@ -29,8 +29,8 @@ open_orchestra_media_admin:
             format: Choisissez un format
             original_image: Originel
             rectangle: Rectangle (100p x 70p)
-            max_width: Largeur fixe (100p)
-            max_height: Hauteur fixe (100p)
+            fixed_width: Largeur fixe (100p)
+            fixed_height: Hauteur fixe (100p)
             media_thumbnail: Médiathéque
             list:
                 keyword: Mot-clé
@@ -100,7 +100,7 @@ open_orchestra_media_admin:
         delete_explanation: Cette opération est non réversible.
     log:
         media:
-            add_image: Ajoute un média nommé media_name
+            add: Ajoute un média nommé media_name
             delete: Supprime un média nommé media_name
             resize: Redimensionne un média nommé media_name
         folder:

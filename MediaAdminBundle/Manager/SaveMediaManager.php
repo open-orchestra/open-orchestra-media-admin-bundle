@@ -2,12 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Manager;
 
+use OpenOrchestra\MediaAdmin\Event\MediaEvent;
+use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdmin\Thumbnail\ThumbnailManager;
-use OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager;
+use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Flow\Basic as FlowBasic;
 
 /**
@@ -16,38 +18,38 @@ use Flow\Basic as FlowBasic;
 class SaveMediaManager implements SaveMediaManagerInterface
 {
     protected $tmpDir;
-    protected $thumbnailManager;
-    protected $uploadedMediaManager;
+    protected $mediaStorageManager;
     protected $allowedMimeTypes;
     protected $objectManager;
     protected $folderRepository;
     protected $mediaClass;
+    protected $dispatcher;
 
     /**
      * @param string                    $tmpDir
-     * @param ThumbnailManager          $thumbnailManager
-     * @param UploadedMediaManager      $uploadedMediaManager
+     * @param MediaStorageManager       $mediaStorageManager
      * @param array                     $allowedMimeTypes
      * @param objectManager             $objectManager
      * @param FolderRepositoryInterface $folderRepository
      * @param string                    $mediaClass
+     * @param EventDispatcherInterface  $dispatcher
      */
     public function __construct(
         $tmpDir,
-        ThumbnailManager $thumbnailManager,
-        UploadedMediaManager $uploadedMediaManager,
+        MediaStorageManager $mediaStorageManager,
         array $allowedMimeTypes,
         ObjectManager $objectManager,
         FolderRepositoryInterface $folderRepository,
-        $mediaClass
+        $mediaClass,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->tmpDir = $tmpDir;
-        $this->thumbnailManager = $thumbnailManager;
-        $this->uploadedMediaManager = $uploadedMediaManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         $this->allowedMimeTypes = $allowedMimeTypes;
         $this->objectManager = $objectManager;
         $this->folderRepository = $folderRepository;
         $this->mediaClass = $mediaClass;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -60,12 +62,10 @@ class SaveMediaManager implements SaveMediaManagerInterface
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile)
     {
-        $filename = sha1(uniqid(mt_rand(), true))
-            . pathinfo(
-                $this->tmpDir . '/' . $uploadedFile->getClientOriginalName(), PATHINFO_FILENAME
-            ) . '.' . $uploadedFile->guessClientExtension();
+        $filename = time() . '-' . $uploadedFile->getClientOriginalName();
 
-        if (FlowBasic::save($this->tmpDir . '/' . $filename, $this->tmpDir)) {
+        if (FlowBasic::save($this->tmpDir . DIRECTORY_SEPARATOR . $filename, $this->tmpDir)) {
+
             return $filename;
         }
 
@@ -104,19 +104,33 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setMediaFolder($this->folderRepository->find($folderId));
 
         if (null !== $uploadedFile) {
-            $media->setName($uploadedFile->getClientOriginalName());
-            $media->setMimeType($uploadedFile->getClientMimeType());
-            $this->thumbnailManager->generateThumbnailName($media);
+            $media = $this->processMedia($media, $uploadedFile, $filename);
         }
 
         $this->objectManager->persist($media);
         $this->objectManager->flush();
 
-        if (null !== $uploadedFile) {
-            $tmpFilePath = $this->tmpDir . '/' . $filename;
-            $this->uploadedMediaManager->uploadContent($filename, file_get_contents($tmpFilePath));
-            $this->thumbnailManager->generateThumbnail($media);
-        }
+        return $media;
+    }
+
+    /**
+     * Process $uploadedFile (thumbnail + storage) and attach it to $media
+     *
+     * @param MediaInterface $media
+     * @param UploadedFile   $uploadedFile
+     * @param string         $filename
+     *
+     * @return MediaInterface
+     */
+    protected function processMedia($media, $uploadedFile, $filename)
+    {
+        $media->setName($uploadedFile->getClientOriginalName());
+        $media->setMimeType($uploadedFile->getClientMimeType());
+
+        $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
+
+        $event = new MediaEvent($media);
+        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
 
         return $media;
     }

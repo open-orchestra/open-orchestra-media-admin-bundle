@@ -34,8 +34,7 @@ class MediaController extends BaseController
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
 
-        return $this->get('open_orchestra_api.transformer_manager')
-            ->get('media')->transform($media);
+        return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
     }
 
     /**
@@ -51,14 +50,12 @@ class MediaController extends BaseController
         $folderId = $request->get('folderId');
         /** @var FolderInterface $folder */
         $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
-        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')
-            ->isDeletable($folder);
+        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
         $parentId = null;
         if ($folder->getParent() instanceof FolderInterface) {
             $parentId = $folder->getParent()->getId();
         }
-        $mediaCollection = $this->get('open_orchestra_media.repository.media')
-            ->findByFolderId($folderId);
+        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
 
         return $this->get('open_orchestra_api.transformer_manager')
             ->get('media_collection')->transform(
@@ -87,10 +84,11 @@ class MediaController extends BaseController
             throw new MediaNotDeletableException();
         }
 
-        $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
         $documentManager = $this->get('object_manager');
         $documentManager->remove($media);
         $documentManager->flush();
+
+        $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
 
         return array();
     }
@@ -114,11 +112,9 @@ class MediaController extends BaseController
         if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
 
             if ($saveMediaManager->isFileAllowed($filename)) {
-                $media = $saveMediaManager
-                    ->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
+                $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
 
-                return $this->get('open_orchestra_api.transformer_manager')
-                    ->get('media')->transform($media);
+                return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
             }
 
             $translator = $this->container->get('translator');

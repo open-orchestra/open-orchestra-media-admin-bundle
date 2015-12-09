@@ -31,7 +31,7 @@ services:
     open_orchestra_media_admin.type.media_crop:
         class: %open_orchestra_media_admin.type.media_crop.class%
         arguments:
-            - %open_orchestra_media_admin.thumbnail.configuration%
+            - %open_orchestra_media_admin.files.alternatives.image.formats%
         tags:
             - { name: form.type, alias: oo_media_crop}
     open_orchestra_media_admin.type.media_meta:

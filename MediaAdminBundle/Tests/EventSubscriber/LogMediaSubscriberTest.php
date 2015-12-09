@@ -45,8 +45,8 @@ class LogMediaSubscriberTest extends LogAbstractSubscriberTest
     public function provideSubscribedEvent()
     {
         return array(
-            array(MediaEvents::ADD_IMAGE),
-            array(MediaEvents::MEDIA_CROP),
+            array(MediaEvents::MEDIA_ADD),
+            array(MediaEvents::MEDIA_UPDATE),
             array(MediaEvents::MEDIA_DELETE),
             array(FolderEvents::FOLDER_CREATE),
             array(FolderEvents::FOLDER_DELETE),
@@ -57,10 +57,10 @@ class LogMediaSubscriberTest extends LogAbstractSubscriberTest
     /**
      * Test add image
      */
-    public function testAddImage()
+    public function testAdd()
     {
-        $this->subscriber->mediaAddImage($this->mediaEvent);
-        $this->assertEventLogged('open_orchestra_media_admin.log.media.add_image', $this->mediaContext);
+        $this->subscriber->mediaAdd($this->mediaEvent);
+        $this->assertEventLogged('open_orchestra_media_admin.log.media.add', $this->mediaContext);
     }
 
     /**

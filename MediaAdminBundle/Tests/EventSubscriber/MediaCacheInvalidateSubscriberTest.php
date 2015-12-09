@@ -49,7 +49,7 @@ class MediaCacheInvalidateSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     public function testEventSubscribed()
     {
-        $this->assertArrayHasKey(MediaEvents::MEDIA_CROP, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(MediaEvents::MEDIA_UPDATE, $this->subscriber->getSubscribedEvents());
         $this->assertArrayHasKey(MediaEvents::MEDIA_DELETE, $this->subscriber->getSubscribedEvents());
     }
 
@@ -58,16 +58,16 @@ class MediaCacheInvalidateSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethodExists()
     {
-        $this->assertTrue(method_exists($this->subscriber, 'cropMedia'));
+        $this->assertTrue(method_exists($this->subscriber, 'updateMedia'));
         $this->assertTrue(method_exists($this->subscriber, 'deleteMedia'));
     }
 
     /**
-     * Test cropMedia
+     * Test updateMedia
      */
-    public function testCropMedia()
+    public function testUpdateMedia()
     {
-        $this->subscriber->cropMedia($this->event);
+        $this->subscriber->updateMedia($this->event);
 
         Phake::verify($this->cacheableManager, Phake::times(1))->invalidateTags(Phake::anyParameters());
     }

@@ -7,21 +7,19 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class ThumbnailCompilerPass
+ * Class FileAlternativesCompilerPass
  */
-class ThumbnailCompilerPass extends AbstractTaggedCompiler implements CompilerPassInterface
+class FileAlternativesCompilerPass extends AbstractTaggedCompiler implements CompilerPassInterface
 {
     /**
-     * You can modify the container here before it is dumped to PHP code.
-     *
      * @param ContainerBuilder $container
      *
      * @api
      */
     public function process(ContainerBuilder $container)
     {
-        $managerName = 'open_orchestra_media_admin.thumbnail_manager';
-        $tagName = 'open_orchestra_media_admin.thumbnail.strategy';
+        $managerName = 'open_orchestra_media_admin.file_alternatives.manager';
+        $tagName = 'open_orchestra_media_admin.file_alternatives.strategy';
 
         $this->addStrategyToManager($container, $managerName, $tagName);
     }

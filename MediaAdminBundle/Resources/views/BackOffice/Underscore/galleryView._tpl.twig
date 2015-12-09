@@ -3,33 +3,7 @@
         <img
             title="<%= media.get('name') %>"
             alt="<%= media.get('name') %>"
-            <% if (typeof media.get('thumbnails')["media_thumbnail"] != 'undefined') { %>
-                    src="<%= media.get('thumbnails')["media_thumbnail"] %>"
-            <% } else if (media.get('mime_type') == 'application/pdf') { %>
-                <% if (typeof media.get('displayed_image') != 'undefined') { %>
-                    src="<%= media.get('displayed_image')%>"
-                <% } else { %>
-                    {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-pdf.png' %}
-                    src="{{ asset_url }}"
-                    {% endimage %}
-                 <% } %>
-            <% } else if (media.get('mime_type').indexOf('audio') > -1 ) { %>
-                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-audio.png' %}
-                    src="{{ asset_url }}"
-                {% endimage %}
-            <% } else if (media.get('mime_type').indexOf('video') > -1 ) { %>
-                <% if (typeof media.get('displayed_image') != 'undefined') { %>
-                src="<%= media.get('displayed_image')%>"
-                <% } else { %>
-                    {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-video.png' %}
-                    src="{{ asset_url }}"
-                    {% endimage %}
-                <% } %>
-            <% } else { %>
-                {% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/ico-content.png' %}
-                    src="{{ asset_url }}"
-                {% endimage %}
-            <% } %>
+            src="<%= media.get('thumbnail') %>"
         />
     </div>
     <div class="caption">

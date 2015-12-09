@@ -44,7 +44,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
      * 
      * @param MediaEvent $event
      */
-    public function cropMedia(MediaEvent $event)
+    public function updateMedia(MediaEvent $event)
     {
         $this->invalidate($event->getMedia()->getId());
     }
@@ -65,7 +65,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            MediaEvents::MEDIA_CROP => 'cropMedia',
+            MediaEvents::MEDIA_UPDATE => 'updateMedia',
             MediaEvents::MEDIA_DELETE => 'deleteMedia'
        );
     }

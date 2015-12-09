@@ -43,14 +43,7 @@ class MediaController extends AbstractAdminController
             /** @var MediaInterface $media */
             $media = $mediaRepository->find($mediaId);
 
-            $uploadedMediaManager = $this->get('open_orchestra_media_file.manager.uploaded_media');
-            $filename = $media->getFilesystemName();
-            $this->get('filesystem')->dumpFile(
-                $this->container->getParameter('open_orchestra_media_admin.tmp_dir') . '/' . $filename,
-                $uploadedMediaManager->getFileContent($filename)
-            );
-
-            $this->get('open_orchestra_media_admin.manager.image_resizer')->crop(
+            $this->get('open_orchestra_media_admin.file_alternatives.strategy.image')->cropAlternative(
                 $media,
                 $data['x'],
                 $data['y'],
@@ -59,7 +52,7 @@ class MediaController extends AbstractAdminController
                 $data['format']
             );
 
-            $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
 
 
@@ -95,11 +88,15 @@ class MediaController extends AbstractAdminController
 
         if ($form->isValid()) {
             $file = $form->getData()->getFile();
-            $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
-            $file->move($tmpDir, $format . '-' . $media->getFilesystemName());
-            $this->get('open_orchestra_media_admin.manager.image_resizer')->override($media, $format);
 
-            $this->dispatchEvent(MediaEvents::MEDIA_CROP, new MediaEvent($media));
+            $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
+            $tmpFileName = time() . $file->getClientOriginalName();
+            $file->move($tmpDir, $tmpFileName);
+
+            $this->get('open_orchestra_media_admin.file_alternatives.manager')
+                ->overrideAlternative($media, $tmpDir . DIRECTORY_SEPARATOR . $tmpFileName, $format);
+
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
 
         return $this->renderAdminForm($form);

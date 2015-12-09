@@ -33,7 +33,7 @@ class MediaFacade extends AbstractFacade
     /**
      * @Serializer\Type("string")
      */
-    public $displayedImage;
+    public $thumbnail;
 
     /**
      * @Serializer\Type("boolean")

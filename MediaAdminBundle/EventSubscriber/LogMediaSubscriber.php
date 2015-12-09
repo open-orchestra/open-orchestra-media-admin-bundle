@@ -18,9 +18,9 @@ class LogMediaSubscriber extends AbstractLogSubscriber
     /**
      * @param MediaEvent $event
      */
-    public function mediaAddImage(MediaEvent $event)
+    public function mediaAdd(MediaEvent $event)
     {
-        $this->mediaInfo('open_orchestra_media_admin.log.media.add_image', $event->getMedia());
+        $this->mediaInfo('open_orchestra_media_admin.log.media.add', $event->getMedia());
     }
 
     /**
@@ -69,8 +69,8 @@ class LogMediaSubscriber extends AbstractLogSubscriber
     public static function getSubscribedEvents()
     {
         return array(
-            MediaEvents::MEDIA_CROP => 'mediaResize',
-            MediaEvents::ADD_IMAGE => 'mediaAddImage',
+            MediaEvents::MEDIA_UPDATE => 'mediaResize',
+            MediaEvents::MEDIA_ADD => 'mediaAdd',
             MediaEvents::MEDIA_DELETE => 'mediaDelete',
             FolderEvents::FOLDER_CREATE => 'folderCreate',
             FolderEvents::FOLDER_DELETE => 'folderDelete',

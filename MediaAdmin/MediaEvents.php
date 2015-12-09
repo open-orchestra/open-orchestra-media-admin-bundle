@@ -7,11 +7,7 @@ namespace OpenOrchestra\MediaAdmin;
  */
 final class MediaEvents
 {
-    const ADD_IMAGE = 'media.add_image';
-
-    const RESIZE_IMAGE = 'media.resize_image';
-
+    const MEDIA_ADD = 'media.add';
+    const MEDIA_UPDATE = 'media.update';
     const MEDIA_DELETE = 'media.delete';
-
-    const MEDIA_CROP = 'media.crop';
 }

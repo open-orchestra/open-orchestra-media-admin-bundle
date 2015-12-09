@@ -23,12 +23,24 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
-        $thumbnail = $config['thumbnail'];
-        $thumbnail['media_thumbnail'] = array('max_width' => '117', 'max_height' => '117');
-        $container->setParameter('open_orchestra_media_admin.thumbnail.configuration', $thumbnail);
         $container->setParameter(
-            'open_orchestra_media_admin.resize.compression_quality',
-            $config['compression_quality']
+            'open_orchestra_media_admin.files.thumbnail_format',
+            $config['thumbnail']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.image.formats',
+            $config['alternatives']['image']['formats']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.default.thumbnail',
+            $config['alternatives']['default']['thumbnail']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.audio.thumbnail',
+            $config['alternatives']['audio']['thumbnail']
         );
 
         $loader = new Loader\YamlFileLoader(
@@ -45,9 +57,9 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('display.yml');
         $loader->load('icon.yml');
         $loader->load('extract_reference.yml');
-        $loader->load('thumbnail.yml');
-        $loader->load('service.yml');
+        $loader->load('file_utils.yml');
         $loader->load('mime_type.yml');
+        $loader->load('file_alternatives.yml');
 
         $this->addMediaFieldType($container);
     }
