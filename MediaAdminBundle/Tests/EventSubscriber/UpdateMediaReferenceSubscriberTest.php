@@ -54,7 +54,7 @@ class UpdateMediaReferenceSubscriberTest extends \PHPUnit_Framework_TestCase
     /**
      * Test subscribed events
      */
-    public function testSubscrbedEvents()
+    public function testSubscribedEvents()
     {
         $this->assertArrayHasKey(StatusEvents::STATUS_CHANGE, $this->subscriber->getSubscribedEvents());
     }

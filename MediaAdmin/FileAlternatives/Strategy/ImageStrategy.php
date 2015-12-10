@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use Symfony\Component\Filesystem\Filesystem;
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -18,6 +19,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     protected $alternativeFormats;
 
     /**
+     * @param Filesystem            $fileSystem
      * @param MediaStorageManager   $mediaStorageManager
      * @param ImageManagerInterface $imageManager
      * @param string                $tmpDir
@@ -25,12 +27,14 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      * @param array                 $alternativeFormats
      */
     public function __construct(
+        Filesystem $fileSystem,
         MediaStorageManager $mediaStorageManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat,
         array $alternativeFormats
     ) {
+        $this->fileSystem = $fileSystem;
         $this->mediaStorageManager = $mediaStorageManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
@@ -78,7 +82,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         }
 
         if (trim($filePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
-            unlink($filePath);
+            $this->fileSystem->remove(array($filePath));
         }
     }
 
@@ -187,7 +191,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $this->deleteFile($alternativeName);
         $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);
 
-        unlink($originalFilePath);
+        $this->fileSystem->remove(array($originalFilePath));
     }
 
     /**

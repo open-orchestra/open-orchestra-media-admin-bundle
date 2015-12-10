@@ -2,19 +2,20 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
-use OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber;
+use OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Phake;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Class MediaDeletedSubscriberTest
+ * Class MediaCreatedSubscriberTest
  */
-class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
+class MediaCreatedSubscriberTest extends \PHPUnit_Framework_TestCase
 {
     protected $subscriber;
 
     protected $fileAlternativesManager;
+    protected $documentManager;
     protected $media1;
     protected $media2;
     protected $event1;
@@ -35,7 +36,10 @@ class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
         Phake::when($this->event2)->getMedia()->thenReturn($this->media2);
 
         $this->fileAlternativesManager = Phake::mock('OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager');
-        $this->subscriber = new MediaDeletedSubscriber($this->fileAlternativesManager);
+
+        $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
+
+        $this->subscriber = new MediaCreatedSubscriber($this->fileAlternativesManager, $this->documentManager);
     }
 
     /**
@@ -51,7 +55,7 @@ class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     public function testEventSubscribed()
     {
-        $this->assertArrayHasKey(MediaEvents::MEDIA_DELETE, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(MediaEvents::MEDIA_ADD, $this->subscriber->getSubscribedEvents());
         $this->assertArrayHasKey(KernelEvents::TERMINATE, $this->subscriber->getSubscribedEvents());
     }
 
@@ -60,22 +64,23 @@ class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethodExists()
     {
-        $this->assertTrue(method_exists($this->subscriber, 'deleteMedia'));
-        $this->assertTrue(method_exists($this->subscriber, 'deleteAlternatives'));
+        $this->assertTrue(method_exists($this->subscriber, 'addMedia'));
+        $this->assertTrue(method_exists($this->subscriber, 'generateAlternatives'));
     }
 
     /**
-     * Test deleteMedia and deleteAlternatives
+     * Test addMedia and generateAlternatives
      */
-    public function testDeleteAlternatives()
+    public function testGenerateAlternatives()
     {
-        $this->subscriber->deleteMedia($this->event1);
-        $this->subscriber->deleteMedia($this->event2);
-        $this->subscriber->deleteAlternatives();
+        $this->subscriber->addMedia($this->event1);
+        $this->subscriber->addMedia($this->event2);
+        $this->subscriber->generateAlternatives();
 
-        Phake::verify($this->fileAlternativesManager)->deleteThumbnail($this->media1);
-        Phake::verify($this->fileAlternativesManager)->deleteThumbnail($this->media2);
-        Phake::verify($this->fileAlternativesManager)->deleteAlternatives($this->media1);
-        Phake::verify($this->fileAlternativesManager)->deleteAlternatives($this->media2);
+        Phake::verify($this->fileAlternativesManager)->generateThumbnail($this->media1);
+        Phake::verify($this->fileAlternativesManager)->generateThumbnail($this->media2);
+        Phake::verify($this->fileAlternativesManager)->generateAlternatives($this->media1);
+        Phake::verify($this->fileAlternativesManager)->generateAlternatives($this->media2);
+        Phake::verify($this->documentManager)->flush();
     }
 }

@@ -7,6 +7,7 @@ use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaDeletedSubscriber

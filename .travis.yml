@@ -1,3 +1,10 @@
+addons:
+  code_climate:
+    repo_token: d1a6f82281cd365fc3b295539d19a932f1bd30a5d1544d6ef3074bd855351db3 
+  apt:
+    packages:
+      - libav-tools
+
 language: php
 
 php:
@@ -21,10 +28,6 @@ install:
   - php -d memory_limit=-1 ./composer.phar install --no-progress --prefer-dist
 
 script: ./bin/phpunit
-
-addons:
-  code_climate:
-    repo_token: d1a6f82281cd365fc3b295539d19a932f1bd30a5d1544d6ef3074bd855351db3 
 
 after_script:
   - ./bin/test-reporter

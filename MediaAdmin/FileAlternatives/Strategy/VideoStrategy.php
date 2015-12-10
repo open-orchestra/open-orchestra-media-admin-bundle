@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use Symfony\Component\Filesystem\Filesystem;
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Video\VideoManagerInterface;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
@@ -19,6 +20,7 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
+     * @param Filesystem            $fileSystem
      * @param MediaStorageManager   $mediaStorageManager
      * @param VideoManagerInterface $videoManager
      * @param ImageManagerInterface $imageManager
@@ -26,12 +28,14 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
      * @param array                 $thumbnailFormat
      */
     public function __construct(
+        Filesystem $fileSystem,
         MediaStorageManager $mediaStorageManager,
         VideoManagerInterface $videoManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
+        $this->fileSystem = $fileSystem;
         $this->mediaStorageManager = $mediaStorageManager;
         $this->videoManager = $videoManager;
         $this->imageManager = $imageManager;
@@ -60,7 +64,8 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
         $thumbnailName = '';
 
         $extractedImagePath = $this->videoManager->extractImageFromVideo(
-            $this->tmpDir . DIRECTORY_SEPARATOR . $fileName
+            $this->tmpDir . DIRECTORY_SEPARATOR . $fileName,
+            1
         );
 
         $thumbnailPath = $this->imageManager->generateAlternative($extractedImagePath, $this->thumbnailFormat);
@@ -71,7 +76,7 @@ class VideoStrategy extends AbstractFileAlternativesStrategy
         }
 
         if (trim($extractedImagePath, DIRECTORY_SEPARATOR) !== trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
-            unlink($extractedImagePath);
+            $this->fileSystem->remove(array($extractedImagePath));
         }
 
         $media->setThumbnail($thumbnailName);

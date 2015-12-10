@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use Symfony\Component\Filesystem\Filesystem;
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -17,17 +18,20 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
+     * @param Filesystem            $fileSystem
      * @param MediaStorageManager   $mediaStorageManager
      * @param ImageManagerInterface $imageManager
      * @param string                $tmpDir
      * @param array                 $thumbnailFormat
      */
     public function __construct(
+        Filesystem $fileSystem,
         MediaStorageManager $mediaStorageManager,
         ImageManagerInterface $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
+        $this->fileSystem = $fileSystem;
         $this->mediaStorageManager = $mediaStorageManager;
         $this->imageManager = $imageManager;
         $this->tmpDir = $tmpDir;
@@ -66,7 +70,7 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
         }
 
         if (trim($extractedImagePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
-            unlink($extractedImagePath);
+            $this->fileSystem->remove(array($extractedImagePath));
         }
 
         $media->setThumbnail($thumbnailName);

@@ -102,10 +102,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setFile($uploadedFile);
         $media->setFilesystemName($filename);
         $media->setMediaFolder($this->folderRepository->find($folderId));
-
-        if (null !== $uploadedFile) {
-            $media = $this->processMedia($media, $uploadedFile, $filename);
-        }
+        $media = $this->processMedia($media, $uploadedFile, $filename);
 
         $this->objectManager->persist($media);
         $this->objectManager->flush();

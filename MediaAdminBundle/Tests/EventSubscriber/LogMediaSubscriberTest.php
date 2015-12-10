@@ -26,10 +26,14 @@ class LogMediaSubscriberTest extends LogAbstractSubscriberTest
     public function setUp()
     {
         parent::setUp();
+
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+
         $this->mediaEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
         Phake::when($this->mediaEvent)->getMedia()->thenReturn($this->media);
+
         $this->folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
+
         $this->folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
         Phake::when($this->folderEvent)->getFolder()->thenReturn($this->folder);
 
@@ -55,29 +59,42 @@ class LogMediaSubscriberTest extends LogAbstractSubscriberTest
     }
 
     /**
-     * Test add image
+     * Test methodes existance
      */
-    public function testAdd()
+    public function testMethodExists()
+    {
+        $this->assertTrue(method_exists($this->subscriber, 'mediaAdd'));
+        $this->assertTrue(method_exists($this->subscriber, 'mediaUpdate'));
+        $this->assertTrue(method_exists($this->subscriber, 'mediaDelete'));
+        $this->assertTrue(method_exists($this->subscriber, 'folderCreate'));
+        $this->assertTrue(method_exists($this->subscriber, 'folderUpdate'));
+        $this->assertTrue(method_exists($this->subscriber, 'folderDelete'));
+    }
+
+    /**
+     * Test mediaAdd
+     */
+    public function testMediaAdd()
     {
         $this->subscriber->mediaAdd($this->mediaEvent);
         $this->assertEventLogged('open_orchestra_media_admin.log.media.add', $this->mediaContext);
     }
 
     /**
-     * Test Delete
+     * Test mediaDelete
      */
-    public function testDelete()
+    public function testMediaDelete()
     {
         $this->subscriber->mediaDelete($this->mediaEvent);
         $this->assertEventLogged('open_orchestra_media_admin.log.media.delete', $this->mediaContext);
     }
 
     /**
-     * Test Delete
+     * Test mediaUpdate
      */
-    public function testResize()
+    public function testMediaUpdate()
     {
-        $this->subscriber->mediaResize($this->mediaEvent);
+        $this->subscriber->mediaUpdate($this->mediaEvent);
         $this->assertEventLogged('open_orchestra_media_admin.log.media.resize', $this->mediaContext);
     }
 
