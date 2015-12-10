@@ -29,6 +29,18 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     }
 
     /**
+     * Get alternatives from $media
+     * 
+     * @param $media
+     * 
+     * @return array
+     */
+    public function getAlternatives(MediaInterface $media)
+    {
+        return array();
+    }
+
+    /**
      * Delete the thumbnail of $media
      *
      * @param MediaInterface $media

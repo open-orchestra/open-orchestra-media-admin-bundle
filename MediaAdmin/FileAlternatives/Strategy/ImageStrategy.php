@@ -108,6 +108,24 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * Get alternatives from $media
+     * 
+     * @param $media
+     * 
+     * @return array
+     */
+    public function getAlternatives(MediaInterface $media)
+    {
+        $alternatives = array();
+
+        foreach ($this->alternativeFormats as $formatName => $format) {
+            $alternatives[$formatName] = $this->getAlternativeName($formatName, $media->getFilesystemName());
+        }
+
+        return $alternatives;
+    }
+
+    /**
      * Return the alternative name
      * 
      * @param string $formatName

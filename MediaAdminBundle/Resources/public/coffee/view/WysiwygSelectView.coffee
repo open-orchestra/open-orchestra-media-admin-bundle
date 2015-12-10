@@ -10,7 +10,7 @@ WysiwygSelectView = OrchestraView.extend(
     @options = @reduceOption(options, [
       'domContainer'
       'html'
-      'thumbnails'
+      'alternatives'
       'original',
       'mediaName'
     ])
@@ -36,7 +36,7 @@ WysiwygSelectView = OrchestraView.extend(
 
   changeCropFormat: (event) ->
     format = $(event.currentTarget).val()
-    image = @options.thumbnails[format] || @options.original
+    image = @options.alternatives[format] || @options.original
     $('#preview_thumbnail', @$el).hide()
     $('#preview_thumbnail', @$el).attr 'src', image
     $('#preview_thumbnail', @$el).load ->
