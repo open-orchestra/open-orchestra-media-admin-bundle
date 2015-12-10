@@ -43,8 +43,8 @@ class OpenOrchestraMediaAdminExtension extends Extension
             $config['alternatives']['audio']['thumbnail']
         );
 
-        foreach ($config['transformer'] as $transformerName => $transformer ) {
-            $container->setParameter('open_orchestra_media_admin.facade.' . $transformerName .'.class', $transformer['facade']);
+        foreach ($config['facades'] as $transformer => $facade ) {
+            $container->setParameter('open_orchestra_media_admin.facade.' . $transformer .'.class', $facade);
         }
 
         $loader = new Loader\YamlFileLoader(
