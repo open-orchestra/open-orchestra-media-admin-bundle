@@ -23,7 +23,7 @@ GalleryView = OrchestraView.extend(
       delete @events['click .superbox-img'] if @events['click .superbox-img']?
       @mediaClass = "media-select"
       @mediaLogo = "fa-check-circle"
-    @options.thumbnails = @options.media.get("thumbnails")
+    @options.alternatives = @options.media.get("alternatives")
     @options.original = @options.media.get("thumbnail")
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/galleryView',

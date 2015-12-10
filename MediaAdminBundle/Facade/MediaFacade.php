@@ -33,6 +33,11 @@ class MediaFacade extends AbstractFacade
     /**
      * @Serializer\Type("string")
      */
+    public $original;
+
+    /**
+     * @Serializer\Type("string")
+     */
     public $thumbnail;
 
     /**
@@ -53,14 +58,14 @@ class MediaFacade extends AbstractFacade
     /**
      * @Serializer\Type("array<string, string>")
      */
-    protected $thumbnails = array();
+    protected $alternatives = array();
 
     /**
      * @param string $key
      * @param string $link
      */
-    public function addThumbnail($key, $link)
+    public function addAlternative($key, $link)
     {
-        $this->thumbnails[$key] = $link;
+        $this->alternatives[$key] = $link;
     }
 }

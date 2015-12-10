@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -16,23 +17,24 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 {
-    protected $thumbnailConfig;
+    protected $fileAlternativesManager;
     protected $translationChoiceManager;
     protected $mediaDomain;
 
     /**
-     * @param array                    $thumbnailConfig
-     * @param TranslationChoiceManager $translationChoiceManager
-     * @param string                   $mediaDomain
+     * @param FileAlternativesManager       $fileAlternativesManager
+     * @param TranslationChoiceManager      $translationChoiceManager
+     * @param string                        $mediaDomain
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
-        array $thumbnailConfig,
+        FileAlternativesManager $fileAlternativesManager,
         TranslationChoiceManager $translationChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
         parent::__construct($authorizationChecker);
-        $this->thumbnailConfig = $thumbnailConfig;
+        $this->fileAlternativesManager = $fileAlternativesManager;
         $this->translationChoiceManager = $translationChoiceManager;
         $this->mediaDomain = $mediaDomain;
     }
@@ -52,16 +54,17 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->isDeletable = $mixed->isDeletable() && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA);
         $facade->alt = $this->translationChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
-
+        $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
-        if (strpos($mixed->getMimeType(), ImageStrategy::MIME_TYPE_FRAGMENT_IMAGE) === 0) {
-            foreach ($this->thumbnailConfig as $format => $thumbnail) {
-                $facade->addThumbnail($format, $this->generateMediaUrl($format . '-' . $mixed->getFilesystemName()));
+
+        $alternatives = $this->fileAlternativesManager->getAlternatives($mixed);
+        foreach ($alternatives as $format => $alternativeName) {
+            $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
                 $facade->addLink('_self_format_' . $format,
-                    $this->generateRoute('open_orchestra_media_admin_media_override',
-                        array('format' => $format, 'mediaId' => $mixed->getId())
-                    ));
-            }
+                $this->generateRoute('open_orchestra_media_admin_media_override',
+                    array('format' => $format, 'mediaId' => $mixed->getId())
+                )
+            );
         }
 
         $facade->addLink('_self_select', $mixed->getId());
