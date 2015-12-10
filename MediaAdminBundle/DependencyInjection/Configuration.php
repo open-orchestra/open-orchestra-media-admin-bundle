@@ -70,6 +70,23 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+            ->arrayNode('transformer')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('media')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('facade')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaFacade')->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('media_collection')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('facade')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
         ->end();
 
         return $treeBuilder;

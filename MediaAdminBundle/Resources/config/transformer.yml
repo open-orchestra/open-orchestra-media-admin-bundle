@@ -7,6 +7,7 @@ services:
     open_orchestra_api.transformer.media:
         class: %open_orchestra_api.transformer.media.class%
         arguments:
+            - %open_orchestra_media_admin.facade.media.class%
             - @open_orchestra_media_admin.file_alternatives.manager
             - @open_orchestra_backoffice.manager.translation_choice
             - %open_orchestra_media.media_domain%
@@ -16,6 +17,7 @@ services:
     open_orchestra_api.transformer.media_collection:
         class: %open_orchestra_api.transformer.media_collection.class%
         arguments:
+            - %open_orchestra_media_admin.facade.media_collection.class%
             - @security.authorization_checker
         tags:
             - { name: open_orchestra_api.transformer.strategy}

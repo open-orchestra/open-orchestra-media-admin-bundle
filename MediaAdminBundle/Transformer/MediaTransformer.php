@@ -2,12 +2,11 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy;
-use OpenOrchestra\MediaAdminBundle\Facade\MediaFacade;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -22,18 +21,20 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $mediaDomain;
 
     /**
+     * @param string                        $facadeClass
      * @param FileAlternativesManager       $fileAlternativesManager
      * @param TranslationChoiceManager      $translationChoiceManager
      * @param string                        $mediaDomain
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
+        $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
         TranslationChoiceManager $translationChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
-        parent::__construct($authorizationChecker);
+        parent::__construct($facadeClass, $authorizationChecker);
         $this->fileAlternativesManager = $fileAlternativesManager;
         $this->translationChoiceManager = $translationChoiceManager;
         $this->mediaDomain = $mediaDomain;
@@ -42,11 +43,11 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     /**
      * @param MediaInterface $mixed
      *
-     * @return MediaFacade
+     * @return FacadeInterface
      */
     public function transform($mixed)
     {
-        $facade = new MediaFacade();
+        $facade = $this->newFacade();
 
         $facade->id = $mixed->getId();
         $facade->name = $mixed->getName();
@@ -60,7 +61,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $alternatives = $this->fileAlternativesManager->getAlternatives($mixed);
         foreach ($alternatives as $format => $alternativeName) {
             $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
-                $facade->addLink('_self_format_' . $format,
+            $facade->addLink('_self_format_' . $format,
                 $this->generateRoute('open_orchestra_media_admin_media_override',
                     array('format' => $format, 'mediaId' => $mixed->getId())
                 )
