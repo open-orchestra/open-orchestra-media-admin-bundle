@@ -13,3 +13,6 @@ open_orchestra_media_admin:
                     max_width: 5000
                     max_height: 5000
                     compression_quality: 10000
+    facades:
+        media:             FacadeClass
+        media_collection:  FacadeClass

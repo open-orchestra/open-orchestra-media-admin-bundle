@@ -43,7 +43,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
             $config['alternatives']['audio']['thumbnail']
         );
 
-        foreach ($config['facades'] as $transformer => $facade ) {
+        foreach ($config['facades'] as $transformer => $facade) {
             $container->setParameter('open_orchestra_media_admin.facade.' . $transformer .'.class', $facade);
         }
 
