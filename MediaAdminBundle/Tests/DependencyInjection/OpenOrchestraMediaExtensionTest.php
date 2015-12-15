@@ -21,7 +21,7 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideConfig
      */
-    public function testConfig($file, $tmp, $compression, $thumbnail, $facades)
+    public function testConfig($file, $tmp, $compression, array $thumbnail, array $facades)
     {
         $container = $this->loadContainerFromFile($file);
 
