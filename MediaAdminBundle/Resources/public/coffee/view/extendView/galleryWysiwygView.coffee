@@ -30,7 +30,7 @@ extendView['galleryWysiwygView'] =
 
     tag = @renderTemplate tagTemplate,
       media_id: @options.media.get('id')
-      media_src: @options.original
+      media_src: @options.media.get('thumbnail')
       media_format: null
 
     modalContainer = @$el.closest(".mediaModalContainer")
