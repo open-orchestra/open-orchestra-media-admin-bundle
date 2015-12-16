@@ -53,23 +53,10 @@ class ImagickImageManager implements ImageManagerInterface
         if (-2 != $maxWidth + $maxHeight) {
             $image->setimagebackgroundcolor('#000000');
 
-            if($maxHeight > $image->getImageHeight()) {
-                $maxHeight = $image->getImageHeight();
-            }
-            if($maxWidth > $image->getImageWidth()) {
-                $maxWidth = $image->getImageWidth();
-            }
-
-            $refRatio = $maxWidth / $maxHeight;
-            $imageRatioByWidth = $image->getImageHeight() / $image->getImageWidth();
-            $imageRatioByHeight = $image->getImageWidth() / $image->getImageHeight();
-
-            if ($refRatio >= $imageRatioByHeight || $maxWidth == -1) {
-                $setUpMinWidth = ($imageRatioByHeight <= 1 / $maxHeight);
-                $image = $this->resizeOnHeight($image, $maxHeight, $setUpMinWidth);
-            } else  {
-                $setUpMinHeight = ($imageRatioByWidth <= 1 / $maxWidth);
-                $image = $this->resizeOnWidth($image, $maxWidth, $setUpMinHeight);
+            if ($imageRatio >= 1 / $maxHeight && ($refRatio > $imageRatio || $maxWidth == -1)) {
+                $image = $this->resizeOnHeight($image, $maxHeight);
+            } else if ($imageRatio <= 1 / $maxWidth) {
+                $image = $this->resizeOnWidth($image, $maxWidth);
             }
         }
 
