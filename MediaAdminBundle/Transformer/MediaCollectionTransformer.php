@@ -6,7 +6,6 @@ use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade;
 
 /**
  * Class MediaCollectionTransformer
@@ -23,7 +22,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
      */
     public function transform($mixed, $folderId = null, $folderDeletable = false, $parentId = null)
     {
-        $facade = new MediaCollectionFacade();
+        $facade = $this->newFacade();
 
         $facade->isFolderDeletable = $folderDeletable;
         $facade->parentId = $parentId;

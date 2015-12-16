@@ -6,9 +6,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * Class Configuration
  */
 class Configuration implements ConfigurationInterface
 {
@@ -68,6 +66,12 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('thumbnail')->defaultValue('orchestra-media-thumbnail-audio.png')->end()
                         ->end()
                     ->end()
+                ->end()
+            ->end()
+            ->arrayNode('facades')->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('media')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaFacade')->end()
+                    ->scalarNode('media_collection')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade')->end()
                 ->end()
             ->end()
         ->end();

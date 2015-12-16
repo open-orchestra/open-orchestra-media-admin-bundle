@@ -17,10 +17,11 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
      * @param string $tmp
      * @param int    $compression
      * @param array  $thumbnail
+     * @param array  $facades
      *
      * @dataProvider provideConfig
      */
-    public function testConfig($file, $tmp, $compression, $thumbnail)
+    public function testConfig($file, $tmp, $compression, array $thumbnail, array $facades)
     {
         $container = $this->loadContainerFromFile($file);
 
@@ -29,6 +30,9 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
             $thumbnail,
             $container->getParameter('open_orchestra_media_admin.files.alternatives.image.formats')
         );
+        foreach ($facades as $parameter => $facadeClass) {
+            $this->assertEquals($facadeClass, $container->getParameter('open_orchestra_media_admin.facade.'.$parameter.'.class'));
+        }
     }
 
     /**
@@ -39,16 +43,26 @@ class OpenOrchestraMediaAdminExtensionTest extends \PHPUnit_Framework_TestCase
         return array(
             array('empty', '/tmp', 75,
                 array(
-                'fixed_height' => array('max_height' => 100, 'compression_quality' => 75),
-                'fixed_width' => array('max_width' => 100, 'compression_quality' => 75),
-                'rectangle' => array('max_width' => 100, 'max_height' => 70, 'compression_quality' => 75)
-            )),
+                    'fixed_height' => array('max_height' => 100, 'compression_quality' => 75),
+                    'fixed_width' => array('max_width' => 100, 'compression_quality' => 75),
+                    'rectangle' => array('max_width' => 100, 'max_height' => 70, 'compression_quality' => 75)
+                ),
+                array(
+                    'media' => 'OpenOrchestra\MediaAdminBundle\Facade\MediaFacade',
+                    'media_collection' => 'OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade',
+                )
+            ),
             array('value', 'fake_tmp', 10000,
                 array(
-                'fixed_height' => array('max_height' => 5000, 'compression_quality' => 10000),
-                'fixed_width' => array('max_width' => 5000, 'compression_quality' => 10000),
-                'rectangle' => array('max_width' => 5000, 'max_height' => 5000, 'compression_quality' => 10000)
-            ))
+                    'fixed_height' => array('max_height' => 5000, 'compression_quality' => 10000),
+                    'fixed_width' => array('max_width' => 5000, 'compression_quality' => 10000),
+                    'rectangle' => array('max_width' => 5000, 'max_height' => 5000, 'compression_quality' => 10000)
+                ),
+                array(
+                    'media' => 'FacadeClass',
+                    'media_collection' => 'FacadeClass',
+                )
+            )
         );
     }
 
