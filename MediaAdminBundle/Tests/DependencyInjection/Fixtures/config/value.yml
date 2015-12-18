@@ -1,5 +1,9 @@
 open_orchestra_media_admin:
     tmp_dir: fake_tmp
+    thumbnail:
+        max_height: 5000
+        max_width: 5000
+        compression_quality: 10000
     alternatives:
         image:
             formats:
@@ -13,6 +17,10 @@ open_orchestra_media_admin:
                     max_width: 5000
                     max_height: 5000
                     compression_quality: 10000
+        default:
+            thumbnail: default.png
+        audio:
+            thumbnail: audio.png
     facades:
         media:             FacadeClass
         media_collection:  FacadeClass

@@ -14,6 +14,7 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
 {
     protected $mediaStorageManager;
     protected $tmpDir;
+    protected $fileSystem;
 
     /**
      * Generate all aternatives for $media
@@ -24,7 +25,7 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     {
         if ($media->getFilesystemName() != '') {
             $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
-            unlink($filePath);
+            $this->fileSystem->remove(array($filePath));
         }
     }
 
