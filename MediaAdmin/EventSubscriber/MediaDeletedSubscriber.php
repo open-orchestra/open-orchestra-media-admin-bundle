@@ -41,7 +41,10 @@ class MediaDeletedSubscriber implements EventSubscriberInterface
     {
         /** @var MediaInterface $media */
         foreach ($this->medias as $media) {
-            $this->fileAlternativesManager->deleteThumbnail($media);
+            if (null !== $media->getThumbnail()) {
+                $this->fileAlternativesManager->deleteThumbnail($media);
+            }
+
             $this->fileAlternativesManager->deleteAlternatives($media);
         }
     }
