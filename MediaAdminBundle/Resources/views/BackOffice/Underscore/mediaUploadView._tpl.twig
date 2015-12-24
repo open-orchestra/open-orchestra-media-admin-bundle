@@ -34,6 +34,8 @@
 
     <ul class="flow-list"></ul>
 
+    {% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList._tpl.twig' %}
+
     <span class="hidden-info" id="uploadFailed">
         {{ 'open_orchestra_media_admin.form.upload.failed'|trans }}
     </span>
@@ -44,7 +46,6 @@
         {{ 'open_orchestra_media_admin.form.upload.completed'|trans }}
     </span>
 
-    {% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList._tpl.twig' %}
 </div>
 
 {% include 'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer._tpl.twig' %}
