@@ -83,4 +83,13 @@ class MediaCreatedSubscriberTest extends \PHPUnit_Framework_TestCase
         Phake::verify($this->fileAlternativesManager)->generateAlternatives($this->media2);
         Phake::verify($this->documentManager)->flush();
     }
+
+    /**
+     * Test not flush, empty medias
+     */
+    public function testNotFlushEmptyMedia()
+    {
+        $this->subscriber->generateAlternatives();
+        Phake::verify($this->documentManager, Phake::never())->flush();
+    }
 }
