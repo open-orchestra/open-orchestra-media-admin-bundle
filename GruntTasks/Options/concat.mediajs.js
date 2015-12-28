@@ -1,6 +1,6 @@
 module.exports = {
     src: [
-        'bower_components/flow.js/dist/flow.js',
+        'vendor/bower_components/flow.js/dist/flow.js',
         'web/built/openorchestramediaadmin/js/tinyMCE/*.js',
         'web/built/openorchestramediaadmin/js/view/extendView/*.js',
         'web/built/openorchestramediaadmin/js/view/*.js',
