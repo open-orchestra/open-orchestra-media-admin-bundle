@@ -24,10 +24,10 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
     {
         parent::setUp();
 
-        Phake::when($this->mediaStorageManager)->exits('format1-' . $this->fullMediaFileSystemName)->thenReturn(true);
-        Phake::when($this->mediaStorageManager)->exits('format2-' . $this->fullMediaFileSystemName)->thenReturn(true);
-        Phake::when($this->mediaStorageManager)->exits('format1-' . $this->emptyMediaFileSystemName)->thenReturn(false);
-        Phake::when($this->mediaStorageManager)->exits('format2-' . $this->emptyMediaFileSystemName)->thenReturn(false);
+        Phake::when($this->mediaStorageManager)->exists('format1-' . $this->fullMediaFileSystemName)->thenReturn(true);
+        Phake::when($this->mediaStorageManager)->exists('format2-' . $this->fullMediaFileSystemName)->thenReturn(true);
+        Phake::when($this->mediaStorageManager)->exists('format1-' . $this->emptyMediaFileSystemName)->thenReturn(false);
+        Phake::when($this->mediaStorageManager)->exists('format2-' . $this->emptyMediaFileSystemName)->thenReturn(false);
 
         $this->imageManager = Phake::mock('OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface');
         Phake::when($this->imageManager)->generateAlternative(Phake::anyParameters())
