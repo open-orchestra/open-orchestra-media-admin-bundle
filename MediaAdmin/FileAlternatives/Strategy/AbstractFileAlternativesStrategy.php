@@ -68,7 +68,7 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
      */
     protected function deleteFile($fileName)
     {
-        if ($this->mediaStorageManager->exists($fileName)) {
+        if (null !== $fileName && $this->mediaStorageManager->exists($fileName)) {
             $this->mediaStorageManager->deleteContent($fileName);
         }
     }
