@@ -22,6 +22,9 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
     protected $emptyMediaFileSystemName = '';
     protected $emptyMediaThumbnailName = 'no-thumbnail.jpg';
 
+    protected $thumbnailNullMedia;
+    protected $thumbnailNullMediaThumbnailName = null;
+
     protected $imageMedia;
     protected $audioMedia;
     protected $videoMedia;
@@ -41,6 +44,9 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
         Phake::when($this->emptyMedia)->getFilesystemName()->thenReturn($this->emptyMediaFileSystemName);
         Phake::when($this->emptyMedia)->getThumbnail()->thenReturn($this->emptyMediaThumbnailName);
 
+        $this->thumbnailNullMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        Phake::when($this->thumbnailNullMedia)->getThumbnail()->thenReturn($this->thumbnailNullMediaThumbnailName);
+
         $this->imageMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->imageMedia)->getMimeType()->thenReturn('image/jpg');
 
@@ -59,10 +65,11 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
         $this->fileSystem = Phake::mock('Symfony\Component\Filesystem\Filesystem');
 
         $this->mediaStorageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
-        Phake::when($this->mediaStorageManager)->exits($this->fullMediaFileSystemName)->thenReturn(true);
-        Phake::when($this->mediaStorageManager)->exits($this->fullMediaThumbnailName)->thenReturn(true);
-        Phake::when($this->mediaStorageManager)->exits($this->emptyMediaFileSystemName)->thenReturn(false);
-        Phake::when($this->mediaStorageManager)->exits($this->emptyMediaThumbnailName)->thenReturn(false);
+        Phake::when($this->mediaStorageManager)->exists($this->fullMediaFileSystemName)->thenReturn(true);
+        Phake::when($this->mediaStorageManager)->exists($this->fullMediaThumbnailName)->thenReturn(true);
+        Phake::when($this->mediaStorageManager)->exists($this->emptyMediaFileSystemName)->thenReturn(false);
+        Phake::when($this->mediaStorageManager)->exists($this->emptyMediaThumbnailName)->thenReturn(false);
+        Phake::when($this->mediaStorageManager)->exists($this->thumbnailNullMediaThumbnailName)->thenReturn(true);
         Phake::when($this->mediaStorageManager)->downloadFile($this->fullMediaFileSystemName, $this->tmpDir)
             ->thenReturn($this->fullMediaFileSystemName);
         Phake::when($this->mediaStorageManager)->downloadFile($this->emptyMediaFileSystemName, $this->tmpDir)
@@ -72,7 +79,7 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
     /**
      * test support
      * 
-     * @param string $media
+     * @param string $mediaType
      * @param bool   $expectedSupport
      * 
      * @dataProvider provideMimeTypes
@@ -176,7 +183,8 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
     {
         return array(
             array('fullMedia'),
-            array('emptyMedia')
+            array('emptyMedia'),
+            array('thumbnailNullMedia')
         );
     }
 
@@ -199,7 +207,7 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
      */
     protected function assertFileDeleted($fileName, $fileExists)
     {
-        if ($fileExists) {
+        if (null !== $fileName && $fileExists) {
             Phake::verify($this->mediaStorageManager)->deleteContent($fileName);
         } else {
             Phake::verify($this->mediaStorageManager, Phake::never())->deleteContent($fileName);
