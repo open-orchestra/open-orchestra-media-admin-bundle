@@ -1,6 +1,6 @@
 addons:
   code_climate:
-    repo_token: d1a6f82281cd365fc3b295539d19a932f1bd30a5d1544d6ef3074bd855351db3 
+    repo_token: d1a6f82281cd365fc3b295539d19a932f1bd30a5d15.6d6ef3074bd855351db3 
   apt:
     packages:
       - libav-tools
@@ -8,7 +8,7 @@ addons:
 language: php
 
 php:
-  - 5.4
+  - 5.6
 
 sudo: false
 
