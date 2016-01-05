@@ -67,24 +67,6 @@ class FileAlternativesManager
     }
 
     /**
-     * Try to find a strategy to get alternatives files from $media and run it
-     * 
-     * @param MediaInterface $media
-     * 
-     * @return array
-     */
-    public function getAlternatives(MediaInterface $media)
-    {
-        foreach ($this->strategies as $strategy) {
-            if ($strategy->support($media)) {
-                return $strategy->getAlternatives($media);
-            }
-        }
-
-        return $this->defaultStrategy->getAlternatives($media);
-    }
-
-    /**
      * Try to find a strategy to delete the thumbnail for $media and run it
      *
      * @param MediaInterface $media
