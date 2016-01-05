@@ -3,9 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 use Imagick;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
-use OpenOrchestra\MediaAdmin\MediaEvents;
-use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class ImagickImageManager
