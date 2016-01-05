@@ -104,23 +104,6 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
-     * Provide alternatives
-     */
-    public function provideAlternatives()
-    {
-        return array(
-            array('fullMedia', array(
-                'format1' => 'format1-' . $this->fullMediaFileSystemName,
-                'format2' => 'format2-' . $this->fullMediaFileSystemName
-            )),
-            array('emptyMedia', array(
-                'format1' => 'format1-' . $this->emptyMediaFileSystemName,
-                'format2' => 'format2-' . $this->emptyMediaFileSystemName
-            ))
-        );
-    }
-
-    /**
      * test deleteAlternatives
      * 
      * @param string $mediaName
