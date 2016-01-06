@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\FileUtils;
+namespace OpenOrchestra\MediaAdmin\Tests\FileUtils;
 
 use Phake;
 use Imagick;

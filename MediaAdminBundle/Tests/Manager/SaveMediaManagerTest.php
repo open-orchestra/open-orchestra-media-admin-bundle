@@ -34,7 +34,7 @@ class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->tmpDir = __DIR__ . '/../Fixtures/Source';
+        $this->tmpDir = __DIR__ . '/../Fixtures';
         $this->mediaStorageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
         $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
 

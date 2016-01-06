@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
+namespace OpenOrchestra\MediaAdmin\Tests\EventSubscriber;
 
 use OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber;
 use OpenOrchestra\MediaAdmin\MediaEvents;
