@@ -41,7 +41,7 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
         $parent,
         $weight
     ){
-        parent::__construct('folders', self::ROLE_ACCESS_MEDIA_FOLDER, $weight, $parent);
+        parent::__construct('folders', self::ROLE_ACCESS_MEDIA_FOLDER, $weight, $parent, array(), null);
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
     }
