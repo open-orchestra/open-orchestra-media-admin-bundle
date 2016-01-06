@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\FileUtils\Image;
+namespace OpenOrchestra\MediaAdmin\Tests\FileUtils\Image;
 
-use OpenOrchestra\MediaAdminBundle\Tests\FileUtils\AbstractFileUtilsManager;
+use OpenOrchestra\MediaAdmin\Tests\FileUtils\AbstractFileUtilsManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManager;
 use Phake;

@@ -1,16 +1,16 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\FileAlternatives\Strategy;
+namespace OpenOrchestra\MediaAdmin\Tests\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\AudioStrategy;
+use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\DefaultStrategy;
 use Phake;
 
 /**
- * Class AudioStrategyTest
+ * Class DefaultStrategyTest
  */
-class AudioStrategyTest extends AbstractFileAlternativesStrategy
+class DefaultStrategyTest extends AbstractFileAlternativesStrategy
 {
-    protected $thumbnail = 'audio.jpg';
+    protected $thumbnail = 'default.jpg';
 
     /**
      * Set up the test
@@ -19,7 +19,7 @@ class AudioStrategyTest extends AbstractFileAlternativesStrategy
     {
         parent::setUp();
 
-        $this->strategy = new AudioStrategy(
+        $this->strategy = new DefaultStrategy(
             $this->fileSystem,
             $this->mediaStorageManager,
             $this->tmpDir,
@@ -33,11 +33,11 @@ class AudioStrategyTest extends AbstractFileAlternativesStrategy
     public function provideMimeTypes()
     {
         return array(
-            array('imageMedia', false),
-            array('videoMedia', false),
+            array('imageMedia', true),
+            array('videoMedia', true),
             array('audioMedia', true),
-            array('pdfMedia', false),
-            array('textMedia', false)
+            array('pdfMedia', true),
+            array('textMedia', true)
         );
     }
 
@@ -73,6 +73,6 @@ class AudioStrategyTest extends AbstractFileAlternativesStrategy
      */
     public function testGetName()
     {
-        $this->assertSame('audio_alternatives_strategy', $this->strategy->getName());
+        $this->assertSame('default_alternatives_strategy', $this->strategy->getName());
     }
 }

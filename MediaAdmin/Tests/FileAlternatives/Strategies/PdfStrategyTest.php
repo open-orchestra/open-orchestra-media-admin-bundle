@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdminBundle\Tests\FileAlternatives\Strategy;
+namespace OpenOrchestra\MediaAdmin\Tests\FileAlternatives\Strategy;
 
 use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\PdfStrategy;
 use Phake;
