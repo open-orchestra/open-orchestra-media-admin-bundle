@@ -69,7 +69,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     }
 
     /**
-     * Generate all aternatives for $media
+     * Generate all alternatives for $media
      *
      * @param MediaInterface $media
      */
@@ -78,7 +78,8 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
 
         foreach ($this->alternativeFormats as $formatName => $format) {
-            $this->generateAlternative($media->getFilesystemName(), $formatName, $format);
+            $alternativeName = $this->generateAlternative($media->getFilesystemName(), $formatName, $format);
+            $media->addAlternative($formatName, $alternativeName);
         }
 
         if (trim($filePath, DIRECTORY_SEPARATOR) != trim($this->tmpDir, DIRECTORY_SEPARATOR)) {
@@ -109,24 +110,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         }
 
         return $alternativeName;
-    }
-
-    /**
-     * Get alternatives from $media
-     * 
-     * @param $media
-     * 
-     * @return array
-     */
-    public function getAlternatives(MediaInterface $media)
-    {
-        $alternatives = array();
-
-        foreach ($this->alternativeFormats as $formatName => $format) {
-            $alternatives[$formatName] = $this->getAlternativeName($formatName, $media->getFilesystemName());
-        }
-
-        return $alternatives;
     }
 
     /**

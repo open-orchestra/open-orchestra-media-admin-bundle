@@ -58,7 +58,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
 
-        $alternatives = $this->fileAlternativesManager->getAlternatives($mixed);
+        $alternatives = $mixed->getAlternatives();
         foreach ($alternatives as $format => $alternativeName) {
             $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
             $facade->addLink('_self_format_' . $format,

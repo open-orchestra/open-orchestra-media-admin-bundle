@@ -17,7 +17,7 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     protected $fileSystem;
 
     /**
-     * Generate all aternatives for $media
+     * Generate all alternatives for $media
      *
      * @param MediaInterface $media
      */
@@ -27,18 +27,6 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
             $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
             $this->fileSystem->remove(array($filePath));
         }
-    }
-
-    /**
-     * Get alternatives from $media
-     * 
-     * @param $media
-     * 
-     * @return array
-     */
-    public function getAlternatives(MediaInterface $media)
-    {
-        return array();
     }
 
     /**

@@ -122,23 +122,6 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
     }
 
     /**
-     * test getAlternatives
-     * 
-     * @param string $mediaName
-     * @param array  $expectedAlternatives
-     * 
-     * @dataProvider provideAlternatives
-     */
-    public function testGetAlternatives($mediaName, array $expectedAlternatives)
-    {
-        $media = $this->{$mediaName};
-
-        $alternatives = $this->strategy->getAlternatives($media);
-
-        $this->assertSame($expectedAlternatives, $alternatives);
-    }
-
-    /**
      * test deleteThumbnail
      * 
      * @param string $mediaName
@@ -185,17 +168,6 @@ abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestC
             array('fullMedia'),
             array('emptyMedia'),
             array('thumbnailNullMedia')
-        );
-    }
-
-    /**
-     * Provide media
-     */
-    public function provideAlternatives()
-    {
-        return array(
-            array('fullMedia', array()),
-            array('emptyMedia', array())
         );
     }
 
