@@ -125,36 +125,6 @@ class ImagickImageManager implements ImageManagerInterface
     }
 
     /**
-     * Scales the images using liquid rescaling method to height $height
-     *
-     * @param Imagick $image
-     * @param int     $height
-     *
-     * @return Imagick
-     */
-    protected function liquidRescaleImageOnHeight(Imagick $image, $height)
-    {
-        $image->liquidRescaleImage($image->getImageWidth(), $height, 0, 0);
-
-        return $image;
-    }
-
-    /**
-     * Scales the images using liquid rescaling method to width $width
-     *
-     * @param Imagick $image
-     * @param int     $width
-     *
-     * @return Imagick
-     */
-    protected function liquidRescaleImageOnWidth(Imagick $image, $width)
-    {
-        $image->liquidRescaleImage($width, $image->getImageHeight(), 0, 0);
-
-        return $image;
-    }
-
-    /**
      * Compress and save $image
      *
      * @param string  $filePath
