@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdmin\Tests\EventSubscriber;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Phake;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Class MediaDeletedSubscriberTest
  */
-class MediaDeletedSubscriberTest extends \PHPUnit_Framework_TestCase
+class MediaDeletedSubscriberTest extends AbstractBaseTestCase
 {
     protected $subscriber;
 

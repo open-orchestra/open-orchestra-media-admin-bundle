@@ -2,15 +2,15 @@
 
 namespace OpenOrchestra\MediaBundle\Tests\Functional\Repository;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractKernelTestCase;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Class MediaRepositoryTest
  *
  * @group integrationTest
  */
-class MediaRepositoryTest extends KernelTestCase
+class MediaRepositoryTest extends AbstractKernelTestCase
 {
     /**
      * @var MediaRepositoryInterface

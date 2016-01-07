@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Manager;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\MediaAdminBundle\Manager\FolderManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +12,7 @@ use Phake;
 /**
  * Class FolderManagerTest
  */
-class FolderManagerTest extends \PHPUnit_Framework_TestCase
+class FolderManagerTest extends AbstractBaseTestCase
 {
     protected $manager;
     protected $documentManager;

@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber;
 use OpenOrchestra\MediaAdmin\MediaEvents;
@@ -9,7 +10,7 @@ use OpenOrchestra\MediaAdmin\MediaEvents;
 /**
  * Class MediaCacheInvalidateSubscriberTest
  */
-class MediaCacheInvalidateSubscriberTest extends \PHPUnit_Framework_TestCase
+class MediaCacheInvalidateSubscriberTest extends AbstractBaseTestCase
 {
     protected $tagManager;
     protected $cacheableManager;

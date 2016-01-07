@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\ExtractReference\Strategies;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies\ExtractReferenceFromNodeStrategy;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -10,7 +11,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
 /**
  * Class ExtractReferenceFromNodeStrategyTest
  */
-class ExtractReferenceFromNodeStrategyTest extends \PHPUnit_Framework_TestCase
+class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
 {
     /**
      * @var ExtractReferenceFromNodeStrategy

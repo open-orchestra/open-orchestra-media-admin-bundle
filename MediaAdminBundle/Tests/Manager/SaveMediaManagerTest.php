@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Manager;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Manager\SaveMediaManager;
 
 /**
  * Class SaveMediaManagerTest
  */
-class SaveMediaManagerTest extends \PHPUnit_Framework_TestCase
+class SaveMediaManagerTest extends AbstractBaseTestCase
 {
     /**
      * @var SaveMediaManager

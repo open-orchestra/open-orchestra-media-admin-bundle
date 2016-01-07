@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\DataTransformer;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer;
 use Phake;
 
 /**
  * Test EmbedSiteToSiteIdTransformerTest
  */
-class EmbedSiteToSiteIdTransformerTest extends \PHPUnit_Framework_TestCase
+class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
 {
     /**
      * @var EmbedSiteToSiteIdTransformer

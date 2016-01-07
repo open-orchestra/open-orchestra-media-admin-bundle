@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\ExtractReference;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use Phake;
 
 /**
  * Test ExtractReferenceManagerTest
  */
-class ExtractReferenceManagerTest extends \PHPUnit_Framework_TestCase
+class ExtractReferenceManagerTest extends AbstractBaseTestCase
 {
     /**
      * @var ExtractReferenceManager
