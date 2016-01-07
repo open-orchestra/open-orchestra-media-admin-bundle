@@ -53,21 +53,15 @@ class ImagickImageManager implements ImageManagerInterface
         if (-2 != $maxWidth + $maxHeight) {
             $image->setimagebackgroundcolor('#000000');
             $refRatio = $maxWidth / $maxHeight;
-            $imageRatioByHeight = $image->getImageWidth() / $image->getImageHeight();
             $imageRatioByWidth = $image->getImageHeight() / $image->getImageWidth();
+            $imageRatioByHeight = $image->getImageWidth() / $image->getImageHeight();
 
-            if ($refRatio > $imageRatioByHeight || $maxWidth == -1) {
-                if ($imageRatioByHeight >= 1 / $maxHeight) {
-                    $image = $this->resizeOnHeight($image, $maxHeight);
-                } else {
-                    $image = $this->liquidRescaleImageOnHeight($image, $maxHeight);
-                }
-            } else {
-                if ($imageRatioByWidth >= 1 / $maxWidth) {
-                    $image = $this->resizeOnWidth($image, $maxWidth);
-                } else {
-                    $image = $this->liquidRescaleImageOnWidth($image,$maxWidth);
-                }
+            if ($refRatio >= $imageRatioByHeight || $maxWidth == -1) {
+                $setUpMinWidth = ($imageRatioByHeight <= 1 / $maxHeight);
+                $image = $this->resizeOnHeight($image, $maxHeight, $setUpMinWidth);
+            } else  {
+                $setUpMinHeight = ($imageRatioByWidth <= 1 / $maxWidth);
+                $image = $this->resizeOnWidth($image, $maxWidth, $setUpMinHeight);
             }
         }
 
@@ -79,57 +73,30 @@ class ImagickImageManager implements ImageManagerInterface
      *
      * @param Imagick $image
      * @param int     $height
+     * @param bool    $setUpMinWidth
      *
      * @return Imagick
      */
-    protected function resizeOnHeight(Imagick $image, $height)
+    protected function resizeOnHeight(Imagick $image, $height, $setUpMinWidth = false)
     {
-        $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
+        $width = ($setUpMinWidth) ? 1 : 0 ;
+        $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
         return $image;
     }
 
-    /**
-     * Resize an image keeping its ratio to the width $width
+    /**Resize an image keeping its ratio to the width $width
      *
      * @param Imagick $image
      * @param int     $width
+     * @param bool    $setUpMinHeight
      *
      * @return Imagick
      */
-    protected function resizeOnWidth(Imagick $image, $width)
+    protected function resizeOnWidth(Imagick $image, $width, $setUpMinHeight = false)
     {
-        $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
-
-        return $image;
-    }
-
-    /**
-     * Scales the images using liquid rescaling method to height $height
-     *
-     * @param Imagick $image
-     * @param int     $height
-     *
-     * @return Imagick
-     */
-    protected function liquidRescaleImageOnHeight(Imagick $image, $height)
-    {
-        $image->liquidRescaleImage($image->getImageWidth(), $height, 0, 0);
-
-        return $image;
-    }
-
-    /**
-     * Scales the images using liquid rescaling method to width $width
-     *
-     * @param Imagick $image
-     * @param int     $width
-     *
-     * @return Imagick
-     */
-    protected function liquidRescaleImageOnWidth(Imagick $image, $width)
-    {
-        $image->liquidRescaleImage($width, $image->getImageHeight(), 0, 0);
+        $height = ($setUpMinHeight) ? 1 : 0 ;
+        $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
         return $image;
     }
