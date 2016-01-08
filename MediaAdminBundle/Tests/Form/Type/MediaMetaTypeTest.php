@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\MediaMetaType;
 
 /**
  * Class MediaMetaTypeTest
  */
-class MediaMetaTypeTest extends \PHPUnit_Framework_TestCase
+class MediaMetaTypeTest extends AbstractBaseTestCase
 {
     /**
      * @var MediaMetaType

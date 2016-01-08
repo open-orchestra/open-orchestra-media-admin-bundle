@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\MediaCropType;
 
 /**
  * Class MediaCropTypeTest
  */
-class MediaCropTypeTest extends \PHPUnit_Framework_TestCase
+class MediaCropTypeTest extends AbstractBaseTestCase
 {
     /**
      * @var MediaCropType

@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType;
 
 /**
  * Class SiteForFolderChoiceTypeTest
  */
-class SiteForFolderChoiceTypeTest extends \PHPUnit_Framework_TestCase
+class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
 {
     protected $site1;
     protected $siteId1 = 'site_id_1';

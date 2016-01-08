@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\MediaType;
 use Symfony\Component\Validator\Constraints\File;
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Constraints\File;
 /**
  * Class MediaTypeTest
  */
-class MediaTypeTest extends \PHPUnit_Framework_TestCase
+class MediaTypeTest extends AbstractBaseTestCase
 {
     /**
      * @var MediaType
