@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\DataTransformer;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaChoiceTransformerTest
  */
-class MediaChoiceTransformerTest extends \PHPUnit_Framework_TestCase
+class MediaChoiceTransformerTest extends AbstractBaseTestCase
 {
     /**
      * @var MediaChoiceTransformer

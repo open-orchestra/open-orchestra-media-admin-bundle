@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type\Component;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\Component\MediaChoiceType;
 
 /**
  * Class MediaChoiceTypeTest
  */
-class MediaChoiceTypeTest extends \PHPUnit_Framework_TestCase
+class MediaChoiceTypeTest extends AbstractBaseTestCase
 {
     /**
      * @var MediaChoiceType

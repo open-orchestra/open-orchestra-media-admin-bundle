@@ -2,13 +2,13 @@
 
 namespace OpenOrchestra\MediaAdmin\Tests\FileUtils;
 
-use Phake;
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Imagick;
 
 /**
  * Class AbstractFileUtilsManager
  */
-abstract class AbstractFileUtilsManager extends \PHPUnit_Framework_TestCase
+abstract class AbstractFileUtilsManager extends AbstractBaseTestCase
 {
     protected $fixturesPath;
 
@@ -50,5 +50,6 @@ abstract class AbstractFileUtilsManager extends \PHPUnit_Framework_TestCase
                 unlink($generatedFile);
             }
         }
+        parent::tearDown();
     }
 }

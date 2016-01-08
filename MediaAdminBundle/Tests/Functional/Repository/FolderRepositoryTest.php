@@ -2,16 +2,15 @@
 
 namespace OpenOrchestra\MediaBundle\Tests\Functional\Repository;
 
-use Phake;
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractKernelTestCase;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Class FolderRepositoryTest
  *
  * @group integrationTest
  */
-class FolderRepositoryTest extends KernelTestCase
+class FolderRepositoryTest extends AbstractKernelTestCase
 {
     /**
      * @var FolderRepositoryInterface

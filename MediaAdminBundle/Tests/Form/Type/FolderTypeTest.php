@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\FolderType;
 
 /**
  * Class FolderTypeTest
  */
-class FolderTypeTest extends \PHPUnit_Framework_TestCase
+class FolderTypeTest extends AbstractBaseTestCase
 {
     protected $form;
     protected $class = 'OpenOrchestra\MediaModelBundle\Document\MediaFolder';

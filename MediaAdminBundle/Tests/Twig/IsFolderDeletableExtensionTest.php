@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Twig;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Twig\IsFolderDeletableExtension;
 
 /**
  * Class IsFolderDeletableExtension
  */
-class IsFolderDeletableExtensionTest extends \PHPUnit_Framework_TestCase
+class IsFolderDeletableExtensionTest extends AbstractBaseTestCase
 {
     /**
      * @var IsFolderDeletableExtension

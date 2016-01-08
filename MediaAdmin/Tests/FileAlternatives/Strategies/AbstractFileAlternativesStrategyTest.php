@@ -2,12 +2,13 @@
 
 namespace OpenOrchestra\MediaAdmin\Tests\FileAlternatives\Strategy;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 
 /**
  * Class AbstractFileAlternativesStrategy
  */
-abstract class AbstractFileAlternativesStrategy extends \PHPUnit_Framework_TestCase
+abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
 {
     protected $strategy;
     protected $mediaStorageManager;

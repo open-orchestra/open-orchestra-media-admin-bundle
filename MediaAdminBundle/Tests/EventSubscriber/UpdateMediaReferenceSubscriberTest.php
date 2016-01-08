@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
+use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber;
 use OpenOrchestra\ModelInterface\StatusEvents;
@@ -9,7 +10,7 @@ use OpenOrchestra\ModelInterface\StatusEvents;
 /**
  * Test UpdateMediaReferenceSubscriberTest
  */
-class UpdateMediaReferenceSubscriberTest extends \PHPUnit_Framework_TestCase
+class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
 {
     /**
      * @var UpdateMediaReferenceSubscriber
