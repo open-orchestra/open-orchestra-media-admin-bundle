@@ -16,7 +16,7 @@
         "flowjs/flow-php-server": "*",
         "ext-imagick": "*",
         "php-ffmpeg/php-ffmpeg": "~0.6",
-        "koala-framework/composer-extra-assets": "~2.0"
+        "koala-framework/composer-extra-assets": "*"
     },
     "require-dev": {
         "open-orchestra/open-orchestra-model-bundle": "dev-master",
