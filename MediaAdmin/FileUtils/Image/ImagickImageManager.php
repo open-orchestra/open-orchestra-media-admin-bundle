@@ -80,12 +80,12 @@ class ImagickImageManager implements ImageManagerInterface
     protected function resizeOnHeight(Imagick $image, $height, $setUpMinWidth = false)
     {
         $width = ($setUpMinWidth) ? 1 : 0 ;
-        $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
-        return $image;
+        return $this->resize($image, $width, $height);
     }
 
-    /**Resize an image keeping its ratio to the width $width
+    /**
+     * Resize an image keeping its ratio to the width $width
      *
      * @param Imagick $image
      * @param int     $width
@@ -96,6 +96,21 @@ class ImagickImageManager implements ImageManagerInterface
     protected function resizeOnWidth(Imagick $image, $width, $setUpMinHeight = false)
     {
         $height = ($setUpMinHeight) ? 1 : 0 ;
+
+        return $this->resize($image, $width, $height);
+    }
+
+    /**
+     * Resize an image to the desired dimensions to the width $width and height $height
+     *
+     * @param Imagick $image
+     * @param int     $width
+     * @param int     $height
+     *
+     * @return Imagick
+     */
+    protected function resize(Imagick $image, $width, $height)
+    {
         $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
         return $image;
