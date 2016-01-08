@@ -148,9 +148,12 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      */
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
     {
-        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
+        $alternativeName = $media->getAlternative($formatName);
         $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadFile($alternativeName, $newFilePath);
+        $newFilename = pathinfo($newFilePath, PATHINFO_BASENAME);
+        $newAlternativeName = $this->getAlternativeName($formatName, $newFilename);
+        $this->mediaStorageManager->uploadFile($newAlternativeName, $newFilePath);
+        $media->addAlternative($formatName, $newAlternativeName);
     }
 
     /**
@@ -165,14 +168,15 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      */
     public function cropAlternative(MediaInterface $media, $x, $y, $h, $w, $formatName)
     {
-        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
-
         $originalFilePath = $this->mediaStorageManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
-        $croppedFilePath = $this->imageManager
-            ->cropAndResize($originalFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
+        $tmpFileName = time() . '-' . $media->getName();
+        $newFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
+        rename($originalFilePath, $newFilePath);
 
-        $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);
+        $croppedFilePath = $this->imageManager
+            ->cropAndResize($newFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
+
+        $this->overrideAlternative($media, $croppedFilePath, $formatName);
 
         $this->fileSystem->remove(array($originalFilePath));
     }

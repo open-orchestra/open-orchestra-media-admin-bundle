@@ -1,7 +1,8 @@
 ((router) ->
+  router.addRoutePattern 'apiMediaEdit', $('#contextual-informations').data('media-edit-url')
+
   router.route 'folder/:folderId/list/media/:mediaId/edit', 'mediaEdit', (folderId, mediaId) ->
     @initDisplayRouteChanges '#' + folderId
-    @addRoutePattern 'apiMediaEdit', $('#' + folderId).data('media-edit-url')
     SuperboxLoad folderId, mediaId
     return
 

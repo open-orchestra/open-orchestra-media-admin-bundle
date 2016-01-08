@@ -39,6 +39,7 @@ class MediaController extends AbstractAdminController
 
         if ($form->isValid()) {
             $data = $form->getData();
+            $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
             $mediaRepository = $this->get('open_orchestra_media.repository.media');
             /** @var MediaInterface $media */
             $media = $mediaRepository->find($mediaId);
@@ -51,6 +52,8 @@ class MediaController extends AbstractAdminController
                 $data['w'],
                 $data['format']
             );
+
+            $saveMediaManager->saveMedia($media);
 
             $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
@@ -88,13 +91,16 @@ class MediaController extends AbstractAdminController
 
         if ($form->isValid()) {
             $file = $form->getData()->getFile();
+            $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
             $tmpDir = $this->container->getParameter('open_orchestra_media_admin.tmp_dir');
-            $tmpFileName = time() . $file->getClientOriginalName();
+            $tmpFileName = time() . '-' . $file->getClientOriginalName();
             $file->move($tmpDir, $tmpFileName);
 
             $this->get('open_orchestra_media_admin.file_alternatives.manager')
                 ->overrideAlternative($media, $tmpDir . DIRECTORY_SEPARATOR . $tmpFileName, $format);
+
+            $saveMediaManager->saveMedia($media);
 
             $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }

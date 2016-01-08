@@ -157,7 +157,7 @@ class ImagickImageManager implements ImageManagerInterface
         $image = $this->resizeImage($format, $image);
 
         $pathInfo = pathinfo($filePath);
-        $croppedFilePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . time() . $pathInfo['basename'];
+        $croppedFilePath = $pathInfo['dirname'] . DIRECTORY_SEPARATOR . $pathInfo['basename'];
 
         $this->saveImage($croppedFilePath, $image, $format['compression_quality']);
 

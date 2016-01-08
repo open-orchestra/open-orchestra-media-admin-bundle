@@ -149,12 +149,22 @@ CropFormView = OrchestraView.extend(
           currentView.refreshImages()
 
   refreshImages: ->
-    format = $('#oo_media_crop_format').val()
-    newSrc = $('.media_crop_' + format).attr('src').split('?')[0] + '?' + Math.random()
-    $('.media_crop_' + format).attr 'src', newSrc
-    $(".media-override-format-form").hide()
-    $('#image-loader').hide()
-    @showPreview(format)
+    currentView = @
+    media = @options.media
+    $.ajax
+      url: appRouter.generateUrl('apiMediaEdit', mediaId: media.get('id'))
+      method: 'GET'
+      success: (response) ->
+        media = new GalleryModel
+        media.set response
+        format = $('#oo_media_crop_format').val()
+        newSrc = media.get('alternatives')[format]
+        $('.media_crop_' + format)
+          .attr('src', newSrc)
+          .load ->
+            $(".media-override-format-form").hide()
+            $('#image-loader').hide()
+            currentView.showPreview format
 
   updateCoords: (c) ->
     $('#oo_media_crop_x').val c.x

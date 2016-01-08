@@ -104,10 +104,20 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setMediaFolder($this->folderRepository->find($folderId));
         $media = $this->processMedia($media, $uploadedFile, $filename);
 
-        $this->objectManager->persist($media);
-        $this->objectManager->flush();
+        $this->saveMedia($media);
 
         return $media;
+    }
+
+    /**
+     * Save a media in database
+     *
+     * @param MediaInterface $media
+     */
+    public function saveMedia($media)
+    {
+        $this->objectManager->persist($media);
+        $this->objectManager->flush();
     }
 
     /**
