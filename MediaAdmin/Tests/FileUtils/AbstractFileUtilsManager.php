@@ -50,5 +50,6 @@ abstract class AbstractFileUtilsManager extends AbstractBaseTestCase
                 unlink($generatedFile);
             }
         }
+        parent::tearDown();
     }
 }
