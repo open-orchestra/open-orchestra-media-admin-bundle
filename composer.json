@@ -60,7 +60,6 @@
         "backbone": "*",
         "underscore": "*",
         "backbone.wreqr": "*",
-        "lodash": ">= 3.5.0",
         "flow.js": "~2.9.0"
       }
     }
