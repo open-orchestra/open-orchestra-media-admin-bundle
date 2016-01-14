@@ -60,6 +60,7 @@
         "backbone": "*",
         "underscore": "*",
         "backbone.wreqr": "*",
+        "Jcrop": "~0.9.12",
         "flow.js": "~2.9.0"
       }
     }
