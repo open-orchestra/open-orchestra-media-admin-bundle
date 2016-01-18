@@ -85,5 +85,6 @@ class MediaCropTypeTest extends AbstractBaseTestCase
 
         $this->form->buildView($formView, $formInterface, $options);
         $this->assertEquals($formView->vars['no_submit_button'], true);
+        $this->assertEquals($formView->vars['form_legend'], false);
     }
 }
