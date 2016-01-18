@@ -49,6 +49,7 @@ class MediaCropType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['no_submit_button'] = true;
+        $view->vars['form_legend'] = false;
     }
 
     /**
