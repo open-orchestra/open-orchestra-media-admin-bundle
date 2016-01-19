@@ -5,6 +5,7 @@ FolderDeleteButtonView = OrchestraView.extend(
   initialize: (options) ->
     @options = @reduceOption(options, [
       'medias'
+      'domContainer'
     ])
     @loadTemplates [
       "OpenOrchestraMediaAdminBundle:BackOffice:Underscore/widgetFolderDeleteButton"
@@ -13,7 +14,7 @@ FolderDeleteButtonView = OrchestraView.extend(
 
   render: ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/widgetFolderDeleteButton')
-    addCustomJarvisWidget(@$el)
+    addCustomJarvisWidget(@$el, @options.domContainer)
     return
 
   clickDeleteFolder: (event) ->
