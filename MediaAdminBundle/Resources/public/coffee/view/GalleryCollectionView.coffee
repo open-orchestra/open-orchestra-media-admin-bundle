@@ -64,11 +64,11 @@ GalleryCollectionView = OrchestraView.extend(
   addConfigurationButton: ->
     if @options.medias.get('links')._self_folder != undefined
       viewClass = appConfigurationView.getConfiguration('media', 'addFolderConfigurationButton')
-      new viewClass(@options)
+      new viewClass($.extend(@options, domContainer: @$el))
 
   addDeleteButton: ->
     if @options.medias.get('is_folder_deletable')
       if @options.medias.get('links')._self_delete != undefined
         viewClass = appConfigurationView.getConfiguration('media', 'addFolderDeleteButton')
-        new viewClass(@options)
+        new viewClass($.extend(@options, domContainer: @$el))
 )

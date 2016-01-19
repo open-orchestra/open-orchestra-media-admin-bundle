@@ -5,6 +5,7 @@ FolderConfigurationButtonView = OrchestraView.extend(
   initialize: (options) ->
     @options = @reduceOption(options, [
       'medias'
+      'domContainer'
     ])
     @loadTemplates [
       "OpenOrchestraMediaAdminBundle:BackOffice:Underscore/widgetFolderConfigurationButton"
@@ -13,7 +14,7 @@ FolderConfigurationButtonView = OrchestraView.extend(
 
   render: ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/widgetFolderConfigurationButton')
-    addCustomJarvisWidget(@$el)
+    addCustomJarvisWidget(@$el, @options.domContainer)
     return
 
   clickEditFolder: (event) ->
