@@ -3,11 +3,11 @@ currentModal = null
 
 MediaModalView = OrchestraView.extend(
 
-  extendView : ['breadcrumbAware']
+  extendView: ['breadcrumbAware']
 
   events:
     'click .mediaModalClose': 'closeModal'
-    'click .media-modal-menu-folder' : 'showFolder'
+    'click .media-modal-menu-folder>span' : 'showFolder'
     'click .media-modal-menu-new-folder' : 'openFormFolder'
 
   initialize: (options) ->
@@ -41,7 +41,7 @@ MediaModalView = OrchestraView.extend(
 
   initMenu: (activeNode) ->
     @updateNavigation(activeNode) if activeNode?
-    
+
     opts =
       accordion: true
       speed: $.menu_speed
@@ -54,10 +54,9 @@ MediaModalView = OrchestraView.extend(
       currentModal.modal "hide"
 
   showFolder: (event) ->
-    if $(event.target).attr('id')
-      @updateNavigation($(event.target))
-      displayLoader $(".modal-body-content", @$el)
-      GalleryLoad $(event.target).attr('id'), @options.galleryView, $(".modal-body-content", @$el)
+    @updateNavigation($(event.target))
+    displayLoader $(".modal-body-content", @$el)
+    GalleryLoad $(event.target).parent().attr('id'), @options.galleryView, $(".modal-body-content", @$el)
 
   updateNavigation: (node) ->
     $('.modal-body-menu nav .active', @el).removeClass("active");
@@ -69,7 +68,7 @@ MediaModalView = OrchestraView.extend(
     $.ajax
       url: @options.url
       method: 'GET'
-      context: @
+      context: this
       success: (response) ->
         $('.modal-body-menu', currentModal).html response
         @initMenu($('#media-modal-' + $('#oo_folder_id').val()))
