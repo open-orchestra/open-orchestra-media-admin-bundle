@@ -5,7 +5,6 @@ namespace OpenOrchestra\MediaAdmin\Tests\FileUtils\Image;
 use OpenOrchestra\MediaAdmin\Tests\FileUtils\AbstractFileUtilsManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickImageManager;
-use Phake;
 
 /**
  * Class ImagickImageManagerTest
