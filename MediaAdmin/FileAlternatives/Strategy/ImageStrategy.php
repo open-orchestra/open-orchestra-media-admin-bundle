@@ -105,7 +105,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         );
 
         if ($alternativePath != '') {
-            $alternativeName = $this->getAlternativeName($formatName, $fileName);
+            $alternativeName = $this->generateAlternativeName($formatName, $fileName);
             $this->mediaStorageManager->uploadFile($alternativeName, $alternativePath);
         }
 
@@ -114,15 +114,15 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
     /**
      * Return the alternative name
-     * 
+     *
      * @param string $formatName
      * @param string $fileName
-     * 
+     *
      * @return string
      */
-    protected function getAlternativeName($formatName, $fileName)
+    protected function generateAlternativeName($formatName, $fileName)
     {
-        return $formatName . '-' . $fileName;
+        return time(). '-' . $formatName . '-' . $fileName;
     }
 
     /**
@@ -132,8 +132,8 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      */
     public function deleteAlternatives(MediaInterface $media)
     {
-        foreach ($this->alternativeFormats as $formatName => $format) {
-            $this->deleteFile($this->getAlternativeName($formatName, $media->getFilesystemName()));
+        foreach ($media->getAlternatives() as $storageKey) {
+            $this->deleteFile($storageKey);
         }
 
         parent::deleteAlternatives($media);
@@ -141,7 +141,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
     /**
      * Override the file alternative for $media with $newFile and run it
-     * 
+     *
      * @param MediaInterface $media
      * @param string         $newFilePath
      * @param string         $formatName
@@ -151,14 +151,14 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         $alternativeName = $media->getAlternative($formatName);
         $this->deleteFile($alternativeName);
         $newFilename = pathinfo($newFilePath, PATHINFO_BASENAME);
-        $newAlternativeName = $this->getAlternativeName($formatName, $newFilename);
+        $newAlternativeName = $this->generateAlternativeName($formatName, $newFilename);
         $this->mediaStorageManager->uploadFile($newAlternativeName, $newFilePath);
         $media->addAlternative($formatName, $newAlternativeName);
     }
 
     /**
      * Crop $media original file with ($x, $y, $h, $w) and resize it to the $formatName
-     * 
+     *
      * @param MediaInterface $media
      * @param int            $x
      * @param Int            $y
