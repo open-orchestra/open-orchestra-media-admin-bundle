@@ -169,12 +169,9 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     public function cropAlternative(MediaInterface $media, $x, $y, $h, $w, $formatName)
     {
         $originalFilePath = $this->mediaStorageManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
-        $tmpFileName = time() . '-' . $media->getName();
-        $newFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
-        $this->fileSystem->rename($originalFilePath, $newFilePath);
 
         $croppedFilePath = $this->imageManager
-            ->cropAndResize($newFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
+            ->cropAndResize($originalFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
 
         $this->overrideAlternative($media, $croppedFilePath, $formatName);
 
