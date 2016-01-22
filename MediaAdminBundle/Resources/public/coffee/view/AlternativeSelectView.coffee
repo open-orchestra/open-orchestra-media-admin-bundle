@@ -1,10 +1,10 @@
-WysiwygSelectView = OrchestraView.extend(
+AlternativeSelectView = OrchestraView.extend(
 
   extendView: ['breadcrumbAware']
 
   events:
-    'click #sendToTiny': 'sendToTiny'
-    'change #oo_media_crop_format' : 'changeCropFormat'
+    'click #sendToTiny': 'sendMedia'
+    'change #oo_media_crop_format': 'changeCropFormat'
 
   initialize: (options) ->
     @options = @reduceOption(options, [
@@ -15,11 +15,11 @@ WysiwygSelectView = OrchestraView.extend(
       'mediaName'
     ])
     @loadTemplates [
-        'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/previewImageView',
-        'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
-        'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/header',
-        'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer'
-      ]
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/previewImageView',
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
+      'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/header',
+      'OpenOrchestraBackofficeBundle:BackOffice:Underscore/Jarvis/footer'
+    ]
     return
 
   render: (options) ->
@@ -43,20 +43,11 @@ WysiwygSelectView = OrchestraView.extend(
       $('#preview_thumbnail', @$el).show()
       return
 
-  sendToTiny: (event) ->
+  sendMedia: (event) ->
     event.preventDefault()
-    modalContainer = @$el.closest(".mediaModalContainer")
-    editorId = modalContainer.data("input")
-    currentView = this
-    tinymce.get(editorId).execCommand(
-      'mceInsertContent',
-      false,
-      do ->
-        currentView.renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
-          media_id: $('#oo_media_crop_id', @el).val()
-          media_src: $('#preview_thumbnail', @$el).attr('src')
-          media_format: $('#oo_media_crop_format', @$el).val()
-        );
-    )
+    modalContainer = @$el.closest('.mediaModalContainer')
+    intputName = modalContainer.data('input')
+    $('#' + intputName).val $('#oo_media_crop_id', @el).val()
+    $('#previewImage_' + intputName).attr 'src', $('#preview_thumbnail', @$el).attr('src')
     modalContainer.find('.mediaModalClose').click()
 )

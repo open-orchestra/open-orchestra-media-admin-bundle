@@ -56,12 +56,12 @@ GalleryView = OrchestraView.extend(
       $(".delete-confirm-question").text(),
       $(".delete-confirm-explanation").text(),
       callBackParams:
-        mediaView: @
+        mediaView: this
       yesCallback: (params) ->
         params.mediaView.removeMedia(event)
     )
 
-  removeMedia : (event) ->
+  removeMedia: (event) ->
     target = $(event.target)
     $.ajax
       url: @options.media.get("links")._self_delete
@@ -69,9 +69,33 @@ GalleryView = OrchestraView.extend(
       success: (response) ->
         Backbone.history.loadUrl(Backbone.history.getFragment())
 
-  mediaSelect : (event) ->
+  mediaSelect: (event) ->
     event.preventDefault()
-    modalContainer = @$el.closest(".mediaModalContainer")
+    if 0 == @options.media.get('mime_type').indexOf('image/')
+      @chooseFormat()
+    else
+      @sendMedia()
+
+  chooseFormat: ->
+    viewContext = this
+    extendView = []
+    extendView = ['alternativeSelectWysiwygView'] if @wysiwygContext
+    $.ajax
+      url: @options.media.get('links')._self_crop
+      method: "GET"
+      success: (response) ->
+        viewClass = appConfigurationView.getConfiguration('media', 'showWysiwygSelect')
+        new viewClass(
+          domContainer: viewContext.$el.closest(".modal-body-content")
+          html: response
+          alternatives: viewContext.options.alternatives
+          original: viewContext.options.original
+          mediaName: viewContext.options.media.get('name')
+          extendView: extendView
+        )
+
+  sendMedia: ->
+    modalContainer = @$el.closest('.mediaModalContainer')
     intputName = modalContainer.data('input')
     $('#' + intputName).val @options.media.id
     $('#previewImage_' + intputName).attr 'src', @$el.find('.superbox-img img').attr('src')

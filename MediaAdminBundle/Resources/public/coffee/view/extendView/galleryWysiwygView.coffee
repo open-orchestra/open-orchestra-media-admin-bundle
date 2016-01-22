@@ -1,29 +1,10 @@
 extendView = extendView || {}
 
 extendView['galleryWysiwygView'] =
-  mediaSelect: (event) ->
-    event.preventDefault()
-    if 0 == @options.media.get('mime_type').indexOf('image/')
-      @chooseFormat()
-    else
-      @sendToTiny()
 
-  chooseFormat: ->
-    viewContext = @
-    $.ajax
-      url: @options.media.get('links')._self_crop
-      method: "GET"
-      success: (response) ->
-        viewClass = appConfigurationView.getConfiguration('media', 'showWysiwygSelect')
-        new viewClass(
-          domContainer: viewContext.$el.closest(".modal-body-content")
-          html: response
-          alternatives: viewContext.options.alternatives
-          original: viewContext.options.original
-          mediaName: viewContext.options.media.get('name')
-        )
+  wysiwygContext: true
 
-  sendToTiny: ->
+  sendMedia: ->
     tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
     if 0 == @options.media.get('mime_type').indexOf('audio/')
       tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/audio'
