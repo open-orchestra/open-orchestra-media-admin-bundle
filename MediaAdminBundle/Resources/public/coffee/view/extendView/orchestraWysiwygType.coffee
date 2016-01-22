@@ -8,4 +8,5 @@ extendView['orchestraWysiwygType'] =
       url: parameters.url
       method: if @options.method then @options.method else 'GET'
     @openMediaModal($.extend(modalParameters, 
-      galleryView : ['galleryWysiwygView']))
+      galleryView : ['galleryWysiwygView']
+    ))

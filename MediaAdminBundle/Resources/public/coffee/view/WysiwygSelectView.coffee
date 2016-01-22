@@ -47,7 +47,7 @@ WysiwygSelectView = OrchestraView.extend(
     event.preventDefault()
     modalContainer = @$el.closest(".mediaModalContainer")
     editorId = modalContainer.data("input")
-    currentView = @
+    currentView = this
     tinymce.get(editorId).execCommand(
       'mceInsertContent',
       false,
