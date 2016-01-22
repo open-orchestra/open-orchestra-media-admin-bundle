@@ -150,7 +150,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     {
         $alternativeName = $media->getAlternative($formatName);
         $this->deleteFile($alternativeName);
-        $newFilename = pathinfo($newFilePath, PATHINFO_BASENAME);
+        $newFilename = basename($newFilePath);
         $newAlternativeName = $this->generateAlternativeName($formatName, $newFilename);
         $this->mediaStorageManager->uploadFile($newAlternativeName, $newFilePath);
         $media->addAlternative($formatName, $newAlternativeName);

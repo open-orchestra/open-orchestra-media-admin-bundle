@@ -200,7 +200,7 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
             $alternativeName,
             $this->mediaStorageManager->exists($alternativeName)
         );
-        Phake::verify($this->mediaStorageManager)->uploadFile(\Phake::anyParameters());
+        Phake::verify($this->mediaStorageManager)->uploadFile(Phake::anyParameters());
         Phake::verify($this->fileSystem)->remove(array($media->getFilesystemName()));
     }
 
