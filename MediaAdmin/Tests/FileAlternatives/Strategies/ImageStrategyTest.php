@@ -45,6 +45,19 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
             'format2' => array('max_width' => 100, 'compression_quality' => 75)
         );
 
+        $medias = array($this->fullMedia, $this->emptyMedia, $this->thumbnailNullMedia);
+
+        foreach ($medias as $media) {
+            Phake::when($media)->getAlternative('format1')->thenReturn('format1-' . $media->getFilesystemName());
+            Phake::when($media)->getAlternative('format2')->thenReturn('format2-' . $media->getFilesystemName());
+            Phake::when($media)->getAlternatives()->thenReturn(
+                array(
+                    'format1' => 'format1-' . $media->getFilesystemName(),
+                    'format2' => 'format2-' . $media->getFilesystemName()
+                )
+            );
+        }
+
         $this->strategy = new ImageStrategy(
             $this->fileSystem,
             $this->mediaStorageManager,
@@ -144,13 +157,14 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
 
         $this->strategy->overrideAlternative($media, 'somewhere', $formatName);
 
-        $alternativeName = $formatName . '-' . $media->getFilesystemName();
+        $alternativeName = $media->getAlternative($formatName);
 
         $this->assertFileDeleted(
             $alternativeName,
             $this->mediaStorageManager->exists($alternativeName)
         );
-        Phake::verify($this->mediaStorageManager)->uploadFile($alternativeName, 'somewhere');
+        Phake::verify($this->mediaStorageManager)->uploadFile(Phake::anyParameters());
+        Phake::verify($media)->addAlternative(Phake::anyParameters());
     }
 
     /**
@@ -174,7 +188,7 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
     public function testCropAlternative($mediaName, $formatName)
     {
         $media = $this->{$mediaName};
-        $alternativeName = $formatName . '-' . $media->getFilesystemName();
+        $alternativeName = $media->getAlternative($formatName);
         $x = 50; $y = 60; $h = 70; $w = 80;
 
         $this->strategy->cropAlternative($media, $x, $y, $h, $w, $formatName);
@@ -186,7 +200,7 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
             $alternativeName,
             $this->mediaStorageManager->exists($alternativeName)
         );
-        Phake::verify($this->mediaStorageManager)->uploadFile($alternativeName, $this->generatedFilePath);
+        Phake::verify($this->mediaStorageManager)->uploadFile(Phake::anyParameters());
         Phake::verify($this->fileSystem)->remove(array($media->getFilesystemName()));
     }
 

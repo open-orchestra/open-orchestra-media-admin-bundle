@@ -3,8 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
-use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**

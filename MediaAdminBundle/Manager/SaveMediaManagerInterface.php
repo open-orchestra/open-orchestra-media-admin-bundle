@@ -36,4 +36,11 @@ interface SaveMediaManagerInterface
      * @return MediaInterface
      */
     public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId);
+
+    /**
+     * Save a media in database
+     *
+     * @param MediaInterface $media
+     */
+    public function saveMedia($media);
 }

@@ -105,7 +105,7 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         );
 
         if ($alternativePath != '') {
-            $alternativeName = $this->getAlternativeName($formatName, $fileName);
+            $alternativeName = $this->generateAlternativeName($formatName, $fileName);
             $this->mediaStorageManager->uploadFile($alternativeName, $alternativePath);
         }
 
@@ -114,15 +114,15 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
     /**
      * Return the alternative name
-     * 
+     *
      * @param string $formatName
      * @param string $fileName
-     * 
+     *
      * @return string
      */
-    protected function getAlternativeName($formatName, $fileName)
+    protected function generateAlternativeName($formatName, $fileName)
     {
-        return $formatName . '-' . $fileName;
+        return time(). '-' . $formatName . '-' . $fileName;
     }
 
     /**
@@ -132,8 +132,8 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      */
     public function deleteAlternatives(MediaInterface $media)
     {
-        foreach ($this->alternativeFormats as $formatName => $format) {
-            $this->deleteFile($this->getAlternativeName($formatName, $media->getFilesystemName()));
+        foreach ($media->getAlternatives() as $storageKey) {
+            $this->deleteFile($storageKey);
         }
 
         parent::deleteAlternatives($media);
@@ -141,21 +141,24 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
 
     /**
      * Override the file alternative for $media with $newFile and run it
-     * 
+     *
      * @param MediaInterface $media
      * @param string         $newFilePath
      * @param string         $formatName
      */
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName)
     {
-        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
+        $alternativeName = $media->getAlternative($formatName);
         $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadFile($alternativeName, $newFilePath);
+        $newFilename = basename($newFilePath);
+        $newAlternativeName = $this->generateAlternativeName($formatName, $newFilename);
+        $this->mediaStorageManager->uploadFile($newAlternativeName, $newFilePath);
+        $media->addAlternative($formatName, $newAlternativeName);
     }
 
     /**
      * Crop $media original file with ($x, $y, $h, $w) and resize it to the $formatName
-     * 
+     *
      * @param MediaInterface $media
      * @param int            $x
      * @param Int            $y
@@ -165,14 +168,12 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
      */
     public function cropAlternative(MediaInterface $media, $x, $y, $h, $w, $formatName)
     {
-        $alternativeName = $this->getAlternativeName($formatName, $media->getFilesystemName());
-
         $originalFilePath = $this->mediaStorageManager->downloadFile($media->getFilesystemName(), $this->tmpDir);
+
         $croppedFilePath = $this->imageManager
             ->cropAndResize($originalFilePath, $x, $y, $h, $w, $this->alternativeFormats[$formatName]);
 
-        $this->deleteFile($alternativeName);
-        $this->mediaStorageManager->uploadFile($alternativeName, $croppedFilePath);
+        $this->overrideAlternative($media, $croppedFilePath, $formatName);
 
         $this->fileSystem->remove(array($originalFilePath));
     }

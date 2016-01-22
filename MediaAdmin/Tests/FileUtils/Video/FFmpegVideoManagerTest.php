@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\Tests\FileUtils\Video;
 
-use Phake;
 use OpenOrchestra\MediaAdmin\Tests\FileUtils\AbstractFileUtilsManager;
 use FFMpeg\FFMpeg;
 use OpenOrchestra\MediaAdmin\FileUtils\Video\FFmpegVideoManager;

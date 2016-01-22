@@ -4,8 +4,6 @@ namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 use Imagick;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
-use OpenOrchestra\MediaAdmin\MediaEvents;
-use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class ImagickImageManager
@@ -25,7 +23,7 @@ class ImagickImageManager implements ImageManagerInterface
     /**
      * @param string $filePath
      * @param array  $format
-     * 
+     *
      * @return string
      */
     public function generateAlternative($filePath, array $format)
@@ -45,7 +43,7 @@ class ImagickImageManager implements ImageManagerInterface
      *
      * @param array   $format
      * @param Imagick $image
-     * 
+     *
      * @return Imagick
      */
     protected function resizeImage(array $format, Imagick $image)
@@ -70,10 +68,10 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * Resize an image keeping its ratio to the height $height
-     * 
+     *
      * @param Imagick $image
      * @param int     $height
-     * 
+     *
      * @return Imagick
      */
     protected function resizeOnHeight(Imagick $image, $height)
@@ -85,10 +83,10 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * Resize an image keeping its ratio to the width $width
-     * 
+     *
      * @param Imagick $image
      * @param int     $width
-     * 
+     *
      * @return Imagick
      */
     protected function resizeOnWidth(Imagick $image, $width)
@@ -100,11 +98,11 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * Compress and save $image
-     * 
+     *
      * @param string  $filePath
      * @param Imagick $image
      * @param int     $compression_quality
-     * 
+     *
      * @return Imagick
      */
     protected function saveImage($filePath, Imagick $image, $compression_quality)
@@ -119,10 +117,10 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * Extract an image from the $page of $filePath
-     * 
+     *
      * @param string $filePath
      * @param int    $page
-     * 
+     *
      * @return string
      */
     public function extractImageFromPdf($filePath, $page = 0)
@@ -140,14 +138,14 @@ class ImagickImageManager implements ImageManagerInterface
 
     /**
      * Crop $filePath with ($x, $y, $h, $w) and resize it to the $formatName
-     * 
+     *
      * @param string $filePath
      * @param int    $x
      * @param int    $y
      * @param int    $h
      * @param int    $w
      * @param array  $format
-     * 
+     *
      * @return string
      */
     public function cropAndResize($filePath, $x, $y, $h, $w, array $format)

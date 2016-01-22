@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaModelBundle\Document\Media;
 use OpenOrchestra\ModelBundle\Document\EmbedKeyword;
 use OpenOrchestra\ModelBundle\Document\TranslatedValue;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
