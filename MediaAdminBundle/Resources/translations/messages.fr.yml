@@ -8,6 +8,8 @@ open_orchestra_backoffice:
             title: Bloc liste de média par mot clé
         display_media:
             title: Bloc média
+    form:
+      remove: Retirer
 
 open_orchestra_media_admin:
     form:
@@ -55,7 +57,7 @@ open_orchestra_media_admin:
             pause: Mettre en pause l'upload
             resume: Reprendre l'upload
             cancel: Annuler l'upload
-            failed: le fichier n'a pu être uploadé :
+            failed: "le fichier n'a pu être uploadé :"
             remaining: restantes
             completed: Achevé
             not_allowed: Format non autorisé
@@ -65,6 +67,7 @@ open_orchestra_media_admin:
             delete_media_folder: Etes vous sûr de supprimer le répertoire %folderName%?
         editorial:
             media: Médiathèque
+            browse: Parcourir
     block:
         slideshow:
             description: Fait défiler des images.
