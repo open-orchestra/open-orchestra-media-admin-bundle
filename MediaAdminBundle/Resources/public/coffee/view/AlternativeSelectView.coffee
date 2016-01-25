@@ -47,7 +47,10 @@ AlternativeSelectView = OrchestraView.extend(
     event.preventDefault()
     modalContainer = @$el.closest('.mediaModalContainer')
     intputName = modalContainer.data('input')
-    $('#' + intputName).val $('#oo_media_crop_id', @el).val()
+    mediaId = $('#oo_media_crop_id', @el).val()
+    mediaFormat = $('#oo_media_crop_format', @$el).val()
+    mediaInfo = mediaId + '-format-' + mediaFormat
+    $('#' + intputName).val mediaInfo
     $('#previewImage_' + intputName).attr 'src', $('#preview_thumbnail', @$el).attr('src')
     modalContainer.find('.mediaModalClose').click()
 )
