@@ -3,10 +3,8 @@
 namespace OpenOrchestra\MediaAdminBundle\GenerateForm\Strategies;
 
 use OpenOrchestra\Backoffice\GenerateForm\Strategies\AbstractBlockStrategy;
-use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\ModelInterface\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use OpenOrchestra\Media\DisplayBlock\Strategies\DisplayMediaStrategy as BaseMediaStrategy;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -15,15 +13,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class DisplayMediaStrategy extends AbstractBlockStrategy
 {
-    protected $translator;
-    protected $thumbnail = array();
-
-    public function __construct(TranslatorInterface $translatorInterface, array $thumbnailConfig)
-    {
-        $this->translator = $translatorInterface;
-        $this->thumbnail = $thumbnailConfig;
-    }
-
     /**
      * @param BlockInterface $block
      *
@@ -41,12 +30,6 @@ class DisplayMediaStrategy extends AbstractBlockStrategy
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('imageFormat', 'choice', array(
-                'choices' => $this->getFormats(),
-                'constraints' => new NotBlank(),
-                'label' => 'open_orchestra_media_admin.block.gallery.form.image_format.label',
-                'attr' => array('help_text' => 'open_orchestra_media_admin.block.gallery.form.image_format.helper'),
-            ))
             ->add('picture', 'oo_media_choice', array(
                 'constraints' => new NotBlank(),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
@@ -66,19 +49,5 @@ class DisplayMediaStrategy extends AbstractBlockStrategy
     public function getName()
     {
         return 'display_media';
-    }
-
-    /**
-     * @return array
-     */
-    protected function getFormats()
-    {
-        $formats = array();
-        $formats[MediaInterface::MEDIA_ORIGINAL] = $this->translator->trans('open_orchestra_media_admin.form.media.original_image');
-        foreach ($this->thumbnail as $key => $thumbnail) {
-            $formats[$key] = $this->translator->trans('open_orchestra_media_admin.form.media.' . $key);
-        }
-
-        return $formats;
     }
 }
