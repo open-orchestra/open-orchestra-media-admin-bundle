@@ -63,7 +63,9 @@ class ExtractReferenceFromNodeStrategy implements ExtractReferenceInterface
                 );
             }
         } elseif (is_string($element) && strpos($element, MediaInterface::MEDIA_PREFIX) === 0) {
-            $references[substr($element, strlen(MediaInterface::MEDIA_PREFIX))][] = 'node-' . $statusableElementId . '-' . $blockIndex;
+            $mediaInfos = explode('-format-', $element);
+            $references[substr($mediaInfos[0], strlen(MediaInterface::MEDIA_PREFIX))][] =
+                'node-' . $statusableElementId . '-' . $blockIndex;
         }
 
         return $references;
