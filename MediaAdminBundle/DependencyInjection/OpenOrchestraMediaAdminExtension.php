@@ -81,6 +81,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
                 'orchestra_media' => array(
                     'label' => 'open_orchestra_media_admin.form.field_type.custom_type.media',
                     'type' => 'oo_media_choice',
+                    'search' => 'text',
                     'default_value' => array(
                         'type' => 'oo_media_choice',
                         'options' => array(
