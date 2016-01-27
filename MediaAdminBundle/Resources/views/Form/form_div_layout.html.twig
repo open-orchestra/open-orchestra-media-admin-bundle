@@ -1,9 +1,8 @@
 {% block oo_media_choice_widget %}
     {% spaceless %}
         {% set type = 'hidden' %}
-        {% set mediaInfos = value|split('-format-') %}
         {{ block('form_widget') }}&nbsp;
-        {% set src= get_media_format_url(mediaInfos|first, mediaInfos|last) %}
+        {% set src= get_media_format_url_from_string(value) %}
         <img
             height="100px"
             {% if src != '' %}src="{{ src }}"{% endif %}
