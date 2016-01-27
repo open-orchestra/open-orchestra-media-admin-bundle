@@ -7,7 +7,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\ModelInterface\Model\BlockInterface;
 use OpenOrchestra\ModelInterface\Model\NodeInterface;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
-use OpenOrchestra\Media\Helper\MediaWithFormatExtractor;
+use OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface;
 
 /**
  * Class ExtractReferenceFromNodeStrategy
@@ -17,9 +17,9 @@ class ExtractReferenceFromNodeStrategy implements ExtractReferenceInterface
     protected $mediaWithFormatExtractor;
 
     /**
-     * @param MediaWithFormatExtractor $mediaWithFormatExtractor
+     * @param MediaWithFormatExtractorInterface $mediaWithFormatExtractor
      */
-    public function __construct(MediaWithFormatExtractor $mediaWithFormatExtractor)
+    public function __construct(MediaWithFormatExtractorInterface $mediaWithFormatExtractor)
     {
         $this->mediaWithFormatExtractor = $mediaWithFormatExtractor;
     }
