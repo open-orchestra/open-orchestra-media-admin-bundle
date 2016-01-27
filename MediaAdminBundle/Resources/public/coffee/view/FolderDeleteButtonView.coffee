@@ -42,5 +42,5 @@ FolderDeleteButtonView = OrchestraView.extend(
       success: ->
         appRouter.navigate redirectUrl,
             trigger: true
-        displayMenu redirectUrl
+        refreshMenu redirectUrl
 )
