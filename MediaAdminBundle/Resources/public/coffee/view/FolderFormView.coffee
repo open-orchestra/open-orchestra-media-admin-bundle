@@ -5,7 +5,7 @@ FolderFormView = OrchestraModalView.extend(
       listUrl = appRouter.generateUrl('listFolder',
         'folderId': $('#oo_folder_id', @$el).val()
       )
-      displayMenu(listUrl)
+      refreshMenu(listUrl)
 )
 
 jQuery ->
