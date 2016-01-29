@@ -21,7 +21,8 @@ MediaUploadView = OrchestraView.extend(
 
   render: ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaUploadView',
-       listUrl : @options.listUrl
+       listUrl: @options.listUrl
+       isModal: @options.isModal
     )
     @options.domContainer.html @$el
     $('.js-widget-title', @options.domContainer).html @options.title
@@ -45,7 +46,7 @@ MediaUploadView = OrchestraView.extend(
     @r.assignBrowse $('.flow-browse-folder')[0], true
     @r.assignBrowse $('.flow-browse')[0], false, false, {accept: allowedMimeTypes}
 
-    viewContext = @
+    viewContext = this
 
     @r.on 'fileAdded', (file) ->
       $('.flow-progress, .flow-list').show()

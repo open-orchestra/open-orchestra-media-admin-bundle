@@ -57,6 +57,7 @@ GalleryCollectionView = OrchestraView.extend(
       viewClass = appConfigurationView.getConfiguration('media', 'uploadMedia')
       new viewClass(
         uploadUrl: @options.medias.get('links')._self_add
+        isModal: 'true'
         title: @options.title
         domContainer: @options.domContainer
       )

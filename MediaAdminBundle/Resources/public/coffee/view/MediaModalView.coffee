@@ -9,6 +9,7 @@ MediaModalView = OrchestraView.extend(
     'click .mediaModalClose': 'closeModal'
     'click .media-modal-menu-folder>span' : 'showFolder'
     'click .media-modal-menu-new-folder' : 'openFormFolder'
+    'click #backModal': 'backToFolder'
 
   initialize: (options) ->
     @options = @reduceOption(options, [
@@ -55,8 +56,14 @@ MediaModalView = OrchestraView.extend(
 
   showFolder: (event) ->
     @updateNavigation($(event.target))
+    @openGallery($(event.target).parent().attr('id'))
+
+  backToFolder: ->
+    @openGallery($('.modal-body-menu nav .active', @el).attr('id'))
+
+  openGallery: (folderId) ->
     displayLoader $(".modal-body-content", @$el)
-    GalleryLoad $(event.target).parent().attr('id'), @options.galleryView, $(".modal-body-content", @$el)
+    GalleryLoad folderId, @options.galleryView, $(".modal-body-content", @$el)
 
   updateNavigation: (node) ->
     $('.modal-body-menu nav .active', @el).removeClass("active");
