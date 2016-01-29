@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\MediaAdmin\Event\FolderEvent;
@@ -47,5 +48,28 @@ class FolderController extends BaseController
         }
 
         return array();
+    }
+
+    /**
+     * @param string $siteId
+     *
+     * @Config\Route("/list/tree/{siteId}", name="open_orchestra_api_folder_list_tree")
+     * @Config\Method({"GET"})
+     *
+     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
+     *
+     * @return FacadeInterface
+     */
+    public function listTreeFolder($siteId)
+    {
+        $folders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
+
+        if (empty($folders)) {
+            return array();
+        }
+        //todo
+        $transformer = $this->get('open_orchestra_api.transformer_manager')->get('folder_tree');
+
+        return $folders;
     }
 }
