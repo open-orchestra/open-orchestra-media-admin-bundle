@@ -20,7 +20,8 @@ extendView['orchestraMediaAbstractType'] =
         ))
       error: ->
         new viewClass($.extend(options,
-          body: 'Erreur durant le chargement'))
+          body: 'Error while loading'
+        ))
     return
 
   launchMediaModal: (event) ->

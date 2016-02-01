@@ -8,6 +8,8 @@ open_orchestra_backoffice:
             title: Media list by keyword
         display_media:
             title: Media block
+    form:
+      remove: Remove
 
 open_orchestra_media_admin:
     form:
@@ -56,7 +58,7 @@ open_orchestra_media_admin:
             pause: Pause upload
             resume: Resume upload
             cancel: Cancel upload
-            failed: file could not be uploaded:
+            failed: "file could not be uploaded:"
             remaining: remaining
             completed: Completed
             not_allowed: Format not allowed
@@ -66,6 +68,7 @@ open_orchestra_media_admin:
             delete_media_folder: Are you sure to delete the folder %folderName% ?
         editorial:
             media: Media
+            browse: Browse
     block:
         slideshow:
             description: Scroll images.

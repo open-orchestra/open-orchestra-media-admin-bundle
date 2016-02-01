@@ -6,7 +6,7 @@ jQuery ->
     'showMediaForm': MediaFormView
     'showMediaModal': MediaModalView
     'showGallery': GalleryView
-    'showWysiwygSelect': WysiwygSelectView
+    'showWysiwygSelect': AlternativeSelectView
     'showMetaForm': MetaFormView
     'showCropForm': CropFormView
     'uploadMedia': MediaUploadView

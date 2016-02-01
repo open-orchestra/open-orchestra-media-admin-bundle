@@ -18,12 +18,16 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      */
     protected $strategy;
 
+    protected $extractor;
+
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->strategy = new ExtractReferenceFromNodeStrategy();
+        $this->extractor = Phake::mock('OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface');
+
+        $this->strategy = new ExtractReferenceFromNodeStrategy($this->extractor);
     }
 
     /**
@@ -31,7 +35,10 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      */
     public function testInstance()
     {
-        $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceInterface', $this->strategy);
+        $this->assertInstanceOf(
+            'OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceInterface',
+            $this->strategy
+        );
     }
 
     /**
@@ -95,7 +102,16 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
                 MediaInterface::MEDIA_PREFIX . 'bar_col'
             )
         ));
-        
+
+        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'foo')
+            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'foo', 'format'=> MediaInterface::MEDIA_ORIGINAL));
+        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'bar')
+            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'bar', 'format'=> MediaInterface::MEDIA_ORIGINAL));
+        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'foo_col')
+            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'foo_col', 'format'=> MediaInterface::MEDIA_ORIGINAL));
+        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'bar_col')
+            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'bar_col', 'format'=> MediaInterface::MEDIA_ORIGINAL));
+
         $expected = array(
             'foo' => array('node-' . $nodeId . '-0', 'node-' . $nodeId . '-1'),
             'bar' => array('node-' . $nodeId . '-1', 'node-' . $nodeId . '-2'),

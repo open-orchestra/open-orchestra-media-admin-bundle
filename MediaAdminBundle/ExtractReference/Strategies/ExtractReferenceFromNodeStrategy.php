@@ -7,12 +7,23 @@ use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\ModelInterface\Model\BlockInterface;
 use OpenOrchestra\ModelInterface\Model\NodeInterface;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
+use OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface;
 
 /**
  * Class ExtractReferenceFromNodeStrategy
  */
 class ExtractReferenceFromNodeStrategy implements ExtractReferenceInterface
 {
+    protected $mediaWithFormatExtractor;
+
+    /**
+     * @param MediaWithFormatExtractorInterface $mediaWithFormatExtractor
+     */
+    public function __construct(MediaWithFormatExtractorInterface $mediaWithFormatExtractor)
+    {
+        $this->mediaWithFormatExtractor = $mediaWithFormatExtractor;
+    }
+    
     /**
      * @param StatusableInterface $statusableElement
      *
@@ -45,7 +56,7 @@ class ExtractReferenceFromNodeStrategy implements ExtractReferenceInterface
 
     /**
      * Recursively extract media references from elements (bloc, attribute, collection attribute, etc ...)
-     * 
+     *
      * @param array  $element
      * @param string $blockIndex
      * @param string $statusableElementId
@@ -63,7 +74,9 @@ class ExtractReferenceFromNodeStrategy implements ExtractReferenceInterface
                 );
             }
         } elseif (is_string($element) && strpos($element, MediaInterface::MEDIA_PREFIX) === 0) {
-            $references[substr($element, strlen(MediaInterface::MEDIA_PREFIX))][] = 'node-' . $statusableElementId . '-' . $blockIndex;
+            $mediaInfos = $this->mediaWithFormatExtractor->extractInformation($element);
+            $references[substr($mediaInfos['id'], strlen(MediaInterface::MEDIA_PREFIX))][] =
+                'node-' . $statusableElementId . '-' . $blockIndex;
         }
 
         return $references;

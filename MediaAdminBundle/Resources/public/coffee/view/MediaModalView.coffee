@@ -7,8 +7,8 @@ MediaModalView = OrchestraView.extend(
 
   events:
     'click .mediaModalClose': 'closeModal'
-    'click .media-modal-menu-folder>span' : 'showFolder'
-    'click .media-modal-menu-new-folder' : 'openFormFolder'
+    'click .media-modal-menu-folder>span': 'showFolder'
+    'click .media-modal-menu-new-folder': 'openFormFolder'
     'click #backModal': 'backToFolder'
 
   initialize: (options) ->
