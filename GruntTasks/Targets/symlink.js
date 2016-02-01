@@ -3,10 +3,6 @@ module.exports = {
     src: 'web/bundles/openorchestramediaadmin/images/no_image_available.jpg',
     dest: 'web/img/no_image_available.jpg'
   },
-  jcrop_gif: {
-    src: 'vendor/bower_components/Jcrop/css/Jcrop.gif',
-    dest: 'web/img/jcrop/Jcrop.gif'
-  },
   flow_resume: {
     src: 'web/bundles/openorchestramediaadmin/images/flow_js/resume.png',
     dest: 'web/img/flow_js/resume.png'
