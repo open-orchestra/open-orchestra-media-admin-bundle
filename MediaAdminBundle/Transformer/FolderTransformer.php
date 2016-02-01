@@ -29,8 +29,10 @@ class FolderTransformer extends AbstractTransformer
 
         $facade->folderId = $folder->getId();
         $facade->name = $folder->getName();
+        $facade->createdAt = $folder->getCreatedAt();
+        $facade->updatedAt = $folder->getUpdatedAt();
 
-        foreach($folder->getSites() as $site) {
+        foreach ($folder->getSites() as $site) {
             $facade->addSite($site);
         }
 

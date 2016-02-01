@@ -1,0 +1,13 @@
+<div class="col-sm-2">
+    <select class="form-control value-holder" data-role-name="<%= role.name %>">
+        <option value="{{ constant('OpenOrchestra\\BackofficeBundle\\Model\\NodeGroupRoleInterface::ACCESS_INHERIT') }}">
+            {{ 'open_orchestra_backoffice.form.group.access_inherit'|trans }}
+        </option>
+        <option value="{{ constant('OpenOrchestra\\BackofficeBundle\\Model\\NodeGroupRoleInterface::ACCESS_GRANTED') }}">
+            {{ 'open_orchestra_backoffice.form.group.access_granted'|trans }}
+        </option>
+        <option value="{{ constant('OpenOrchestra\\BackofficeBundle\\Model\\NodeGroupRoleInterface::ACCESS_DENIED') }}">
+            {{ 'open_orchestra_backoffice.form.group.access_denied'|trans }}
+        </option>
+    </select>
+</div>
