@@ -1,0 +1,14 @@
+<li data-title="{{ 'open_orchestra_media_admin.form.group.media_folder_role_edition'|trans }}">
+    <div class="row">
+        <div class="col-sm-3 list-page-folder-name">
+            <% if ( folders.children.length > 0 ){ %>
+            <em class="fa fa-minus-square-o open"></em>
+            <% } %>
+            <%= folders.folder.name %>
+        </div>
+        <div class="col-sm-9">
+            <div class="row form-input"></div>
+        </div>
+    </div>
+    <ul class="child-folder"></ul>
+</li>
