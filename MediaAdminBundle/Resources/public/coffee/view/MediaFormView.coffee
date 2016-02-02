@@ -25,8 +25,4 @@ MediaFormView = OrchestraView.extend(
     @options.domContainer.html @$el
     $('.js-widget-title', @options.domContainer).html @options.title
     $('.back-to-list', @options.domContainer).remove()
-    $("[data-prototype]", @options.domContainer).each ->
-      PO.formPrototypes.addPrototype $(this)
-      return
-    return
 )
