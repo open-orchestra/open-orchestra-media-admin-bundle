@@ -44,14 +44,19 @@ class SlideshowStrategy extends AbstractBlockStrategy
             'label' => 'open_orchestra_backoffice.form.block.id',
             'constraints' => new NotBlank(),
         ));
+
+        $allowAdd = true;
+        if (isset($options['disabled']) && $options['disabled']) {
+            $allowAdd = false;
+        }
         $builder->add('pictures', 'collection', array(
             'type' => 'oo_media_choice',
             'constraints' => new NotBlank(),
-            'allow_add' => true,
+            'allow_add' => $allowAdd,
             'attr' => array(
                 'data-prototype-label-add' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.add'),
                 'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.new'),
-                'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
+               'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
             ),
         ));
         $builder->add('width', 'text', array(
