@@ -63,7 +63,7 @@ open_orchestra_media_admin:
             completed: Completed
             not_allowed: Format not allowed
         group:
-            media_folder_role_edition: Media folder list
+            media_folder_role_edition: Media role list
             media_folder_list: Media folder list
     left_menu:
         tree:

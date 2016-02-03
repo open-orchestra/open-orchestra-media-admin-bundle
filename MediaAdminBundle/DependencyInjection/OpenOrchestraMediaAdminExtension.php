@@ -36,6 +36,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('transformer.yml');
         $loader->load('navigation_panel.yml');
         $loader->load('subscriber.yml');
+        $loader->load('listener.yml');
         $loader->load('form.yml');
         $loader->load('manager.yml');
         $loader->load('twig.yml');
@@ -46,6 +47,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('file_utils.yml');
         $loader->load('mime_type.yml');
         $loader->load('file_alternatives.yml');
+        $loader->load('voter.yml');
 
         $this->addMediaFieldType($container);
         $this->setFilesParameters($container, $config, $loader);
