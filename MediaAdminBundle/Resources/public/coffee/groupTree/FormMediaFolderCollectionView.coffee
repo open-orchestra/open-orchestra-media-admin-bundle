@@ -1,6 +1,6 @@
-FormCollectionView = OrchestraView.extend(
+FormMediaFolderCollectionView = OrchestraView.extend(
   events:
-    'change .value-holder': 'changeInput'
+    'change .folder-value-holder': 'changeInput'
   initialize: (options) ->
     @options = options
     @loadTemplates [
@@ -33,4 +33,4 @@ FormCollectionView = OrchestraView.extend(
 )
 
 jQuery ->
-  appConfigurationView.setConfiguration 'group_tab_media_folder_tree_form', 'editEntityTab', FormCollectionView
+  appConfigurationView.setConfiguration 'group_tab_media_folder_tree_form', 'editEntityTab', FormMediaFolderCollectionView

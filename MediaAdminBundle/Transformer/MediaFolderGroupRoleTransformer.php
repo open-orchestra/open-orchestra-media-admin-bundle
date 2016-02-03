@@ -11,6 +11,7 @@ use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface;
+use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
  * Class MediaFolderGroupRoleTransformer
@@ -19,25 +20,25 @@ class MediaFolderGroupRoleTransformer extends AbstractTransformer implements Tra
 {
     protected $mediaFolderRoleGroupClass;
     protected $collector;
-    protected $nodeRepository;
+    protected $folderRepository;
     protected $currentSiteManager;
 
     /**
-     * @param string                  $facadeClass
-     * @param string                  $mediaFolderRoleGroupClass
-     * @param RoleCollectorInterface  $collector
-     * @param CurrentSiteIdInterface  $currentSiteManager
+     * @param string                    $facadeClass
+     * @param string                    $mediaFolderRoleGroupClass
+     * @param RoleCollectorInterface    $collector
+     * @param FolderRepositoryInterface $folderRepository
      */
     public function __construct(
         $facadeClass,
         $mediaFolderRoleGroupClass,
         RoleCollectorInterface $collector,
-        CurrentSiteIdInterface $currentSiteManager
+        FolderRepositoryInterface $folderRepository
     ) {
         parent::__construct($facadeClass);
         $this->mediaFolderRoleGroupClass = $mediaFolderRoleGroupClass;
         $this->collector = $collector;
-        $this->currentSiteManager = $currentSiteManager;
+        $this->folderRepository = $folderRepository;
     }
 
     /**
@@ -87,8 +88,11 @@ class MediaFolderGroupRoleTransformer extends AbstractTransformer implements Tra
         $source->setAccessType($mediaFolderRoleFacade->accessType);
 
         if (MediaFolderGroupRoleInterface::ACCESS_INHERIT === $mediaFolderRoleFacade->accessType) {
-            //todo $parent->isGranted()?
-            $source->setGranted(true);
+            $folder = $this->folderRepository->find($mediaFolderRoleFacade->folder);
+            $parentAccess = $group->getMediaFolderRoleByMediaFolderAndRole($folder->getParent()->getId(), $mediaFolderRoleFacade->name);
+            if ($parentAccess instanceof MediaFolderGroupRoleInterface) {
+                $source->setGranted($parentAccess->isGranted());
+            }
         } else {
             $isGranted = (MediaFolderGroupRoleInterface::ACCESS_GRANTED === $mediaFolderRoleFacade->accessType) ? true : false;
             $source->setGranted($isGranted);

@@ -3,6 +3,12 @@
   .header-role-list {
     margin-bottom: 10px;
   }
+  .col-sm-2 {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: center;
+    width: calc(~"100% / 7");
+  }
 
   .content-media-folder-list {
     li div.row {
@@ -12,7 +18,12 @@
         padding: 0 2px;
       }
     }
-
+    .list-page-folder-name {
+      overflow: hidden;
+      padding-top: 7px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     // second level
     .child-folder {
       .list-page-folder-name {
