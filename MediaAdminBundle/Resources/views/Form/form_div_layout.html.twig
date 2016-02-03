@@ -10,19 +10,21 @@
             class="previewImage"
         />
         &nbsp;
-        <div class="media-form-type">
-            <a class="btn btn-default mediaModalOpen"
-                data-target="{{ id }}_modal"
-                data-input="{{ id }}"
-                data-url="{{ path('open_orchestra_media_admin_media_list_form') }}">
-                <i class="fa fa-folder-open-o"></i>
-                {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
-            </a>
-            <br /><br />
-            <button class="btn btn-warning clear-media" data-input="{{ id }}">
-                {{ 'open_orchestra_backoffice.form.remove'|trans }}
-            </button>
-        </div>
+        {% if not disabled %}
+            <div class="media-form-type">
+                <a class="btn btn-default mediaModalOpen"
+                    data-target="{{ id }}_modal"
+                    data-input="{{ id }}"
+                    data-url="{{ path('open_orchestra_media_admin_media_list_form') }}">
+                    <i class="fa fa-folder-open-o"></i>
+                    {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
+                </a>
+                <br /><br />
+                <button class="btn btn-warning clear-media" data-input="{{ id }}">
+                    {{ 'open_orchestra_backoffice.form.remove'|trans }}
+                </button>
+            </div>
+        {% endif %}
         <div id="{{ id }}_modal"></div>
     {% endspaceless %}
 {% endblock %}
