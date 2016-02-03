@@ -23,13 +23,15 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
     protected $mediaRepository;
     protected $statusableElement;
     protected $extractReferenceManager;
+    protected $mediaFormatExtractor;
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->extractReferenceManager = Phake::mock('OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager');
+        $this->extractReferenceManager =
+            Phake::mock('OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager');
 
         $this->status = Phake::mock('OpenOrchestra\ModelInterface\Model\StatusInterface');
         $this->statusableElement = Phake::mock('OpenOrchestra\ModelInterface\Model\StatusableInterface');
@@ -41,7 +43,13 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
         $this->mediaRepository = Phake::mock('OpenOrchestra\Media\Repository\MediaRepositoryInterface');
         Phake::when($this->mediaRepository)->find(Phake::anyParameters())->thenReturn($this->media);
 
-        $this->subscriber = new UpdateMediaReferenceSubscriber($this->extractReferenceManager, $this->mediaRepository);
+        $this->mediaFormatExtractor = Phake::mock('OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface');
+
+        $this->subscriber = new UpdateMediaReferenceSubscriber(
+            $this->extractReferenceManager,
+            $this->mediaRepository,
+            $this->mediaFormatExtractor
+        );
     }
 
     /**
@@ -69,14 +77,17 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
     public function testUpdateMediaReference($isPublished, $methodToCall)
     {
         Phake::when($this->status)->isPublished()->thenReturn($isPublished);
-        Phake::when($this->extractReferenceManager)->extractReference(Phake::anyParameters())->thenReturn(array(
-            'foo' => array('node-nodeId-0', 'node-nodeId-1'),
-            'bar' => array('node-nodeId-1'),
+        Phake::when($this->extractReferenceManager)->extractReference(Phake::anyParameters())
+            ->thenReturn(array(
+                'foo' => array('node-nodeId-0', 'node-nodeId-1'),
+                'bar' => array('node-nodeId-1'),
         ));
 
         $this->subscriber->updateMediaReference($this->event);
 
         Phake::verify($this->extractReferenceManager)->extractReference($this->statusableElement);
+        Phake::verify($this->mediaFormatExtractor)->extractInformation('foo');
+        Phake::verify($this->mediaFormatExtractor)->extractInformation('bar');
         Phake::verify($this->media, Phake::times(2))->$methodToCall('node-nodeId-1');
         Phake::verify($this->media)->$methodToCall('node-nodeId-0');
     }
