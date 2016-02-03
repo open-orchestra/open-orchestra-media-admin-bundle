@@ -31,6 +31,11 @@ class FolderTransformer extends AbstractTransformer
         $facade->name = $folder->getName();
         $facade->createdAt = $folder->getCreatedAt();
         $facade->updatedAt = $folder->getUpdatedAt();
+        if ($folder->getParent() instanceof FolderInterface) {
+            $facade->parentId = $folder->getParent()->getId();
+        } else {
+            $facade->parentId = "-";
+        }
 
         foreach ($folder->getSites() as $site) {
             $facade->addSite($site);

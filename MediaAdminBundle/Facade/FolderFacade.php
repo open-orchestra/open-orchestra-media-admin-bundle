@@ -29,6 +29,11 @@ class FolderFacade extends AbstractFacade
     public $type;
 
     /**
+     * @Serializer\Type("string")
+     */
+    public $parentId;
+
+    /**
      * @Serializer\Type("array")
      */
     protected $sites = array();
