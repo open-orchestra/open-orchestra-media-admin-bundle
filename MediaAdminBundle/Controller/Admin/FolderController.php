@@ -6,6 +6,7 @@ use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
+use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
@@ -35,7 +36,7 @@ class FolderController extends AbstractAdminController
         $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId));
         $message = $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success');
 
-        $form = $this->generateForm($folder, $url);
+        $form = $this->generateForm($folder, $url, TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER);
         $form->handleRequest($request);
 
         if ($this->handleForm($form, $message, $folder)) {
@@ -59,6 +60,7 @@ class FolderController extends AbstractAdminController
     public function newAction(Request $request, $parentId)
     {
         $parentFolder = $this->container->get('open_orchestra_media.repository.media_folder')->find($parentId);
+        $this->denyAccessUnlessGranted(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER, $parentFolder);
         $folderClass = $this->container->getParameter('open_orchestra_media.document.media_folder.class');
         /** @var FolderInterface $folder */
         $folder = new $folderClass();
@@ -102,12 +104,13 @@ class FolderController extends AbstractAdminController
     /**
      * @param FolderInterface $folder
      * @param string          $url
+     * @param string|null     $editionRole
      *
      * @return Form
      */
-    protected function generateForm(FolderInterface $folder, $url)
+    protected function generateForm(FolderInterface $folder, $url, $editionRole = null)
     {
-        $form = $this->createForm('oo_folder', $folder, array('action' => $url));
+        $form = $this->createForm('oo_folder', $folder, array('action' => $url), $editionRole);
 
         return $form;
     }
