@@ -52,7 +52,9 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->id = $mixed->getId();
         $facade->name = $mixed->getName();
         $facade->mimeType = $mixed->getMimeType();
-        $facade->isDeletable = $mixed->isDeletable() && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA);
+
+        $mediaFolder = $mixed->getMediaFolder();
+        $facade->isDeletable = $mixed->isDeletable() && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA, $mediaFolder);
         $facade->alt = $this->translationChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
@@ -70,19 +72,15 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 
         $facade->addLink('_self_select', $mixed->getId());
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA)) {
-            $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
-                'mediaId' => $mixed->getId()
-            )));
-        }
+        $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
+            'mediaId' => $mixed->getId()
+        )));
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA)) {
-            $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
-                'mediaId' => $mixed->getId()
-            )));
-        }
+        $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
+            'mediaId' => $mixed->getId()
+        )));
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA)) {
+        if ($facade->isDeletable) {
             $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_media_delete', array(
                 'mediaId' => $mixed->getId()
             )));
