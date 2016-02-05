@@ -54,7 +54,6 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('transformer.yml');
         $loader->load('navigation_panel.yml');
         $loader->load('subscriber.yml');
-        $loader->load('listener.yml');
         $loader->load('form.yml');
         $loader->load('manager.yml');
         $loader->load('twig.yml');
