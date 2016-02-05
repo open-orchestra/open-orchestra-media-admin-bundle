@@ -1,23 +1,56 @@
-FormMediaFolderCollectionView = OrchestraView.extend(
+###*
+ * @namespace OpenOrchestra:GroupTree
+###
+window.OpenOrchestra or= {}
+window.OpenOrchestra.GroupTree or= {}
+
+###*
+ * @class FormMediaFolderCollectionView
+###
+class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraView
+
   events:
-    'change .folder-value-holder': 'changeInput'
+    'change .value-holder': 'changeInput'
+
+  ###*
+   * @param {Object} options
+  ###
   initialize: (options) ->
-    @options = options
+    ###*
+     * {Object} domContainer
+     * {Object} folderElement
+     * {Array}  folderGroupRoles
+     * {Object} group
+     * {Array}  roles
+    ###
+    @options = @reduceOption(options, [
+      'domContainer'
+      'folderElement'
+      'folderGroupRoles'
+      'group'
+      'roles'
+    ])
     @loadTemplates [
-      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/groupTreeForm',
+      'OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
     ]
 
+  ###*
+   * render
+  ###
   render: ->
     for role in @options.roles
-      @options.domContainer.append @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/groupTreeForm',
+      @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
         role: role
-        folder: @options.folderElement
+        document: @options.folderElement
       )
     @setElement @options.domContainer
     if @options.folderGroupRoles != undefined
       for folderGroupRole in @options.folderGroupRoles
         $('select[data-role-name="' + folderGroupRole.name + '"] option[value="' + folderGroupRole.access_type + '"]', @options.domContainer).attr('selected','selected')
 
+  ###*
+   * @param {Object} e
+  ###
   changeInput: (e) ->
     value = $(e.currentTarget).val()
     name = $(e.currentTarget).data('role-name')
@@ -30,7 +63,6 @@ FormMediaFolderCollectionView = OrchestraView.extend(
       data: JSON.stringify(
         media_folder_roles: folderGroupRoleData
       )
-)
 
 jQuery ->
-  appConfigurationView.setConfiguration 'group_tab_media_folder_tree_form', 'editEntityTab', FormMediaFolderCollectionView
+  appConfigurationView.setConfiguration 'group_tab_media_folder_tree_form', 'editEntityTab', OpenOrchestra.GroupTree.FormMediaFolderCollectionView

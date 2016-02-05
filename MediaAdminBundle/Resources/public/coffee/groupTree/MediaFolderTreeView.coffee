@@ -1,6 +1,20 @@
-MediaFolderTreeView = OrchestraView.extend(
+###*
+ * @namespace OpenOrchestra:GroupTree
+###
+window.OpenOrchestra or= {}
+window.OpenOrchestra.GroupTree or= {}
+
+###*
+ * @class MediaFolderTreeView
+###
+class OpenOrchestra.GroupTree.MediaFolderTreeView extends OrchestraView
+
   events:
     'click em.fa': 'toggleItemDisplay'
+
+  ###*
+   * @param {Object} options
+  ###
   initialize: (options) ->
     @initializer options
     @loadTemplates [
@@ -9,12 +23,18 @@ MediaFolderTreeView = OrchestraView.extend(
     ]
     return
 
+  ###*
+   * @param {Object} options
+  ###
   initializer: (options) ->
     @options = options
     @options.listUrl = appRouter.generateUrl('listEntities', entityType: options.entityType) if options.listUrl == undefined
     @options.formView = 'editEntityTab'
     @options.domContainer = @$el
 
+  ###*
+   * render
+  ###
   render: ->
     @options.domContainer.html @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTree')
     currentView = @
@@ -36,6 +56,9 @@ MediaFolderTreeView = OrchestraView.extend(
       listUrl : @options.listUrl
     )
 
+  ###*
+   * Render tree element
+  ###
   renderTreeElement: ->
     subContainer = @options.domContainer.find('ul').first()
     mediaFolderTreeElementViewClass = appConfigurationView.getConfiguration('group_tab_media_folder_tree_element', 'editEntityTab')
@@ -48,13 +71,18 @@ MediaFolderTreeView = OrchestraView.extend(
       )
     $('.fa', @$el).addClass 'fa-minus-square-o'
 
+  ###*
+   * render roles header
+  ###
   renderHead: ->
     for role in @options.roles.roles
       @options.domContainer.find('.head-element').first().append '<div class="col-sm-2">' + role.description + '</div>'
 
+  ###*
+   * @param {Object} e
+  ###
   toggleItemDisplay: (e) ->
     OpenOrchestra.toggleTreeNodeDisplay(e, '.child-folder')
-)
 
 jQuery ->
-  appConfigurationView.setConfiguration 'group_tab_media_folder_tree', 'editEntityTab', MediaFolderTreeView
+  appConfigurationView.setConfiguration 'group_tab_media_folder_tree', 'editEntityTab', OpenOrchestra.GroupTree.MediaFolderTreeView
