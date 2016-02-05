@@ -9,7 +9,9 @@ use OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\MediaAdminBundle\Exceptions\MediaFolderGroupRoleNotFoundException;
 
-
+/**
+ * Class UpdateMediaFolderGroupRoleListener
+ */
 class UpdateMediaFolderGroupRoleListener
 {
     protected $folderClass;
