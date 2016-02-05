@@ -78,6 +78,7 @@ class MediaFolderGroupRoleVoter implements VoterInterface
                 return self::ACCESS_ABSTAIN;
             }
         }
+
         /** @var GroupInterface $group */
         foreach ($user->getGroups() as $group) {
             if (!$group->getSite() instanceof ReadSiteInterface) {

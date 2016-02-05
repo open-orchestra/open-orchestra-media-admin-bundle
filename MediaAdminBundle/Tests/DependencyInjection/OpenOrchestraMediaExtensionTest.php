@@ -78,6 +78,9 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
                 array(
                     'media' => 'OpenOrchestra\MediaAdminBundle\Facade\MediaFacade',
                     'media_collection' => 'OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade',
+                    'media_folder_group_role' => 'OpenOrchestra\MediaAdminBundle\Facade\MediaFolderGroupRoleFacade',
+                    'folder' => 'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade',
+                    'folder_tree' => 'OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade',
                 )
             ),
             array(
