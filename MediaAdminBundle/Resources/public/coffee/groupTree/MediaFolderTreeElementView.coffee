@@ -25,7 +25,6 @@ class OpenOrchestra.GroupTree.MediaFolderTreeElementView extends OrchestraView
       'group'
       'roles'
     ])
-    console.log options
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTreeElement',
     ]

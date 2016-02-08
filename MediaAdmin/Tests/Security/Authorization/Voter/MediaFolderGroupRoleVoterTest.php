@@ -104,7 +104,7 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
      * @param boolean $isGranted
      * @param string  $groupSiteId
      *
-     * @dataProvider provideResponseAndNodeData
+     * @dataProvider provideResponseAndFolderData
      */
     public function testVote($expectedVoterResponse, $folderId, $mfgrFolderId, $mfgrRole, $isGranted, $groupSiteId = 'siteId')
     {
@@ -132,15 +132,14 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
     /**
      * @return array
      */
-    public function provideResponseAndNodeData()
+    public function provideResponseAndFolderData()
     {
         return array(
-            array(VoterInterface::ACCESS_GRANTED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
-            array(VoterInterface::ACCESS_DENIED, 'folderId', 'otherId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
-            array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, false),
-            array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER, true),
-            array(VoterInterface::ACCESS_ABSTAIN, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, 'otherSite'),
-            array(VoterInterface::ACCESS_ABSTAIN, 'folderId', 'otherId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, 'otherSite'),
+            'Granted' => array(VoterInterface::ACCESS_GRANTED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
+            'Different folder' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'otherId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
+            'Not granted' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, false),
+            'Different Role' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER, true),
+            'Different Site' => array(VoterInterface::ACCESS_ABSTAIN, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, 'otherSite'),
         );
     }
 

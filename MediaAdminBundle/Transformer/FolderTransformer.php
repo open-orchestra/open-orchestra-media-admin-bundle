@@ -3,9 +3,9 @@
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\ApiBundle\Exceptions\TransformerParameterTypeException;
-use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
+use OpenOrchestra\MediaAdminBundle\Facade\FolderFacade;
 
 /**
  * Class FolderTransformer
@@ -15,7 +15,7 @@ class FolderTransformer extends AbstractTransformer
     /**
      * @param FolderInterface $folder
      *
-     * @return FacadeInterface
+     * @return FolderFacade
      *
      * @throws TransformerParameterTypeException
      */
