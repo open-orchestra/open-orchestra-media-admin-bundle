@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
+use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;
 
 /**
  * Class FolderTreeTransformer
@@ -14,7 +15,7 @@ class FolderTreeTransformer extends AbstractTransformer
     /**
      * @param $folderCollection
      *
-     * @return FacadeInterface
+     * @return FolderTreeFacade
      */
     public function transform($folderCollection)
     {
@@ -27,12 +28,12 @@ class FolderTreeTransformer extends AbstractTransformer
         if ($folderCollection instanceof FolderInterface) {
             $facade->folder = $this->getTransformer('folder')->transform($folderCollection);
             foreach ($folderCollection->getSubFolders() as $subFolders) {
-                $facade->addChild($this->getTransformer('folder_tree')->transform($subFolders));
+                $facade->addChild($this->transform($subFolders));
             }
         } else {
             $facade->folder = null;
             foreach ($folderCollection as $folder) {
-                $facade->addChild($this->getTransformer('folder_tree')->transform($folder));
+                $facade->addChild($this->transform($folder));
             }
         }
 

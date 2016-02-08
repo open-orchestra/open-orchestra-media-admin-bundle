@@ -35,7 +35,7 @@ class MediaController extends AbstractAdminController
         $media = $mediaRepository->find($mediaId);
         $mediaFolder = $media->getMediaFolder();
 
-        $form = $this->generateForm('oo_media_crop', array('id' => $mediaId), array(
+        $form = $this->createForm('oo_media_crop', array('id' => $mediaId), array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
                 'mediaId' => $mediaId,
             ))
@@ -129,7 +129,7 @@ class MediaController extends AbstractAdminController
         $media = $mediaRepository->find($mediaId);
         $mediaFolder = $media->getMediaFolder();
 
-        $form = $this->generateForm('oo_media_meta', $media, array(
+        $form = $this->createForm('oo_media_meta', $media, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
                 'mediaId' => $mediaId,
             ))
@@ -151,12 +151,12 @@ class MediaController extends AbstractAdminController
      *
      * @return \Symfony\Component\Form\Form
      */
-    public function generateForm($type, $data = null, array $options = array(), $editionRole = null, $folder = null)
+    public function createForm($type, $data = null, array $options = array(), $editionRole = null, $folder = null)
     {
         if (!isset($options['disabled']) && !is_null($editionRole)) {
             $options['disabled'] = !$this->isGranted($editionRole, $folder);
         }
 
-        return $this->createForm($type, $data, $options);
+        return parent::createForm($type, $data, $options);
     }
 }
