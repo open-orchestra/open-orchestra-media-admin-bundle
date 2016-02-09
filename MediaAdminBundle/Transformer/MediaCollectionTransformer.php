@@ -18,9 +18,9 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $folderRepository;
 
     /**
-     * @param string $facadeClass
+     * @param string                        $facadeClass
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param FolderRepositoryInterface $folderRepository
+     * @param FolderRepositoryInterface     $folderRepository
      */
     public function __construct(
         $facadeClass,

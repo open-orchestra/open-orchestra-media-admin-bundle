@@ -76,7 +76,7 @@ class OpenOrchestra.GroupTree.MediaFolderTreeView extends OrchestraView
   ###
   renderHead: ->
     for role in @options.roles.roles
-      @options.domContainer.find('.head-element').first().append '<div class="col-sm-2">' + role.description + '</div>'
+      @options.domContainer.find('.head-element').first().append '<div class="col-sm-2 oo-col-media-7">' + role.description + '</div>'
 
   ###*
    * @param {Object} e

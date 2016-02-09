@@ -55,7 +55,7 @@ class OpenOrchestra.GroupTree.MediaFolderTreeElementView extends OrchestraView
         @addChildToView @options.folders.children[child]
 
   ###*
-   * @param {Object} e
+   * @param {Object} child
   ###
   addChildToView: (child) ->
     mediaFolderTreeElementViewClass = appConfigurationView.getConfiguration('group_tab_media_folder_tree_element', 'editEntityTab')
