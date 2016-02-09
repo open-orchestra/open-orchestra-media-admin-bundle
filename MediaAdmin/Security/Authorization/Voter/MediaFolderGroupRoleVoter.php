@@ -79,12 +79,12 @@ class MediaFolderGroupRoleVoter implements VoterInterface
             }
         }
 
+        $access = self::ACCESS_ABSTAIN;
         /** @var GroupInterface $group */
         foreach ($user->getGroups() as $group) {
             if (!$group->getSite() instanceof ReadSiteInterface) {
                 continue;
             }
-
             if (!$object->hasSite($group->getSite()->getSiteId())) {
                 continue;
             }
@@ -92,15 +92,15 @@ class MediaFolderGroupRoleVoter implements VoterInterface
                 if (!$this->supportsAttribute($attribute)) {
                     continue;
                 }
-                if (true === $this->isGrantedMediaFolderGroupRole($object, $group, $attribute)) {
-                    return self::ACCESS_GRANTED;
+                if (false === $this->isGrantedMediaFolderGroupRole($object, $group, $attribute)) {
+                    return self::ACCESS_DENIED;
                 }
             }
 
-            return self::ACCESS_DENIED;
+            $access = self::ACCESS_GRANTED;
         }
 
-        return self::ACCESS_ABSTAIN;
+        return $access;
     }
 
     /**

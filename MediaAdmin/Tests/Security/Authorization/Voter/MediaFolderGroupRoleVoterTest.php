@@ -102,11 +102,12 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
      * @param string  $mfgrFolderId
      * @param string  $mfgrRole
      * @param boolean $isGranted
+     * @param boolean $isGranted2
      * @param string  $groupSiteId
      *
      * @dataProvider provideResponseAndFolderData
      */
-    public function testVote($expectedVoterResponse, $folderId, $mfgrFolderId, $mfgrRole, $isGranted, $groupSiteId = 'siteId')
+    public function testVote($expectedVoterResponse, $folderId, $mfgrFolderId, $mfgrRole, $isGranted, $isGranted2 = true, $groupSiteId = 'siteId')
     {
         $siteId = 'siteId';
         $role = TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER;
@@ -117,13 +118,20 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
         $mediaFolderGroupRole = Phake::mock('OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface');
         Phake::when($mediaFolderGroupRole)->isGranted()->thenReturn($isGranted);
 
+        $mediaFolderGroupRole2 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface');
+        Phake::when($mediaFolderGroupRole2)->isGranted()->thenReturn($isGranted2);
+
         $group = $this->generateGroup($groupSiteId);
         Phake::when($group)->getMediaFolderRoleByMediaFolderAndRole($mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole);
+
+        $group2 = $this->generateGroup($groupSiteId);
+        Phake::when($group2)->getMediaFolderRoleByMediaFolderAndRole($mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole2);
+
         $otherGroup = $this->generateGroup('otherSiteId');
         $noSiteGroup = $this->generateGroup();
 
         $user = Phake::mock('OpenOrchestra\UserBundle\Model\UserInterface');
-        Phake::when($user)->getGroups()->thenReturn(array($noSiteGroup, $otherGroup, $group));
+        Phake::when($user)->getGroups()->thenReturn(array($noSiteGroup, $otherGroup, $group, $group2));
         $token = Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         Phake::when($token)->getUser()->thenReturn($user);
         $this->assertSame($expectedVoterResponse, $this->voter->vote($token, $folder, array($role)));
@@ -136,10 +144,11 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
     {
         return array(
             'Granted' => array(VoterInterface::ACCESS_GRANTED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
-            'Different folder' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'otherId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
             'Not granted' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, false),
+            'Different Folder' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'otherId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true),
             'Different Role' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER, true),
-            'Different Site' => array(VoterInterface::ACCESS_ABSTAIN, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, 'otherSite'),
+            'Different Site' => array(VoterInterface::ACCESS_ABSTAIN, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, true, 'otherSite'),
+            'Group2 not granted' => array(VoterInterface::ACCESS_DENIED, 'folderId', 'folderId', TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, true, false),
         );
     }
 
