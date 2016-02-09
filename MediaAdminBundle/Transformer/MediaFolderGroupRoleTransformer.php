@@ -71,7 +71,7 @@ class MediaFolderGroupRoleTransformer extends AbstractTransformer implements Tra
      * @throws RoleNotFoundHttpException
      * @throws TransformerParameterTypeException
      *
-     * @return null|MediaFolderGroupRoleInterface
+     * @return MediaFolderGroupRoleInterface
      */
     public function reverseTransformWithGroup(GroupInterface $group, FacadeInterface $mediaFolderRoleFacade, $source = null)
     {

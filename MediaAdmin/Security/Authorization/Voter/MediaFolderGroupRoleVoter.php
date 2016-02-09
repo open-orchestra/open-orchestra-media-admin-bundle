@@ -96,8 +96,10 @@ class MediaFolderGroupRoleVoter implements VoterInterface
                     return self::ACCESS_GRANTED;
                 }
             }
+
             return self::ACCESS_DENIED;
         }
+
         return self::ACCESS_ABSTAIN;
     }
 
