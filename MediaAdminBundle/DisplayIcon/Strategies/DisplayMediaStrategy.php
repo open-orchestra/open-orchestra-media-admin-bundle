@@ -19,7 +19,7 @@ class DisplayMediaStrategy extends AbstractStrategy
      */
     public function support($block)
     {
-        return BaseMediaStrategy::DISPLAY_MEDIA == $block;
+        return BaseMediaStrategy::NAME == $block;
     }
 
     /**

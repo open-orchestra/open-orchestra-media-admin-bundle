@@ -21,7 +21,7 @@ class DisplayMediaStrategy extends AbstractStrategy
      */
     public function support(ReadBlockInterface $block)
     {
-       return BaseMediaStrategy::DISPLAY_MEDIA == $block->getComponent();
+       return BaseMediaStrategy::NAME == $block->getComponent();
     }
 
     /**

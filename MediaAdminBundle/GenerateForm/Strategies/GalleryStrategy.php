@@ -35,7 +35,7 @@ class GalleryStrategy extends AbstractBlockStrategy
      */
     public function support(BlockInterface $block)
     {
-        return BaseGalleryStrategy::GALLERY === $block->getComponent();
+        return BaseGalleryStrategy::NAME === $block->getComponent();
     }
 
     /**

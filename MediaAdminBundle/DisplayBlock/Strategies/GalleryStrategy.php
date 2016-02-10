@@ -21,7 +21,7 @@ class GalleryStrategy extends AbstractStrategy
      */
     public function support(ReadBlockInterface $block)
     {
-        return BaseGalleryStrategy::GALLERY == $block->getComponent();
+        return BaseGalleryStrategy::NAME == $block->getComponent();
     }
 
     /**

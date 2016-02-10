@@ -19,7 +19,7 @@ class GalleryStrategy extends AbstractStrategy
      */
     public function support($block)
     {
-        return BaseGalleryStrategy::GALLERY == $block;
+        return BaseGalleryStrategy::NAME == $block;
     }
 
     /**

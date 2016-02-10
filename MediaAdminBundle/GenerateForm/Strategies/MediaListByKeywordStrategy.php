@@ -19,7 +19,7 @@ class MediaListByKeywordStrategy extends AbstractBlockStrategy
      */
     public function support(BlockInterface $block)
     {
-        return BaseMediaListByKeywordStrategy::MEDIA_LIST_BY_KEYWORD === $block->getComponent();
+        return BaseMediaListByKeywordStrategy::NAME === $block->getComponent();
     }
 
     /**

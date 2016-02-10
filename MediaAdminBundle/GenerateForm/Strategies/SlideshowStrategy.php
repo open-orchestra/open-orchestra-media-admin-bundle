@@ -31,7 +31,7 @@ class SlideshowStrategy extends AbstractBlockStrategy
      */
     public function support(BlockInterface $block)
     {
-        return BaseSlideshowStrategy::SLIDESHOW === $block->getComponent();
+        return BaseSlideshowStrategy::NAME === $block->getComponent();
     }
 
     /**

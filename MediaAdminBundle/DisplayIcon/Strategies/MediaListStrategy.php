@@ -19,7 +19,7 @@ class MediaListStrategy extends AbstractStrategy
      */
     public function support($block)
     {
-        return BaseMediaListByKeywordStrategy::MEDIA_LIST_BY_KEYWORD == $block;
+        return BaseMediaListByKeywordStrategy::NAME == $block;
     }
 
     /**
