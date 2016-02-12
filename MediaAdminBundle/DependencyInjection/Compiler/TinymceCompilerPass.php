@@ -20,7 +20,7 @@ class TinymceCompilerPass implements CompilerPassInterface
         if ($container->hasDefinition('twig.extension.stfalcon_tinymce')) {
             $param = $container->getParameter('stfalcon_tinymce.config');
             if ($container->hasParameter('open_orchestra_media_admin.tinymce')) {
-                $param = array_merge($param, $container->getParameter('open_orchestra_media_admin.tinymce'));
+                $param = array_merge_recursive($param, $container->getParameter('open_orchestra_media_admin.tinymce'));
             }
             if (isset($param["theme"])){
                 foreach($param["theme"] as $themeName => $theme ){
