@@ -19,7 +19,7 @@ class SlideshowStrategy extends AbstractStrategy
      */
     public function support($block)
     {
-        return BaseSlideshowStrategy::SLIDESHOW == $block;
+        return BaseSlideshowStrategy::NAME == $block;
     }
 
     /**
