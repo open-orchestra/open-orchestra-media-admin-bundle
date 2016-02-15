@@ -1,3 +1,5 @@
+{% extends 'OpenOrchestraBackofficeBundle:Form:form_div_layout.html.twig' %}
+
 {% block oo_media_choice_widget %}
     {% spaceless %}
         {% set type = 'hidden' %}
@@ -30,10 +32,9 @@
 {% endblock %}
 
 {% block oo_tinymce_widget %}
-      {{ block('textarea_widget') }}
+    {{ parent() }}
       <div
-          id="{{ id }}_modal"
-          class="select_media_modal"
+          class="{{ id }} modal_media"
           data-url="{{ path('open_orchestra_media_admin_media_list_form') }}"
       ></div>
 {% endblock %}
