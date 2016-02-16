@@ -92,7 +92,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
      * @param array            $config
      * @param YamlFileLoader   $loader
      */
-    protected function setFilesParameters(ContainerBuilder $container, $config, YamlFileLoader $loader)
+    protected function setFilesParameters(ContainerBuilder $container, array $config, YamlFileLoader $loader)
     {
         $container->setParameter(
             'open_orchestra_media_admin.files.thumbnail_format',
