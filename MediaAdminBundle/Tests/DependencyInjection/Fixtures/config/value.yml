@@ -4,23 +4,24 @@ open_orchestra_media_admin:
         max_height: 5000
         max_width: 5000
         compression_quality: 10000
-    alternatives:
-        image:
-            formats:
-                fixed_height:
-                    max_height: 5000
-                    compression_quality: 10000
-                fixed_width:
-                    max_width: 5000
-                    compression_quality: 10000
-                rectangle:
-                    max_width: 5000
-                    max_height: 5000
-                    compression_quality: 10000
-        default:
-            thumbnail: default.png
-        audio:
-            thumbnail: audio.png
     facades:
         media:             FacadeClass
         media_collection:  FacadeClass
+    files:
+        alternatives:
+            image:
+                formats:
+                    fixed_height:
+                        max_height: 5000
+                        compression_quality: 10000
+                    fixed_width:
+                        max_width: 5000
+                        compression_quality: 10000
+                    rectangle:
+                        max_width: 5000
+                        max_height: 5000
+                        compression_quality: 10000
+            default:
+                thumbnail: default.png
+            audio:
+                thumbnail: audio.png
