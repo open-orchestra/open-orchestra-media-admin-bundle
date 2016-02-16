@@ -4,8 +4,10 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\ApiBundle\Exceptions\HttpException\RoleNotFoundHttpException;
 use OpenOrchestra\ApiBundle\Exceptions\TransformerParameterTypeException;
+use OpenOrchestra\ApiBundle\Transformer\DocumentGroupRoleTransformer;
 use OpenOrchestra\ApiBundle\Transformer\TransformerWithGroupInterface;
 use OpenOrchestra\Backoffice\Collector\RoleCollectorInterface;
+use OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
@@ -16,89 +18,44 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 /**
  * Class MediaFolderGroupRoleTransformer
  */
-class MediaFolderGroupRoleTransformer extends AbstractTransformer implements TransformerWithGroupInterface
+class MediaFolderGroupRoleTransformer extends DocumentGroupRoleTransformer
 {
-    protected $mediaFolderRoleGroupClass;
+    protected $documentGroupRoleClass;
     protected $collector;
     protected $folderRepository;
     protected $currentSiteManager;
 
     /**
      * @param string                    $facadeClass
-     * @param string                    $mediaFolderRoleGroupClass
+     * @param string                    $documentGroupRoleClass
      * @param RoleCollectorInterface    $collector
      * @param FolderRepositoryInterface $folderRepository
      */
     public function __construct(
         $facadeClass,
-        $mediaFolderRoleGroupClass,
+        $documentGroupRoleClass,
         RoleCollectorInterface $collector,
         FolderRepositoryInterface $folderRepository
     ) {
-        parent::__construct($facadeClass);
-        $this->mediaFolderRoleGroupClass = $mediaFolderRoleGroupClass;
-        $this->collector = $collector;
+        parent::__construct($facadeClass, $documentGroupRoleClass, $collector);
         $this->folderRepository = $folderRepository;
     }
 
     /**
-     * @param MediaFolderGroupRoleInterface $mediaFolderGroupRole
+     * @param GroupInterface  $group
+     * @param FacadeInterface $facade
      *
-     * @return FacadeInterface
-     *
-     * @throws TransformerParameterTypeException
+     * @return bool
      */
-    public function transform($mediaFolderGroupRole)
+    protected function isParentGranted(GroupInterface $group, FacadeInterface $facade)
     {
-        if (!$mediaFolderGroupRole instanceof MediaFolderGroupRoleInterface) {
-            throw new TransformerParameterTypeException();
+        $folder = $this->folderRepository->find($facade->document);
+        $parentAccess = $group->getDocumentRoleByTypeAndIdAndRole('folder', $folder->getParent()->getId(), $facade->name);
+        if ($parentAccess instanceof DocumentGroupRoleInterface) {
+            return $parentAccess->isGranted();
         }
 
-        $facade = $this->newFacade();
-
-        $facade->folder = $mediaFolderGroupRole->getFolderId();
-        $facade->name = $mediaFolderGroupRole->getRole();
-        $facade->accessType = $mediaFolderGroupRole->getAccessType();
-
-        return $facade;
-    }
-
-    /**
-     * @param GroupInterface                     $group
-     * @param FacadeInterface                    $mediaFolderRoleFacade
-     * @param MediaFolderGroupRoleInterface|null $source
-     *
-     * @throws RoleNotFoundHttpException
-     * @throws TransformerParameterTypeException
-     *
-     * @return MediaFolderGroupRoleInterface
-     */
-    public function reverseTransformWithGroup(GroupInterface $group, FacadeInterface $mediaFolderRoleFacade, $source = null)
-    {
-        if (!$source instanceof MediaFolderGroupRoleInterface) {
-            $source = new $this->mediaFolderRoleGroupClass();
-        }
-
-        if (!$this->collector->hasRole($mediaFolderRoleFacade->name)) {
-            throw new RoleNotFoundHttpException();
-        }
-
-        $source->setFolderId($mediaFolderRoleFacade->folder);
-        $source->setRole($mediaFolderRoleFacade->name);
-        $source->setAccessType($mediaFolderRoleFacade->accessType);
-
-        if (MediaFolderGroupRoleInterface::ACCESS_INHERIT === $mediaFolderRoleFacade->accessType) {
-            $folder = $this->folderRepository->find($mediaFolderRoleFacade->folder);
-            $parentAccess = $group->getMediaFolderRoleByMediaFolderAndRole($folder->getParent()->getId(), $mediaFolderRoleFacade->name);
-            if ($parentAccess instanceof MediaFolderGroupRoleInterface) {
-                $source->setGranted($parentAccess->isGranted());
-            }
-        } else {
-            $isGranted = (MediaFolderGroupRoleInterface::ACCESS_GRANTED === $mediaFolderRoleFacade->accessType) ? true : false;
-            $source->setGranted($isGranted);
-        }
-
-        return $source;
+        return false;
     }
 
     /**

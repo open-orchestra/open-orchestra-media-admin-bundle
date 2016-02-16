@@ -56,12 +56,12 @@ class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraVie
     name = $(e.currentTarget).data('role-name')
     folderId = @options.folderElement.folder_id
     folderGroupRoleData = []
-    folderGroupRoleData.push({'folder': folderId, 'access_type': value, 'name': name})
+    folderGroupRoleData.push({'document': folderId, 'type':'folder', 'access_type': value, 'name': name})
     $.ajax
       url: @options.group.links._self_edit
       method: 'POST'
       data: JSON.stringify(
-        media_folder_roles: folderGroupRoleData
+        document_roles: folderGroupRoleData
       )
 
 jQuery ->
