@@ -5,7 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -23,34 +23,16 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
-        $container->setParameter(
-            'open_orchestra_media_admin.files.thumbnail_format',
-            $config['thumbnail']
-        );
-
-        $container->setParameter(
-            'open_orchestra_media_admin.files.alternatives.image.formats',
-            $config['alternatives']['image']['formats']
-        );
-
-        $container->setParameter(
-            'open_orchestra_media_admin.files.alternatives.default.thumbnail',
-            $config['alternatives']['default']['thumbnail']
-        );
-
-        $container->setParameter(
-            'open_orchestra_media_admin.files.alternatives.audio.thumbnail',
-            $config['alternatives']['audio']['thumbnail']
-        );
 
         foreach ($config['facades'] as $transformer => $facade) {
-            $container->setParameter('open_orchestra_media_admin.facade.' . $transformer .'.class', $facade);
+            $container->setParameter('open_orchestra_media_admin.facade.' . $transformer . '.class', $facade);
         }
 
-        $loader = new Loader\YamlFileLoader(
+        $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
+
         $loader->load('transformer.yml');
         $loader->load('navigation_panel.yml');
         $loader->load('subscriber.yml');
@@ -66,6 +48,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('file_alternatives.yml');
 
         $this->addMediaFieldType($container);
+        $this->setFilesParameters($container, $config, $loader);
     }
 
     /**
@@ -99,5 +82,41 @@ class OpenOrchestraMediaAdminExtension extends Extension
         );
 
         $container->setParameter('open_orchestra_backoffice.field_types', $fieldTypes);
+    }
+
+    /**
+     * Add the files generation parameters to the container
+     * Takes the Open Orchestra alternatives image formats or the application one instead if defined
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     * @param YamlFileLoader   $loader
+     */
+    protected function setFilesParameters(ContainerBuilder $container, array $config, YamlFileLoader $loader)
+    {
+        $container->setParameter(
+            'open_orchestra_media_admin.files.thumbnail_format',
+            $config['thumbnail']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.default.thumbnail',
+            $config['files']['alternatives']['default']['thumbnail']
+        );
+
+        $container->setParameter(
+            'open_orchestra_media_admin.files.alternatives.audio.thumbnail',
+            $config['files']['alternatives']['audio']['thumbnail']
+            );
+
+        if (count($config['files']['alternatives']['image']['formats']) > 0) {
+            $container->setParameter(
+                'open_orchestra_media_admin.files.alternatives.image.formats',
+                $config['files']['alternatives']['image']['formats']
+            );
+        } else {
+            $loader->load('alternatives_formats.yml');
+        }
+
     }
 }

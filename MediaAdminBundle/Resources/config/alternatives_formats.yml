@@ -1,0 +1,12 @@
+parameters:
+    open_orchestra_media_admin.files.alternatives.image.formats:
+        fixed_height:
+            max_height: 100
+            compression_quality: 75
+        fixed_width:
+            max_width: 100
+            compression_quality: 75
+        rectangle:
+            max_width: 100
+            max_height: 70
+            compression_quality: 75
