@@ -72,6 +72,9 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('media')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaFacade')->end()
                     ->scalarNode('media_collection')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaCollectionFacade')->end()
+                    ->scalarNode('media_folder_group_role')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\MediaFolderGroupRoleFacade')->end()
+                    ->scalarNode('folder')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade')->end()
+                    ->scalarNode('folder_tree')->defaultValue('OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade')->end()
                 ->end()
             ->end()
         ->end();

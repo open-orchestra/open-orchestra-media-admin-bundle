@@ -3,9 +3,11 @@
 namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
+use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
+use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,17 +31,20 @@ class MediaController extends AbstractAdminController
      */
     public function cropAction(Request $request, $mediaId)
     {
+        $mediaRepository = $this->get('open_orchestra_media.repository.media');
+        $media = $mediaRepository->find($mediaId);
+        $mediaFolder = $media->getMediaFolder();
+
         $form = $this->createForm('oo_media_crop', array('id' => $mediaId), array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
                 'mediaId' => $mediaId,
             ))
-        ));
+        ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $mediaRepository = $this->get('open_orchestra_media.repository.media');
             /** @var MediaInterface $media */
             $media = $mediaRepository->find($mediaId);
 
@@ -122,17 +127,36 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
+        $mediaFolder = $media->getMediaFolder();
 
         $form = $this->createForm('oo_media_meta', $media, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
                 'mediaId' => $mediaId,
             ))
-        ));
+        ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
 
         $form->handleRequest($request);
 
         $this->handleForm($form, $this->get('translator')->trans('open_orchestra_media_admin.form.media.success'));
 
         return $this->renderAdminForm($form);
+    }
+
+    /**
+     * @param string|\Symfony\Component\Form\FormTypeInterface $type
+     * @param null                                             $data
+     * @param array                                            $options
+     * @param string|null                                      $editionRole
+     * @param FolderInterface|null                             $folder
+     *
+     * @return \Symfony\Component\Form\Form
+     */
+    public function createForm($type, $data = null, array $options = array(), $editionRole = null, $folder = null)
+    {
+        if (!isset($options['disabled']) && !is_null($editionRole)) {
+            $options['disabled'] = !$this->isGranted($editionRole, $folder);
+        }
+
+        return parent::createForm($type, $data, $options);
     }
 }

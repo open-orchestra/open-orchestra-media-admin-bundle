@@ -9,7 +9,6 @@
 {% endmacro %}
 
 {% macro new_folder(parentId) %}
-    {% if is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER') %}
         <li>
             <div class="ui-state-unsortable">
                 <a
@@ -23,5 +22,4 @@
                 </a>
             </div>
         </li>
-    {% endif %}
 {% endmacro %}

@@ -61,6 +61,9 @@ open_orchestra_media_admin:
             remaining: restantes
             completed: Achevé
             not_allowed: Format non autorisé
+        group:
+            media_folder_role_edition: Liste des rôles par dossier de média
+            media_folder_list: Liste des dossiers de média
     left_menu:
         tree:
             new_media_folder: Nouveau répertoire
