@@ -3,9 +3,9 @@
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
 use FOS\UserBundle\Model\UserInterface;
+use OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\Media\Model\FolderInterface;
-use OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\ModelInterface\Model\ReadSiteInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -112,9 +112,9 @@ class MediaFolderGroupRoleVoter implements VoterInterface
      */
     protected function isGrantedMediaFolderGroupRole(FolderInterface $folder, GroupInterface $group, $attribute)
     {
-        $mediaFolderGroupRole = $group->getMediaFolderRoleByMediaFolderAndRole($folder->getId(), $attribute);
+        $mediaFolderGroupRole = $group->getDocumentRoleByTypeAndIdAndRole('folder', $folder->getId(), $attribute);
 
-        if ($mediaFolderGroupRole instanceof MediaFolderGroupRoleInterface) {
+        if ($mediaFolderGroupRole instanceof DocumentGroupRoleInterface) {
             return $mediaFolderGroupRole->isGranted();
         }
 

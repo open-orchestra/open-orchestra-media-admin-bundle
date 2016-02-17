@@ -115,17 +115,17 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
         Phake::when($folder)->getId()->thenReturn($folderId);
         Phake::when($folder)->hasSite($siteId)->thenReturn(true);
 
-        $mediaFolderGroupRole = Phake::mock('OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface');
+        $mediaFolderGroupRole = Phake::mock('OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface');
         Phake::when($mediaFolderGroupRole)->isGranted()->thenReturn($isGranted);
 
-        $mediaFolderGroupRole2 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface');
+        $mediaFolderGroupRole2 = Phake::mock('OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface');
         Phake::when($mediaFolderGroupRole2)->isGranted()->thenReturn($isGranted2);
 
         $group = $this->generateGroup($groupSiteId);
-        Phake::when($group)->getMediaFolderRoleByMediaFolderAndRole($mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole);
+        Phake::when($group)->getDocumentRoleByTypeAndIdAndRole('folder', $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole);
 
         $group2 = $this->generateGroup($groupSiteId);
-        Phake::when($group2)->getMediaFolderRoleByMediaFolderAndRole($mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole2);
+        Phake::when($group2)->getDocumentRoleByTypeAndIdAndRole('folder', $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole2);
 
         $otherGroup = $this->generateGroup('otherSiteId');
         $noSiteGroup = $this->generateGroup();

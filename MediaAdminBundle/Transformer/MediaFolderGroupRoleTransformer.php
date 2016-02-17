@@ -2,17 +2,11 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\ApiBundle\Exceptions\HttpException\RoleNotFoundHttpException;
-use OpenOrchestra\ApiBundle\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\ApiBundle\Transformer\DocumentGroupRoleTransformer;
-use OpenOrchestra\ApiBundle\Transformer\TransformerWithGroupInterface;
 use OpenOrchestra\Backoffice\Collector\RoleCollectorInterface;
 use OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
-use OpenOrchestra\Media\Model\MediaFolderGroupRoleInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
