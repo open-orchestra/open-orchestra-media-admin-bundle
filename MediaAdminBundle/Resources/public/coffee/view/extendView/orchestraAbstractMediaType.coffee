@@ -28,7 +28,7 @@ extendView['orchestraMediaAbstractType'] =
     event.preventDefault()
     target = $(event.currentTarget)
     {
-      domContainer: $(target.data("target"), @$el)
+      domContainer: $('#' + target.data("target"), @$el)
       input: target.data("input")
       url : target.data("url")
       method: if @options.method then @options.method else 'GET'
