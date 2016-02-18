@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
 use FOS\UserBundle\Model\UserInterface;
-use OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface;
+use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
@@ -59,9 +59,9 @@ class MediaFolderGroupRoleVoter implements VoterInterface
      * This method must return one of the following constants:
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
-     * @param TokenInterface $token A TokenInterface instance
+     * @param TokenInterface       $token A TokenInterface instance
      * @param FolderInterface|null $object The object to secure
-     * @param array $attributes An array of attributes associated with the method being invoked
+     * @param array                $attributes An array of attributes associated with the method being invoked
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
@@ -112,9 +112,9 @@ class MediaFolderGroupRoleVoter implements VoterInterface
      */
     protected function isGrantedMediaFolderGroupRole(FolderInterface $folder, GroupInterface $group, $attribute)
     {
-        $mediaFolderGroupRole = $group->getDocumentRoleByTypeAndIdAndRole('folder', $folder->getId(), $attribute);
+        $mediaFolderGroupRole = $group->getModelRoleByTypeAndIdAndRole('folder', $folder->getId(), $attribute);
 
-        if ($mediaFolderGroupRole instanceof DocumentGroupRoleInterface) {
+        if ($mediaFolderGroupRole instanceof ModelGroupRoleInterface) {
             return $mediaFolderGroupRole->isGranted();
         }
 

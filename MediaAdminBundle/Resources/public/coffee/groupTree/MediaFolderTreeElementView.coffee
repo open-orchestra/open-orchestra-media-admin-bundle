@@ -39,7 +39,7 @@ class OpenOrchestra.GroupTree.MediaFolderTreeElementView extends OrchestraView
     )
     @formInput = @options.domContainer.find('div.form-input').last()
     folderId = @options.folders.folder.folder_id
-    folderGroupRoles = @options.group.document_roles.filter (element) ->
+    folderGroupRoles = @options.group.model_roles.filter (element) ->
       element.document == folderId
     formCollectionViewClass = appConfigurationView.getConfiguration('group_tab_media_folder_tree_form', 'editEntityTab')
     new formCollectionViewClass(

@@ -61,7 +61,7 @@ class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraVie
       url: @options.group.links._self_edit
       method: 'POST'
       data: JSON.stringify(
-        document_roles: folderGroupRoleData
+        model_roles: folderGroupRoleData
       )
 
 jQuery ->

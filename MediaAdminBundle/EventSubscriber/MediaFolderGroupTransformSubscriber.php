@@ -2,12 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
+use OpenOrchestra\ApiBundle\Transformer\TransformerWithGroupInterface;
 use OpenOrchestra\GroupBundle\Event\GroupFacadeEvent;
 use OpenOrchestra\GroupBundle\GroupFacadeEvents;
 use OpenOrchestra\MediaAdminBundle\Transformer\MediaFolderGroupRoleTransformer;
 use OpenOrchestra\ModelInterface\Model\ReadSiteInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use UnexpectedValueException;
 
 /**
  * Class MediaFolderGroupTransformSubscriber
@@ -61,16 +63,18 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
     {
         $facade = $event->getGroupFacade();
         $group = $event->getGroup();
-
-        foreach ($facade->getDocumentRoles() as $documentRoleFacade) {
-            if ('folder' === $documentRoleFacade->type) {
-                $source = $group->getDocumentRoleByTypeAndIdAndRole(
-                    $documentRoleFacade->type,
-                    $documentRoleFacade->document,
-                    $documentRoleFacade->name
+        if (!$this->transformer instanceof TransformerWithGroupInterface) {
+            throw new UnexpectedValueException("Document Group Role Transformer must be an instance of TransformerWithGroupInterface");
+        }
+        foreach ($facade->getModelRoles() as $modelRoleFacade) {
+            if ('folder' === $modelRoleFacade->type) {
+                $source = $group->getModelRoleByTypeAndIdAndRole(
+                    $modelRoleFacade->type,
+                    $modelRoleFacade->document,
+                    $modelRoleFacade->name
                 );
-                $documentGroupRole = $this->transformer->reverseTransformWithGroup($group, $documentRoleFacade, $source);
-                $group->addDocumentRole($documentGroupRole);
+                $modelGroupRole = $this->transformer->reverseTransformWithGroup($group, $modelRoleFacade, $source);
+                $group->addModelRole($modelGroupRole);
             }
         }
     }

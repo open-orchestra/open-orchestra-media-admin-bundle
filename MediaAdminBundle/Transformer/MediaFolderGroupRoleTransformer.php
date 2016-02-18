@@ -2,9 +2,9 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\ApiBundle\Transformer\DocumentGroupRoleTransformer;
+use OpenOrchestra\ApiBundle\Transformer\ModelGroupRoleTransformer;
 use OpenOrchestra\Backoffice\Collector\RoleCollectorInterface;
-use OpenOrchestra\BackofficeBundle\Model\DocumentGroupRoleInterface;
+use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
@@ -12,26 +12,26 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 /**
  * Class MediaFolderGroupRoleTransformer
  */
-class MediaFolderGroupRoleTransformer extends DocumentGroupRoleTransformer
+class MediaFolderGroupRoleTransformer extends ModelGroupRoleTransformer
 {
-    protected $documentGroupRoleClass;
+    protected $modelGroupRoleClass;
     protected $collector;
     protected $folderRepository;
     protected $currentSiteManager;
 
     /**
      * @param string                    $facadeClass
-     * @param string                    $documentGroupRoleClass
+     * @param string                    $modelGroupRoleClass
      * @param RoleCollectorInterface    $collector
      * @param FolderRepositoryInterface $folderRepository
      */
     public function __construct(
         $facadeClass,
-        $documentGroupRoleClass,
+        $modelGroupRoleClass,
         RoleCollectorInterface $collector,
         FolderRepositoryInterface $folderRepository
     ) {
-        parent::__construct($facadeClass, $documentGroupRoleClass, $collector);
+        parent::__construct($facadeClass, $modelGroupRoleClass, $collector);
         $this->folderRepository = $folderRepository;
     }
 
@@ -44,8 +44,8 @@ class MediaFolderGroupRoleTransformer extends DocumentGroupRoleTransformer
     protected function isParentGranted(GroupInterface $group, FacadeInterface $facade)
     {
         $folder = $this->folderRepository->find($facade->document);
-        $parentAccess = $group->getDocumentRoleByTypeAndIdAndRole('folder', $folder->getParent()->getId(), $facade->name);
-        if ($parentAccess instanceof DocumentGroupRoleInterface) {
+        $parentAccess = $group->getModelRoleByTypeAndIdAndRole('folder', $folder->getParent()->getId(), $facade->name);
+        if ($parentAccess instanceof ModelGroupRoleInterface) {
             return $parentAccess->isGranted();
         }
 
