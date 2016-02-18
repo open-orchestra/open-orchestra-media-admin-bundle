@@ -7,6 +7,7 @@ use OpenOrchestra\Backoffice\Collector\RoleCollectorInterface;
 use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
 use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
@@ -44,7 +45,7 @@ class MediaFolderGroupRoleTransformer extends ModelGroupRoleTransformer
     protected function isParentGranted(GroupInterface $group, FacadeInterface $facade)
     {
         $folder = $this->folderRepository->find($facade->document);
-        $parentAccess = $group->getModelRoleByTypeAndIdAndRole('folder', $folder->getParent()->getId(), $facade->name);
+        $parentAccess = $group->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name);
         if ($parentAccess instanceof ModelGroupRoleInterface) {
             return $parentAccess->isGranted();
         }

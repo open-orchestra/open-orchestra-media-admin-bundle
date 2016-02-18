@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Transformer;
 
+use OpenOrchestra\Media\Model\FolderInterface;
 use Phake;
 use OpenOrchestra\ApiBundle\Facade\ModelGroupRoleFacade;
 use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
@@ -78,20 +79,20 @@ class MediaFolderGroupRoleTransformerTest extends AbstractBaseTestCase
 
         $facade = $this->createFacade($folderId, $role, $accessType);
         $group = Phake::mock('OpenOrchestra\BackofficeBundle\Model\GroupInterface');
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole('folder', $facade->document, $facade->name)->thenReturn($source);
+        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->document, $facade->name)->thenReturn($source);
         $parentFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($parentFolder)->getId()->thenReturn('fakeId');
 
         Phake::when($folder)->getParent()->thenReturn($parentFolder);
         Phake::when($this->folderRepository)->find(Phake::anyParameters())->thenReturn($folder);
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole('folder', $folder->getParent()->getId(), $facade->name)->thenReturn($mediaFolderGroupRoleParent);
+        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name)->thenReturn($mediaFolderGroupRoleParent);
         Phake::when($mediaFolderGroupRoleParent)->isGranted()->thenReturn($parentAccess);
 
         $mediaFolderGroupRole = $this->transformer->reverseTransformWithGroup($group, $facade, $source);
 
         $this->assertInstanceOf('OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface', $mediaFolderGroupRole);
         $this->assertSame($source, $mediaFolderGroupRole);
-        Phake::verify($source)->setType('folder');
+        Phake::verify($source)->setType(FolderInterface::GROUP_ROLE_TYPE);
         Phake::verify($source)->setId($folderId);
         Phake::verify($source)->setRole($role);
         Phake::verify($source)->setAccessType($accessType);
@@ -124,7 +125,7 @@ class MediaFolderGroupRoleTransformerTest extends AbstractBaseTestCase
     {
         $facade = $this->createFacade($folder, $role, $accessType);
         $group = Phake::mock('OpenOrchestra\BackofficeBundle\Model\GroupInterface');
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole('folder', $facade->document, $facade->name)->thenReturn(null);
+        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->document, $facade->name)->thenReturn(null);
 
         $mediaFolderGroupRole = $this->transformer->reverseTransformWithGroup($group, $facade);
 
@@ -156,7 +157,7 @@ class MediaFolderGroupRoleTransformerTest extends AbstractBaseTestCase
     protected function createFacade($folder, $role, $accessType)
     {
         $facade = Phake::mock('OpenOrchestra\ApiBundle\Facade\ModelGroupRoleFacade');
-        $facade->type = 'folder';
+        $facade->type = FolderInterface::GROUP_ROLE_TYPE;
         $facade->document = $folder;
         $facade->name = $role;
         $facade->accessType = $accessType;

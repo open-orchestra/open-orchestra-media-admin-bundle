@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 use OpenOrchestra\ApiBundle\Transformer\TransformerWithGroupInterface;
 use OpenOrchestra\GroupBundle\Event\GroupFacadeEvent;
 use OpenOrchestra\GroupBundle\GroupFacadeEvents;
+use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdminBundle\Transformer\MediaFolderGroupRoleTransformer;
 use OpenOrchestra\ModelInterface\Model\ReadSiteInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -67,7 +68,7 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
             throw new UnexpectedValueException("Document Group Role Transformer must be an instance of TransformerWithGroupInterface");
         }
         foreach ($facade->getModelRoles() as $modelRoleFacade) {
-            if ('folder' === $modelRoleFacade->type) {
+            if (FolderInterface::GROUP_ROLE_TYPE === $modelRoleFacade->type) {
                 $source = $group->getModelRoleByTypeAndIdAndRole(
                     $modelRoleFacade->type,
                     $modelRoleFacade->document,
