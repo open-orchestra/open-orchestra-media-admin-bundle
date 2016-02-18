@@ -37,7 +37,6 @@ MediaModalView = OrchestraView.extend(
       currentModal.modal "show"
       currentModal.on 'hidden.bs.modal', ->
         currentModal = null
-        this.remove()
         return
 
   initMenu: (activeNode) ->
