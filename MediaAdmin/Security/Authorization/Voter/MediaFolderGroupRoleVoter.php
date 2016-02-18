@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
 use FOS\UserBundle\Model\UserInterface;
-use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
-use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
+use OpenOrchestra\Backoffice\Model\ModelGroupRoleInterface;
+use OpenOrchestra\Backoffice\Model\GroupInterface;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\ModelInterface\Model\ReadSiteInterface;

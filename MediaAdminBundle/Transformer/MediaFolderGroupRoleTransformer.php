@@ -4,8 +4,8 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\ApiBundle\Transformer\ModelGroupRoleTransformer;
 use OpenOrchestra\Backoffice\Collector\RoleCollectorInterface;
-use OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface;
-use OpenOrchestra\BackofficeBundle\Model\GroupInterface;
+use OpenOrchestra\Backoffice\Model\ModelGroupRoleInterface;
+use OpenOrchestra\Backoffice\Model\GroupInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;

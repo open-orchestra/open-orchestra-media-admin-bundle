@@ -58,7 +58,7 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
             array(false, 'class'),
             array(false, 'string'),
             array(false, 'Symfony\Component\Security\Core\Authorization\Voter\VoterInterface'),
-            array(false, 'OpenOrchestra\BackofficeBundle\Model\GroupInterface'),
+            array(false, 'OpenOrchestra\Backoffice\Model\GroupInterface'),
             array(false, 'OpenOrchestra\ModelInterface\Model\NodeInterface'),
             array(true, 'OpenOrchestra\Media\Model\MediaFolderInterface'),
             array(false, 'OpenOrchestra\ModelInterface\Model\ReadNodeInterface'),
@@ -116,10 +116,10 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
         Phake::when($folder)->getId()->thenReturn($folderId);
         Phake::when($folder)->hasSite($siteId)->thenReturn(true);
 
-        $mediaFolderGroupRole = Phake::mock('OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface');
+        $mediaFolderGroupRole = Phake::mock('OpenOrchestra\Backoffice\Model\ModelGroupRoleInterface');
         Phake::when($mediaFolderGroupRole)->isGranted()->thenReturn($isGranted);
 
-        $mediaFolderGroupRole2 = Phake::mock('OpenOrchestra\BackofficeBundle\Model\ModelGroupRoleInterface');
+        $mediaFolderGroupRole2 = Phake::mock('OpenOrchestra\Backoffice\Model\ModelGroupRoleInterface');
         Phake::when($mediaFolderGroupRole2)->isGranted()->thenReturn($isGranted2);
 
         $group = $this->generateGroup($groupSiteId);
@@ -162,7 +162,7 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
     {
         $site = Phake::mock('OpenOrchestra\ModelInterface\Model\ReadSiteInterface');
         Phake::when($site)->getSiteId()->thenReturn($siteId);
-        $group = Phake::mock('OpenOrchestra\BackofficeBundle\Model\GroupInterface');
+        $group = Phake::mock('OpenOrchestra\Backoffice\Model\GroupInterface');
         if (!is_null($siteId)){
             Phake::when($group)->getSite()->thenReturn($site);
         }
