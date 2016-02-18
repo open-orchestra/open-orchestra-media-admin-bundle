@@ -5,7 +5,7 @@ tinymce_button_mediamanager = null
 doCallBack = (editor, view) ->
   tinymce_button_mediamanager = (editor) ->
     $.extend true, view, extendView['orchestraMediaAbstractType'], extendView['orchestraWysiwygType']
-    selector = '.modal_media.' + editor.id 
+    selector = '#modal_media_' + editor.id 
     view.WysiwygTypeModal
       selector: selector
       input: editor.id
