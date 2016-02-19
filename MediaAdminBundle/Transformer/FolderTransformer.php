@@ -12,8 +12,6 @@ use OpenOrchestra\MediaAdminBundle\Facade\FolderFacade;
  */
 class FolderTransformer extends AbstractTransformer
 {
-    const ROOT_FOLDERS_PARENT_ID = '-';
-
     /**
      * @param FolderInterface $folder
      *
@@ -26,9 +24,7 @@ class FolderTransformer extends AbstractTransformer
         if (!$folder instanceof FolderInterface) {
             throw new TransformerParameterTypeException();
         }
-
         $facade = $this->newFacade();
-
         $facade->folderId = $folder->getId();
         $facade->name = $folder->getName();
         $facade->createdAt = $folder->getCreatedAt();
@@ -36,9 +32,8 @@ class FolderTransformer extends AbstractTransformer
         if ($folder->getParent() instanceof FolderInterface) {
             $facade->parentId = $folder->getParent()->getId();
         } else {
-            $facade->parentId = self::ROOT_FOLDERS_PARENT_ID;
+            $facade->parentId = FolderInterface::ROOT_PARENT_ID;
         }
-
         foreach ($folder->getSites() as $site) {
             $facade->addSite($site);
         }

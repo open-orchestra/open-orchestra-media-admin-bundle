@@ -21,7 +21,8 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
     protected $transformer;
 
     /**
-     * @param UrlGeneratorInterface $router
+     * @param UrlGeneratorInterface           $router
+     * @param MediaFolderGroupRoleTransformer $transformer
      */
     public function __construct(UrlGeneratorInterface $router, MediaFolderGroupRoleTransformer $transformer)
     {
