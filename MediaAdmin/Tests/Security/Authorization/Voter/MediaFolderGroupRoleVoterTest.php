@@ -123,10 +123,10 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
         Phake::when($mediaFolderGroupRole2)->isGranted()->thenReturn($isGranted2);
 
         $group = $this->generateGroup($groupSiteId);
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole);
+        Phake::when($group)->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole);
 
         $group2 = $this->generateGroup($groupSiteId);
-        Phake::when($group2)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole2);
+        Phake::when($group2)->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $mfgrFolderId, $mfgrRole)->thenReturn($mediaFolderGroupRole2);
 
         $otherGroup = $this->generateGroup('otherSiteId');
         $noSiteGroup = $this->generateGroup();

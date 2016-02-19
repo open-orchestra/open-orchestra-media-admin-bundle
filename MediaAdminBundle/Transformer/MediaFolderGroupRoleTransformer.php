@@ -42,10 +42,10 @@ class MediaFolderGroupRoleTransformer extends ModelGroupRoleTransformer
      *
      * @return bool
      */
-    protected function isParentGranted(GroupInterface $group, FacadeInterface $facade)
+    protected function isParentAccessGranted(GroupInterface $group, FacadeInterface $facade)
     {
         $folder = $this->folderRepository->find($facade->modelId);
-        $parentAccess = $group->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name);
+        $parentAccess = $group->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name);
         if ($parentAccess instanceof ModelGroupRoleInterface) {
             return $parentAccess->isGranted();
         }

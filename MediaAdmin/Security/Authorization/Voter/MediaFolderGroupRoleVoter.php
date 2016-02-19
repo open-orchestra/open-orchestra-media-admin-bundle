@@ -112,7 +112,7 @@ class MediaFolderGroupRoleVoter implements VoterInterface
      */
     protected function isGrantedMediaFolderGroupRole(FolderInterface $folder, GroupInterface $group, $attribute)
     {
-        $mediaFolderGroupRole = $group->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getId(), $attribute);
+        $mediaFolderGroupRole = $group->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getId(), $attribute);
 
         if ($mediaFolderGroupRole instanceof ModelGroupRoleInterface) {
             return $mediaFolderGroupRole->isGranted();

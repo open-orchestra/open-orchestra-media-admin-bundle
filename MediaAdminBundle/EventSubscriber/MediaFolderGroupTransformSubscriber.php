@@ -32,7 +32,7 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
     /**
      * @param GroupFacadeEvent $event
      */
-    public function postGroupTransformation(GroupFacadeEvent $event)
+    public function postGroupTransform(GroupFacadeEvent $event)
     {
         $facade = $event->getGroupFacade();
         $group = $event->getGroup();
@@ -60,7 +60,7 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
     /**
      * @param GroupFacadeEvent $event
      */
-    public function postGroupReverseTransformation(GroupFacadeEvent $event)
+    public function postGroupReverseTransform(GroupFacadeEvent $event)
     {
         $facade = $event->getGroupFacade();
         $group = $event->getGroup();
@@ -69,13 +69,13 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
         }
         foreach ($facade->getModelRoles() as $modelRoleFacade) {
             if (FolderInterface::GROUP_ROLE_TYPE === $modelRoleFacade->type) {
-                $source = $group->getModelRoleByTypeAndIdAndRole(
+                $source = $group->getModelGroupRoleByTypeAndIdAndRole(
                     $modelRoleFacade->type,
                     $modelRoleFacade->modelId,
                     $modelRoleFacade->name
                 );
                 $modelGroupRole = $this->transformer->reverseTransformWithGroup($group, $modelRoleFacade, $source);
-                $group->addModelRole($modelGroupRole);
+                $group->addModelGroupRole($modelGroupRole);
             }
         }
     }
@@ -86,8 +86,8 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            GroupFacadeEvents::POST_GROUP_TRANSFORMATION => 'postGroupTransformation',
-            GroupFacadeEvents::POST_GROUP_REVERSE_TRANSFORMATION => 'postGroupReverseTransformation'
+            GroupFacadeEvents::POST_GROUP_TRANSFORMATION => 'postGroupTransform',
+            GroupFacadeEvents::POST_GROUP_REVERSE_TRANSFORMATION => 'postGroupReverseTransform'
         );
     }
 }

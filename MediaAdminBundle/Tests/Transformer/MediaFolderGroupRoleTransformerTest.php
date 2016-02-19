@@ -79,13 +79,13 @@ class MediaFolderGroupRoleTransformerTest extends AbstractBaseTestCase
 
         $facade = $this->createFacade($folderId, $role, $accessType);
         $group = Phake::mock('OpenOrchestra\Backoffice\Model\GroupInterface');
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->modelId, $facade->name)->thenReturn($source);
+        Phake::when($group)->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->modelId, $facade->name)->thenReturn($source);
         $parentFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($parentFolder)->getId()->thenReturn('fakeId');
 
         Phake::when($folder)->getParent()->thenReturn($parentFolder);
         Phake::when($this->folderRepository)->find(Phake::anyParameters())->thenReturn($folder);
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name)->thenReturn($mediaFolderGroupRoleParent);
+        Phake::when($group)->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $folder->getParent()->getId(), $facade->name)->thenReturn($mediaFolderGroupRoleParent);
         Phake::when($mediaFolderGroupRoleParent)->isGranted()->thenReturn($parentAccess);
 
         $mediaFolderGroupRole = $this->transformer->reverseTransformWithGroup($group, $facade, $source);
@@ -125,7 +125,7 @@ class MediaFolderGroupRoleTransformerTest extends AbstractBaseTestCase
     {
         $facade = $this->createFacade($folder, $role, $accessType);
         $group = Phake::mock('OpenOrchestra\Backoffice\Model\GroupInterface');
-        Phake::when($group)->getModelRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->modelId, $facade->name)->thenReturn(null);
+        Phake::when($group)->getModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $facade->modelId, $facade->name)->thenReturn(null);
 
         $mediaFolderGroupRole = $this->transformer->reverseTransformWithGroup($group, $facade);
 
