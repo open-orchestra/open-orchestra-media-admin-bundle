@@ -9,17 +9,17 @@
 {% endmacro %}
 
 {% macro new_folder(parentId) %}
-        <li>
-            <div class="ui-state-unsortable">
-                <a
-                    class="ajax-new"
-                    href="#"
-                    data-url="{{ path('open_orchestra_media_admin_folder_new', {'parentId': parentId}) }}"
-                    data-type="folder"
-                >
-                    <i class="fa fa-file"></i>
-                    {{ 'open_orchestra_media_admin.left_menu.tree.new_media_folder'|trans }}
-                </a>
-            </div>
-        </li>
+    <li>
+        <div class="ui-state-unsortable">
+            <a
+                class="ajax-new"
+                href="#"
+                data-url="{{ path('open_orchestra_media_admin_folder_new', {'parentId': parentId}) }}"
+                data-type="folder"
+            >
+                <i class="fa fa-file"></i>
+                {{ 'open_orchestra_media_admin.left_menu.tree.new_media_folder'|trans }}
+            </a>
+        </div>
+    </li>
 {% endmacro %}

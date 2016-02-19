@@ -41,7 +41,7 @@ class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraVie
     for role in @options.roles
       @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
         role: role
-        document: @options.folderElement
+        element: @options.folderElement
       )
     @setElement @options.domContainer
     if @options.folderGroupRoles != undefined
@@ -56,7 +56,7 @@ class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraVie
     name = $(e.currentTarget).data('role-name')
     folderId = @options.folderElement.folder_id
     folderGroupRoleData = []
-    folderGroupRoleData.push({'document': folderId, 'type':'folder', 'access_type': value, 'name': name})
+    folderGroupRoleData.push({'model_id': folderId, 'type':'folder', 'access_type': value, 'name': name})
     $.ajax
       url: @options.group.links._self_edit
       method: 'POST'

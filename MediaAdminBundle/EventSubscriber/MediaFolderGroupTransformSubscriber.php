@@ -65,13 +65,13 @@ class MediaFolderGroupTransformSubscriber implements EventSubscriberInterface
         $facade = $event->getGroupFacade();
         $group = $event->getGroup();
         if (!$this->transformer instanceof TransformerWithGroupInterface) {
-            throw new UnexpectedValueException("Document Group Role Transformer must be an instance of TransformerWithGroupInterface");
+            throw new UnexpectedValueException("Media Group Role Transformer must be an instance of TransformerWithGroupInterface");
         }
         foreach ($facade->getModelRoles() as $modelRoleFacade) {
             if (FolderInterface::GROUP_ROLE_TYPE === $modelRoleFacade->type) {
                 $source = $group->getModelRoleByTypeAndIdAndRole(
                     $modelRoleFacade->type,
-                    $modelRoleFacade->document,
+                    $modelRoleFacade->modelId,
                     $modelRoleFacade->name
                 );
                 $modelGroupRole = $this->transformer->reverseTransformWithGroup($group, $modelRoleFacade, $source);
