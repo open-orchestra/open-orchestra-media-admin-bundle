@@ -65,6 +65,7 @@ open_orchestra_media_admin:
         group:
             media_folder_role_edition: Media role list
             media_folder_list: Media folder list
+            media_folder_role_no_site: The group must be linked to a site to manage roles by media folder
     left_menu:
         tree:
             new_media_folder: New Folder

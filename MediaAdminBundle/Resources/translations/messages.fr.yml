@@ -64,6 +64,7 @@ open_orchestra_media_admin:
         group:
             media_folder_role_edition: Liste des rôles par dossier de média
             media_folder_list: Liste des dossiers de média
+            media_folder_role_no_site: Le groupe doit être lié a un site pour gérer les rôles par dossier de média
     left_menu:
         tree:
             new_media_folder: Nouveau répertoire

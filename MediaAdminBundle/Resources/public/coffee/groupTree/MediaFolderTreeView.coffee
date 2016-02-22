@@ -19,6 +19,7 @@ class OpenOrchestra.GroupTree.MediaFolderTreeView extends OrchestraView
     @initializer options
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTree',
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/messageNoSite',
       'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList'
     ]
     return
@@ -36,21 +37,24 @@ class OpenOrchestra.GroupTree.MediaFolderTreeView extends OrchestraView
    * render
   ###
   render: ->
-    @options.domContainer.html @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTree')
-    currentView = @
-    $.ajax
-      url: currentView.options.response.links._self_folder_tree
-      method: "GET"
-      success: (response) ->
-        currentView.options.folders = response
-        $.ajax
-          url: currentView.options.response.links._role_list_media_folder
-          method: "GET"
-          success: (response) ->
-            currentView.options.roles = response
-            currentView.renderHead()
-            if not _.isEmpty(currentView.options.folders.children)
-              currentView.renderTreeElement()
+    if typeof @options.response.site != 'undefined'
+      @options.domContainer.html @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTree')
+      currentView = @
+      $.ajax
+        url: currentView.options.response.links._self_folder_tree
+        method: "GET"
+        success: (response) ->
+          currentView.options.folders = response
+          $.ajax
+            url: currentView.options.response.links._role_list_media_folder
+            method: "GET"
+            success: (response) ->
+              currentView.options.roles = response
+              currentView.renderHead()
+              if not _.isEmpty(currentView.options.folders.children)
+                currentView.renderTreeElement()
+    else
+      @options.domContainer.html @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/messageNoSite')
 
     @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
       listUrl : @options.listUrl
