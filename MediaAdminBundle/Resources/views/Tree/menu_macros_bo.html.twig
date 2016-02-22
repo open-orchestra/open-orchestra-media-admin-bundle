@@ -9,19 +9,17 @@
 {% endmacro %}
 
 {% macro new_folder(parentId) %}
-    {% if is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER') %}
-        <li>
-            <div class="ui-state-unsortable">
-                <a
-                    class="ajax-new"
-                    href="#"
-                    data-url="{{ path('open_orchestra_media_admin_folder_new', {'parentId': parentId}) }}"
-                    data-type="folder"
-                >
-                    <i class="fa fa-file"></i>
-                    {{ 'open_orchestra_media_admin.left_menu.tree.new_media_folder'|trans }}
-                </a>
-            </div>
-        </li>
-    {% endif %}
+    <li>
+        <div class="ui-state-unsortable">
+            <a
+                class="ajax-new"
+                href="#"
+                data-url="{{ path('open_orchestra_media_admin_folder_new', {'parentId': parentId}) }}"
+                data-type="folder"
+            >
+                <i class="fa fa-file"></i>
+                {{ 'open_orchestra_media_admin.left_menu.tree.new_media_folder'|trans }}
+            </a>
+        </div>
+    </li>
 {% endmacro %}

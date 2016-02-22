@@ -9,6 +9,7 @@ use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\MediaNotDeletableException;
+use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +51,7 @@ class MediaController extends BaseController
         $folderId = $request->get('folderId');
         /** @var FolderInterface $folder */
         $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
+        $this->denyAccessUnlessGranted(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $folder);
         $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
         $parentId = null;
         if ($folder->getParent() instanceof FolderInterface) {
