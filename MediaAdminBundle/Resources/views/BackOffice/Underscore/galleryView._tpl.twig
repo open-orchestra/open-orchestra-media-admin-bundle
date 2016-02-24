@@ -3,7 +3,11 @@
         <img
             title="<%= media.get('name') %>"
             alt="<%= media.get('name') %>"
-            src="<%= media.get('thumbnail') %>"
+            <% if (media.get('thumbnail') != undefined) { %>
+                src="<%= media.get('thumbnail') %>"
+            <% } else { %>
+                src="{% image '@OpenOrchestraMediaAdminBundle/Resources/public/images/icon/thumbnail_generating.gif' %}{{ asset_url }}{% endimage %}"
+            <% } %>
         />
     </div>
     <div class="caption">
