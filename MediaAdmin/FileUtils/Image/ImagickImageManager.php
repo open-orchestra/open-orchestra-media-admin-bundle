@@ -3,7 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\FileUtils\Image;
 
 use Imagick;
-use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
 
 /**
  * Class ImagickImageManager
@@ -48,18 +47,29 @@ class ImagickImageManager implements ImageManagerInterface
      */
     protected function resizeImage(array $format, Imagick $image)
     {
-        $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
-        $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
+        $maxWidth = array_key_exists('max_width', $format) ? $format['max_width']: -1;
+        $maxHeight = array_key_exists('max_height', $format) ? $format['max_height']: -1;
 
         if (-2 != $maxWidth + $maxHeight) {
             $image->setimagebackgroundcolor('#000000');
-            $refRatio = $maxWidth / $maxHeight;
-            $imageRatio = $image->getImageWidth() / $image->getImageHeight();
 
-            if ($refRatio > $imageRatio || $maxWidth == -1) {
-                $image = $this->resizeOnHeight($image, $maxHeight);
-            } else {
-                $image = $this->resizeOnWidth($image, $maxWidth);
+            if($maxHeight > $image->getImageHeight()) {
+                $maxHeight = $image->getImageHeight();
+            }
+            if($maxWidth > $image->getImageWidth()) {
+                $maxWidth = $image->getImageWidth();
+            }
+
+            $refRatio = $maxWidth / $maxHeight;
+            $imageRatioByWidth = $image->getImageHeight() / $image->getImageWidth();
+            $imageRatioByHeight = $image->getImageWidth() / $image->getImageHeight();
+
+            if ($refRatio >= $imageRatioByHeight || $maxWidth == -1) {
+                $setUpMinWidth = ($imageRatioByHeight <= 1 / $maxHeight);
+                $image = $this->resizeOnHeight($image, $maxHeight, $setUpMinWidth);
+            } else  {
+                $setUpMinHeight = ($imageRatioByWidth <= 1 / $maxWidth);
+                $image = $this->resizeOnWidth($image, $maxWidth, $setUpMinHeight);
             }
         }
 
@@ -71,14 +81,15 @@ class ImagickImageManager implements ImageManagerInterface
      *
      * @param Imagick $image
      * @param int     $height
+     * @param bool    $setUpMinWidth
      *
      * @return Imagick
      */
-    protected function resizeOnHeight(Imagick $image, $height)
+    protected function resizeOnHeight(Imagick $image, $height, $setUpMinWidth = false)
     {
-        $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
+        $width = ($setUpMinWidth) ? 1 : 0 ;
 
-        return $image;
+        return $this->resize($image, $width, $height);
     }
 
     /**
@@ -86,12 +97,29 @@ class ImagickImageManager implements ImageManagerInterface
      *
      * @param Imagick $image
      * @param int     $width
+     * @param bool    $setUpMinHeight
      *
      * @return Imagick
      */
-    protected function resizeOnWidth(Imagick $image, $width)
+    protected function resizeOnWidth(Imagick $image, $width, $setUpMinHeight = false)
     {
-        $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
+        $height = ($setUpMinHeight) ? 1 : 0 ;
+
+        return $this->resize($image, $width, $height);
+    }
+
+    /**
+     * Resize an image to the desired dimensions to the width $width and height $height
+     *
+     * @param Imagick $image
+     * @param int     $width
+     * @param int     $height
+     *
+     * @return Imagick
+     */
+    protected function resize(Imagick $image, $width, $height)
+    {
+        $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
         return $image;
     }
