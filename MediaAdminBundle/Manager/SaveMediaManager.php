@@ -106,6 +106,9 @@ class SaveMediaManager implements SaveMediaManagerInterface
 
         $this->saveMedia($media);
 
+        $event = new MediaEvent($media);
+        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
+
         return $media;
     }
 
@@ -135,9 +138,6 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setMimeType($uploadedFile->getClientMimeType());
 
         $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
-
-        $event = new MediaEvent($media);
-        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
 
         return $media;
     }
