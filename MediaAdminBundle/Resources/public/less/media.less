@@ -9,6 +9,7 @@
   text-align: center;
   background: slategrey;
   height: 100%;
+  overflow: hidden;
 }
 .figure .img-container img{
   vertical-align:middle;
@@ -91,6 +92,12 @@ img:not([src]) {
 
 .media_crop_preview, .media_format_actions {
   margin-bottom:15px;
+}
+
+.media_crop_preview {
+  &>img {
+    max-width: 100%;
+  }
 }
 
 img#preview_thumbnail {

@@ -39,7 +39,7 @@ CropFormView = OrchestraView.extend(
           activateForm(currentView, form)
 
   addPreview: ->
-    $('.media_crop_preview', @$el).append('<img class="media_crop_original" src="' + @options.media.get('original') + '" style="max-width:600px;">')
+    $('.media_crop_preview', @$el).append('<img class="media_crop_original" src="' + @options.media.get('original') + '" >')
     for alternative of @options.media.get('alternatives')
       $('.media_crop_preview', @$el).append('<img class="media_crop_' + alternative + '" src="' + @options.media.get('alternatives')[alternative] + '" style="display: none;">')
     displayLoader('#image-loader', @$el)
