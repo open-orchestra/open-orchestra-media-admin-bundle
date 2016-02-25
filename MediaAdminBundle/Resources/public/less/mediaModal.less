@@ -2,20 +2,16 @@
     display: block;
 
     .modal-dialog {
-        width: 998px;
-        height: 90%;
+        width: 83%;
+        max-width:1000px;
 
         .modal-content {
-            height: 100%;
-
-            .modal-header {
-                .mediaModalClose{
-                    float: right;
+            > div {
+                .submit_form {
+                    display: inherit;
                 }
             }
-
             .modal-body {
-                height: calc(~"100% - 55px");
 
                 .modal-body-menu {
                     float: left;
@@ -45,7 +41,7 @@
                 .modal-body-content {
                     float: left;
                     margin-left: 15px;
-                    width: 741px;
+                    width: calc(~"100% - 200px - 15px");
                     height: calc(~"100% - 15px");
 
                     form[name=oo_media_crop] {
@@ -97,6 +93,7 @@
                                                 height: calc(~"100% - 30px");
                                                 overflow-y: scroll;
                                                 overflow-x: hidden;
+                                                margin-right: 1px;
 
                                                 #backModal {
                                                     margin-right: 30px;
