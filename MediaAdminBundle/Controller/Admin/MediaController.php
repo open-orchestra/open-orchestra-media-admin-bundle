@@ -137,7 +137,12 @@ class MediaController extends AbstractAdminController
 
         $form->handleRequest($request);
 
-        $this->handleForm($form, $this->get('translator')->trans('open_orchestra_media_admin.form.media.success'));
+        if ($this->handleForm(
+            $form,
+            $this->get('translator')->trans('open_orchestra_media_admin.form.media.success')
+        )) {
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
+        }
 
         return $this->renderAdminForm($form);
     }
