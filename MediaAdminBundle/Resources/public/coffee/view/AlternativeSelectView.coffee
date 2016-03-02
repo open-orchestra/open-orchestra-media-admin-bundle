@@ -37,11 +37,7 @@ AlternativeSelectView = OrchestraView.extend(
   changeCropFormat: (event) ->
     format = $(event.currentTarget).val()
     image = @options.alternatives[format] || @options.original
-    $('#preview_thumbnail', @$el).hide()
     $('#preview_thumbnail', @$el).attr 'src', image
-    $('#preview_thumbnail', @$el).load ->
-      $('#preview_thumbnail', @$el).show()
-      return
 
   sendMedia: (event) ->
     event.preventDefault()
