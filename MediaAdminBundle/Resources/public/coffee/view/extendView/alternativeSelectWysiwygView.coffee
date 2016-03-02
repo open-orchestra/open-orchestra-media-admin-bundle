@@ -18,3 +18,4 @@ extendView['alternativeSelectWysiwygView'] =
         );
     )
     modalContainer.find('.mediaModalClose').click()
+    @remove()
