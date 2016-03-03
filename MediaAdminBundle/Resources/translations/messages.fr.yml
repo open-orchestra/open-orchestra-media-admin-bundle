@@ -96,6 +96,7 @@ open_orchestra_media_admin:
         media_list_by_keyword:
             description: Affiche une liste de média par mot clé.
         display_media:
+            title: Bloc média
             description: Affiche une image
             form:
                 node_link: Ajoute un lien au média
