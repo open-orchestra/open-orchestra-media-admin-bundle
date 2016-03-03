@@ -35,6 +35,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
         $this->site1 = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         Phake::when($this->site1)->getSiteId()->thenReturn($this->siteId1);
         Phake::when($this->site1)->getName()->thenReturn($this->siteName1);
+        Phake::when($this->site1)->isDeleted()->thenReturn(false);
 
         $this->site2 = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         Phake::when($this->site2)->getSiteId()->thenReturn('site_id_2');
@@ -61,6 +62,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
 
         $this->user = Phake::mock('OpenOrchestra\UserBundle\Document\User');
         Phake::when($this->user)->getGroups()->thenReturn(array($this->groupA, $this->groupB, $this->groupC));
+        Phake::when($this->user)->isSuperAdmin()->thenReturn(false);
 
         $this->token = Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         Phake::when($this->token)->getUser()->thenReturn($this->user);
