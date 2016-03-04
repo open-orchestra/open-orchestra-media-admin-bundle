@@ -97,6 +97,7 @@ open_orchestra_media_admin:
         media_list_by_keyword:
             description: Display a medias list.
         display_media:
+            title: Media block
             description: Display a picture
             form:
                 node_link: Add a link to the media
