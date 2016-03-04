@@ -2,19 +2,19 @@
 
 namespace OpenOrchestra\MediaAdminBundle\DataFixtures\MongoDB;
 
+use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterface;
 
 /**
  * Class LoadMediaThumbnailData
  */
 class LoadMediaThumbnailData
     extends AbstractFixture
-    implements ContainerAwareInterface, OrderedFixtureInterface, OrchestraProductionFixturesInterface
+    implements ContainerAwareInterface, OrderedFixtureInterface, OrchestraFunctionalFixturesInterface
 {
     /**
      * @var ContainerInterface

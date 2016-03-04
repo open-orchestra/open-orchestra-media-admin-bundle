@@ -6,20 +6,21 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
+use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterface;
 
 /**
- * Class LoadUserData
+ * Class LoadUserAdminData
  */
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, OrchestraFunctionalFixturesInterface
+class LoadUserAdminData extends AbstractFixture implements OrderedFixtureInterface, OrchestraFunctionalFixturesInterface, OrchestraProductionFixturesInterface
 {
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-        $demoUser = $this->getReference('user-demo');
-        $demoUser->addGroup($this->getReference('group-folders'));
-        $manager->persist($demoUser);
+        $admin = $this->getReference('user-admin');
+        $admin->addGroup($this->getReference('group-folders'));
+        $manager->persist($admin);
 
         $manager->flush();
     }
@@ -31,6 +32,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, O
      */
     function getOrder()
     {
-        return 701;
+        return 715;
     }
 }
