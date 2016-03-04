@@ -14,6 +14,8 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
     protected $site1;
     protected $siteId1 = 'site_id_1';
     protected $siteName1 = 'site_name_1';
+    protected $siteId2 = 'site_id_2';
+    protected $siteName2 = 'site_name_2';
     protected $site2;
     protected $siteDeleted;
     protected $siteRepository;
@@ -38,8 +40,10 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
         Phake::when($this->site1)->isDeleted()->thenReturn(false);
 
         $this->site2 = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
-        Phake::when($this->site2)->getSiteId()->thenReturn('site_id_2');
-        Phake::when($this->site2)->getName()->thenReturn('site_name_2');
+        Phake::when($this->site2)->getSiteId()->thenReturn($this->siteId2);
+        Phake::when($this->site2)->getName()->thenReturn($this->siteName2);
+        Phake::when($this->site2)->isDeleted()->thenReturn(false);
+
 
         $this->siteDeleted = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         Phake::when($this->siteDeleted)->getSiteId()->thenReturn('site_id_deleted');
@@ -133,6 +137,26 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
         Phake::verify($resolverMock)->setDefaults(array(
                 'embed' => false,
                 'choices' => $this->choiceList
+        ));
+    }
+
+
+    /**
+     * Test the default options
+     */
+    public function testConfigureOptionsWithSuperAdminUser()
+    {
+        Phake::when($this->user)->isSuperAdmin()->thenReturn(true);
+        $resolverMock = Phake::mock('Symfony\Component\OptionsResolver\OptionsResolver');
+
+        $this->form->configureOptions($resolverMock);
+
+        Phake::verify($resolverMock)->setDefaults(array(
+            'embed' => false,
+            'choices' =>  array(
+                $this->siteId1 => $this->siteName1,
+                $this->siteId2 => $this->siteName2
+            )
         ));
     }
 }
