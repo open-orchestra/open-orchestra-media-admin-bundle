@@ -2,6 +2,8 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use FOS\UserBundle\Model\GroupableInterface;
+use OpenOrchestra\Backoffice\Model\GroupInterface;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
@@ -63,31 +65,42 @@ class SiteForFolderChoiceType extends AbstractType
      */
     protected function getChoices()
     {
-        $sites = $this->siteRepository->findByDeleted(false);
         $choices = array();
-        $availablesSites = array();
 
-        /** @var SiteInterface $site */
-        foreach ($sites as $site) {
-            $availablesSites[$site->getSiteId()] = $site->getName();
-        }
-
-        $userGroups = $this->tokenStorage->getToken()->getUser()->getGroups();
-        /** @var GroupInterface $group */
-        foreach ($userGroups as $group) {
-
-            if ($group->hasRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
-
-                if ($group->getSite()) {
-
-                    if (isset($availablesSites[$group->getSite()->getSiteId()])) {
-                        $choices[$group->getSite()->getSiteId()] = $group->getSite()->getName();
+        $token = $this->tokenStorage->getToken();
+        if ($token && ($user = $token->getUser()) instanceof GroupableInterface) {
+            if ($user->isSuperAdmin()) {
+                return $this->getChoicesAllSite();
+            }
+            $userGroups = $user->getGroups();
+            /** @var GroupInterface $group */
+            foreach ($userGroups as $group) {
+                if ($group->hasRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
+                    /** @var SiteInterface $site */
+                    if ($site = $group->getSite()) {
+                        if (false === $site->isDeleted() && ! isset($choices[$site->getSiteId()])) {
+                            $choices[$site->getSiteId()] = $site->getName();
+                        }
+                    } else {
+                        return $this->getChoicesAllSite();
                     }
-                } else {
-
-                    return $availablesSites;
                 }
             }
+        }
+
+        return $choices;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getChoicesAllSite()
+    {
+        $choices = array();
+        $sites = $this->siteRepository->findByDeleted(false);
+        /** @var SiteInterface $site */
+        foreach ($sites as $site) {
+            $choices[$site->getSiteId()] = $site->getName();
         }
 
         return $choices;
