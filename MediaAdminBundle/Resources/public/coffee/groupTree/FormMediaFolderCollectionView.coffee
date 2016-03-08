@@ -1,13 +1,31 @@
 ###*
+ * @namespace OpenOrchestra:GroupTree
+###
+window.OpenOrchestra or= {}
+window.OpenOrchestra.GroupTree or= {}
+
+###*
  * @class FormMediaFolderCollectionView
 ###
 class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OpenOrchestra.GroupTree.AbstractFormCollectionView
+  ###*
+   * getElement
+  ###
   getElement: ->
     return 'folderElement'
+  ###*
+   * getId
+  ###
   getId: ->
     return 'folder_id'
+  ###*
+   * getType
+  ###
   getType: ->
     return 'folder'
+  ###*
+   * getGroupRoles
+  ###
   getGroupRoles: ->
     return 'folderGroupRoles'
 
