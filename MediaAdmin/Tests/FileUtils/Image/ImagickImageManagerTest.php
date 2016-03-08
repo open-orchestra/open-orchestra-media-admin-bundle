@@ -38,10 +38,6 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
      */
     public function testGenerateAlternative($formatName, array $format, $expectedFileName, $skipped = false)
     {
-        if ($skipped) {
-            $this->markTestSkipped('Imagick issue');
-        }
-
         $generatedFile = $this->manager->generateAlternative($this->originalFile, $format);
 
         $this->assertFileCorrectlyGenerated($this->fixturesPath . 'Reference/' . $expectedFileName, $generatedFile);
@@ -53,16 +49,18 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
     public function provideSize()
     {
         return array(
-            array('rectangle', array(
+            'max_height' => array('rectangle', array(
                 'max_height' => 100, 'max_height' => 100, 'compression_quality' => 75
             ), 'rectangle.jpg'),
-            array('fixed_width', array(
+
+            'fixed_width' => array('fixed_width', array(
                 'max_width' => 100, 'compression_quality' => 75
             ), 'fixed-width.jpg', true),
-            array('fixed_height', array(
+
+            'fixed_height' => array('fixed_height', array(
                 'max_height' => 100, 'compression_quality' => 75
             ), 'fixed-height.jpg')
-        );
+         );
     }
 
     /**
@@ -99,13 +97,15 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
     public function provideCropSize()
     {
         return array(
-            array(10, 20, 100, 100, 'rectangle', array(
+            'rectangle' => array(10, 20, 100, 100, 'rectangle', array(
                 'max_height' => 100, 'max_height' => 100, 'compression_quality' => 75
             ), 'crop-rectangle.jpg'),
-            array(70, 20, 100, 10, 'fixed_width', array(
+
+            'fixed_width' => array(70, 20, 100, 10, 'fixed_width', array(
                 'max_width' => 100, 'compression_quality' => 75
             ), 'crop-fixed-width.jpg'),
-            array(10, 20, 10, 100, 'fixed_height', array(
+
+            'fixed_height' => array(10, 20, 10, 100, 'fixed_height', array(
                 'max_height' => 100, 'compression_quality' => 75
             ), 'crop-fixed-height.jpg')
         );
