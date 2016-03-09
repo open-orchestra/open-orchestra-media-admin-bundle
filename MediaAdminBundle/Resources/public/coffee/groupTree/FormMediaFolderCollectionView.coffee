@@ -7,62 +7,27 @@ window.OpenOrchestra.GroupTree or= {}
 ###*
  * @class FormMediaFolderCollectionView
 ###
-class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OrchestraView
-
-  events:
-    'change .value-holder': 'changeInput'
-
+class OpenOrchestra.GroupTree.FormMediaFolderCollectionView extends OpenOrchestra.GroupTree.AbstractFormCollectionView
   ###*
-   * @param {Object} options
+   * getElement
   ###
-  initialize: (options) ->
-    ###*
-     * {Object} domContainer
-     * {Object} folderElement
-     * {Array}  folderGroupRoles
-     * {Object} group
-     * {Array}  roles
-    ###
-    @options = @reduceOption(options, [
-      'domContainer'
-      'folderElement'
-      'folderGroupRoles'
-      'group'
-      'roles'
-    ])
-    @loadTemplates [
-      'OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
-    ]
-
+  getElement: ->
+    return 'folderElement'
   ###*
-   * render
+   * getId
   ###
-  render: ->
-    for role in @options.roles
-      @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
-        role: role
-        element: @options.folderElement
-      )
-    @setElement @options.domContainer
-    if @options.folderGroupRoles != undefined
-      for folderGroupRole in @options.folderGroupRoles
-        $('select[data-role-name="' + folderGroupRole.name + '"] option[value="' + folderGroupRole.access_type + '"]', @options.domContainer).attr('selected','selected')
-
+  getId: ->
+    return 'folder_id'
   ###*
-   * @param {Object} e
+   * getType
   ###
-  changeInput: (e) ->
-    value = $(e.currentTarget).val()
-    name = $(e.currentTarget).data('role-name')
-    folderId = @options.folderElement.folder_id
-    folderGroupRoleData = []
-    folderGroupRoleData.push({'model_id': folderId, 'type':'folder', 'access_type': value, 'name': name})
-    $.ajax
-      url: @options.group.links._self_edit
-      method: 'POST'
-      data: JSON.stringify(
-        model_roles: folderGroupRoleData
-      )
+  getType: ->
+    return 'folder'
+  ###*
+   * getGroupRoles
+  ###
+  getGroupRoles: ->
+    return 'folderGroupRoles'
 
 jQuery ->
   appConfigurationView.setConfiguration 'group_tab_media_folder_tree_form', 'editEntityTab', OpenOrchestra.GroupTree.FormMediaFolderCollectionView
