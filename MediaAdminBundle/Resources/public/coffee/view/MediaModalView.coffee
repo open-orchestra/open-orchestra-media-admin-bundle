@@ -85,11 +85,10 @@ MediaModalView = OrchestraView.extend(
     @updateNavigation($(event.target))
     @listenToOnce(formChannel, 'formSubmit', @reloadFolder)
     displayLoader $(".modal-body-content", @$el)
-    folderName = $(".js-widget-title", @$el).text()
     domContainer = $(".modal-body-content", @$el)
     title = @getPath().join(' > ')
     $.ajax
-      url: $(event.target).data('url')
+      url: $(event.currentTarget).data('url')
       method: 'GET'
       success: (response) ->
         viewClass = appConfigurationView.getConfiguration('media', 'showMediaForm')
