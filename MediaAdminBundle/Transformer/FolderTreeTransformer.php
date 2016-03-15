@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;

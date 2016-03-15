@@ -156,7 +156,7 @@ class MediaController extends AbstractAdminController
      *
      * @return \Symfony\Component\Form\Form
      */
-    public function createForm($type, $data = null, array $options = array(), $editionRole = null, $folder = null)
+    protected function createForm($type, $data = null, array $options = array(), $editionRole = null, $folder = null)
     {
         if (!isset($options['disabled']) && !is_null($editionRole)) {
             $options['disabled'] = !$this->isGranted($editionRole, $folder);
