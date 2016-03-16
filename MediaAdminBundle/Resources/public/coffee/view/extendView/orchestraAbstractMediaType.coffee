@@ -6,7 +6,8 @@ extendView['orchestraMediaAbstractType'] =
     target = $(event.currentTarget)
     inputId = '#' + target.data('input')
     previewId = '#previewImage_' + target.data('input')
-    $(inputId).val ''
+    $(inputId + '_id').val ''
+    $(inputId + '_format').val ''
     $(previewId).removeAttr('src')
 
   openMediaModal: (options) ->

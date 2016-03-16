@@ -18,14 +18,14 @@ class MediaChoiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer(new MediaChoiceTransformer());
-    }
 
-    /**
-     * @return string
-     */
-    public function getParent()
-    {
-        return 'text';
+        $builder
+            ->add('id', 'hidden')
+            ->add('format', 'hidden');
+
+        if (array_key_exists('disabled', $options)) {
+            $builder->setAttribute('disabled', $options['disabled']);
+        }
     }
 
     /**
