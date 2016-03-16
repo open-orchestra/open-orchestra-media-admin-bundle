@@ -21,10 +21,10 @@ class MediaChoiceTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if (is_array($value)
-            && isset($value['mediaId'])
-            && strpos($value['mediaId'], MediaInterface::MEDIA_PREFIX) === 0
+            && isset($value['id'])
+            && strpos($value['id'], MediaInterface::MEDIA_PREFIX) === 0
         ) {
-            $value['mediaId'] = substr($value['mediaId'], strlen(MediaInterface::MEDIA_PREFIX));
+            $value['id'] = substr($value['id'], strlen(MediaInterface::MEDIA_PREFIX));
         }
 
         return $value;
@@ -41,10 +41,10 @@ class MediaChoiceTransformer implements DataTransformerInterface
     {
         if (
             is_array($value)
-            && isset($value['mediaId'])
-            && strpos($value['mediaId'], MediaInterface::MEDIA_PREFIX) !== 0
+            && isset($value['id'])
+            && strpos($value['id'], MediaInterface::MEDIA_PREFIX) !== 0
         ) {
-            $value['mediaId'] == MediaInterface::MEDIA_PREFIX . $value['mediaId'];
+            $value['id'] = MediaInterface::MEDIA_PREFIX . $value['id'];
         }
 
         return $value;
