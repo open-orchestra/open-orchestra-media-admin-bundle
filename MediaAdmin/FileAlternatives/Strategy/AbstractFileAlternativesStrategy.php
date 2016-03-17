@@ -10,9 +10,20 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrategyInterface
 {
+    const MEDIA_TYPE = "abstract";
+
     protected $mediaStorageManager;
     protected $tmpDir;
     protected $fileSystem;
+
+    /**
+     * Get the $media type supported by the strategy
+     *
+     * @return srtring
+     */
+    public function getMediaType() {
+        return static::MEDIA_TYPE;
+    }
 
     /**
      * Generate all alternatives for $media

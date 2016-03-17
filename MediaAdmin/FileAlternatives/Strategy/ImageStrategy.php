@@ -12,6 +12,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class ImageStrategy extends AbstractFileAlternativesStrategy
 {
+    const MEDIA_TYPE = 'image';
     const MIME_TYPE_FRAGMENT_IMAGE = 'image';
 
     protected $imageManager;

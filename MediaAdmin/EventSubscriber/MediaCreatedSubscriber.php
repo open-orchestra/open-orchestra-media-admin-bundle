@@ -35,6 +35,7 @@ class MediaCreatedSubscriber implements EventSubscriberInterface
     public function addMedia(MediaEvent $event)
     {
         $media = $event->getMedia();
+        $media->setMediaType($this->fileAlternativesManager->getMediaType($media));
         $this->medias[] = $media;
     }
 

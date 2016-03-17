@@ -11,6 +11,8 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class DefaultStrategy extends AbstractFileAlternativesStrategy
 {
+    const MEDIA_TYPE = 'default';
+
     protected $thumbnail;
 
     /**

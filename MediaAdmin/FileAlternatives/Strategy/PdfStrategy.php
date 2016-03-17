@@ -12,6 +12,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class PdfStrategy extends AbstractFileAlternativesStrategy
 {
+    const MEDIA_TYPE = 'pdf';
     const MIME_TYPE_PDF = 'application/pdf';
 
     protected $imageManager;

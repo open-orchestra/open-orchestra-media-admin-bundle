@@ -21,6 +21,13 @@ interface FileAlternativesStrategyInterface
     public function support(MediaInterface $media);
 
     /**
+     * Get the $media type supported by the strategy
+     *
+     * @return srtring
+     */
+    public function getMediaType();
+
+    /**
      * Generate a thumbnail for $media
      *
      * @param MediaInterface $media

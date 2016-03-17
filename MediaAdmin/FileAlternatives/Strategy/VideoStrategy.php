@@ -13,6 +13,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class VideoStrategy extends AbstractFileAlternativesStrategy
 {
+    const MEDIA_TYPE = 'video';
     const MIME_TYPE_FRAGMENT_VIDEO = 'video';
 
     protected $videoManager;

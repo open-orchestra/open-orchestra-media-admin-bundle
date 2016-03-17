@@ -11,6 +11,7 @@ use OpenOrchestra\Media\Model\MediaInterface;
  */
 class AudioStrategy extends AbstractFileAlternativesStrategy
 {
+    const MEDIA_TYPE = 'audio';
     const MIME_TYPE_FRAGMENT_AUDIO = 'audio';
 
     protected $thumbnail;
