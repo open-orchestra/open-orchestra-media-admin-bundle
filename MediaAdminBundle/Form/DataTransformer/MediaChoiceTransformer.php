@@ -20,15 +20,15 @@ class MediaChoiceTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if ($value == '') {
-            $value = array('id' => '', 'format' => '');
-        }
-
         if (is_array($value)
             && isset($value['id'])
             && strpos($value['id'], MediaInterface::MEDIA_PREFIX) === 0
         ) {
             $value['id'] = substr($value['id'], strlen(MediaInterface::MEDIA_PREFIX));
+        }
+
+        if ($value == '') {
+            $value = array('id' => '', 'format' => '');
         }
 
         return $value;
@@ -43,16 +43,16 @@ class MediaChoiceTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        if ($value == '') {
-            $value = array('id' => '', 'format' => '');
-        }
-
         if (
             is_array($value)
             && isset($value['id'])
             && strpos($value['id'], MediaInterface::MEDIA_PREFIX) !== 0
         ) {
             $value['id'] = MediaInterface::MEDIA_PREFIX . $value['id'];
+        }
+
+        if ($value == '') {
+            $value = array('id' => '', 'format' => '');
         }
 
         return $value;
