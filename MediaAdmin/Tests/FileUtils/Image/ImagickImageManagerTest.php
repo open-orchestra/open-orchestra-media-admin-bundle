@@ -87,7 +87,6 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
     public function testCropAndResize($x, $y, $h, $w, $formatName, array $format, $expectedFileName)
     {
         $generatedFile = $this->manager->cropAndResize($this->originalFile, $x, $y, $h, $w, $format);
-
         $this->assertFileCorrectlyGenerated($this->fixturesPath . 'Reference/' . $expectedFileName, $generatedFile);
     }
 
@@ -98,7 +97,7 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
     {
         return array(
             'rectangle' => array(10, 20, 100, 100, 'rectangle', array(
-                'max_height' => 100, 'max_height' => 100, 'compression_quality' => 75
+                'max_height' => 100, 'compression_quality' => 75
             ), 'crop-rectangle.jpg'),
 
             'fixed_width' => array(70, 20, 100, 10, 'fixed_width', array(
