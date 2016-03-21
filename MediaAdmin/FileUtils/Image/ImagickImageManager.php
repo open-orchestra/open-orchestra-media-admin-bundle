@@ -56,15 +56,15 @@ class ImagickImageManager implements ImageManagerInterface
             $refRatio = $maxWidth / $maxHeight;
             $imageRatio = $image->getImageWidth() / $image->getImageHeight();
 
-            $proportional = 0;
+            $keepAspect = 0;
             if ($imageRatio < 1) {
-                $proportional = 1;
+                $keepAspect = 1;
             }
 
             if ($refRatio > $imageRatio || $maxWidth == -1) {
-                $image = $this->resize($image, $proportional, $maxHeight);
+                $image = $this->resize($image, $keepAspect, $maxHeight);
             } else {
-                $image = $this->resize($image, $maxWidth, $proportional);
+                $image = $this->resize($image, $maxWidth, $keepAspect);
             }
         }
 
