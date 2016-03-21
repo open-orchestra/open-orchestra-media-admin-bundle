@@ -17,7 +17,7 @@ open_orchestra_media_admin:
             success: The folder has been saved
             delete: This folder contains media, you can't delete it.
             confirm_delete:
-                title: Are you sure to delete this folder ?
+                title: Are you sure to delete this folder?
                 text: Deleting this folder will delete all of his subfolder.
             name: Name
             site: Select sites for this folder
@@ -69,7 +69,7 @@ open_orchestra_media_admin:
     left_menu:
         tree:
             new_media_folder: New Folder
-            delete_media_folder: Are you sure to delete the folder %folderName% ?
+            delete_media_folder: Are you sure to delete the folder %folderName%?
         editorial:
             media: Media
             browse: Browse
@@ -105,7 +105,7 @@ open_orchestra_media_admin:
         current_preview: Image
         crop: Crop
         meta: Meta
-        delete_question: Would you like to delete this media ?
+        delete_question: Would you like to delete this media?
         delete_explanation: This operation is not reversible.
     log:
         media:
