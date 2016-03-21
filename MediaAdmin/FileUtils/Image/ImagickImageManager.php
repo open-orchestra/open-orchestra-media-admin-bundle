@@ -56,10 +56,15 @@ class ImagickImageManager implements ImageManagerInterface
             $refRatio = $maxWidth / $maxHeight;
             $imageRatio = $image->getImageWidth() / $image->getImageHeight();
 
+            $keepAspect = 0;
+            if ($imageRatio < 1) {
+                $keepAspect = 1;
+            }
+
             if ($refRatio > $imageRatio || $maxWidth == -1) {
-                $image = $this->resizeOnHeight($image, $maxHeight);
+                $image = $this->resize($image, $keepAspect, $maxHeight);
             } else {
-                $image = $this->resizeOnWidth($image, $maxWidth);
+                $image = $this->resize($image, $maxWidth, $keepAspect);
             }
         }
 
@@ -67,31 +72,17 @@ class ImagickImageManager implements ImageManagerInterface
     }
 
     /**
-     * Resize an image keeping its ratio to the height $height
+     * Resize an image keeping
      *
      * @param Imagick $image
      * @param int     $height
-     *
-     * @return Imagick
-     */
-    protected function resizeOnHeight(Imagick $image, $height)
-    {
-        $image->resizeImage(0, $height, Imagick::FILTER_LANCZOS, 1);
-
-        return $image;
-    }
-
-    /**
-     * Resize an image keeping its ratio to the width $width
-     *
-     * @param Imagick $image
      * @param int     $width
      *
      * @return Imagick
      */
-    protected function resizeOnWidth(Imagick $image, $width)
+    protected function resize(Imagick $image, $width, $height)
     {
-        $image->resizeImage($width, 0, Imagick::FILTER_LANCZOS, 1);
+        $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
 
         return $image;
     }
