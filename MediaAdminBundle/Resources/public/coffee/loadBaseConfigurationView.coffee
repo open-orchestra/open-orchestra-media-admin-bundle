@@ -10,5 +10,6 @@ jQuery ->
     'showMetaForm': MetaFormView
     'showCropForm': CropFormView
     'uploadMedia': MediaUploadView
+    'addMediaTypeFilter' : WidgetMediaTypeFilterView
 
   $.extend true, window.appConfigurationView.baseConfigurations,baseMediaConfiguration

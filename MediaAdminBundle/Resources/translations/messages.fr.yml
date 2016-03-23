@@ -12,6 +12,13 @@ open_orchestra_backoffice:
       remove: Retirer
 
 open_orchestra_media_admin:
+    media_filter:
+        none: Tous
+        default: Type par défaut
+        image: Images
+        video: Vidéos
+        audio: Audios
+        pdf: Pdfs
     form:
         folder:
             success: Le répertoire a été sauvegardé

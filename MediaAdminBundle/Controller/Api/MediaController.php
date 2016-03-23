@@ -107,7 +107,7 @@ class MediaController extends BaseController
     /**
      * @param Request $request
      * @param string  $folderId
-     * 
+     *
      * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
      * Config\Method({"POST"})
      *
@@ -137,5 +137,21 @@ class MediaController extends BaseController
         }
 
         return new Response('', 202);
+    }
+
+    /**
+     * @param string folderId
+     *
+     * @Config\Route("/{folderId}/media-types", name="open_orchestra_api_media_type_list")
+     * Config\Method({"POST"})
+     *
+     * @return FacadeInterface|Response
+     */
+    public function mediaTypeListAction($folderId)
+    {
+        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
+
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media_type_collection')->transform($mediaCollection, $folderId);
     }
 }
