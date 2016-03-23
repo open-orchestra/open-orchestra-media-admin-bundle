@@ -1,4 +1,13 @@
-WidgetMediaTypeFilterView = OrchestraView.extend(
+###*
+ * @namespace OpenOrchestra:Media
+###
+window.OpenOrchestra or= {}
+window.OpenOrchestra.Media or= {}
+
+###*
+ * @class WidgetMediaTypeFilterView
+###
+class OpenOrchestra.Media.WidgetTypeFilterView extends OrchestraView
   events:
     'click ul>li>a': 'filterMedia'
 
@@ -15,6 +24,9 @@ WidgetMediaTypeFilterView = OrchestraView.extend(
     ]
     return
 
+  ###*
+   * @return {this}
+  ###
   render: ->
     viewContext = @
     $.ajax
@@ -26,6 +38,9 @@ WidgetMediaTypeFilterView = OrchestraView.extend(
         viewContext.drawWidget('')
     return
 
+  ###*
+   * @param {string} selectedFilter
+  ###
   drawWidget: (selectedFilter) ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/widgetMediaTypeFilter',
       no_filter_url: @noFilterUrl
@@ -35,6 +50,9 @@ WidgetMediaTypeFilterView = OrchestraView.extend(
     @$el.attr('data-widget-index', @options.widget_index)
     addCustomJarvisWidget(@$el, @options.viewContainer.$el)
 
+  ###*
+   * @param {object} event jquery event
+  ###
   filterMedia: (event) ->
     selectedFilter = $(event.currentTarget).data('value')
     viewContext = @
@@ -49,4 +67,3 @@ WidgetMediaTypeFilterView = OrchestraView.extend(
         viewContext.drawWidget(selectedFilter)
         OpenOrchestra.Media.Channel.trigger 'mediasFiltered', medias
     return
-)

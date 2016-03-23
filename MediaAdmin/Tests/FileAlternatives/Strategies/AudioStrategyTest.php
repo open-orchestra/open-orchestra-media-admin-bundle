@@ -42,6 +42,14 @@ class AudioStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * test getMediaType
+     */
+    public function testGetMediaType()
+    {
+        $this->assertSame('audio', $this->strategy->getMediaType());
+    }
+
+    /**
      * test generateThumbnail
      * 
      * @param string $mediaName

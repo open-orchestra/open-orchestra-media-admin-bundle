@@ -10,6 +10,6 @@ jQuery ->
     'showMetaForm': MetaFormView
     'showCropForm': CropFormView
     'uploadMedia': MediaUploadView
-    'addMediaTypeFilter' : WidgetMediaTypeFilterView
+    'addMediaTypeFilter' : OpenOrchestra.Media.WidgetTypeFilterView
 
   $.extend true, window.appConfigurationView.baseConfigurations,baseMediaConfiguration

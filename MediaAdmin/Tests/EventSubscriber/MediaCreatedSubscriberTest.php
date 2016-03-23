@@ -19,6 +19,7 @@ class MediaCreatedSubscriberTest extends AbstractBaseTestCase
     protected $documentManager;
     protected $media1;
     protected $media2;
+    protected $mediaType = 'TYPE';
     protected $event1;
     protected $event2;
 
@@ -37,6 +38,7 @@ class MediaCreatedSubscriberTest extends AbstractBaseTestCase
         Phake::when($this->event2)->getMedia()->thenReturn($this->media2);
 
         $this->fileAlternativesManager = Phake::mock('OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager');
+        Phake::when($this->fileAlternativesManager)->getMediaType(Phake::anyParameters())->thenReturn($this->mediaType);
 
         $this->documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
 
@@ -67,6 +69,13 @@ class MediaCreatedSubscriberTest extends AbstractBaseTestCase
     {
         $this->assertTrue(method_exists($this->subscriber, 'addMedia'));
         $this->assertTrue(method_exists($this->subscriber, 'generateAlternatives'));
+    }
+
+    public function testAddMedia()
+    {
+        $this->subscriber->addMedia($this->event1);
+        Phake::verify($this->fileAlternativesManager)->getMediaType($this->media1);
+        Phake::verify($this->media1)->setMediaType($this->mediaType);
     }
 
     /**

@@ -42,6 +42,14 @@ class DefaultStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * test getMediaType
+     */
+    public function testGetMediaType()
+    {
+        $this->assertSame('default', $this->strategy->getMediaType());
+    }
+
+    /**
      * test generateThumbnail
      * 
      * @param string $mediaName

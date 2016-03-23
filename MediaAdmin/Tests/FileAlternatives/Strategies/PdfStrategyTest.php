@@ -44,6 +44,14 @@ class PdfStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * test getMediaType
+     */
+    public function testGetMediaType()
+    {
+        $this->assertSame('pdf', $this->strategy->getMediaType());
+    }
+
+    /**
      * test generateThumnail
      * 
      * @param string $mediaName

@@ -91,6 +91,11 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
     }
 
     /**
+     * test getMediaType
+     */
+    abstract function testGetMediaType();
+
+    /**
      * test getAlternatives
      * 
      * @param string $mediaName
