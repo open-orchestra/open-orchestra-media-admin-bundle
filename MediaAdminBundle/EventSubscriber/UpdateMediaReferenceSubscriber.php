@@ -8,7 +8,6 @@ use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface;
 
 /**
  * Class UpdateMediaReferenceSubscriber
@@ -17,21 +16,17 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
 {
     protected $extractReferenceManager;
     protected $mediaRepository;
-    protected $mediaFormatExtractor;
 
     /**
      * @param ExtractReferenceManager           $extractReferenceManager
      * @param MediaRepositoryInterface          $mediaRepository
-     * @param MediaWithFormatExtractorInterface $mediaFormatExtractor
      */
     public function __construct(
         ExtractReferenceManager $extractReferenceManager,
-        MediaRepositoryInterface $mediaRepository,
-        MediaWithFormatExtractorInterface $mediaFormatExtractor
+        MediaRepositoryInterface $mediaRepository
     ) {
         $this->extractReferenceManager = $extractReferenceManager;
         $this->mediaRepository = $mediaRepository;
-        $this->mediaFormatExtractor = $mediaFormatExtractor;
     }
 
     /**
@@ -47,10 +42,9 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
             $methodToCall = 'addUsageReference';
         }
 
-        foreach ($references as $mediaWithFormat => $mediaUsage) {
-            $mediaInfo = $this->mediaFormatExtractor->extractInformation($mediaWithFormat);
+        foreach ($references as $mediaId => $mediaUsage) {
             /** @var MediaInterface $media */
-            $media = $this->mediaRepository->find($mediaInfo['id']);
+            $media = $this->mediaRepository->find($mediaId);
             foreach ($mediaUsage as $usage) {
                 $media->$methodToCall($usage);
             }

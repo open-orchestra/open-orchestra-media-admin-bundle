@@ -23,7 +23,6 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
     protected $mediaRepository;
     protected $statusableElement;
     protected $extractReferenceManager;
-    protected $mediaFormatExtractor;
 
     /**
      * Set up the test
@@ -43,12 +42,9 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
         $this->mediaRepository = Phake::mock('OpenOrchestra\Media\Repository\MediaRepositoryInterface');
         Phake::when($this->mediaRepository)->find(Phake::anyParameters())->thenReturn($this->media);
 
-        $this->mediaFormatExtractor = Phake::mock('OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface');
-
-        $this->subscriber = new UpdateMediaReferenceSubscriber(
+       $this->subscriber = new UpdateMediaReferenceSubscriber(
             $this->extractReferenceManager,
-            $this->mediaRepository,
-            $this->mediaFormatExtractor
+            $this->mediaRepository
         );
     }
 
@@ -86,8 +82,6 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
         $this->subscriber->updateMediaReference($this->event);
 
         Phake::verify($this->extractReferenceManager)->extractReference($this->statusableElement);
-        Phake::verify($this->mediaFormatExtractor)->extractInformation('foo');
-        Phake::verify($this->mediaFormatExtractor)->extractInformation('bar');
         Phake::verify($this->media, Phake::times(2))->$methodToCall('node-nodeId-1');
         Phake::verify($this->media)->$methodToCall('node-nodeId-0');
     }
