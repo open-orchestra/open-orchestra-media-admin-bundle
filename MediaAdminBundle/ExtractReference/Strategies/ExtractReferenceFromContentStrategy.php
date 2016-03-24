@@ -2,8 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies;
 
-use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceInterface;
-use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use OpenOrchestra\ModelInterface\Model\ContentInterface;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
@@ -11,8 +9,10 @@ use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 /**
  * Class ExtractReferenceFromContentStrategy
  */
-class ExtractReferenceFromContentStrategy implements ExtractReferenceInterface
+class ExtractReferenceFromContentStrategy extends AbstractExtractReferenceStrategy
 {
+    const REFERENCE_PREFIX = 'content-';
+
     /**
      * @param StatusableInterface $statusableElement
      *
@@ -33,14 +33,24 @@ class ExtractReferenceFromContentStrategy implements ExtractReferenceInterface
         $references = array();
 
         /** @var ContentAttributeInterface $attribute */
-        foreach ($statusableElement->getAttributes() as $attribute) {
-            $value = $attribute->getValue();
-            if (is_string($value) && strpos($value, MediaInterface::MEDIA_PREFIX) === 0) {
-                $references[substr($value, strlen(MediaInterface::MEDIA_PREFIX))][] = 'content-' . $statusableElement->getId();
-            }
+        foreach ($statusableElement->getAttributes() as $key => $attribute) {
+            $references = $this->extractMedia($key, $attribute->getValue(), $statusableElement->getId(), $references);
         }
 
         return $references;
+    }
+
+    /**
+     * Format a reference
+     *
+     * @param string $index
+     * @param string $statusableElementId
+     *
+     * @return string
+     */
+    protected function formatReference($index, $statusableElementId)
+    {
+        return self::REFERENCE_PREFIX . $statusableElementId;
     }
 
     /**
