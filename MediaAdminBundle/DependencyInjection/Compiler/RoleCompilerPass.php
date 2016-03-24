@@ -29,5 +29,13 @@ class RoleCompilerPass extends AbstractRoleCompilerPass
             TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA,
             TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA,
         ));
+
+        if ($container->hasParameter('open_orchestra_backoffice.role')) {
+            $roles = $container->getParameter('open_orchestra_backoffice.role');
+            if ($container->hasParameter('open_orchestra_media.role')) {
+                $roles = array_merge_recursive($roles, $container->getParameter('open_orchestra_media.role'));
+            }
+            $container->setParameter('open_orchestra_backoffice.role', $roles);
+        }
     }
 }
