@@ -5,6 +5,8 @@ module.exports = {
     'web/built/openorchestramediaadmin/js/tinyMCE/*.js',
     'web/built/openorchestramediaadmin/js/view/extendView/*.js',
     'web/built/openorchestramediaadmin/js/view/*.js',
+    'web/built/openorchestramediaadmin/js/media/*.js',
+    'web/built/openorchestramediaadmin/js/media/view/*.js',
     'web/built/openorchestramediaadmin/js/*.js'
   ],
   dest: 'web/built/media.js'

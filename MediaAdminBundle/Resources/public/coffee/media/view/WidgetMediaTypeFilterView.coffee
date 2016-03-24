@@ -3,13 +3,14 @@
 ###
 window.OpenOrchestra or= {}
 window.OpenOrchestra.Media or= {}
+window.OpenOrchestra.Media.View or= {}
 
 ###*
  * @class WidgetMediaTypeFilterView
 ###
-class OpenOrchestra.Media.WidgetTypeFilterView extends OrchestraView
+class OpenOrchestra.Media.View.WidgetTypeFilterView extends OrchestraView
   events:
-    'click ul>li>a': 'filterMedia'
+    'click .filterMedia': 'filterMedia'
 
   initialize: (options) ->
     @noFilterUrl = ''
@@ -35,7 +36,7 @@ class OpenOrchestra.Media.WidgetTypeFilterView extends OrchestraView
       success: (response) ->
         viewContext.noFilterUrl = response.links._no_filter
         viewContext.filters = response.media_types
-        viewContext.drawWidget('')
+        viewContext.drawWidget()
     return
 
   ###*

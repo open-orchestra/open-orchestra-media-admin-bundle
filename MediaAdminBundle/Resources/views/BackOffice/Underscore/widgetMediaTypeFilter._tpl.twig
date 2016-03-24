@@ -1,3 +1,7 @@
+<% if (_.isUndefined(selectedFilter)) { %>
+    <% selectedFilter = '' %>
+<% } %>
+
 <div class="widget-toolbar">
     <div class="btn-group">
         <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown" aria-expanded="false">
@@ -13,11 +17,19 @@
         </button>
         <ul class="dropdown-menu pull-right js-status-update">
             <% if (selectedFilter != '') { %>
-                <li><a data-value="" data-url="<%= no_filter_url %>">{{ 'open_orchestra_media_admin.media_filter.none'|trans }}</a></li>
+                <li>
+                    <a data-value="" data-url="<%= no_filter_url %>" class="filterMedia">
+                        {{ 'open_orchestra_media_admin.media_filter.none'|trans }}
+                    </a>
+                </li>
             <% } %>
             <% _.each(filters, function(filter, key) { %>
                 <% if (filter.translated_name != selectedFilter) { %>
-                    <li><a data-value="<%= filter.name %>" data-url="<%= filter.links._filter %>"><%= filter.translated_name %></a></li>
+                    <li>
+                        <a data-value="<%= filter.name %>" data-url="<%= filter.links._filter %>" class="filterMedia">
+                            <%= filter.translated_name %>
+                        </a>
+                    </li>
                 <% } %>
             <% }); %>
         </ul>

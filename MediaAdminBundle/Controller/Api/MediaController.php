@@ -149,6 +149,10 @@ class MediaController extends BaseController
      */
     public function mediaTypeListAction($folderId)
     {
+        /** @var FolderInterface $folder */
+        $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
+        $this->denyAccessUnlessGranted(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $folder);
+
         $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
 
         return $this->get('open_orchestra_api.transformer_manager')
