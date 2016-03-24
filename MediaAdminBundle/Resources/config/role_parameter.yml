@@ -1,16 +1,23 @@
 parameters:
     open_orchestra_media.role:
         role_access_media_folder :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_media_folder }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_media_folder
         role_access_create_media_folder :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_media_folder }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_media_folder
         role_access_update_media_folder :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_media_folder }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_media_folder
         role_access_delete_media_folder :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_media_folder }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_media_folder
         role_access_create_media :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_create_media }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_create_media
         role_access_update_media :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_create_media }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_create_media
         role_access_delete_media :
-            { category: open_orchestra_backoffice.left_menu.editorial.title, label: open_orchestra_role.label_access_create_media }
+            category: open_orchestra_backoffice.left_menu.editorial.title
+            label: open_orchestra_role.label_access_create_media
