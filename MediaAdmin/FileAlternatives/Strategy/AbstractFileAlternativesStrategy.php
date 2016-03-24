@@ -15,6 +15,15 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     protected $fileSystem;
 
     /**
+     * Get the $media type supported by the strategy
+     *
+     * @return srtring
+     */
+    public function getMediaType() {
+        return static::MEDIA_TYPE;
+    }
+
+    /**
      * Generate all alternatives for $media
      *
      * @param MediaInterface $media

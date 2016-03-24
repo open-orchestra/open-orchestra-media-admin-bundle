@@ -46,6 +46,14 @@ class VideoStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * test getMediaType
+     */
+    public function testGetMediaType()
+    {
+        $this->assertSame('video', $this->strategy->getMediaType());
+    }
+
+    /**
      * test generateThumnail
      * 
      * @param string $mediaName

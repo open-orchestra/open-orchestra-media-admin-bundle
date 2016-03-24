@@ -31,6 +31,23 @@ class FileAlternativesManager
     }
 
     /**
+     * Try to find the $media type
+     *
+     * @param MediaInterface $media
+     *
+     * @return srtring
+     */
+    public function getMediaType(MediaInterface $media) {
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->support($media)) {
+                return $strategy->getMediaType();
+            }
+        }
+
+        return $this->defaultStrategy->getMediaType();
+    }
+
+    /**
      * Try to find a strategy to generate the thumbnail for $media and run it
      *
      * @param MediaInterface $media

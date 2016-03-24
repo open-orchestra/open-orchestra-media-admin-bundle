@@ -62,6 +62,10 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
             'folderId' => $folderId
         )));
 
+        $facade->addLink('_media_types', $this->generateRoute('open_orchestra_api_media_type_list', array(
+            'folderId' => $folderId
+        )));
+
         if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER, $folder)) {
             $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_folder_delete', array(
                 'folderId' => $folderId

@@ -39,25 +39,34 @@ class MediaController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param string $folderId
+     * @param string $mediaType
      *
-     * @Config\Route("", name="open_orchestra_api_media_list")
+     * @Config\Route("/folder/{folderId}/{mediaType}", defaults={"mediaType" = ""}, name="open_orchestra_api_media_list")
      * @Config\Method({"GET"})
      *
      * @return FacadeInterface
      */
-    public function listAction(Request $request)
+    public function listAction($folderId, $mediaType)
     {
-        $folderId = $request->get('folderId');
         /** @var FolderInterface $folder */
         $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
         $this->denyAccessUnlessGranted(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $folder);
+
         $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
+
         $parentId = null;
         if ($folder->getParent() instanceof FolderInterface) {
             $parentId = $folder->getParent()->getId();
         }
-        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
+
+        if ($mediaType != "") {
+            $mediaCollection = $this->get('open_orchestra_media.repository.media')
+                ->findByFolderIdAndMediaType($folderId, $mediaType);
+        } else {
+            $mediaCollection = $this->get('open_orchestra_media.repository.media')
+                ->findByFolderId($folderId);
+        }
 
         return $this->get('open_orchestra_api.transformer_manager')
             ->get('media_collection')->transform(
@@ -98,7 +107,7 @@ class MediaController extends BaseController
     /**
      * @param Request $request
      * @param string  $folderId
-     * 
+     *
      * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
      * Config\Method({"POST"})
      *
@@ -128,5 +137,25 @@ class MediaController extends BaseController
         }
 
         return new Response('', 202);
+    }
+
+    /**
+     * @param string folderId
+     *
+     * @Config\Route("/{folderId}/media-types", name="open_orchestra_api_media_type_list")
+     * Config\Method({"POST"})
+     *
+     * @return FacadeInterface|Response
+     */
+    public function mediaTypeListAction($folderId)
+    {
+        /** @var FolderInterface $folder */
+        $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
+        $this->denyAccessUnlessGranted(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $folder);
+
+        $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
+
+        return $this->get('open_orchestra_api.transformer_manager')
+            ->get('media_type_collection')->transform($mediaCollection, $folderId);
     }
 }

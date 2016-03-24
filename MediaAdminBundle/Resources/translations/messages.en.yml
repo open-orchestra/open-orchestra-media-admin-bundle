@@ -12,6 +12,13 @@ open_orchestra_backoffice:
       remove: Remove
 
 open_orchestra_media_admin:
+    media_filter:
+        none: All
+        default: Default type
+        image: Images
+        video: Videos
+        audio: Audios
+        pdf: Pdfs
     form:
         folder:
             success: The folder has been saved
