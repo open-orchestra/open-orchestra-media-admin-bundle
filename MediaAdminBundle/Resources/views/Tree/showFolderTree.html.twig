@@ -2,17 +2,18 @@
 
 {% set skin = 'bo' %}
 {% set name = 'open_orchestra_media_admin.left_menu.editorial.media'|trans %}
-
 {% block name %}
-<a href="#">
-    <span class="menu-item-parent">
-        {{ name }}
-    </span>
-</a>
+    <li>
+        <a href="#">
+            <span class="menu-item-parent">
+                {{ name }}
+            </span>
+        </a>
 {% endblock %}
 
 {% block menu_container %}
-<ul class="{{ name }}-connectedSortable">
-    {{ menu }}
-</ul>
+        <ul class="{{ name }}-connectedSortable">
+            {{ menu }}
+        </ul>
+    </li>
 {% endblock %}
