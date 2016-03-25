@@ -55,9 +55,8 @@ class ImagickImageManager implements ImageManagerInterface
             $image->setimagebackgroundcolor('#000000');
             $refRatio = $maxWidth / $maxHeight;
             $imageRatio = $image->getImageWidth() / $image->getImageHeight();
-
             $keepAspect = 0;
-            if ($imageRatio < 1) {
+            if ($imageRatio <= 0.1) {
                 $keepAspect = 1;
             }
 
