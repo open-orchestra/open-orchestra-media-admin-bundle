@@ -77,7 +77,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
     {
         $parentFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($parentFolder)->getId()->thenReturn('FakeParentId');
-        $sites = array(array('siteId' => 'FakeSiteId1'), array('siteId' => 'FakeSiteId2'));
+        $sites = array(array('siteId' => 'FakeSiteId1'));
 
         return array(
             array('foo', 'bar', $parentFolder, $sites, 'FakeParentId'),
