@@ -34,9 +34,7 @@ class FolderTransformer extends AbstractTransformer
         } else {
             $facade->parentId = FolderInterface::ROOT_PARENT_ID;
         }
-        foreach ($folder->getSites() as $site) {
-            $facade->addSite($site);
-        }
+        $facade->addSiteId($folder->getSiteId());
 
         return $facade;
     }

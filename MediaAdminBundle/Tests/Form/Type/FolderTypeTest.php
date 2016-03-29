@@ -41,7 +41,7 @@ class FolderTypeTest extends AbstractBaseTestCase
 
         $this->form->buildForm($builder, array());
 
-        Phake::verify($builder, Phake::times(3))->add(Phake::anyParameters());
+        Phake::verify($builder, Phake::times(2))->add(Phake::anyParameters());
     }
 
     /**

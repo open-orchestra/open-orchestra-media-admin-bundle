@@ -8,7 +8,7 @@
             {% if folder.subFolders is not empty or is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER', folder) %}
                 <ul>
                     {% if folder.subFolders is not empty %}
-                        {{ _self.buildMenuFolder(folder.subFoldersBySiteId(context.currentSiteId), skin, 'child') }}
+                        {{ _self.buildMenuFolder(folder.subFolders(), skin, 'child') }}
                     {% endif %}
                     {% if is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER', folder) %}
                         {{ menu_macros.new_folder(folder.id) }}

@@ -42,17 +42,17 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
 
     /**
      * @param array $groups
-     * @param array $sites
+     * @param string $site
      * @param int   $countMFGR
      *
      * @dataProvider provideGroupAndSite
      */
-    public function testPostPersist(array $groups, array $sites, $countMFGR)
+    public function testPostPersist(array $groups,  $site, $countMFGR)
     {
         $countMFGR = count($this->mediaFolderRoles) * $countMFGR;
 
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        Phake::when($folder)->getSites()->thenReturn($sites);
+        Phake::when($folder)->getSiteId()->thenReturn($site);
 
         Phake::when($this->lifecycleEventArgs)->getDocument()->thenReturn($folder);
         Phake::when($this->groupRepository)->findAllWithSite()->thenReturn($groups);
@@ -72,15 +72,16 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
         $group3 = $this->createMockGroup("FakeSiteId3");
         Phake::when($group3)->hasModelGroupRoleByTypeAndIdAndRole(Phake::anyParameters())->thenReturn(false);
 
-        $sites = array(array("siteId" => "FakeSiteId1"), array("siteId" => "FakeSiteId2"));
+        $site1 = "FakeSiteId1";
+        $site2 = "FakeSiteId2";
 
         return array(
-            array(array($group1, $group2), $sites, 2),
-            array(array($group1), $sites, 1),
-            array(array($group1, $group2), array(), 2),
-            array(array($group3), $sites, 0),
-            array(array(), $sites, 0),
-            array(array(), array(), 0),
+            array(array($group1), $site1, 1),
+            array(array($group2), $site1, 1),
+            array(array($group3), "", 1),
+            array(array($group3), $site2, 0),
+            array(array(), $site2, 0),
+            array(array(), "", 0),
         );
     }
 }
