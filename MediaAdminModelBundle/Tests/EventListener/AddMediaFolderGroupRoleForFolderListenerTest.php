@@ -77,8 +77,8 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
 
         return array(
             array(array($group1), $site1, 1),
-            array(array($group2), $site1, 1),
-            array(array($group3), "", 1),
+            array(array($group2), $site2, 1),
+            array(array($group3), "", 0),
             array(array($group3), $site2, 0),
             array(array(), $site2, 0),
             array(array(), "", 0),
