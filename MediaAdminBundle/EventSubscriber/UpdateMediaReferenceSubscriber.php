@@ -8,6 +8,11 @@ use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use OpenOrchestra\ModelInterface\NodeEvents;
+use OpenOrchestra\ModelInterface\Event\NodeEvent;
+use OpenOrchestra\ModelInterface\Model\NodeInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 
 /**
  * Class UpdateMediaReferenceSubscriber
@@ -16,17 +21,21 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
 {
     protected $extractReferenceManager;
     protected $mediaRepository;
+    protected $objectManager;
 
     /**
-     * @param ExtractReferenceManager           $extractReferenceManager
-     * @param MediaRepositoryInterface          $mediaRepository
+     * @param ExtractReferenceManager  $extractReferenceManager
+     * @param MediaRepositoryInterface $mediaRepository
+     * @param ObjectManager            $objectManager
      */
     public function __construct(
         ExtractReferenceManager $extractReferenceManager,
-        MediaRepositoryInterface $mediaRepository
+        MediaRepositoryInterface $mediaRepository,
+        ObjectManager $objectManager
     ) {
         $this->extractReferenceManager = $extractReferenceManager;
         $this->mediaRepository = $mediaRepository;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -42,11 +51,61 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
             $methodToCall = 'addUsageReference';
         }
 
+        $this->updateReferences($references, $methodToCall);
+    }
+
+    /**
+     * @param NodeEvent $event
+     */
+    public function updateMediaReferenceForTransverserNode(NodeEvent $event)
+    {
+        $node = $event->getNode();
+
+        $this->removeReferencesToNodeId($node);
+
+        if ($node->getNodeType() === NodeInterface::TYPE_TRANSVERSE) {
+            $references = $this->extractReferenceManager->extractReference($node);
+            $this->updateReferences($references);
+        }
+    }
+
+    /**
+     * Update Media References
+     *
+     * @param array  $references
+     * @param string $mode
+     */
+    protected function updateReferences(array $references, $mode = 'addUsageReference')
+    {
         foreach ($references as $mediaId => $mediaUsage) {
             /** @var MediaInterface $media */
             $media = $this->mediaRepository->find($mediaId);
             foreach ($mediaUsage as $usage) {
-                $media->$methodToCall($usage);
+                $media->$mode($usage);
+                $this->objectManager->persist($media);
+            }
+        }
+
+        $this->objectManager->flush();
+    }
+
+    /**
+     * Remove references from medias to $nodeId
+     *
+     * @param StatusableInterface $nodeId
+     */
+    protected function removeReferencesToNodeId(StatusableInterface $node)
+    {
+        $nodePattern = $this->extractReferenceManager->getReferencePattern($node);
+        $mediasReferencingNode = $this->mediaRepository->findByUsagePattern($nodePattern);
+
+        foreach ($mediasReferencingNode as $media) {
+            $references = $media->getUsageReference();
+            foreach ($references as $reference) {
+                if (strpos($reference, $nodePattern) === 0) {
+                    $media->removeUsageReference($reference);
+                    $this->objectManager->persist($media);
+                }
             }
         }
     }
@@ -58,6 +117,8 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     {
         return array(
             StatusEvents::STATUS_CHANGE => 'updateMediaReference',
+            NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferenceForTransverserNode',
+            NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferenceForTransverserNode',
         );
     }
 }

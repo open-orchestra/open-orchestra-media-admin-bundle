@@ -41,6 +41,18 @@ class ExtractReferenceFromContentStrategy extends AbstractExtractReferenceStrate
     }
 
     /**
+     * Get Reference pattern for $statusableElementId
+     *
+     * @param string $statusableElementId
+     *
+     * return string
+     */
+    public function getReferencePattern($statusableElementId)
+    {
+        return self::REFERENCE_PREFIX . $statusableElementId;
+    }
+
+    /**
      * Format a reference
      *
      * @param string $index
@@ -50,7 +62,7 @@ class ExtractReferenceFromContentStrategy extends AbstractExtractReferenceStrate
      */
     protected function formatReference($index, $statusableElementId)
     {
-        return self::REFERENCE_PREFIX . $statusableElementId;
+        return $this->getReferencePattern($statusableElementId);
     }
 
     /**

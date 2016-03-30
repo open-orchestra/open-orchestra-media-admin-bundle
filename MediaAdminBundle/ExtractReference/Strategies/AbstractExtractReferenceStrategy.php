@@ -30,6 +30,15 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
     abstract public function getName();
 
     /**
+     * Get Reference pattern for $statusableElement
+     *
+     * @param string $statusableElementId
+     *
+     * return string
+     */
+    abstract public function getReferencePattern($statusableElementId);
+
+    /**
      * Format a reference
      *
      * @param string $index
@@ -72,6 +81,9 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
      */
     protected function isMediaAttribute($attributeValue)
     {
-        return is_array($attributeValue) && isset($attributeValue['id']) && isset($attributeValue['format']);
+        return is_array($attributeValue)
+            && isset($attributeValue['id'])
+            && isset($attributeValue['format'])
+            && $attributeValue['id'] != '';
     }
 }
