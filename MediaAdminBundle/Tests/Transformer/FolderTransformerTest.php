@@ -53,13 +53,13 @@ class FolderTransformerTest extends AbstractBaseTestCase
      *
      * @dataProvider provideTransformData
      */
-    public function testTransform($folderId, $name, $parent, $site, $expectedParentId)
+    public function testTransform($folderId, $name, $parent, $siteId, $expectedParentId)
     {
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($folder)->getId()->thenReturn($folderId);
         Phake::when($folder)->getName()->thenReturn($name);
         Phake::when($folder)->getParent()->thenReturn($parent);
-        Phake::when($folder)->getSiteId()->thenReturn($site);
+        Phake::when($folder)->getSiteId()->thenReturn($siteId);
 
         $facade = $this->transformer->transform($folder);
 
@@ -67,7 +67,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $this->assertSame($folderId, $facade->folderId);
         $this->assertSame($name, $facade->name);
         $this->assertSame($expectedParentId, $facade->parentId);
-        $this->assertSame($site, $facade->getSiteId());
+        $this->assertSame($siteId, $facade->getSiteId());
     }
 
     /**
@@ -77,11 +77,11 @@ class FolderTransformerTest extends AbstractBaseTestCase
     {
         $parentFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($parentFolder)->getId()->thenReturn('FakeParentId');
-        $site = 'FakeSiteId1';
+        $siteId = 'FakeSiteId1';
 
         return array(
-            array('foo', 'bar', $parentFolder, $site, 'FakeParentId'),
-            array('foo', 'bar', null, $site, '-'),
+            array('foo', 'bar', $parentFolder, $siteId, 'FakeParentId'),
+            array('foo', 'bar', null, $siteId, '-'),
         );
     }
 }
