@@ -16,6 +16,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
      */
     protected $transformer;
     protected $site;
+
     /**
      * Set up the test
      */
