@@ -48,7 +48,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
      * @param string          $folderId
      * @param string          $name
      * @param FolderInterface $parent
-     * @param string           $site
+     * @param string          $siteId
      * @param string          $expectedParentId
      *
      * @dataProvider provideTransformData
@@ -67,7 +67,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $this->assertSame($folderId, $facade->folderId);
         $this->assertSame($name, $facade->name);
         $this->assertSame($expectedParentId, $facade->parentId);
-        $this->assertSame($siteId, $facade->getSiteId());
+        $this->assertSame($siteId, $facade->siteId);
     }
 
     /**
