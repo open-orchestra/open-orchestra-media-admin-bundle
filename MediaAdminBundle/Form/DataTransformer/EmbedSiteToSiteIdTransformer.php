@@ -1,8 +1,11 @@
 <?php
+
 namespace OpenOrchestra\MediaAdminBundle\Form\DataTransformer;
+
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+
 /**
  * Class EmbedSiteToSiteIdTransformer
  */
