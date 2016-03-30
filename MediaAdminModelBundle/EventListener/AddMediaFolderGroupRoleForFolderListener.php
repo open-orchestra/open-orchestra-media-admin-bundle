@@ -1,5 +1,7 @@
 <?php
+
 namespace OpenOrchestra\MediaAdminModelBundle\EventListener;
+
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use OpenOrchestra\Backoffice\Model\GroupInterface;
 use OpenOrchestra\Media\Model\FolderInterface;

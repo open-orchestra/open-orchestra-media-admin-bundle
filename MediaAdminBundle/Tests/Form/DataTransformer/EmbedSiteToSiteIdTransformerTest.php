@@ -15,6 +15,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
      * @var EmbedSiteToSiteIdTransformer
      */
     protected $transformer;
+    
     protected $site;
 
     /**
@@ -25,6 +26,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
         $this->site = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         $this->transformer = new EmbedSiteToSiteIdTransformer();
     }
+
     /**
      * Test instance
      */
@@ -32,6 +34,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
     {
         $this->assertInstanceOf('Symfony\Component\Form\DataTransformerInterface', $this->transformer);
     }
+
     /**
      * @param array $input
      * @param array $output
@@ -42,6 +45,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
     {
         $this->assertSame($output, $this->transformer->transform($input));
     }
+
     /**
      * @return array
      */
@@ -53,6 +57,7 @@ class EmbedSiteToSiteIdTransformerTest extends AbstractBaseTestCase
             array(array(array('siteId' => 'foo'), array('siteId' => 'bar')), array('foo', 'bar')),
         );
     }
+
     /**
      * @param array $output
      * @param array $input
