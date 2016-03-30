@@ -61,7 +61,7 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     {
         $node = $event->getNode();
 
-        $this->removeReferencesToNodeId($node);
+        $this->removeReferencesToNode($node);
 
         if ($node->getNodeType() === NodeInterface::TYPE_TRANSVERSE) {
             $references = $this->extractReferenceManager->extractReference($node);
@@ -94,9 +94,10 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
      *
      * @param StatusableInterface $nodeId
      */
-    protected function removeReferencesToNodeId(StatusableInterface $node)
+    protected function removeReferencesToNode(StatusableInterface $node)
     {
         $nodePattern = $this->extractReferenceManager->getReferencePattern($node);
+
         $mediasReferencingNode = $this->mediaRepository->findByUsagePattern($nodePattern);
 
         foreach ($mediasReferencingNode as $media) {

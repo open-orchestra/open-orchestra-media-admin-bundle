@@ -81,21 +81,21 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
         Phake::when($block1)->getAttributes()->thenReturn(array(
             'id' => 'id',
             'class' => 'class',
-            'media' => MediaInterface::MEDIA_PREFIX . 'foo',
+            'media' => array('id' => 'foo', 'format' => ''),
         ));
         Phake::when($block2)->getAttributes()->thenReturn(array(
             'id' => 'id2',
             'class' => 'class2',
-            'media1' => MediaInterface::MEDIA_PREFIX . 'foo',
-            'media2' => MediaInterface::MEDIA_PREFIX . 'bar',
+            'media1' => array('id' => 'foo', 'format' => ''),
+            'media2' => array('id' => 'bar', 'format' => ''),
         ));
         Phake::when($block3)->getAttributes()->thenReturn(array(
             'id' => 'id3',
             'class' => 'class3',
-            'mediaSingle' => MediaInterface::MEDIA_PREFIX . 'bar',
+            'mediaSingle' => array('id' => 'bar', 'format' => ''),
             'mediaCollection' => array(
-                MediaInterface::MEDIA_PREFIX . 'foo_col',
-                MediaInterface::MEDIA_PREFIX . 'bar_col'
+                array('id' => 'foo_col', 'format' => ''),
+                array('id' => 'bar_col', 'format' => '')
             )
         ));
 
