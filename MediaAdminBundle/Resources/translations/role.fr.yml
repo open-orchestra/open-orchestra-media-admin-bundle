@@ -2,9 +2,9 @@ open_orchestra_role:
     label_access_media_folder: Dossier de la médiathèque
     role_access_media_folder: Accéder
     role_access_create_media_folder: Créer
-    role_access_update_media_folder: Modifier
+    role_access_update_media_folder: Editer
     role_access_delete_media_folder: Supprimer
     label_access_create_media: Média
     role_access_create_media: Créer
-    role_access_update_media: Modifier
+    role_access_update_media: Editer
     role_access_delete_media: Supprimer
