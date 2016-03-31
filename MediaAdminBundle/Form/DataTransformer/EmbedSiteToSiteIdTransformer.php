@@ -28,6 +28,7 @@ class EmbedSiteToSiteIdTransformer implements DataTransformerInterface
         }
         return $sites;
     }
+
     /**
      * @param SiteInterface $value
      *
