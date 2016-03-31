@@ -22,6 +22,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
     const ATTRIBUTE_ID_SUFFIX = "Id";
     const METHOD_SUFFIX = "BlockConfiguration";
     const REFERENCE_PREFIX = "node-";
+
     /**
      * @var Node node
      */
@@ -56,6 +57,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
 
         $nodeRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.node');
         $this->node = $nodeRepository->findInLastVersion('root', 'en', '2');
+        static::$kernel->getContainer()->get('object_manager')->detach($this->node);
         $mediaRepository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media');
         $this->medias = array(
             $mediaRepository->findOneByName("Image 03"),
@@ -83,7 +85,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
         $block = $this->generateBlock($blockType, 'ET9reyt');
         $this->node->addBlock($block);
         $attributes = $block->getAttributes();
-        $attributes['pictures'] = array(MediaInterface::MEDIA_PREFIX . $media->getId());
+        $attributes['pictures'] = array(array('id' => $media->getId(), 'format' => ''));
         $attributes['id'] = $blockType["component"] . self::ATTRIBUTE_ID_SUFFIX;
         $method = $blockType["component"] . self::METHOD_SUFFIX;
         $attributes = $this->$method($attributes);
@@ -139,8 +141,9 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
      */
     protected function galleryBlockConfiguration($attributes)
     {
-        $attributes['imageFormat'] = 'original';
-        $attributes['thumbnailFormat'] = 'original';
+        $attributes['imageFormat'] = MediaInterface::MEDIA_ORIGINAL;
+        $attributes['thumbnailFormat'] = MediaInterface::MEDIA_ORIGINAL;
+        $attributes['width'] = '';
 
         return $attributes;
     }
