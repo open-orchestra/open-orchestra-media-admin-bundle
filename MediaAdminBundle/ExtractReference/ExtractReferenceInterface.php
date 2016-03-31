@@ -24,6 +24,15 @@ interface ExtractReferenceInterface
     public function extractReference(StatusableInterface $statusableElement);
 
     /**
+     * Get Reference pattern for $statusableElement
+     *
+     * @param string $statusableElementId
+     *
+     * return string
+     */
+    public function getReferencePattern($statusableElementId);
+
+    /**
      * @return string
      */
     public function getName();

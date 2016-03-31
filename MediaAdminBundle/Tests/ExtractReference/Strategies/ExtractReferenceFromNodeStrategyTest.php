@@ -18,16 +18,12 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      */
     protected $strategy;
 
-    protected $extractor;
-
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->extractor = Phake::mock('OpenOrchestra\Media\Helper\MediaWithFormatExtractorInterface');
-
-        $this->strategy = new ExtractReferenceFromNodeStrategy($this->extractor);
+        $this->strategy = new ExtractReferenceFromNodeStrategy();
     }
 
     /**
@@ -85,32 +81,23 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
         Phake::when($block1)->getAttributes()->thenReturn(array(
             'id' => 'id',
             'class' => 'class',
-            'media' => MediaInterface::MEDIA_PREFIX . 'foo',
+            'media' => array('id' => 'foo', 'format' => ''),
         ));
         Phake::when($block2)->getAttributes()->thenReturn(array(
             'id' => 'id2',
             'class' => 'class2',
-            'media1' => MediaInterface::MEDIA_PREFIX . 'foo',
-            'media2' => MediaInterface::MEDIA_PREFIX . 'bar',
+            'media1' => array('id' => 'foo', 'format' => ''),
+            'media2' => array('id' => 'bar', 'format' => ''),
         ));
         Phake::when($block3)->getAttributes()->thenReturn(array(
             'id' => 'id3',
             'class' => 'class3',
-            'mediaSingle' => MediaInterface::MEDIA_PREFIX . 'bar',
+            'mediaSingle' => array('id' => 'bar', 'format' => ''),
             'mediaCollection' => array(
-                MediaInterface::MEDIA_PREFIX . 'foo_col',
-                MediaInterface::MEDIA_PREFIX . 'bar_col'
+                array('id' => 'foo_col', 'format' => ''),
+                array('id' => 'bar_col', 'format' => '')
             )
         ));
-
-        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'foo')
-            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'foo', 'format'=> MediaInterface::MEDIA_ORIGINAL));
-        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'bar')
-            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'bar', 'format'=> MediaInterface::MEDIA_ORIGINAL));
-        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'foo_col')
-            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'foo_col', 'format'=> MediaInterface::MEDIA_ORIGINAL));
-        Phake::when($this->extractor)->extractInformation(MediaInterface::MEDIA_PREFIX . 'bar_col')
-            ->thenReturn(array('id'=> MediaInterface::MEDIA_PREFIX . 'bar_col', 'format'=> MediaInterface::MEDIA_ORIGINAL));
 
         $expected = array(
             'foo' => array('node-' . $nodeId . '-0', 'node-' . $nodeId . '-1'),

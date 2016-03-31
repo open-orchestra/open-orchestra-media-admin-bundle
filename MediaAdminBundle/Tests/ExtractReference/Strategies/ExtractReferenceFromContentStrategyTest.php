@@ -81,7 +81,7 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
         Phake::when($content)->getId()->thenReturn($contentId);
         Phake::when($content)->getAttributes()->thenReturn($contentAttributes);
 
-        Phake::when($contentAttribute1)->getValue()->thenReturn(MediaInterface::MEDIA_PREFIX . 'foo');
+        Phake::when($contentAttribute1)->getValue()->thenReturn(array('id' => 'foo', 'format' => ''));
         Phake::when($contentAttribute2)->getValue()->thenReturn('class2');
 
         $expected = array(

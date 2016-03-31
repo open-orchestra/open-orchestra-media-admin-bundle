@@ -38,4 +38,25 @@ class ExtractReferenceManager
 
         throw new ExtractReferenceStrategyNotFound();
     }
+
+    /**
+     * Get Reference pattern for $statusableElement
+     *
+     * @param StatusableInterface $statusableElement
+     *
+     * return string
+     *
+     * @throws ExtractReferenceStrategyNotFound
+     */
+    public function getReferencePattern(StatusableInterface $statusableElement)
+    {
+        /** @var ExtractReferenceInterface $strategy */
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->support($statusableElement)) {
+                return $strategy->getReferencePattern($statusableElement->getId());
+            }
+        }
+
+        throw new ExtractReferenceStrategyNotFound();
+    }
 }
