@@ -34,23 +34,7 @@ class FolderFacade extends AbstractFacade
     public $parentId;
 
     /**
-     * @Serializer\Type("array")
+     * @Serializer\Type("string")
      */
-    protected $sites = array();
-
-    /**
-     * @param string $siteId
-     */
-    public function addSite($siteId)
-    {
-        $this->sites[] = $siteId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSites()
-    {
-        return $this->sites;
-    }
+    public $siteId;
 }

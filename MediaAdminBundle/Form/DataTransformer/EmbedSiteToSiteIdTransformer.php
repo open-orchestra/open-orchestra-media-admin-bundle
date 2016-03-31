@@ -21,13 +21,11 @@ class EmbedSiteToSiteIdTransformer implements DataTransformerInterface
     public function transform($value)
     {
         $sites = array();
-
         if (!empty($value)) {
             foreach ($value as $associatedSite) {
                 $sites[] = $associatedSite['siteId'];
             }
         }
-
         return $sites;
     }
 
@@ -41,11 +39,9 @@ class EmbedSiteToSiteIdTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         $sites = array();
-
         foreach ($value as $siteId) {
             $sites[] = array('siteId' => (string)$siteId);
         }
-
         return $sites;
     }
 }

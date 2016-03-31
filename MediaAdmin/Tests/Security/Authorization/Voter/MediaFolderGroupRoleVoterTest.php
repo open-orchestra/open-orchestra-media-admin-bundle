@@ -114,7 +114,7 @@ class MediaFolderGroupRoleVoterTest extends AbstractBaseTestCase
         $role = TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER;
         $folder = Phake::mock('OpenOrchestra\MediaModelBundle\Document\Folder');
         Phake::when($folder)->getId()->thenReturn($folderId);
-        Phake::when($folder)->hasSite($siteId)->thenReturn(true);
+        Phake::when($folder)->getSiteId()->thenReturn($siteId);
 
         $mediaFolderGroupRole = Phake::mock('OpenOrchestra\Backoffice\Model\ModelGroupRoleInterface');
         Phake::when($mediaFolderGroupRole)->isGranted()->thenReturn($isGranted);

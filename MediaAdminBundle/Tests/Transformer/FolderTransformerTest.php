@@ -48,18 +48,18 @@ class FolderTransformerTest extends AbstractBaseTestCase
      * @param string          $folderId
      * @param string          $name
      * @param FolderInterface $parent
-     * @param array           $sites
+     * @param string          $siteId
      * @param string          $expectedParentId
      *
      * @dataProvider provideTransformData
      */
-    public function testTransform($folderId, $name, $parent, array $sites, $expectedParentId)
+    public function testTransform($folderId, $name, $parent, $siteId, $expectedParentId)
     {
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($folder)->getId()->thenReturn($folderId);
         Phake::when($folder)->getName()->thenReturn($name);
         Phake::when($folder)->getParent()->thenReturn($parent);
-        Phake::when($folder)->getSites()->thenReturn($sites);
+        Phake::when($folder)->getSiteId()->thenReturn($siteId);
 
         $facade = $this->transformer->transform($folder);
 
@@ -67,7 +67,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $this->assertSame($folderId, $facade->folderId);
         $this->assertSame($name, $facade->name);
         $this->assertSame($expectedParentId, $facade->parentId);
-        $this->assertSame($sites, $facade->getSites());
+        $this->assertSame($siteId, $facade->siteId);
     }
 
     /**
@@ -77,11 +77,11 @@ class FolderTransformerTest extends AbstractBaseTestCase
     {
         $parentFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($parentFolder)->getId()->thenReturn('FakeParentId');
-        $sites = array(array('siteId' => 'FakeSiteId1'), array('siteId' => 'FakeSiteId2'));
+        $siteId = 'FakeSiteId1';
 
         return array(
-            array('foo', 'bar', $parentFolder, $sites, 'FakeParentId'),
-            array('foo', 'bar', null, $sites, '-'),
+            array('foo', 'bar', $parentFolder, $siteId, 'FakeParentId'),
+            array('foo', 'bar', null, $siteId, '-'),
         );
     }
 }

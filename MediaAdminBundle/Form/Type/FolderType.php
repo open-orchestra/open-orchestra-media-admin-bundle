@@ -33,12 +33,6 @@ class FolderType extends AbstractType
             ))
             ->add('name', 'text', array(
                 'label' => 'open_orchestra_media_admin.form.folder.name'
-            ))
-            ->add('sites', 'oo_site_for_folder_choice', array(
-                'label' => 'open_orchestra_media_admin.form.folder.site',
-                'multiple' => true,
-                'required' => false,
-                'embed' => true
             ));
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);

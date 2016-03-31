@@ -85,7 +85,7 @@ class MediaFolderGroupRoleVoter implements VoterInterface
             if (!$group->getSite() instanceof ReadSiteInterface) {
                 continue;
             }
-            if (!$object->hasSite($group->getSite()->getSiteId())) {
+            if ($object->getSiteId() != $group->getSite()->getSiteId()) {
                 continue;
             }
             foreach ($attributes as $attribute) {
