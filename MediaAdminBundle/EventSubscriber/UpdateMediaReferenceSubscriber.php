@@ -120,6 +120,7 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
             StatusEvents::STATUS_CHANGE => 'updateMediaReference',
             NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferenceForTransverserNode',
             NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferenceForTransverserNode',
+            NodeEvents::NODE_UPDATE_BLOCK_POSITION => 'updateMediaReferenceForTransverserNode',
         );
     }
 }
