@@ -5,6 +5,7 @@ parameters:
     open_orchestra_media_admin.subscriber.delete_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber
     open_orchestra_media_admin.subscriber.create_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber
     open_orchestra_media_admin.subscriber.media_folder_group_transform.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaFolderGroupTransformSubscriber
+    open_orchestra_media_admin.subscriber.create_root_folder.class: OpenOrchestra\MediaAdmin\EventSubscriber\CreateRootFolderSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.update_media_reference:
@@ -46,5 +47,13 @@ services:
         arguments:
             - @router
             - @open_orchestra_api.transformer.media_folder_group_role
+        tags:
+            - { name: kernel.event_subscriber }
+    open_orchestra_media_admin.subscriber.create_root_folder:
+        class: %open_orchestra_media_admin.subscriber.create_root_folder.class%
+        arguments:
+            - @object_manager
+            - @translator
+            - %open_orchestra_media.document.media_folder.class%
         tags:
             - { name: kernel.event_subscriber }
