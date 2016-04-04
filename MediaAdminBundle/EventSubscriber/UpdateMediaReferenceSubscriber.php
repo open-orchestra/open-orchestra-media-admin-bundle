@@ -78,10 +78,9 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     {
         $deletedElement = $event->getDeletedEntity();
         if ($deletedElement instanceof StatusableInterface) {
-            $methodToCall = 'removeUsageReference';
             $references = $this->extractReferenceManager->extractReference($deletedElement);
 
-            $this->updateReferences($references, $methodToCall);
+            $this->updateReferences($references, 'removeUsageReference');
         }
     }
 
