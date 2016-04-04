@@ -2,13 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle;
 
+use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\FieldToElasticaTypeCompilerPass;
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\FileAlternativesCompilerPass;
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\ExtractReferenceCompilerPass;
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\RoleCompilerPass;
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\TinymceCompilerPass;
+use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\TwigGlobalsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\TwigGlobalsCompilerPass;
 
 /**
  * Class OpenOrchestraMediaAdminBundle
@@ -27,5 +28,6 @@ class OpenOrchestraMediaAdminBundle extends Bundle
         $container->addCompilerPass(new TinymceCompilerPass());
         $container->addCompilerPass(new RoleCompilerPass());
         $container->addCompilerPass(new FileAlternativesCompilerPass());
+        $container->addCompilerPass(new FieldToElasticaTypeCompilerPass());
     }
 }
