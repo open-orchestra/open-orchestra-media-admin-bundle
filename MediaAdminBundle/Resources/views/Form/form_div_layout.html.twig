@@ -29,6 +29,7 @@
                 </button>
             </div>
         {% endif %}
+        {{ form_errors(form.children.id) }}
         <div id="{{ id }}_modal"></div>
     {% endspaceless %}
 {% endblock %}
