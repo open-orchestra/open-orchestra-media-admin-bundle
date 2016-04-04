@@ -12,6 +12,8 @@ open_orchestra_backoffice:
       remove: Retirer
 
 open_orchestra_media_admin:
+    folder:
+        root_name: Dossier principal
     media_filter:
         none: Tous
         default: Type par défaut
