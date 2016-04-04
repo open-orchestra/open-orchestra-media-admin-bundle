@@ -136,7 +136,7 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
             NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferenceForTransverserNode',
             NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferenceForTransverserNode',
             NodeEvents::NODE_UPDATE_BLOCK_POSITION => 'updateMediaReferenceForTransverserNode',
-            TrashcanEvents::TRASHCAN_DELETE_ENTITY => 'removeEntity',
+            TrashcanEvents::TRASHCAN_REMOVE_ENTITY => 'removeEntity',
         );
     }
 }
