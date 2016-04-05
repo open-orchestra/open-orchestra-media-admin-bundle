@@ -3,10 +3,12 @@
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
 use OpenOrchestra\ModelInterface\Event\StatusableEvent;
+use OpenOrchestra\ModelInterface\Event\TrashcanEvent;
 use OpenOrchestra\ModelInterface\StatusEvents;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
+use OpenOrchestra\ModelInterface\TrashcanEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OpenOrchestra\ModelInterface\NodeEvents;
 use OpenOrchestra\ModelInterface\Event\NodeEvent;
@@ -70,6 +72,19 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param TrashcanEvent $event
+     */
+    public function removeEntity(TrashcanEvent $event)
+    {
+        $deletedElement = $event->getDeletedEntity();
+        if ($deletedElement instanceof StatusableInterface) {
+            $references = $this->extractReferenceManager->extractReference($deletedElement);
+
+            $this->updateReferences($references, 'removeUsageReference');
+        }
+    }
+
+    /**
      * Update Media References
      *
      * @param array  $references
@@ -90,9 +105,9 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Remove references from medias to $nodeId
+     * @param StatusableInterface $node
      *
-     * @param StatusableInterface $nodeId
+     * @throws \OpenOrchestra\MediaAdminBundle\Exceptions\ExtractReferenceStrategyNotFound
      */
     protected function removeReferencesToNode(StatusableInterface $node)
     {
@@ -121,6 +136,7 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
             NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferenceForTransverserNode',
             NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferenceForTransverserNode',
             NodeEvents::NODE_UPDATE_BLOCK_POSITION => 'updateMediaReferenceForTransverserNode',
+            TrashcanEvents::TRASHCAN_REMOVE_ENTITY => 'removeEntity',
         );
     }
 }
