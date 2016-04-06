@@ -27,7 +27,7 @@ MediaUploadView = OrchestraView.extend(
     @options.domContainer.html @$el
     $('.js-widget-title', @options.domContainer).html @options.title
     @renderSubmitFile()
-    window.ribbonFormButtonView.setFocusedView @, '.modal-form-button'
+    OpenOrchestra.RibbonButton.RibbonFormButtonView.ribbonButton.setFocusedView @, '.modal-form-button'
     return
 
   dragEnter: ->
