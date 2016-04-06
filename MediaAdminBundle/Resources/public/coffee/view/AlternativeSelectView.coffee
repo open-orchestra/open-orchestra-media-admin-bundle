@@ -33,7 +33,7 @@ AlternativeSelectView = OrchestraView.extend(
     path = @getPath()
     path.push @options.mediaName
     $('.js-widget-title', @options.domContainer).html path.join(' > ')
-    OpenOrchestra.RibbonButton.RibbonFormButtonView.ribbonButton.resetAll('.modal-form-button')
+    OpenOrchestra.RibbonButton.ribbonFormButtonView.resetAll('.modal-form-button')
 
   changeCropFormat: (event) ->
     format = $(event.currentTarget).val()
