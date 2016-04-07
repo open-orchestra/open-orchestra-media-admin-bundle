@@ -38,11 +38,12 @@ GalleryCollectionView = OrchestraView.extend(
       $('.js-widget-title', @options.domContainer).text @options.title
       @addConfigurationButton()
       @addDeleteButton()
+      OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.ribbon-form-button'
     else
       $('.js-widget-title', @options.domContainer).text @getPath().join(' > ')
+      OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.modal-form-button'
     @addFilterWidget()
     @renderCollection()
-    OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.modal-form-button'
 
   renderCollection: ->
     for mediaKey of @options.medias.get(@options.medias.get('collection_name'))
