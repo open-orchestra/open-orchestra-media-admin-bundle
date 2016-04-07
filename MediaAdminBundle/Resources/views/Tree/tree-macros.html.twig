@@ -1,10 +1,10 @@
 {% macro buildMenuFolder(folders, skin, first) %}
     {% import 'OpenOrchestraMediaAdminBundle:Tree:menu_macros_' ~ skin ~ '.html.twig' as menu_macros %}
     {% for folder in folders %}
-        <li>
-            {% if is_granted('ROLE_ACCESS_MEDIA_FOLDER', folder) %}
+
+        {% if is_granted('ROLE_ACCESS_MEDIA_FOLDER', folder) %}
+            <li>
                 {{ menu_macros.node_folder(folder) }}
-            {% endif %}
             {% if folder.subFolders is not empty or is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER', folder) %}
                 <ul>
                     {% if folder.subFolders is not empty %}
@@ -15,7 +15,9 @@
                     {% endif %}
                 </ul>
             {% endif %}
-        </li>
+            </li>
+        {% endif %}
+
     {% endfor %}
     {% if first == 'first' and is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER') %}
         {{ menu_macros.new_folder('-') }}

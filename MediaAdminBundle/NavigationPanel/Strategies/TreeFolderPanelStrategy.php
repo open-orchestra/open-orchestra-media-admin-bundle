@@ -2,14 +2,14 @@
 
 namespace OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies;
 
-use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AbstractNavigationPanelStrategy;
+use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AbstractNavigationStrategy;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
  * Class TreeFolderPanel
  */
-class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
+class TreeFolderPanelStrategy extends AbstractNavigationStrategy
 {
     const ROLE_ACCESS_MEDIA_FOLDER = 'ROLE_ACCESS_MEDIA_FOLDER';
     const ROLE_ACCESS_CREATE_MEDIA_FOLDER = 'ROLE_ACCESS_CREATE_MEDIA_FOLDER';
@@ -41,7 +41,7 @@ class TreeFolderPanelStrategy extends AbstractNavigationPanelStrategy
         $parent,
         $weight
     ){
-        parent::__construct('folders', self::ROLE_ACCESS_MEDIA_FOLDER, $weight, $parent);
+        parent::__construct('folders', $weight, $parent, self::ROLE_ACCESS_MEDIA_FOLDER);
         $this->folderRepository = $folderRepository;
         $this->currentSiteManager = $currentSiteManager;
     }
