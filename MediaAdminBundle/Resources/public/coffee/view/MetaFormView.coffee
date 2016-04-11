@@ -37,4 +37,6 @@ MetaFormView = OrchestraView.extend(
         currentView.$el.append currentView.renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
           listUrl: currentView.options.listUrl
         )
+        $('.submit_form.btn-in-ribbon',currentView.$el).removeClass('btn-in-ribbon')
+        OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.ribbon-form-button'
 )

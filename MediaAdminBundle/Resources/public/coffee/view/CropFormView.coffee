@@ -24,6 +24,10 @@ CropFormView = OrchestraView.extend(
     @addPreview()
     @initCrop()
     displayLoader('#alternative-loader', @$el)
+    if !@options.isModal
+      OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.ribbon-form-button'
+    else
+      OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.modal-form-button'
 
   initCrop: ->
     currentView = @
