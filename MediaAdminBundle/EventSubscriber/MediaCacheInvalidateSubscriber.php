@@ -7,7 +7,6 @@ use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\DisplayBundle\Manager\CacheableManager;
 use OpenOrchestra\BaseBundle\Manager\TagManager;
-use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaCacheInvalidateSubscriber
@@ -35,7 +34,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
     protected function invalidate($mediaId)
     {
         $this->cacheableManager->invalidateTags(array(
-            $this->tagManager->formatMediaIdTag(ltrim($mediaId, MediaInterface::MEDIA_PREFIX))
+            $this->tagManager->formatMediaIdTag($mediaId)
         ));
     }
 

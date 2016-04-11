@@ -4,7 +4,6 @@ namespace OpenOrchestra\MediaAdminBundle\Tests\Form\DataTransformer;
 
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
-use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaChoiceTransformerTest
@@ -50,7 +49,6 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     {
         return array(
             'empty' => array('', array('id' => '', 'format' => '')),
-            'prefix' => array(array('id' => MediaInterface::MEDIA_PREFIX  . 'id'), array('id' => 'id')),
             'id' => array(array('id' => 'id'), array('id' => 'id')),
         );
     }
@@ -73,8 +71,7 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     {
         return array(
             'empty' => array('', array('id' => '', 'format' => '')),
-            'id' => array(array('id' => 'id'), array('id' => MediaInterface::MEDIA_PREFIX  . 'id')),
-            'prefix' => array(array('id' => MediaInterface::MEDIA_PREFIX  . 'id'), array('id' => MediaInterface::MEDIA_PREFIX  . 'id')),
+            'id' => array(array('id' => 'id'), array('id' => 'id')),
         );
     }
 }
