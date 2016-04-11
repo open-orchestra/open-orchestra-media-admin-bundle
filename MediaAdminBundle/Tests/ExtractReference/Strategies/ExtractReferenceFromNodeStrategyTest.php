@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies\ExtractReferenceFromNodeStrategy;
-use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class ExtractReferenceFromNodeStrategyTest
