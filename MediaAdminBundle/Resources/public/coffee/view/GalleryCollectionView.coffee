@@ -41,7 +41,7 @@ GalleryCollectionView = OrchestraView.extend(
       OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.ribbon-form-button'
     else
       $('.js-widget-title', @options.domContainer).text @getPath().join(' > ')
-      OpenOrchestra.RibbonButton.ribbonFormButtonView.setFocusedView @, '.modal-form-button'
+      OpenOrchestra.RibbonButton.ribbonFormButtonModalView.setFocusedView @, '.modal-form-button'
     @addFilterWidget()
     @renderCollection()
 
