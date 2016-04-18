@@ -1,3 +1,58 @@
-.has-error img.previewImage {
+.has-error .oo-media-choice-preview-image img {
     border: 1px solid #b94a48;
 }
+
+// oo_media_choice_widget
+.oo-media-choice-preview-image {
+  position: relative;
+  display:inline-block;
+  margin-right: 10px;
+
+  img {
+    background-color: slategrey;
+  }
+
+  img:not([src]) {
+    background:url('../img/no_image_available.jpg');
+    background-size:100px 100px;
+    width:100px;
+    height:100px;
+
+    & + .media-form-no-img-selected {
+      display: inline-block;
+    }
+  }
+
+  .media-form-no-img-selected {
+    display: none;
+    bottom: 5px;
+    left: 0;
+    position: absolute;
+    color: grey;
+    font-weight: 600;
+    text-align: center;
+  }
+}
+/*
+
+.media-form-no-img-selected {
+  background:url('../img/no_image_available.jpg');
+  background-size:100px 100px;
+  width:100px;
+  height:100px;
+  display:inline-block;
+  vertical-align: middle;
+  position: relative;
+  text-align: center;
+  margin-right: 10px;
+  border: 1px solid lightgrey;
+
+  span {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    color: grey;
+    font-weight: 600;
+  }
+}
+*/

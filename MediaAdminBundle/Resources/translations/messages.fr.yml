@@ -43,6 +43,7 @@ open_orchestra_media_admin:
             fixed_width: Largeur fixe (100p)
             fixed_height: Hauteur fixe (100p)
             media_thumbnail: Médiathéque
+            no_image_selected: Aucune image sélectionnée
             list:
                 keyword: Mot-clé
             meta:
