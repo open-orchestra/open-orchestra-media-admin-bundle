@@ -4,7 +4,7 @@ AlternativeSelectView = OrchestraView.extend(
 
   events:
     'click #sendToTiny': 'sendMedia'
-    'change #oo_media_crop_format': 'changeCropFormat'
+    'change #oo_select_format_format': 'changeCropFormat'
 
   initialize: (options) ->
     @options = @reduceOption(options, [
@@ -44,8 +44,8 @@ AlternativeSelectView = OrchestraView.extend(
     event.preventDefault()
     modalContainer = @$el.closest('.mediaModalContainer')
     intputName = modalContainer.data('input')
-    $('#' + intputName + '_id').val $('#oo_media_crop_id', @el).val()
-    $('#' + intputName + '_format').val $('#oo_media_crop_format', @$el).val()
+    $('#' + intputName + '_id').val $('#oo_select_format_id', @el).val()
+    $('#' + intputName + '_format').val $('#oo_select_format_format', @$el).val()
     $('#previewImage_' + intputName).attr 'src', $('#preview_thumbnail', @$el).attr('src')
     modalContainer.find('.mediaModalClose').click()
 )

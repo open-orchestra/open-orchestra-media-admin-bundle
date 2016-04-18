@@ -2,13 +2,13 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\MediaAdminBundle\Form\Type\MediaSelectFormatType;
 use Phake;
-use OpenOrchestra\MediaAdminBundle\Form\Type\MediaCropType;
 
 /**
- * Class MediaCropTypeTest
+ * Class MediaSelectFormatTypeTest
  */
-class MediaCropTypeTest extends AbstractMediaFormatTest
+class MediaSelectFormatTypeTest extends AbstractMediaFormatTest
 {
     /**
      * Set up the test
@@ -16,16 +16,7 @@ class MediaCropTypeTest extends AbstractMediaFormatTest
     public function setUp()
     {
         parent::setUp();
-        $this->form = new MediaCropType($this->thumbnailConfig);
-    }
-
-    /**
-     * Test instance
-     */
-    public function testInstance()
-    {
-        parent::testInstance();
-        $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Form\Type\MediaSelectFormatType', $this->form);
+        $this->form = new MediaSelectFormatType($this->thumbnailConfig);
     }
 
     /**
@@ -33,7 +24,7 @@ class MediaCropTypeTest extends AbstractMediaFormatTest
      */
     public function testName()
     {
-        $this->assertSame('oo_media_crop', $this->form->getName());
+        $this->assertSame('oo_select_format', $this->form->getName());
     }
 
     /**
@@ -44,10 +35,6 @@ class MediaCropTypeTest extends AbstractMediaFormatTest
         $this->form->buildForm($this->builder, array());
 
         Phake::verify($this->builder)->add('id', 'hidden');
-        Phake::verify($this->builder)->add('x', 'hidden');
-        Phake::verify($this->builder)->add('y', 'hidden');
-        Phake::verify($this->builder)->add('h', 'hidden');
-        Phake::verify($this->builder)->add('w', 'hidden');
         Phake::verify($this->builder)->add('format', 'choice', array(
             'choices' => array(
                 'rectangle' => 'open_orchestra_media_admin.form.media.rectangle',

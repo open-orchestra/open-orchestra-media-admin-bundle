@@ -81,7 +81,7 @@ GalleryView = OrchestraView.extend(
     extendView = []
     extendView = ['alternativeSelectWysiwygView'] if @wysiwygContext
     $.ajax
-      url: @options.media.get('links')._self_crop
+      url: @options.media.get('links')._self_select_format
       method: "GET"
       success: (response) ->
         viewClass = appConfigurationView.getConfiguration('media', 'showWysiwygSelect')

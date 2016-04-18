@@ -72,13 +72,19 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 
         $facade->addLink('_self_select', $mixed->getId());
 
-        $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
+        $facade->addLink('_self_select_format', $this->generateRoute('open_orchestra_media_admin_media_select_format', array(
             'mediaId' => $mixed->getId()
         )));
 
-        $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
-            'mediaId' => $mixed->getId()
-        )));
+        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder)) {
+            $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
+                'mediaId' => $mixed->getId()
+            )));
+
+            $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
+                'mediaId' => $mixed->getId()
+            )));
+        }
 
         if ($facade->isDeletable) {
             $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_media_delete', array(
