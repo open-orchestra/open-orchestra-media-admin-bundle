@@ -2,18 +2,24 @@
 
 {% block oo_media_choice_widget %}
     {% spaceless %}
-        {{ block('form_widget') }}&nbsp;
+        {{ block('form_widget') }}
         {% set src = '' %}
-        {% if value is not null and value != "" %}
+        {% if
+            value is not null and
+            value.id is defined and
+            value.format is defined and
+            value.id is not empty
+        %}
             {% set src = get_media_url(value.id, value.format) %}
         {% endif %}
-        <img
-            height="100px"
-            {% if src != '' %}src="{{ src }}"{% endif %}
-            id="previewImage_{{ id }}"
-            class="previewImage"
-        />
-        &nbsp;
+        <div class="oo-media-choice-preview-image">
+            <img
+                    height="100px"
+                    {% if src != '' %}src="{{ src }}"{% endif %}
+                    id="previewImage_{{ id }}"
+            />
+            <span class="media-form-no-img-selected">{{ 'open_orchestra_media_admin.form.media.no_image_selected'|trans }}</span>
+        </div>
         {% if not disabled %}
             <div class="media-form-type">
                 <a class="btn btn-default mediaModalOpen"
