@@ -12,9 +12,9 @@ extendView['alternativeSelectWysiwygView'] =
       false,
       do ->
         currentView.renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
-          media_id: $('#oo_media_crop_id', @el).val()
+          media_id: $('#oo_select_format_id', @el).val()
           media_src: $('#preview_thumbnail', @$el).attr('src')
-          media_format: $('#oo_media_crop_format', @$el).val()
+          media_format: $('oo_select_format_format', @$el).val()
         );
     )
     modalContainer.find('.mediaModalClose').click()

@@ -67,6 +67,30 @@ class MediaController extends AbstractAdminController
     }
 
     /**
+     * @param string $mediaId
+     *
+     * @Config\Route("/media/{mediaId}/select-format", name="open_orchestra_media_admin_media_select_format")
+     * @Config\Method({"GET"})
+     *
+     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
+     *
+     * @return Response
+     */
+    public function selectFormatAction($mediaId)
+    {
+        $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
+        $mediaFolder = $media->getMediaFolder();
+
+        $form = $this->createForm(
+            'oo_select_format', array('id' => $mediaId),
+            array(),
+            TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $mediaFolder
+        );
+
+        return $this->renderAdminForm($form);
+    }
+
+    /**
      * @param Request $request
      * @param string  $format
      * @param string  $mediaId
