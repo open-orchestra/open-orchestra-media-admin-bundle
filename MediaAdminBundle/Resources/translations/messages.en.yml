@@ -43,7 +43,7 @@ open_orchestra_media_admin:
             fixed_width: Fixed width (100p)
             fixed_height: Fixed height (100p)
             media_thumbnail: Media Preview
-            no_image_selected: No image selected
+            no_media_selected: No media selected
             list:
                 keyword: Mot-clé
             meta:
