@@ -17,10 +17,13 @@
     "php-ffmpeg/php-ffmpeg": "~0.6",
     "koala-framework/composer-extra-assets": "2.0.x",
 
+    "open-orchestra/open-orchestra-base-api-bundle": "@dev",
+    "open-orchestra/open-orchestra-base-bundle": "@dev",
     "open-orchestra/open-orchestra-bbcode-bundle": "@dev",
     "open-orchestra/open-orchestra-libs": "@dev",
     "open-orchestra/open-orchestra-mongo-libs": "@dev",
     "open-orchestra/open-orchestra-user-bundle": "@dev",
+    "open-orchestra/open-orchestra-display-bundle": "@dev",
     "friendsofsymfony/user-bundle": "@dev",
     "innocead/captcha-bundle": "@dev",
     "solution/mongo-odm-aggregation-bundle": "@dev",
@@ -32,7 +35,9 @@
     "phpunit/phpunit" : "4.7.2",
     "psr/log": "1.0.0",
     "codeclimate/php-test-reporter": "dev-master",
-    "phake/phake": "2.1.0"
+    "phake/phake": "2.1.0",
+
+    "open-orchestra/open-orchestra-model-interface": "@dev"
   },
   "config" : {
     "bin-dir" : "bin"
