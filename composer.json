@@ -17,7 +17,9 @@
     "php-ffmpeg/php-ffmpeg": "~0.6",
     "koala-framework/composer-extra-assets": "2.0.x",
 
-    "open-orchestra/open-orchestra-bbcode-bundle": "@dev"
+    "open-orchestra/open-orchestra-bbcode-bundle": "@dev",
+    "open-orchestra/open-orchestra-user-bundle": "@dev",
+    "friendsofsymfony/user-bundle": "@dev"
   },
   "require-dev": {
     "open-orchestra/open-orchestra-model-bundle": "1.1.*@dev",
