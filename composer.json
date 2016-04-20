@@ -15,7 +15,7 @@
     "flowjs/flow-php-server": "*",
     "ext-imagick": "*",
     "php-ffmpeg/php-ffmpeg": "~0.6",
-    "koala-framework/composer-extra-assets": "2.0.x"',
+    "koala-framework/composer-extra-assets": "2.0.x",
 
     "open-orchestra/open-orchestra-bbcode-bundle": "@dev"
   },
