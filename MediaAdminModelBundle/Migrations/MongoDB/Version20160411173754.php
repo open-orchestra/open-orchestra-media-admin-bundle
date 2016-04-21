@@ -34,6 +34,11 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
     private $container;
     protected $configuration;
 
+    /**
+     * Set the container
+     *
+     * @param ContainerInterface $container
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -79,8 +84,19 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
     protected function loadConfiguration()
     {
         $yamlParser = new YamlParser();
-        $migrationDir = $this->container->getParameter('mongo_db_migrations.dir_name');
-        $this->configuration = $yamlParser->parse(file_get_contents($migrationDir . '/config/media.yml'));
+
+        $configurationFilePath =
+            $this->container->getParameter('kernel.root_dir') . '/config/media_migration.yml';
+
+        if (is_file($configurationFilePath)) {
+            $this->configuration =
+                $yamlParser->parse(file_get_contents($configurationFilePath));
+        } else {
+            $migrationDir = $this->container->getParameter('mongo_db_migrations.dir_name');
+            $this->configuration = $yamlParser->parse(file_get_contents($migrationDir . '/config/media.yml'));
+        }
+var_dump($this->configuration);exit;
+
     }
 
     /**
@@ -326,7 +342,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getUpdateContentsRequest($contentType, $attributes)
+    protected function getUpdateContentsRequest(array $contentType, array $attributes)
     {
         $filters = '
             {
@@ -371,7 +387,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getUpdateTinyMceInContentRequest($contentType, $attributes)
+    protected function getUpdateTinyMceInContentRequest(array $contentType, array $attributes)
     {
         $filters = '
             {
@@ -414,7 +430,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getUpdateNodesRequest($blockType, $attributes)
+    protected function getUpdateNodesRequest(array $blockType, array $attributes)
     {
         $filters = '
             {
@@ -454,11 +470,11 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
                                     }
                                 }
                             }
-                        }';
+                        }
+                        blocks[i]["attributes"]["' . $attributeName . '"] = mediaAttribute;';
         }
 
         $query .= '
-                        blocks[i]["attributes"]["' . $attributeName . '"] = mediaAttribute;
                     }
                 }
                 item.blocks = blocks;
@@ -476,7 +492,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getUpdateTinyMceInNodeRequest($blockType, $attributes)
+    protected function getUpdateTinyMceInNodeRequest(array $blockType, array $attributes)
     {
         $filters = '
             {
@@ -528,7 +544,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getRevertTinyMceInNodeRequest($blockType, $attributes)
+    protected function getRevertTinyMceInNodeRequest(array $blockType, array $attributes)
     {
         $filters = '
             {
@@ -580,7 +596,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getRevertNodesRequest($blockType, $attributes)
+    protected function getRevertNodesRequest(array $blockType, array $attributes)
     {
         $filters = '
             {
@@ -609,11 +625,11 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
                                     }
                                 }
                             }
-                        }';
+                        }
+                        blocks[i]["attributes"]["' . $attributeName . '"] = mediaAttribute;';
         }
 
         $query .= '
-                        blocks[i]["attributes"]["' . $attributeName . '"] = mediaAttribute;
                     }
                 }
                 item.blocks = blocks;
@@ -631,7 +647,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getRevertTinyMceInContentRequest($contentType, $attributes)
+    protected function getRevertTinyMceInContentRequest(array $contentType, array $attributes)
     {
         $filters = '
             {
@@ -674,7 +690,7 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
      *
      * @return string
      */
-    protected function getRevertContentsRequest($contentType, $attributes)
+    protected function getRevertContentsRequest(array $contentType, array $attributes)
     {
         $filters = '
             {
