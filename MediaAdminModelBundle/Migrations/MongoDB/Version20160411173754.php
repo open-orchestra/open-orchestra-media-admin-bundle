@@ -95,8 +95,6 @@ class Version20160411173754 extends AbstractMigration implements ContainerAwareI
             $migrationDir = $this->container->getParameter('mongo_db_migrations.dir_name');
             $this->configuration = $yamlParser->parse(file_get_contents($migrationDir . '/config/media.yml'));
         }
-var_dump($this->configuration);exit;
-
     }
 
     /**
