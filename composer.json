@@ -1,6 +1,6 @@
 {
   "name": "open-orchestra/open-orchestra-media-admin-bundle",
-  "description": "This bundle provide the backoffice part for the media of OpenOrchestra",
+  "description": "This bundle integrate the media administration in the Back Office of Open Orchestra",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -27,8 +27,6 @@
     "open-orchestra/open-orchestra-display-bundle": "@dev",
     "friendsofsymfony/user-bundle": "@dev",
     "innocead/captcha-bundle": "@dev",
-    "solution/mongo-odm-aggregation-bundle": "@dev",
-    "solution/pipeline-builder": "@dev",
     "friendsofsymfony/user-bundle": "@dev"
   },
   "require-dev": {
