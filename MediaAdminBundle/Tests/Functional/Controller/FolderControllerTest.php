@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\Functional\Controller;
 
 use OpenOrchestra\BackofficeBundle\Tests\Functional\Controller\AbstractControllerTest;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class FolderControllerTest
@@ -16,15 +17,15 @@ class FolderControllerTest extends AbstractControllerTest
      */
     public function setUp()
     {
+        $this->client = static::createClient();
     }
 
     /**
      * @param string $username
      * @param string $password
      */
-    public function connect($username, $password)
+    protected function connect($username, $password)
     {
-        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/login');
 
         $form = $crawler->selectButton('Log in')->form();
@@ -49,21 +50,20 @@ class FolderControllerTest extends AbstractControllerTest
         $this->client->submit($form);
         $this->assertForm($this->client->getResponse());
     }
-    
+
+    /**
+     * Test folder form with only create role
+     */
     public function testMediaFolderFormUserWithCreateRole()
     {
         $this->connect("userFolderCreate", "userFolderCreate");
-
-        $crawler = $this->getCrawler();
-        $response = $this->client->getResponse();
-
-        $form = $crawler->selectButton('Save')->form();
-        $this->client->submit($form);
-        $newResponse = $this->client->getResponse();
-
-        $this->assertSame($response, $newResponse);
+        $this->getCrawler();
+        $this->assertContains("form-disabled", $this->client->getResponse()->getContent());
     }
 
+    /**
+     * @return Crawler $crawler
+     */
     protected function getCrawler()
     {
         $mediaFolderRepository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media_folder');

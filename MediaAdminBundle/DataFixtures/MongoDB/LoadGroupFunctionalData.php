@@ -19,7 +19,7 @@ class LoadGroupFunctionalData extends AbstractLoadGroupData implements Orchestra
         $groupFoldersCreate = $this->generateGroup(
             'Media folders create',
             'Media folders create',
-            'Groupe de dossiers de la médiathèque ayant les droits access et create',
+            'Groupe de dossiers avec le role create',
             'site2',
             'group-folders-create',
             TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER
@@ -37,6 +37,6 @@ class LoadGroupFunctionalData extends AbstractLoadGroupData implements Orchestra
      */
     public function getOrder()
     {
-        return 602;
+        return 603;
     }
 }
