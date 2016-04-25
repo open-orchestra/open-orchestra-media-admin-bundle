@@ -24,7 +24,7 @@ class FolderController extends AbstractAdminController
      * @Config\Route("/folder/form/{folderId}", name="open_orchestra_media_admin_folder_form")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA_FOLDER')")
+     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA_FOLDER') or is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER')")
      *
      * @return Response
      */
