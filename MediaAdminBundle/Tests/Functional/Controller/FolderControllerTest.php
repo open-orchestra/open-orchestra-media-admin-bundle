@@ -21,21 +21,6 @@ class FolderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @param string $username
-     * @param string $password
-     */
-    protected function connect($username, $password)
-    {
-        $crawler = $this->client->request('GET', '/login');
-
-        $form = $crawler->selectButton('Log in')->form();
-        $form['_username'] = $username;
-        $form['_password'] = $password;
-
-        $this->client->submit($form);
-    }
-
-    /**
      * Test folder form
      */
     public function testMediaFolderFormAdmin()
@@ -59,6 +44,21 @@ class FolderControllerTest extends AbstractControllerTest
         $this->connect("userFolderCreate", "userFolderCreate");
         $this->getCrawler();
         $this->assertContains("form-disabled", $this->client->getResponse()->getContent());
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    protected function connect($username, $password)
+    {
+        $crawler = $this->client->request('GET', '/login');
+
+        $form = $crawler->selectButton('Log in')->form();
+        $form['_username'] = $username;
+        $form['_password'] = $password;
+
+        $this->client->submit($form);
     }
 
     /**
