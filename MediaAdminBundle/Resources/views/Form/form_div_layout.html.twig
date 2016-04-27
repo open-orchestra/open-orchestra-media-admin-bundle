@@ -20,9 +20,10 @@
             />
             <span class="media-form-no-img-selected">{{ 'open_orchestra_media_admin.form.media.no_media_selected'|trans }}</span>
         </div>
-        {% if not disabled %}
-            <div class="media-form-type">
-                <a class="btn btn-default mediaModalOpen"
+        <div class="media-form-type">
+            {% if not disabled   %}
+                <a class="btn btn-default mediaModalOpen
+                    {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} disabled hidden {% endif %}"
                     data-target="modal_media_{{ id }}"
                     data-input="{{ id }}"
                     data-url="{{ path('open_orchestra_media_admin_media_list_form') }}">
@@ -30,11 +31,16 @@
                     {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
                 </a>
                 <br /><br />
-                <button class="btn btn-warning clear-media" data-input="{{ id }}">
-                    {{ 'open_orchestra_backoffice.form.remove'|trans }}
-                </button>
-            </div>
-        {% endif %}
+                 {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %}
+                    <div class="alert alert-info">
+                        {{ 'open_orchestra_backoffice.form.no_access'|trans }}
+                    </div>
+                 {% endif %}
+            {% endif %}
+            <button class="btn btn-warning clear-media" data-input="{{ id }}">
+                {{ 'open_orchestra_backoffice.form.remove'|trans }}
+            </button>
+        </div>
         {{ form_errors(form.children.id) }}
         <div id="{{ id }}_modal"></div>
     {% endspaceless %}
