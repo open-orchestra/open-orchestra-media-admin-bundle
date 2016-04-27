@@ -27,8 +27,7 @@ GalleryView = OrchestraView.extend(
     @options.original = @options.media.get("original")
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/galleryView',
-      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media',
-      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/audio'
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
     ]
     return
 
