@@ -16,7 +16,9 @@
     "ext-imagick": "*",
     "php-ffmpeg/php-ffmpeg": "~0.6",
     "koala-framework/composer-extra-assets": "2.0.x",
-    "antimattr/mongodb-migrations-bundle": "~1.0@stable"
+    "antimattr/mongodb-migrations-bundle": "~1.0@stable",
+    "innocead/captcha-bundle": "@dev",
+    "friendsofsymfony/user-bundle": "@dev"
   },
   "require-dev": {
     "open-orchestra/open-orchestra-model-bundle": "~1.1.0",
