@@ -9,14 +9,16 @@
     }
   ],
   "require": {
-    "open-orchestra/open-orchestra-cms-bundle": "1.1.*@dev",
-    "open-orchestra/open-orchestra-media-bundle": "1.1.*@dev",
-    "open-orchestra/open-orchestra-media-file-bundle": "1.1.*@dev",
+    "open-orchestra/open-orchestra-cms-bundle": "1.2.*@dev",
+    "open-orchestra/open-orchestra-media-bundle": "1.2.*@dev",
+    "open-orchestra/open-orchestra-media-file-bundle": "1.2.*@dev",
     "flowjs/flow-php-server": "*",
     "ext-imagick": "*",
     "php-ffmpeg/php-ffmpeg": "~0.6",
     "koala-framework/composer-extra-assets": "2.0.x",
     "antimattr/mongodb-migrations-bundle": "~1.0@stable",
+    "friendsofsymfony/user-bundle": "@dev",
+    "innocead/captcha-bundle": "@dev",
 
     "open-orchestra/open-orchestra-base-api-bundle": "@dev",
     "open-orchestra/open-orchestra-base-bundle": "@dev",
@@ -24,13 +26,10 @@
     "open-orchestra/open-orchestra-libs": "@dev",
     "open-orchestra/open-orchestra-mongo-libs": "@dev",
     "open-orchestra/open-orchestra-user-bundle": "@dev",
-    "open-orchestra/open-orchestra-display-bundle": "@dev",
-    "friendsofsymfony/user-bundle": "@dev",
-    "innocead/captcha-bundle": "@dev",
-    "friendsofsymfony/user-bundle": "@dev"
+    "open-orchestra/open-orchestra-display-bundle": "@dev"
   },
   "require-dev": {
-    "open-orchestra/open-orchestra-model-bundle": "1.1.*@dev",
+    "open-orchestra/open-orchestra-model-bundle": "1.2.*@dev",
     "phpunit/phpunit" : "4.7.2",
     "psr/log": "1.0.0",
     "codeclimate/php-test-reporter": "dev-master",
@@ -50,7 +49,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1.x-dev"
+      "dev-master": "1.2.x-dev"
     },
     "require-npm": {
       "bower": "~1.3",
