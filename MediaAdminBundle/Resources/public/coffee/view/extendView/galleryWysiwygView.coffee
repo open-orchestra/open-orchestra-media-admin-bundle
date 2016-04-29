@@ -6,8 +6,6 @@ extendView['galleryWysiwygView'] =
 
   sendMedia: ->
     tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
-    if 0 == @options.media.get('mime_type').indexOf('audio/')
-      tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/audio'
 
     tag = @renderTemplate tagTemplate,
       media_id: @options.media.get('id')
