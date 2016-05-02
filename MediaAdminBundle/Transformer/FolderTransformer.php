@@ -2,7 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\ApiBundle\Exceptions\TransformerParameterTypeException;
+use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderFacade;
