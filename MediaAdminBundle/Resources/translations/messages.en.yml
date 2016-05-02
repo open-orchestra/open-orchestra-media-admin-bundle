@@ -10,6 +10,7 @@ open_orchestra_backoffice:
             title: Media block
     form:
       remove: Remove
+      no_access: You don't have the access to the media management.
 
 open_orchestra_media_admin:
     folder:
