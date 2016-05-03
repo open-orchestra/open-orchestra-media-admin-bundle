@@ -10,6 +10,7 @@ open_orchestra_backoffice:
             title: Bloc média
     form:
       remove: Retirer
+      no_access: Vous n'avez pas les droits d'accès à la mediathèque.
 
 open_orchestra_media_admin:
     folder:
