@@ -23,7 +23,7 @@
         {% if not disabled %}
             <div class="media-form-type">
                 <a class="btn btn-default mediaModalOpen
-                {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} disabled hidden {% endif %}"
+                {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} hidden {% endif %}"
                    data-target="modal_media_{{ id }}"
                    data-input="{{ id }}"
                    data-url="{{ path('open_orchestra_media_admin_media_list_form') }}">
