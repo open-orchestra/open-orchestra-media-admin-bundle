@@ -69,7 +69,7 @@ abstract class AbstractLoadGroupData extends AbstractFixture implements OrderedF
     }
 
     /**
-     * @param $groupName
+     * @param string $groupName
      */
     protected function addRole($groupName)
     {
