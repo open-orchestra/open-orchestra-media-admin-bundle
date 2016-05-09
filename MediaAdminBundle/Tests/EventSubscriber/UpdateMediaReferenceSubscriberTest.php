@@ -3,6 +3,9 @@
 namespace OpenOrchestra\MediaAdminBundle\Tests\EventSubscriber;
 
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
+use OpenOrchestra\ModelInterface\ContentEvents;
+use OpenOrchestra\ModelInterface\NodeEvents;
+use OpenOrchestra\ModelInterface\TrashcanEvents;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber;
 use OpenOrchestra\ModelInterface\StatusEvents;
@@ -18,13 +21,10 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
      */
     protected $subscriber;
 
-    protected $event;
     protected $nodeEvent;
     protected $media;
-    protected $status;
     protected $mediaRepository;
     protected $objectManager;
-    protected $statusableElement;
     protected $extractReferenceManager;
     protected $media1;
     protected $media2;
@@ -40,14 +40,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
         $this->extractReferenceManager =
             Phake::mock('OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager');
 
-        $this->status = Phake::mock('OpenOrchestra\ModelInterface\Model\StatusInterface');
-        $this->statusableElement = Phake::mock('OpenOrchestra\ModelInterface\Model\StatusableInterface');
-        Phake::when($this->statusableElement)->getStatus()->thenReturn($this->status);
-        $this->event = Phake::mock('OpenOrchestra\ModelInterface\Event\StatusableEvent');
-        Phake::when($this->event)->getStatusableElement()->thenReturn($this->statusableElement);
-
         $this->node = Phake::mock('OpenOrchestra\ModelInterface\Model\NodeInterface');
-        Phake::when($this->node)->getNodeType()->thenReturn(NodeInterface::TYPE_TRANSVERSE);
         $this->nodeEvent = Phake::mock('OpenOrchestra\ModelInterface\Event\NodeEvent');
         Phake::when($this->nodeEvent)->getNode()->thenReturn($this->node);
 
@@ -86,48 +79,43 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
      */
     public function testSubscribedEvents()
     {
-        $this->assertArrayHasKey(StatusEvents::STATUS_CHANGE, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(NodeEvents::NODE_UPDATE_BLOCK, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(NodeEvents::NODE_DELETE_BLOCK, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(NodeEvents::NODE_UPDATE_BLOCK_POSITION, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(ContentEvents::CONTENT_UPDATE, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(ContentEvents::CONTENT_CREATION, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(TrashcanEvents::TRASHCAN_REMOVE_ENTITY, $this->subscriber->getSubscribedEvents());
     }
 
     /**
-     * @param bool   $isPublished
-     * @param string $methodToCall
-     *
-     * @dataProvider provideStatusAndMethodToCall
+     * Test update reference
      */
-    public function testUpdateMediaReference($isPublished, $methodToCall)
+    public function testUpdateReference()
     {
-        Phake::when($this->status)->isPublished()->thenReturn($isPublished);
         Phake::when($this->extractReferenceManager)->extractReference(Phake::anyParameters())
             ->thenReturn(array(
                 'foo' => array('node-nodeId-0', 'node-nodeId-1'),
                 'bar' => array('node-nodeId-1'),
         ));
+        Phake::when($this->mediaRepository)->findByUsagePattern(Phake::anyParameters())
+            ->thenReturn(array());
+        $this->subscriber->updateMediaReferencesFromNode($this->nodeEvent);
 
-        $this->subscriber->updateMediaReference($this->event);
-
-        Phake::verify($this->extractReferenceManager)->extractReference($this->statusableElement);
-        Phake::verify($this->media, Phake::times(2))->$methodToCall('node-nodeId-1');
-        Phake::verify($this->media)->$methodToCall('node-nodeId-0');
+        Phake::verify($this->extractReferenceManager)->extractReference(Phake::anyParameters());
+        Phake::verify($this->media, Phake::times(2))->addUsageReference('node-nodeId-1');
+        Phake::verify($this->media)->addUsageReference('node-nodeId-0');
 
         Phake::verify($this->objectManager)->flush();
     }
 
     /**
-     * @return array
-     */
-    public function provideStatusAndMethodToCall()
-    {
-        return array(
-            array(true, 'addUsageReference'),
-            array(false, 'removeUsageReference'),
-        );
-    }
-
-    /**
+     * @param string $pattern
+     * @param array  $medias
+     * @param int    $expectedRemove
+     *
      * @dataProvider provideMedias
      */
-    public function testUpdateMediaReferenceForTransverserNode($pattern, $medias, $expectedRemove)
+    public function testRemoveReference($pattern, array $medias, $expectedRemove)
     {
         $mediaCollection = array();
         foreach ($medias as $media) {
@@ -140,7 +128,7 @@ class UpdateMediaReferenceSubscriberTest extends AbstractBaseTestCase
         Phake::when($this->extractReferenceManager)->extractReference(Phake::anyParameters())
             ->thenReturn(array());
 
-        $this->subscriber->updateMediaReferenceForTransverserNode($this->nodeEvent);
+        $this->subscriber->updateMediaReferencesFromNode($this->nodeEvent);
 
         Phake::verify($this->objectManager, Phake::times($expectedRemove))->persist(Phake::anyParameters());
 
