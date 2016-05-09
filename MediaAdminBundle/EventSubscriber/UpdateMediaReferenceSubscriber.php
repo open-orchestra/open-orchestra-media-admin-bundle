@@ -2,9 +2,9 @@
 
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
-use OpenOrchestra\ModelInterface\Event\StatusableEvent;
+use OpenOrchestra\ModelInterface\ContentEvents;
+use OpenOrchestra\ModelInterface\Event\ContentEvent;
 use OpenOrchestra\ModelInterface\Event\TrashcanEvent;
-use OpenOrchestra\ModelInterface\StatusEvents;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
@@ -12,7 +12,6 @@ use OpenOrchestra\ModelInterface\TrashcanEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OpenOrchestra\ModelInterface\NodeEvents;
 use OpenOrchestra\ModelInterface\Event\NodeEvent;
-use OpenOrchestra\ModelInterface\Model\NodeInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 
@@ -41,34 +40,22 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param StatusableEvent $event
-     */
-    public function updateMediaReference(StatusableEvent $event)
-    {
-        $statusableElement = $event->getStatusableElement();
-        $references = $this->extractReferenceManager->extractReference($statusableElement);
-
-        $methodToCall = 'removeUsageReference';
-        if ($statusableElement->getStatus()->isPublished()) {
-            $methodToCall = 'addUsageReference';
-        }
-
-        $this->updateReferences($references, $methodToCall);
-    }
-
-    /**
      * @param NodeEvent $event
      */
-    public function updateMediaReferenceForTransverserNode(NodeEvent $event)
+    public function updateMediaReferencesFromNode(NodeEvent $event)
     {
         $node = $event->getNode();
+        $this->updateMediaReference($node);
+    }
 
-        $this->removeReferencesToNode($node);
 
-        if ($node->getNodeType() === NodeInterface::TYPE_TRANSVERSE) {
-            $references = $this->extractReferenceManager->extractReference($node);
-            $this->updateReferences($references);
-        }
+    /**
+     * @param ContentEvent $event
+     */
+    public function updateMediaReferencesFromContent(ContentEvent $event)
+    {
+        $content = $event->getContent();
+        $this->updateMediaReference($content);
     }
 
     /**
@@ -77,21 +64,27 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     public function removeEntity(TrashcanEvent $event)
     {
         $deletedElement = $event->getDeletedEntity();
-        if ($deletedElement instanceof StatusableInterface) {
-            $references = $this->extractReferenceManager->extractReference($deletedElement);
+        $this->updateReferences($deletedElement, 'removeUsageReference');
+    }
 
-            $this->updateReferences($references, 'removeUsageReference');
-        }
+    /**
+     * @param StatusableInterface $statusableElement
+     */
+    protected function updateMediaReference(StatusableInterface $statusableElement)
+    {
+        $this->removeReferences($statusableElement);
+        $this->updateReferences($statusableElement);
     }
 
     /**
      * Update Media References
      *
-     * @param array  $references
-     * @param string $mode
+     * @param StatusableInterface $statusableElement
+     * @param string              $mode
      */
-    protected function updateReferences(array $references, $mode = 'addUsageReference')
+    protected function updateReferences(StatusableInterface $statusableElement, $mode = 'addUsageReference')
     {
+        $references = $this->extractReferenceManager->extractReference($statusableElement);
         foreach ($references as $mediaId => $mediaUsage) {
             /** @var MediaInterface $media */
             $media = $this->mediaRepository->find($mediaId);
@@ -105,20 +98,20 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param StatusableInterface $node
+     * @param StatusableInterface $statusableElement
      *
      * @throws \OpenOrchestra\MediaAdminBundle\Exceptions\ExtractReferenceStrategyNotFound
      */
-    protected function removeReferencesToNode(StatusableInterface $node)
+    protected function removeReferences(StatusableInterface $statusableElement)
     {
-        $nodePattern = $this->extractReferenceManager->getReferencePattern($node);
+        $elementPattern = $this->extractReferenceManager->getReferencePattern($statusableElement);
 
-        $mediasReferencingNode = $this->mediaRepository->findByUsagePattern($nodePattern);
+        $mediasReferencingNode = $this->mediaRepository->findByUsagePattern($elementPattern);
 
         foreach ($mediasReferencingNode as $media) {
             $references = $media->getUsageReference();
             foreach ($references as $reference) {
-                if (strpos($reference, $nodePattern) === 0) {
+                if (strpos($reference, $elementPattern) === 0) {
                     $media->removeUsageReference($reference);
                     $this->objectManager->persist($media);
                 }
@@ -132,10 +125,11 @@ class UpdateMediaReferenceSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            StatusEvents::STATUS_CHANGE => 'updateMediaReference',
-            NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferenceForTransverserNode',
-            NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferenceForTransverserNode',
-            NodeEvents::NODE_UPDATE_BLOCK_POSITION => 'updateMediaReferenceForTransverserNode',
+            NodeEvents::NODE_UPDATE_BLOCK => 'updateMediaReferencesFromNode',
+            NodeEvents::NODE_DELETE_BLOCK => 'updateMediaReferencesFromNode',
+            NodeEvents::NODE_UPDATE_BLOCK_POSITION => 'updateMediaReferencesFromNode',
+            ContentEvents::CONTENT_UPDATE => 'updateMediaReferencesFromContent',
+            ContentEvents::CONTENT_CREATION => 'updateMediaReferencesFromContent',
             TrashcanEvents::TRASHCAN_REMOVE_ENTITY => 'removeEntity',
         );
     }
