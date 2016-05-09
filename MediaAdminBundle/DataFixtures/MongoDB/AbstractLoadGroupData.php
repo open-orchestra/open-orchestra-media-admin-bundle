@@ -67,4 +67,19 @@ abstract class AbstractLoadGroupData extends AbstractFixture implements OrderedF
 
         return $group;
     }
+
+    /**
+     * @param string $groupName
+     */
+    protected function addRole($groupName)
+    {
+        $group = $this->getReference($groupName);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA);
+        $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA);
+    }
 }
