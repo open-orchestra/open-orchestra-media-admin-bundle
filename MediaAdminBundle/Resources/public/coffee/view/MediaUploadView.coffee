@@ -54,29 +54,11 @@ MediaUploadView = OrchestraView.extend(
 
     @r.on 'fileAdded', (file) ->
       $('.flow-progress, .flow-list').show()
-
-      progressText = viewContext.renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/uploadProgress',
-        uniqueIdentifier: file.uniqueIdentifier
+      uploadProgressViewClass = appConfigurationView.getConfiguration('upload_progress_element', 'uploadMedia')
+      file.uploadProgressView = new uploadProgressViewClass(
+        domContainer: $('.flow-list', @$el)
+        file: file
       )
-
-      $('.flow-list').append progressText
-      $self = $('.flow-file-' + file.uniqueIdentifier)
-      $self.find('.flow-file-name').text file.name
-      $self.find('.flow-file-size').text readablizeBytes(file.size)
-      $self.find('.flow-file-pause').on 'click', ->
-        file.pause()
-        $self.find('.flow-file-pause').hide()
-        $self.find('.flow-file-resume').show()
-        return
-      $self.find('.flow-file-resume').on 'click', ->
-        file.resume()
-        $self.find('.flow-file-pause').show()
-        $self.find('.flow-file-resume').hide()
-        return
-      $self.find('.flow-file-cancel').on 'click', ->
-        file.cancel()
-        $self.remove()
-        return
       return
 
     @r.on 'filesSubmitted', (file) ->
@@ -84,34 +66,16 @@ MediaUploadView = OrchestraView.extend(
       return
 
     @r.on 'fileSuccess', (file, message) ->
-      $self = $('.flow-file-' + file.uniqueIdentifier)
-      $self.find('.flow-file-progress').text '(' + $('#uploadCompleted').text() + ')'
-      $self.find('.flow-file-pause, .flow-file-resume, .flow-file-cancel').remove()
+      file.uploadProgressView.writeProgress '(' + $('#uploadCompleted').text() + ')'
+      file.uploadProgressView.hideButtons();
       return
 
     @r.on 'fileError', (file, message) ->
-      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html '(' + $('#uploadFailed').text() + message + ')'
+      file.uploadProgressView.writeProgress '(' + $('#uploadFailed').text() + message + ')'
       return
 
     @r.on 'fileProgress', (file) ->
-      $('.flow-file-' + file.uniqueIdentifier + ' .flow-file-progress').html Math.floor(file.progress() * 100) + '% ' + readablizeBytes(file.averageSpeed) + '/s ' + secondsToStr(file.timeRemaining()) + ' ' + $('#uploadRemaining').text()
-      $('.progress-bar').css width: Math.floor(viewContext.r.progress() * 100) + '%'
+      file.uploadProgressView.writeProgress Math.floor(file.progress() * 100) + '% ' + readablizeBytes(file.averageSpeed) + '/s ' + secondsToStr(file.timeRemaining()) + ' ' + $('#uploadRemaining').text()
+      $('.progress-bar', viewContext).css width: Math.floor(viewContext.r.progress() * 100) + '%'
       return
-
-    window.r =
-      pause: ->
-        viewContext.r.pause()
-        $('.flow-file-resume').show()
-        $('.flow-file-pause').hide()
-        return
-      cancel: ->
-        viewContext.r.cancel()
-        $('.flow-file').remove()
-        return
-      upload: ->
-        $('.flow-file-pause').show()
-        $('.flow-file-resume').hide()
-        viewContext.r.resume()
-        return
-      flow: @r
 )
