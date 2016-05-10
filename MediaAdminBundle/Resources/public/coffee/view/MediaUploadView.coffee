@@ -54,7 +54,8 @@ MediaUploadView = OrchestraView.extend(
 
     @r.on 'fileAdded', (file) ->
       $('.flow-progress, .flow-list').show()
-      file.uploadProgressView = new OpenOrchestra.Upload.UploadProgressView(
+      uploadProgressViewClass = appConfigurationView.getConfiguration('upload_progress_element', 'uploadMedia')
+      file.uploadProgressView = new uploadProgressViewClass(
         domContainer: $('.flow-list', @$el)
         file: file
       )

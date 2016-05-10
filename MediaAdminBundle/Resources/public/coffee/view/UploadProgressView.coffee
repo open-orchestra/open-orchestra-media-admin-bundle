@@ -20,7 +20,10 @@ class OpenOrchestra.Upload.UploadProgressView extends OrchestraView
    * @param {Object} options
   ###
   initialize: (options) ->
-    @options = options
+    @options = @reduceOption(options, [
+      'domContainer'
+      'file'
+    ])
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/Include/uploadProgress'
     ]
@@ -76,3 +79,6 @@ class OpenOrchestra.Upload.UploadProgressView extends OrchestraView
   hideButtons: ->
     $('.flow-file-pause, .flow-file-resume, .flow-file-cancel', @$el).remove()
     return
+
+jQuery ->
+  appConfigurationView.setConfiguration 'upload_progress_element', 'uploadMedia',  OpenOrchestra.Upload.UploadProgressView
