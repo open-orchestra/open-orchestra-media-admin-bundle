@@ -8,7 +8,9 @@ use OpenOrchestra\ModelBundle\Document\Block;
 use OpenOrchestra\ModelBundle\Document\Node;
 use OpenOrchestra\BackofficeBundle\Tests\Functional\Controller\AbstractControllerTest;
 use OpenOrchestra\ModelBundle\Document\Status;
+use OpenOrchestra\ModelInterface\Event\NodeEvent;
 use OpenOrchestra\ModelInterface\Event\StatusableEvent;
+use OpenOrchestra\ModelInterface\NodeEvents;
 use OpenOrchestra\ModelInterface\StatusEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -34,16 +36,6 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
     protected $medias;
 
     /**
-     * @var Status pending
-     */
-    protected $pending;
-
-    /**
-     * @var Status published
-     */
-    protected $published;
-
-    /**
      * @var EventDispatcher eventDispatcher
      */
     protected $eventDispatcher;
@@ -64,9 +56,6 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
             $mediaRepository->findOneByName("Image 04")
         );
         $this->eventDispatcher = static::$kernel->getContainer()->get('event_dispatcher');
-        $statusRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.status');
-        $this->pending = $statusRepository->findOneByName('pending');
-        $this->published = $statusRepository->findOneByName('published');
     }
 
     /**
@@ -77,7 +66,6 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
      */
     public function testAddMediaBlocks(array $blockType, $mediaIndex)
     {
-        $this->node->setStatus($this->pending);
         /** @var Media $media */
         $media = $this->medias[$mediaIndex];
         $this->checkMediaReference($media, null);
@@ -91,8 +79,8 @@ class UpdateMediaReferenceSubscriberTest extends AbstractControllerTest
         $attributes = $this->$method($attributes);
         $block->setAttributes($attributes);
 
-        $event = new StatusableEvent($this->node, $this->published);
-        $this->eventDispatcher->dispatch(StatusEvents::STATUS_CHANGE, $event);
+        $event = new NodeEvent($this->node);
+        $this->eventDispatcher->dispatch(NodeEvents::NODE_UPDATE_BLOCK, $event);
 
         $mediaBlockIndex = $this->node->getBlockIndex($block);
         $expectedReference = self::REFERENCE_PREFIX . $this->node->getId() . "-" .  $mediaBlockIndex;
