@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\ModelBundle\Document\EmbedKeyword;
 use OpenOrchestra\ModelBundle\Document\TranslatedValue;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,7 +67,7 @@ class LoadMediaData
 
     /**
      * Generate a media
-     * 
+     *
      * @param string $fileName
      * @param string $folderReference
      * @param string $name
@@ -100,7 +99,7 @@ class LoadMediaData
 
         $media->setName($name);
         foreach ($keywordReferencesArray as $keywordReference) {
-            $media->addKeyword(EmbedKeyword::createFromKeyword($this->getReference($keywordReference)));
+            $media->addKeyword($this->getReference($keywordReference));
         }
         foreach ($languagesArray as $language => $labels) {
             $media->addAlt($this->generatedValue($language, $labels['alt']));
