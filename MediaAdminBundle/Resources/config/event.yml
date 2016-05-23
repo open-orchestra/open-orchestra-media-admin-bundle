@@ -1,0 +1,11 @@
+parameters:
+    open_orchestra_media_admin.event.folder_event.class: OpenOrchestra\MediaAdmin\Event\FolderEvent
+    open_orchestra_media_admin.event.folder_event_factory.class: OpenOrchestra\MediaAdmin\Event\FolderEventFactory
+
+services:
+    open_orchestra_media_admin.event.folder_event.factory:
+        class: %open_orchestra_media_admin.event.folder_event_factory.class%
+
+    open_orchestra_media_admin.event.folder_event:
+        class:   %open_orchestra_media_admin.event.folder_event.class%
+        factory: ["@open_orchestra_media_admin.event.folder_event.factory", CreateFolderEvent]
