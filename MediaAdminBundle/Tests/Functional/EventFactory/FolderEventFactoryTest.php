@@ -55,7 +55,6 @@ class FolderEventFactoryTest extends AbstractAuthentificatedTest
      */
     public function testGetFolder()
     {
-        $this->assertInstanceOf('OpenOrchestra\Media\Model\FolderInterface', $this->folderEvent->getFolder());
         $this->assertSame($this->folder, $this->folderEvent->getFolder());
     }
 }
