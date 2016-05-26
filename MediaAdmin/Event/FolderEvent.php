@@ -15,9 +15,9 @@ class FolderEvent extends Event
     /**
      * @param FolderInterface $folder
      */
-    public function __construct(FolderInterface $folder)
+    public function __construct()
     {
-        $this->folder = $folder;
+        $this->folder = null;
     }
 
     /**
@@ -26,5 +26,13 @@ class FolderEvent extends Event
     public function getFolder()
     {
         return $this->folder;
+    }
+
+    /**
+     * @param FolderInterface $folder
+     */
+    public function setFolder(FolderInterface $folder)
+    {
+        $this->folder = $folder;
     }
 }
