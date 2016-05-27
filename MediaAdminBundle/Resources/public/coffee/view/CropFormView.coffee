@@ -40,7 +40,7 @@ CropFormView = OrchestraView.extend(
         $('#selector-loader-container').hide()
         $('.media_crop_form', currentView.$el).html response
         if (form = $('.media_crop_form form', currentView.$el)) && form.length > 0
-          activateForm(currentView, form)
+          window.OpenOrchestra.FormBehavior.channel.trigger 'activate', currentView, form
 
   addPreview: ->
     $('.media_crop_preview', @$el).append('<img class="media_crop_original" src="' + @options.media.get('original') + '" >')

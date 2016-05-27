@@ -20,7 +20,7 @@ MetaFormView = OrchestraView.extend(
     else
       @setElement @options.html
       @options.domContainer.html @$el
-      activateForm(@, @options.domContainer)
+      window.OpenOrchestra.FormBehavior.channel.trigger 'activate', @, @options.domContainer
       @options.domContainer.append @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
         listUrl: @options.listUrl
       )
@@ -33,7 +33,7 @@ MetaFormView = OrchestraView.extend(
       success: (response) ->
         currentView.$el.html response
         if (form = $('form', currentView.$el)) && form.length > 0
-          activateForm(currentView, form)
+          window.OpenOrchestra.FormBehavior.channel.trigger 'activate', currentView, form
         currentView.$el.append currentView.renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList',
           listUrl: currentView.options.listUrl
         )
