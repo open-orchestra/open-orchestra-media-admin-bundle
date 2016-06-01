@@ -8,7 +8,6 @@ use OpenOrchestra\ModelInterface\NodeEvents;
 use OpenOrchestra\ModelInterface\TrashcanEvents;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\EventSubscriber\UpdateMediaReferenceSubscriber;
-use OpenOrchestra\ModelInterface\StatusEvents;
 use OpenOrchestra\ModelInterface\Model\NodeInterface;
 
 /**

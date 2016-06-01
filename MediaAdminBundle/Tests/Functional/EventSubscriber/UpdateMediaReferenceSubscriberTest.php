@@ -7,11 +7,8 @@ use OpenOrchestra\MediaModelBundle\Document\Media;
 use OpenOrchestra\ModelBundle\Document\Block;
 use OpenOrchestra\ModelBundle\Document\Node;
 use OpenOrchestra\BackofficeBundle\Tests\Functional\Controller\AbstractControllerTest;
-use OpenOrchestra\ModelBundle\Document\Status;
 use OpenOrchestra\ModelInterface\Event\NodeEvent;
-use OpenOrchestra\ModelInterface\Event\StatusableEvent;
 use OpenOrchestra\ModelInterface\NodeEvents;
-use OpenOrchestra\ModelInterface\StatusEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
