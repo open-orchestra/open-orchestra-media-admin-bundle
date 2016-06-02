@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\DataFixtures\MongoDB;
 
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterface;
