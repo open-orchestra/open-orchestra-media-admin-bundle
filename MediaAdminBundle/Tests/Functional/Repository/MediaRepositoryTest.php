@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaBundle\Tests\Functional\Repository;
 
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractKernelTestCase;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
+use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\KeywordableTraitInterface;
 
 /**
  * Class MediaRepositoryTest
@@ -16,7 +17,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
      * @var MediaRepositoryInterface
      */
     protected $repository;
-    protected $keywordsLabelToId;
+    protected $keywordRepository;
 
     /**
      * Set up test
@@ -26,12 +27,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
         parent::setUp();
 
         static::bootKernel();
-        $keywordRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.keyword');
-        $keywords = $keywordRepository->findAll();
-        $this->keywordsLabelToId = array();
-        foreach($keywords as $keywords) {
-            $this->keywordsLabelToId[$keywords->getLabel()] = $keywords->getId();
-        }
+        $this->keywordRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.keyword');
         $this->repository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media');
     }
 
@@ -43,7 +39,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
      */
     public function testFindByKeywords($keywords, $count)
     {
-        $keywords = implode(',', $this->replaceKeywordLabelById(explode(',', $keywords)));
+        $keywords = $this->replaceKeywordLabelById($keywords);
         $keywords = $this->repository->findByKeywords($keywords);
 
         $this->assertCount($count, $keywords);
@@ -58,21 +54,31 @@ class MediaRepositoryTest extends AbstractKernelTestCase
             array('lorem', 5),
             array('sit', 0),
             array('dolor', 4),
-            array('lorem,dolor', 5),
+            array('lorem OR dolor', 5),
         );
     }
 
     /**
-     * @param array $data
+     * @param string $condition
+     *
+     * @return array
      */
-    protected function replaceKeywordLabelById($data)
+    protected function replaceKeywordLabelById($condition)
     {
-        $keywordsLabelToId = $this->keywordsLabelToId;
-        array_walk_recursive($data, function (&$item, $key) use ($keywordsLabelToId) {
-            if (is_string($item)) {
-                $item = str_replace(array_keys($keywordsLabelToId), $keywordsLabelToId, $item);
+        $conditionWithoutOperator = preg_replace(KeywordableTraitInterface::OPERATOR_SPLIT, ' ', $condition);
+        $conditionArray = explode(' ', $conditionWithoutOperator);
+
+        foreach ($conditionArray as $keyword) {
+            if ($keyword != '') {
+                $keywordDocument = $this->keywordRepository->findOneByLabel($keyword);
+                if (!is_null($keywordDocument)) {
+                    $condition = str_replace($keyword, $keywordDocument->getId(), $condition);
+                } else {
+                    return '';
+                }
             }
-        });
-        return $data;
+        }
+
+        return $condition;
     }
 }
