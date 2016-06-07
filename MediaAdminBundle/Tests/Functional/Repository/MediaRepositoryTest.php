@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaBundle\Tests\Functional\Repository;
 
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractKernelTestCase;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
+use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\KeywordableTraitInterface;
 
 /**
  * Class MediaRepositoryTest
@@ -16,6 +17,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
      * @var MediaRepositoryInterface
      */
     protected $repository;
+    protected $keywordRepository;
 
     /**
      * Set up test
@@ -25,6 +27,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
         parent::setUp();
 
         static::bootKernel();
+        $this->keywordRepository = static::$kernel->getContainer()->get('open_orchestra_model.repository.keyword');
         $this->repository = static::$kernel->getContainer()->get('open_orchestra_media.repository.media');
     }
 
@@ -36,6 +39,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
      */
     public function testFindByKeywords($keywords, $count)
     {
+        $keywords = $this->replaceKeywordLabelById($keywords);
         $keywords = $this->repository->findByKeywords($keywords);
 
         $this->assertCount($count, $keywords);
@@ -47,10 +51,34 @@ class MediaRepositoryTest extends AbstractKernelTestCase
     public function provideKeywordAndCount()
     {
         return array(
-            array('Lorem', 5),
-            array('Sit', 0),
-            array('Dolor', 4),
-            array('Lorem,Dolor', 5),
+            array('lorem', 5),
+            array('sit', 0),
+            array('dolor', 4),
+            array('lorem OR dolor', 5),
         );
+    }
+
+    /**
+     * @param string $condition
+     *
+     * @return array
+     */
+    protected function replaceKeywordLabelById($condition)
+    {
+        $conditionWithoutOperator = preg_replace(explode('|', KeywordableTraitInterface::OPERATOR_SPLIT), ' ', $condition);
+        $conditionArray = explode(' ', $conditionWithoutOperator);
+
+        foreach ($conditionArray as $keyword) {
+            if ($keyword != '') {
+                $keywordDocument = $this->keywordRepository->findOneByLabel($keyword);
+                if (!is_null($keywordDocument)) {
+                    $condition = str_replace($keyword, $keywordDocument->getId(), $condition);
+                } else {
+                    return '';
+                }
+            }
+        }
+
+        return $condition;
     }
 }
