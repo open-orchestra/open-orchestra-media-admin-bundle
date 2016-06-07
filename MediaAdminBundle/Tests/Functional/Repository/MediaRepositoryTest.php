@@ -65,7 +65,7 @@ class MediaRepositoryTest extends AbstractKernelTestCase
      */
     protected function replaceKeywordLabelById($condition)
     {
-        $conditionWithoutOperator = preg_replace(KeywordableTraitInterface::$OPERATOR_SPLIT, ' ', $condition);
+        $conditionWithoutOperator = preg_replace(explode('|', KeywordableTraitInterface::OPERATOR_SPLIT), ' ', $condition);
         $conditionArray = explode(' ', $conditionWithoutOperator);
 
         foreach ($conditionArray as $keyword) {
