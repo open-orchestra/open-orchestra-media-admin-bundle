@@ -135,7 +135,8 @@ CropFormView = OrchestraView.extend(
     $('#crop-group').hide()
     $('.media_crop_preview img', @$el).hide()
     $('#image-loader').show()
-    $(e.currentTarget).ajaxSubmit
+    form = $(e.currentTarget)
+    form.ajaxSubmit
       url: form.data('action')
       statusCode:
         200: () ->
@@ -148,7 +149,8 @@ CropFormView = OrchestraView.extend(
     $('.media-override-format-form').hide()
     $('.media_crop_preview img', @$el).hide()
     $('#image-loader').show()
-    $(e.currentTarget).ajaxSubmit
+    form = $(e.currentTarget)
+    form.ajaxSubmit
       url: form.data('action')
       statusCode:
         200: () ->
