@@ -136,6 +136,7 @@ CropFormView = OrchestraView.extend(
     $('.media_crop_preview img', @$el).hide()
     $('#image-loader').show()
     $(e.currentTarget).ajaxSubmit
+      url: form.data('action')
       statusCode:
         200: () ->
           currentView.cropParam['jcrop_api'].destroy()
@@ -148,6 +149,7 @@ CropFormView = OrchestraView.extend(
     $('.media_crop_preview img', @$el).hide()
     $('#image-loader').show()
     $(e.currentTarget).ajaxSubmit
+      url: form.data('action')
       statusCode:
         200: () ->
           currentView.refreshImages()
