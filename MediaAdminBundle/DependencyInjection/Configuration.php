@@ -20,6 +20,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
             ->scalarNode('tmp_dir')->defaultValue('/tmp')->end()
+            ->scalarNode('max_width_generation')->defaultValue(5000)->end()
+            ->scalarNode('max_height_generation')->defaultValue(5000)->end()
             ->arrayNode('thumbnail')->addDefaultsIfNotSet()
                 ->children()
                     ->scalarNode('max_width')->defaultValue(117)->end()
