@@ -30,7 +30,7 @@ class ImagickImageManagerTest extends AbstractFileUtilsManager
     public function setUp()
     {
         parent::setUp();
-        $this->manager = new ImagickImageManager(new ImagickFactory());
+        $this->manager = new ImagickImageManager(new ImagickFactory(), 5000, 5000);
     }
 
     /**
