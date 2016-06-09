@@ -21,3 +21,5 @@ services:
         class: %open_orchestra_media_admin.file_utils.manager.image.class%
         arguments:
             - @open_orchestra_media_admin.imagick.factory
+            - %open_orchestra_media_admin.max_width_generation%
+            - %open_orchestra_media_admin.max_height_generation%
