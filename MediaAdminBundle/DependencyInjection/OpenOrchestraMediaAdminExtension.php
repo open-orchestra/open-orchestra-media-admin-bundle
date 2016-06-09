@@ -23,6 +23,14 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
+        $container->setParameter(
+            'open_orchestra_media_admin.max_width_generation',
+            $config['max_width_generation']
+        );
+        $container->setParameter(
+            'open_orchestra_media_admin.max_height_generation',
+            $config['max_height_generation']
+        );
 
         foreach ($config['facades'] as $transformer => $facade) {
             $container->setParameter('open_orchestra_media_admin.facade.' . $transformer . '.class', $facade);

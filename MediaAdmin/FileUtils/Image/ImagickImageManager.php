@@ -11,13 +11,19 @@ use OpenOrchestra\MediaAdmin\FileUtils\Image\ImagickFactory;
 class ImagickImageManager implements ImageManagerInterface
 {
     protected $imagickFactory;
+    protected $maxWidth;
+    protected $maxHeight;
 
     /**
      * @param ImagickFactory $imagickFactory
+     * @param int            $maxWidth
+     * @param int            $maxHeight
      */
-    public function __construct(ImagickFactory $imagickFactory)
+    public function __construct(ImagickFactory $imagickFactory, $maxWidth = 5000, $maxHeight = 5000)
     {
         $this->imagickFactory = $imagickFactory;
+        $this->maxWidth = $maxWidth;
+        $this->maxHeight = $maxHeight;
     }
 
     /**
@@ -48,24 +54,17 @@ class ImagickImageManager implements ImageManagerInterface
      */
     protected function resizeImage(array $format, Imagick $image)
     {
-        $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: -1;
-        $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: -1;
-
-        if (-2 != $maxWidth + $maxHeight) {
-            $image->setimagebackgroundcolor('#000000');
-            $refRatio = $maxWidth / $maxHeight;
-            $imageRatio = $image->getImageWidth() / $image->getImageHeight();
-            $keepAspect = 0;
-            if ($imageRatio <= 0.1) {
-                $keepAspect = 1;
-            }
-
-            if ($refRatio > $imageRatio || $maxWidth == -1) {
-                $image = $this->resize($image, $keepAspect, $maxHeight);
-            } else {
-                $image = $this->resize($image, $maxWidth, $keepAspect);
-            }
+        $maxWidth = array_key_exists('max_width', $format)? $format['max_width']: $this->maxWidth;
+        $maxHeight = array_key_exists('max_height', $format)? $format['max_height']: $this->maxHeight;
+        if ($maxWidth > $this->maxWidth) {
+            $maxWidth = $this->maxWidth;
         }
+        if ($maxHeight > $this->maxHeight) {
+            $maxHeight = $this->maxHeight;
+        }
+
+        $image->setimagebackgroundcolor('#000000');
+        $image->resizeImage($maxWidth, $maxHeight, Imagick::FILTER_LANCZOS, 1, true);
 
         return $image;
     }
