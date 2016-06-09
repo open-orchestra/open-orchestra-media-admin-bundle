@@ -19,7 +19,7 @@ class ImagickImageManager implements ImageManagerInterface
      * @param int            $maxWidth
      * @param int            $maxHeight
      */
-    public function __construct(ImagickFactory $imagickFactory, $maxWidth = 5000, $maxHeight = 5000)
+    public function __construct(ImagickFactory $imagickFactory, $maxWidth, $maxHeight)
     {
         $this->imagickFactory = $imagickFactory;
         $this->maxWidth = $maxWidth;
