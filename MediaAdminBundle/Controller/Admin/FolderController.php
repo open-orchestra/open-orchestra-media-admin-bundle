@@ -3,7 +3,6 @@
 namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
-use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
