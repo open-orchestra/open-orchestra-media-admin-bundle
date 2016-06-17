@@ -81,10 +81,23 @@ class SaveMediaManager implements SaveMediaManagerInterface
      */
     public function isFileAllowed($filename)
     {
+        return in_array($this->getMimeType($filename), $this->allowedMimeTypes);
+    }
+
+    /**
+     * Return the file mime type
+     *
+     * @param $filename
+     *
+     * @return string
+     */
+    public function getMimeType($filename)
+    {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $fileMimeType = finfo_file($finfo, $this->tmpDir . '/' . $filename);
+        finfo_close($finfo);
 
-        return in_array($fileMimeType, $this->allowedMimeTypes);
+        return $fileMimeType;
     }
 
     /**
@@ -135,7 +148,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
     protected function processMedia($media, $uploadedFile, $filename)
     {
         $media->setName($uploadedFile->getClientOriginalName());
-        $media->setMimeType($uploadedFile->getClientMimeType());
+        $media->setMimeType($this->getMimeType($filename));
 
         $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
 
