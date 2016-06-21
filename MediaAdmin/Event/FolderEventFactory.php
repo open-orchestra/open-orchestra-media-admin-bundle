@@ -10,7 +10,7 @@ class FolderEventFactory
     /**
      * @return FolderEvent
      */
-    public function CreateFolderEvent()
+    public function createFolderEvent()
     {
         return new FolderEvent();
     }
