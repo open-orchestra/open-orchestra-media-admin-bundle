@@ -8,4 +8,4 @@ services:
 
     open_orchestra_media_admin.event.folder_event:
         class:   %open_orchestra_media_admin.event.folder_event.class%
-        factory: ["@open_orchestra_media_admin.event.folder_event.factory", CreateFolderEvent]
+        factory: ["@open_orchestra_media_admin.event.folder_event.factory", createFolderEvent]

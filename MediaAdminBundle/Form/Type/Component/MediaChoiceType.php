@@ -21,7 +21,7 @@ class MediaChoiceType extends AbstractType
         $builder->addModelTransformer(new MediaChoiceTransformer());
 
         $mediaOptions = array();
-        if (isset($options['required']) && $options['required'] == true) {
+        if (isset($options['required']) && true === $options['required']) {
              $mediaOptions['constraints'] = new NotBlank();
              $mediaOptions['error_bubbling'] = false;
         }
