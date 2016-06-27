@@ -6,18 +6,18 @@ parameters:
 
 services:
     open_orchestra_media_admin.display.slideshow:
-        class: %open_orchestra_media_admin.display.slideshow.class%
+        class: '%open_orchestra_media_admin.display.slideshow.class%'
         tags:
             - { name: open_orchestra_backoffice.display_block.strategy }
     open_orchestra_media_admin.display.gallery:
-        class: %open_orchestra_media_admin.display.gallery.class%
+        class: '%open_orchestra_media_admin.display.gallery.class%'
         tags:
             - { name: open_orchestra_backoffice.display_block.strategy }
     open_orchestra_media_admin.display.media_list_by_keyword:
-        class: %open_orchestra_media_admin.display.media_list_by_keyword.class%
+        class: '%open_orchestra_media_admin.display.media_list_by_keyword.class%'
         tags:
             - { name: open_orchestra_backoffice.display_block.strategy }
     open_orchestra_media_admin.display.display_media:
-       class : %open_orchestra_media_admin.display.display_media.class%
+       class : '%open_orchestra_media_admin.display.display_media.class%'
        tags:
            - { name: open_orchestra_backoffice.display_block.strategy }

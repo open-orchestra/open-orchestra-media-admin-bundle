@@ -5,13 +5,13 @@ parameters:
 
 services:
     open_orchestra_media_admin.extract_reference_manager:
-        class: %open_orchestra_media_admin.extract_reference_manager.class%
+        class: '%open_orchestra_media_admin.extract_reference_manager.class%'
     open_orchestra_media_admin.extract_reference.node:
-        class: %open_orchestra_media_admin.extract_reference.node.class%
+        class: '%open_orchestra_media_admin.extract_reference.node.class%'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
     open_orchestra_media_admin.extract_reference.content:
-        class: %open_orchestra_media_admin.extract_reference.content.class%
+        class: '%open_orchestra_media_admin.extract_reference.content.class%'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
 

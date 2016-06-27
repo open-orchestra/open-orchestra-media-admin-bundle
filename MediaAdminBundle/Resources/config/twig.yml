@@ -3,8 +3,8 @@ parameters:
 
 services:
     open_orchestra_media_admin.twig_extension.is_folder_deletable:
-        class: %open_orchestra_media_admin.twig_extension.is_folder_deletable.class%
+        class: '%open_orchestra_media_admin.twig_extension.is_folder_deletable.class%'
         arguments:
-            - @open_orchestra_media_admin.manager.media_folder
+            - '@open_orchestra_media_admin.manager.media_folder'
         tags:
             - { name: twig.extension}

@@ -10,57 +10,57 @@ parameters:
 
 services:
     open_orchestra_api.transformer.media:
-        class: %open_orchestra_api.transformer.media.class%
+        class: '%open_orchestra_api.transformer.media.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.media.class%
-            - @open_orchestra_media_admin.file_alternatives.manager
-            - @open_orchestra_backoffice.manager.translation_choice
-            - %open_orchestra_media.media_domain%
-            - @security.authorization_checker
+            - '%open_orchestra_media_admin.facade.media.class%'
+            - '@open_orchestra_media_admin.file_alternatives.manager'
+            - '@open_orchestra_backoffice.manager.translation_choice'
+            - '%open_orchestra_media.media_domain%'
+            - '@security.authorization_checker'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_collection:
-        class: %open_orchestra_api.transformer.media_collection.class%
+        class: '%open_orchestra_api.transformer.media_collection.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.media_collection.class%
-            - @security.authorization_checker
-            - @open_orchestra_media.repository.media_folder
+            - '%open_orchestra_media_admin.facade.media_collection.class%'
+            - '@security.authorization_checker'
+            - '@open_orchestra_media.repository.media_folder'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_type:
-        class: %open_orchestra_api.transformer.media_type.class%
+        class: '%open_orchestra_api.transformer.media_type.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.media_type.class%
-            - @security.authorization_checker
-            - @translator
+            - '%open_orchestra_media_admin.facade.media_type.class%'
+            - '@security.authorization_checker'
+            - '@translator'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_type_collection:
-        class: %open_orchestra_api.transformer.media_type_collection.class%
+        class: '%open_orchestra_api.transformer.media_type_collection.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.media_type_collection.class%
+            - '%open_orchestra_media_admin.facade.media_type_collection.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.folder:
-        class: %open_orchestra_api.transformer.folder.class%
+        class: '%open_orchestra_api.transformer.folder.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.folder.class%
+            - '%open_orchestra_media_admin.facade.folder.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.folder_tree:
-        class: %open_orchestra_api.transformer.folder_tree.class%
+        class: '%open_orchestra_api.transformer.folder_tree.class%'
         arguments:
-            - %open_orchestra_media_admin.facade.folder_tree.class%
+            - '%open_orchestra_media_admin.facade.folder_tree.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_api.transformer.media_folder_group_role:
-        class: %open_orchestra_api.transformer.media_folder_group_role.class%
+        class: '%open_orchestra_api.transformer.media_folder_group_role.class%'
         arguments:
-            - %open_orchestra_api.facade.model_group_role.class%
-            - %open_orchestra_group.document.model_group_role.class%
-            - @open_orchestra_backoffice.collector.backoffice_role
-            - @open_orchestra_media.repository.media_folder
+            - '%open_orchestra_api.facade.model_group_role.class%'
+            - '%open_orchestra_group.document.model_group_role.class%'
+            - '@open_orchestra_backoffice.collector.backoffice_role'
+            - '@open_orchestra_media.repository.media_folder'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_media_admin.transformer.embed_site_to_siteid:
-        class: %open_orchestra_media_admin.transformer.embed_site_to_siteid.class%
+        class: '%open_orchestra_media_admin.transformer.embed_site_to_siteid.class%'
