@@ -6,20 +6,20 @@ parameters:
 
 services:
     ffmpeg.video:
-        class: %ffmpeg.factory.class%
-        factory: [%ffmpeg.factory.class%, create]
+        class: '%ffmpeg.factory.class%'
+        factory: ['%ffmpeg.factory.class%', create]
 
     open_orchestra_media_admin.file_utils.manager.video:
-        class: %open_orchestra_media_admin.file_utils.manager.video.class%
+        class: '%open_orchestra_media_admin.file_utils.manager.video.class%'
         arguments:
-            - @ffmpeg.video
+            - '@ffmpeg.video'
 
     open_orchestra_media_admin.imagick.factory:
-        class: %open_orchestra_media_admin.imagick.factory.class%
+        class: '%open_orchestra_media_admin.imagick.factory.class%'
 
     open_orchestra_media_admin.file_utils.manager.image:
-        class: %open_orchestra_media_admin.file_utils.manager.image.class%
+        class: '%open_orchestra_media_admin.file_utils.manager.image.class%'
         arguments:
-            - @open_orchestra_media_admin.imagick.factory
-            - %open_orchestra_media_admin.max_width_generation%
-            - %open_orchestra_media_admin.max_height_generation%
+            - '@open_orchestra_media_admin.imagick.factory'
+            - '%open_orchestra_media_admin.max_width_generation%'
+            - '%open_orchestra_media_admin.max_height_generation%'

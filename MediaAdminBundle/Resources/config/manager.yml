@@ -4,16 +4,16 @@ parameters:
 
 services:
     open_orchestra_media_admin.manager.media_folder:
-        class: %open_orchestra_media_admin.manager.media_folder.class%
+        class: '%open_orchestra_media_admin.manager.media_folder.class%'
         arguments:
-            - @object_manager
+            - '@object_manager'
     open_orchestra_media_admin.manager.save_media:
-        class: %open_orchestra_media_admin.manager.save_media.class%
+        class: '%open_orchestra_media_admin.manager.save_media.class%'
         arguments:
-            - %open_orchestra_media_admin.tmp_dir%
-            - @open_orchestra_media_file.manager.storage
-            - %open_orchestra_media_admin.allowed_mime_type%
-            - @object_manager
-            - @open_orchestra_media.repository.media_folder
-            - %open_orchestra_media.document.media.class%
-            - @event_dispatcher
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '@open_orchestra_media_file.manager.storage'
+            - '%open_orchestra_media_admin.allowed_mime_type%'
+            - '@object_manager'
+            - '@open_orchestra_media.repository.media_folder'
+            - '%open_orchestra_media.document.media.class%'
+            - '@event_dispatcher'

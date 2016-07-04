@@ -3,8 +3,8 @@ parameters:
 
 services:
     open_orchestra_media.voter.media_folder_group_role:
-        class: %open_orchestra_media.voter.media_folder_group_role.class%
+        class: '%open_orchestra_media.voter.media_folder_group_role.class%'
         arguments:
-            - @open_orchestra_media.repository.media_folder
+            - '@open_orchestra_media.repository.media_folder'
         tags:
             - { name: security.voter }

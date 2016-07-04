@@ -17,46 +17,46 @@ parameters:
 
 services:
     open_orchestra_media_admin.type.media:
-        class: %open_orchestra_media_admin.type.media.class%
+        class: '%open_orchestra_media_admin.type.media.class%'
         arguments:
-            - %open_orchestra_media.document.media.class%
-            - %open_orchestra_media_admin.allowed_mime_type%
+            - '%open_orchestra_media.document.media.class%'
+            - '%open_orchestra_media_admin.allowed_mime_type%'
         tags:
             - { name: form.type, alias: oo_media}
     open_orchestra_media_admin.type.folder:
-        class: %open_orchestra_media_admin.type.folder.class%
+        class: '%open_orchestra_media_admin.type.folder.class%'
         arguments:
-            - %open_orchestra_media.document.media_folder.class%
+            - '%open_orchestra_media.document.media_folder.class%'
         tags:
             - { name: form.type, alias: oo_folder}
     open_orchestra_media_admin.type.media_select_format:
-        class: %open_orchestra_media_admin.type.media_select_format.class%
+        class: '%open_orchestra_media_admin.type.media_select_format.class%'
         arguments:
-            - %open_orchestra_media_admin.files.alternatives.image.formats%
+            - '%open_orchestra_media_admin.files.alternatives.image.formats%'
         tags:
             - { name: form.type, alias: oo_select_format}
     open_orchestra_media_admin.type.media_crop:
-        class: %open_orchestra_media_admin.type.media_crop.class%
+        class: '%open_orchestra_media_admin.type.media_crop.class%'
         arguments:
-            - %open_orchestra_media_admin.files.alternatives.image.formats%
+            - '%open_orchestra_media_admin.files.alternatives.image.formats%'
         tags:
             - { name: form.type, alias: oo_media_crop}
     open_orchestra_media_admin.type.media_meta:
-        class: %open_orchestra_media_admin.type.media_meta.class%
+        class: '%open_orchestra_media_admin.type.media_meta.class%'
         arguments:
-            - @open_orchestra_backoffice.listener.translate_value_initializer
-            - %open_orchestra_media.document.media.class%
+            - '@open_orchestra_backoffice.listener.translate_value_initializer'
+            - '%open_orchestra_media.document.media.class%'
         tags:
             - { name: form.type, alias: oo_media_meta}
     open_orchestra_media_admin.type.media_choice:
-        class: %open_orchestra_media_admin.type.media_choice.class%
+        class: '%open_orchestra_media_admin.type.media_choice.class%'
         tags:
             - { name: form.type, alias: oo_media_choice}
     open_orchestra_media_admin.type.site_for_folder_choice:
-        class: %open_orchestra_media_admin.type.site_for_folder_choice.class%
+        class: '%open_orchestra_media_admin.type.site_for_folder_choice.class%'
         arguments:
-            - @open_orchestra_model.repository.site
-            - @security.token_storage
-            - @open_orchestra_media_admin.transformer.embed_site_to_siteid
+            - '@open_orchestra_model.repository.site'
+            - '@security.token_storage'
+            - '@open_orchestra_media_admin.transformer.embed_site_to_siteid'
         tags:
             - { name: form.type, alias: oo_site_for_folder_choice}

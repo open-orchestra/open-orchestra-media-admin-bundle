@@ -8,59 +8,59 @@ parameters:
 
 services:
     open_orchestra_media_admin.file_alternatives.manager:
-        class: %open_orchestra_media_admin.file_alternatives.manager.class%
+        class: '%open_orchestra_media_admin.file_alternatives.manager.class%'
         arguments:
-            - @open_orchestra_media_admin.file_alternatives.strategy.default
+            - '@open_orchestra_media_admin.file_alternatives.strategy.default'
 
     open_orchestra_media_admin.file_alternatives.strategy.default:
-        class: %open_orchestra_media_admin.file_alternatives.strategy.default.class%
+        class: '%open_orchestra_media_admin.file_alternatives.strategy.default.class%'
         arguments:
-            - @filesystem
-            - @open_orchestra_media_file.manager.storage
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.files.alternatives.default.thumbnail%
+            - '@filesystem'
+            - '@open_orchestra_media_file.manager.storage'
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '%open_orchestra_media_admin.files.alternatives.default.thumbnail%'
 
     open_orchestra_media_admin.file_alternatives.strategy.image:
-        class: %open_orchestra_media_admin.file_alternatives.strategy.image.class%
+        class: '%open_orchestra_media_admin.file_alternatives.strategy.image.class%'
         arguments:
-            - @filesystem
-            - @open_orchestra_media_file.manager.storage
-            - @open_orchestra_media_admin.file_utils.manager.image
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.files.thumbnail_format%
-            - %open_orchestra_media_admin.files.alternatives.image.formats%
+            - '@filesystem'
+            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media_admin.file_utils.manager.image'
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '%open_orchestra_media_admin.files.thumbnail_format%'
+            - '%open_orchestra_media_admin.files.alternatives.image.formats%'
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }
 
     open_orchestra_media_admin.file_alternatives.strategy.pdf:
-        class: %open_orchestra_media_admin.file_alternatives.strategy.pdf.class%
+        class: '%open_orchestra_media_admin.file_alternatives.strategy.pdf.class%'
         arguments:
-            - @filesystem
-            - @open_orchestra_media_file.manager.storage
-            - @open_orchestra_media_admin.file_utils.manager.image
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.files.thumbnail_format%
+            - '@filesystem'
+            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media_admin.file_utils.manager.image'
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '%open_orchestra_media_admin.files.thumbnail_format%'
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }
 
     open_orchestra_media_admin.file_alternatives.strategy.video:
-        class: %open_orchestra_media_admin.file_alternatives.strategy.video.class%
+        class: '%open_orchestra_media_admin.file_alternatives.strategy.video.class%'
         arguments:
-            - @filesystem
-            - @open_orchestra_media_file.manager.storage
-            - @open_orchestra_media_admin.file_utils.manager.video
-            - @open_orchestra_media_admin.file_utils.manager.image
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.files.thumbnail_format%
+            - '@filesystem'
+            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media_admin.file_utils.manager.video'
+            - '@open_orchestra_media_admin.file_utils.manager.image'
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '%open_orchestra_media_admin.files.thumbnail_format%'
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }
 
     open_orchestra_media_admin.file_alternatives.strategy.audio:
-        class: %open_orchestra_media_admin.file_alternatives.strategy.audio.class%
+        class: '%open_orchestra_media_admin.file_alternatives.strategy.audio.class%'
         arguments:
-            - @filesystem
-            - @open_orchestra_media_file.manager.storage
-            - %open_orchestra_media_admin.tmp_dir%
-            - %open_orchestra_media_admin.files.alternatives.audio.thumbnail%
+            - '@filesystem'
+            - '@open_orchestra_media_file.manager.storage'
+            - '%open_orchestra_media_admin.tmp_dir%'
+            - '%open_orchestra_media_admin.files.alternatives.audio.thumbnail%'
         tags:
             - { name: open_orchestra_media_admin.file_alternatives.strategy }

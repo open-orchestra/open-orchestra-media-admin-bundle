@@ -9,51 +9,51 @@ parameters:
 
 services:
     open_orchestra_media_admin.subscriber.update_media_reference:
-        class: %open_orchestra_media_admin.subscriber.update_media_reference.class%
+        class: '%open_orchestra_media_admin.subscriber.update_media_reference.class%'
         arguments:
-            - @open_orchestra_media_admin.extract_reference_manager
-            - @open_orchestra_media.repository.media
-            - @object_manager
+            - '@open_orchestra_media_admin.extract_reference_manager'
+            - '@open_orchestra_media.repository.media'
+            - '@object_manager'
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.media_cache_invalidate:
-        class: %open_orchestra_media_admin.subscriber.media_cache_invalidate.class%
+        class: '%open_orchestra_media_admin.subscriber.media_cache_invalidate.class%'
         arguments:
-            - @open_orchestra_display.manager.cacheable
-            - @open_orchestra_base.manager.tag
+            - '@open_orchestra_display.manager.cacheable'
+            - '@open_orchestra_base.manager.tag'
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_log.subscriber.media:
-        class: %open_orchestra_log.subscriber.media.class%
-        arguments: [@logger]
+        class: '%open_orchestra_log.subscriber.media.class%'
+        arguments: ['@logger']
         tags:
             - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: openorchestra }
     open_orchestra_media_admin.subscriber.delete_media:
-        class: %open_orchestra_media_admin.subscriber.delete_media.class%
+        class: '%open_orchestra_media_admin.subscriber.delete_media.class%'
         arguments:
-            - @open_orchestra_media_admin.file_alternatives.manager
+            - '@open_orchestra_media_admin.file_alternatives.manager'
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.create_media:
-        class: %open_orchestra_media_admin.subscriber.create_media.class%
+        class: '%open_orchestra_media_admin.subscriber.create_media.class%'
         arguments:
-            - @open_orchestra_media_admin.file_alternatives.manager
-            - @object_manager
+            - '@open_orchestra_media_admin.file_alternatives.manager'
+            - '@object_manager'
         tags:
              - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.media_folder_group_transform:
-        class: %open_orchestra_media_admin.subscriber.media_folder_group_transform.class%
+        class: '%open_orchestra_media_admin.subscriber.media_folder_group_transform.class%'
         arguments:
-            - @router
-            - @open_orchestra_api.transformer.media_folder_group_role
+            - '@router'
+            - '@open_orchestra_api.transformer.media_folder_group_role'
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.create_root_folder:
-        class: %open_orchestra_media_admin.subscriber.create_root_folder.class%
+        class: '%open_orchestra_media_admin.subscriber.create_root_folder.class%'
         arguments:
-            - @object_manager
-            - @translator
-            - %open_orchestra_media.document.media_folder.class%
+            - '@object_manager'
+            - '@translator'
+            - '%open_orchestra_media.document.media_folder.class%'
         tags:
             - { name: kernel.event_subscriber }
