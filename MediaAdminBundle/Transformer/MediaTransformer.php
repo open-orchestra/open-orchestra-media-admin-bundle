@@ -5,9 +5,9 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
-use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
+use OpenOrchestra\ModelInterface\Manager\TranslationChoiceManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -21,16 +21,16 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $mediaDomain;
 
     /**
-     * @param string                        $facadeClass
-     * @param FileAlternativesManager       $fileAlternativesManager
-     * @param TranslationChoiceManager      $translationChoiceManager
-     * @param string                        $mediaDomain
-     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param string                            $facadeClass
+     * @param FileAlternativesManager           $fileAlternativesManager
+     * @param TranslationChoiceManagerInterface $translationChoiceManager
+     * @param string                            $mediaDomain
+     * @param AuthorizationCheckerInterface     $authorizationChecker
      */
     public function __construct(
         $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
-        TranslationChoiceManager $translationChoiceManager,
+        TranslationChoiceManagerInterface $translationChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
