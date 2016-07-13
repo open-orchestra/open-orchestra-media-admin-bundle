@@ -1,8 +1,8 @@
-{% macro node_folder(folder) %}
+{% macro node_folder(folder, mediaType) %}
     <a
         id="media-modal-{{ folder.id }}"
         class="media-modal-menu-folder"
-        data-url="{{ path('open_orchestra_api_media_list', {'folderId': folder.id}) }}"
+        data-url="{{ path('open_orchestra_api_media_list', {'folderId': folder.id, 'mediaType': mediaType}) }}"
     >
         <span>{{ folder.name }}</span>
     </a>

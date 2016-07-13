@@ -1,4 +1,4 @@
-GalleryLoad = (folderId, galleryView, target) ->
+GalleryLoad = (folderId, galleryView, target, mediaType) ->
   if typeof target is "undefined"
     target = "#content"
   link = $('#' + folderId)
@@ -19,4 +19,5 @@ GalleryLoad = (folderId, galleryView, target) ->
         domContainer: $(target)
         modal: target != '#content'
         galleryView: galleryView
+        mediaType: mediaType
       )

@@ -14,6 +14,7 @@ GalleryCollectionView = OrchestraView.extend(
       'domContainer'
       'modal'
       'galleryView'
+      'mediaType'
     ])
     @mediaViews = []
     @loadTemplates [
@@ -41,7 +42,8 @@ GalleryCollectionView = OrchestraView.extend(
     else
       $('.js-widget-title', @options.domContainer).text @getPath().join(' > ')
       OpenOrchestra.RibbonButton.ribbonFormButtonModalView.setFocusedView @, '.modal-form-button'
-    @addFilterWidget()
+    if !@options.mediaType
+      @addFilterWidget()
     @renderCollection()
 
   renderCollection: ->

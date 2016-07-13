@@ -14,19 +14,21 @@
         {% endif %}
         <div class="oo-media-choice-preview-image">
             <img
-                    height="100px"
-                    {% if src != '' %}src="{{ src }}"{% endif %}
-                    id="previewImage_{{ id }}"
+                height="100px"
+                {% if src != '' %}src="{{ src }}"{% endif %}
+                id="previewImage_{{ id }}"
             />
             <span class="media-form-no-img-selected">{{ 'open_orchestra_media_admin.form.media.no_media_selected'|trans }}</span>
         </div>
         {% if not disabled %}
             <div class="media-form-type">
                 <a class="btn btn-default mediaModalOpen
-                {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} hidden {% endif %}"
-                   data-target="modal_media_{{ id }}"
-                   data-input="{{ id }}"
-                   data-url="{{ path('open_orchestra_media_admin_media_list_form') }}">
+                    {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} hidden {% endif %}"
+                    data-target="modal_media_{{ id }}"
+                    data-input="{{ id }}"
+                    data-url="{{ path('open_orchestra_media_admin_media_list_form', {'mediaType': form.vars.filter}) }}"
+                    data-media-type="{% if form.vars.filter %}{{ form.vars.filter }}{% else %}false{% endif %}"
+                >
                     <i class="fa fa-folder-open-o"></i>
                     {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
                 </a>
