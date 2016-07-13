@@ -1,7 +1,12 @@
 GalleryLoad = (folderId, galleryView, target, mediaType) ->
+  modal = true
   if typeof target is "undefined"
     target = "#content"
-  link = $('#' + folderId)
+    modal = false
+  if (modal)
+    link = $(target).parent().find('#' + folderId)
+  else
+    link = $('#' + folderId)
   title = link.text()
   listUrl = Backbone.history.fragment
   $.ajax
@@ -17,7 +22,7 @@ GalleryLoad = (folderId, galleryView, target, mediaType) ->
         title: title
         listUrl: listUrl
         domContainer: $(target)
-        modal: target != '#content'
+        modal: modal
         galleryView: galleryView
         mediaType: mediaType
       )
