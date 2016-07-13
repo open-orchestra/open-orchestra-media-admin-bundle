@@ -17,11 +17,11 @@ open_orchestra_media_admin:
         root_name: Main folder
     media_filter:
         none: All
-        default: Default type
-        image: Images
-        video: Videos
-        audio: Audios
-        pdf: Pdfs
+        default: Misc
+        image: Image
+        video: Video
+        audio: Audio
+        pdf: Pdf
     form:
         folder:
             success: The folder has been saved
@@ -56,6 +56,8 @@ open_orchestra_media_admin:
         field_type:
             custom_type:
                 media: Media
+            field_option:
+                filter: Authorized media type
         upload:
             unsupported: >
                 Your browser, unfortunately, is not supported by Flow.js. The library
