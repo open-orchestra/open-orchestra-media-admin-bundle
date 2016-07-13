@@ -31,6 +31,7 @@
                 >
                     <i class="fa fa-folder-open-o"></i>
                     {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
+                    {% if form.vars.filter %}<br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]{% endif %}
                 </a>
                 <br /><br />
                 {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %}
