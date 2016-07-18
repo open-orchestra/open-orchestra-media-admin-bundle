@@ -15,6 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class MediaChoiceType extends AbstractType
 {
+    const DEFAULT_FILTER = '';
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -44,7 +46,7 @@ class MediaChoiceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'filter' => ''
+            'filter' => self::DEFAULT_FILTER
         ));
     }
 
@@ -55,7 +57,12 @@ class MediaChoiceType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['filter'] = $options['filter'];
+        $filter = self::DEFAULT_FILTER;
+        if (isset($options['filter'])) {
+            $filter = $options['filter'];
+        }
+
+        $view->vars['filter'] = $filter;
     }
 
     /**
