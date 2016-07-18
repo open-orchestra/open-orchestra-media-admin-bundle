@@ -1,6 +1,6 @@
 {% import "OpenOrchestraMediaAdminBundle:Tree:tree-macros.html.twig" as macros %}
 
-{% set menu = macros.buildMenuFolder(folders, skin, 'first') %}
+{% set menu = macros.buildMenuFolder(folders, mediaType, skin, 'first') %}
 {% set tree %}
     {% block name %}
     {% endblock %}

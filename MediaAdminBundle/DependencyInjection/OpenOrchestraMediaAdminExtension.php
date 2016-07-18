@@ -87,12 +87,36 @@ class OpenOrchestraMediaAdminExtension extends Extension
                         'required' => array(
                             'default_value' => false,
                         ),
+                        'filter' => array(
+                            'default_value' => ''
+                        )
                     )
                 )
             )
         );
 
         $container->setParameter('open_orchestra_backoffice.field_types', $fieldTypes);
+
+        $options = array_merge(
+            $container->getParameter('open_orchestra_backoffice.options'),
+            array(
+                'filter' => array(
+                    'type' => 'choice',
+                    'label' => 'open_orchestra_media_admin.form.field_type.field_option.filter',
+                    'required' => false,
+                    'choices' => array(
+                        '' => 'open_orchestra_media_admin.media_filter.none',
+                        'default' => 'open_orchestra_media_admin.media_filter.default',
+                        'image' => 'open_orchestra_media_admin.media_filter.image',
+                        'audio' => 'open_orchestra_media_admin.media_filter.audio',
+                        'video' => 'open_orchestra_media_admin.media_filter.video',
+                        'pdf' => 'open_orchestra_media_admin.media_filter.pdf',
+                    ),
+                )
+            )
+        );
+
+        $container->setParameter('open_orchestra_backoffice.options', $options);
     }
 
     /**

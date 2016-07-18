@@ -6,12 +6,17 @@ use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class MediaChoiceType
  */
 class MediaChoiceType extends AbstractType
 {
+    const DEFAULT_FILTER = '';
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -33,6 +38,31 @@ class MediaChoiceType extends AbstractType
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);
         }
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'filter' => self::DEFAULT_FILTER
+        ));
+    }
+
+    /**
+     * @param FormView      $view
+     * @param FormInterface $form
+     * @param array         $options
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $filter = self::DEFAULT_FILTER;
+        if (isset($options['filter'])) {
+            $filter = $options['filter'];
+        }
+
+        $view->vars['filter'] = $filter;
     }
 
     /**

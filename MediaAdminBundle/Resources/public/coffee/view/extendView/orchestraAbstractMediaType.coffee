@@ -22,6 +22,7 @@ extendView['orchestraMediaAbstractType'] =
       error: ->
         new viewClass($.extend(options,
           body: 'Error while loading'
+          mediaType: options.mediaType
         ))
     return
 
@@ -31,6 +32,7 @@ extendView['orchestraMediaAbstractType'] =
     {
       domContainer: $('#' + target.data("target"), @$el)
       input: target.data("input")
-      url : target.data("url")
+      url: target.data("url")
+      mediaType: target.data("media-type")
       method: if @options.method then @options.method else 'GET'
     }

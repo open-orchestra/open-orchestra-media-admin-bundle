@@ -113,6 +113,7 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
         $container->setParameter('kernel.cache_dir', '/tmp');
         $container->setParameter('kernel.bundles', array());
         $container->setParameter('open_orchestra_backoffice.field_types', array());
+        $container->setParameter('open_orchestra_backoffice.options', array());
         $container->registerExtension(new OpenOrchestraMediaAdminExtension());
 
         $locator = new FileLocator(__DIR__ . '/Fixtures/config/');

@@ -18,6 +18,7 @@ MediaModalView = OrchestraView.extend(
       'domContainer'
       'url'
       'galleryView'
+      'mediaType'
     ])
     @loadTemplates [
       "OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaModalView"
@@ -62,7 +63,7 @@ MediaModalView = OrchestraView.extend(
 
   openGallery: (folderId) ->
     displayLoader $(".modal-body-content", @$el)
-    GalleryLoad folderId, @options.galleryView, $(".modal-body-content", @$el)
+    GalleryLoad folderId, @options.galleryView, $(".modal-body-content", @$el), @options.mediaType
 
   updateNavigation: (node) ->
     $('.modal-body-menu nav .active', @el).removeClass("active");

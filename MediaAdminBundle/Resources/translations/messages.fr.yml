@@ -16,12 +16,12 @@ open_orchestra_media_admin:
     folder:
         root_name: Dossier principal
     media_filter:
-        none: Tous
-        default: Type par défaut
-        image: Images
-        video: Vidéos
-        audio: Audios
-        pdf: Pdfs
+        none: Tout
+        default: Divers
+        image: Image
+        video: Vidéo
+        audio: Audio
+        pdf: Pdf
     form:
         folder:
             success: Le répertoire a été sauvegardé
@@ -56,6 +56,8 @@ open_orchestra_media_admin:
         field_type:
             custom_type:
                 media: Média
+            field_option:
+                filter: Type de média autorisé
         upload:
             unsupported: >
                 Votre navigateur n'est pas supporté par Flow.js. La bibliothèque requiert le support
