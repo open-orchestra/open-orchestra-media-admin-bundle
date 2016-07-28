@@ -7,7 +7,6 @@ extendView['galleryWysiwygView'] =
   sendMedia: ->
     tagTemplate = 'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/TinyMce/media'
 
-    console.log @options.media
     tag = @renderTemplate tagTemplate,
       media_id: @options.media.get('id')
       media_src: @options.media.get('thumbnail')
@@ -19,6 +18,6 @@ extendView['galleryWysiwygView'] =
     tinymce.get(editorId).execCommand(
       'mceInsertContent',
       false,
-      tag,
+      tag
     )
     modalContainer.find('.mediaModalClose').click()

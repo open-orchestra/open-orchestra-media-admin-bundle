@@ -119,7 +119,6 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
         return strpos($str, $BBCodeMedia) !== false;
     }
 
-
     /**
      * Check if $attributeValue matches with a media attribute
      *
