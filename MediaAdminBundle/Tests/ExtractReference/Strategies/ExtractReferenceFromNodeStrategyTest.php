@@ -17,12 +17,17 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      */
     protected $strategy;
 
+    protected $parserBBcode;
+
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->strategy = new ExtractReferenceFromNodeStrategy();
+        $this->parserBBcode = Phake::mock('OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface');
+        Phake::when($this->parserBBcode)->parse(Phake::anyParameters())->thenReturn($this->parserBBcode);
+
+        $this->strategy = new ExtractReferenceFromNodeStrategy($this->parserBBcode);
     }
 
     /**
@@ -67,10 +72,12 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
         $block1 = Phake::mock('OpenOrchestra\ModelInterface\Model\BlockInterface');
         $block2 = Phake::mock('OpenOrchestra\ModelInterface\Model\BlockInterface');
         $block3 = Phake::mock('OpenOrchestra\ModelInterface\Model\BlockInterface');
+        $block4 = Phake::mock('OpenOrchestra\ModelInterface\Model\BlockInterface');
         $blocks = new ArrayCollection();
         $blocks->add($block1);
         $blocks->add($block2);
         $blocks->add($block3);
+        $blocks->add($block4);
 
         $nodeId = 'nodeId';
         $node = Phake::mock('OpenOrchestra\ModelInterface\Model\NodeInterface');
@@ -98,11 +105,22 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
             )
         ));
 
+        $mediaId = 'faleIdMedia';
+        $elementNode = Phake::mock('OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNode');
+        Phake::when($elementNode)->getAsText()->thenReturn($mediaId);
+        Phake::when($this->parserBBcode)->getElementByTagName(Phake::anyParameters())->thenReturn(array($elementNode));
+        Phake::when($block4)->getAttributes()->thenReturn(array(
+            'id' => 'id',
+            'class' => 'class',
+            'htmlContent' => "[media]".$mediaId."[/media]",
+        ));
+
         $expected = array(
             'foo' => array('node-' . $nodeId . '-0', 'node-' . $nodeId . '-1'),
             'bar' => array('node-' . $nodeId . '-1', 'node-' . $nodeId . '-2'),
             'foo_col' => array('node-' . $nodeId . '-2'),
             'bar_col' => array('node-' . $nodeId . '-2'),
+            'faleIdMedia' => array('node-' . $nodeId . '-3'),
         );
 
         $this->assertSame($expected, $this->strategy->extractReference($node));

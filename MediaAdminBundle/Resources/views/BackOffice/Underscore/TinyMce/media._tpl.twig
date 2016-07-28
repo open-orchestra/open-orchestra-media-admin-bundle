@@ -4,5 +4,5 @@
     src="<%= media_src %>"
     data-id="<%= media_id %>"
     <% if (media_format) { %>data-format="<%= media_format %>"<% } %>
-    style="<%= style %>"
+    <% if (style) { %>style="<%= style %>"<% } %>
 />

@@ -17,12 +17,17 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
      */
     protected $strategy;
 
+    protected $parserBBcode;
+
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->strategy = new ExtractReferenceFromContentStrategy();
+        $this->parserBBcode = Phake::mock('OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface');
+        Phake::when($this->parserBBcode)->parse(Phake::anyParameters())->thenReturn($this->parserBBcode);
+
+        $this->strategy = new ExtractReferenceFromContentStrategy($this->parserBBcode);
     }
 
     /**
@@ -71,9 +76,11 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
     {
         $contentAttribute1 = Phake::mock('OpenOrchestra\ModelInterface\Model\ContentAttributeInterface');
         $contentAttribute2 = Phake::mock('OpenOrchestra\ModelInterface\Model\ContentAttributeInterface');
+        $contentAttribute3 = Phake::mock('OpenOrchestra\ModelInterface\Model\ContentAttributeInterface');
         $contentAttributes = new ArrayCollection();
         $contentAttributes->add($contentAttribute1);
         $contentAttributes->add($contentAttribute2);
+        $contentAttributes->add($contentAttribute3);
 
         $contentId = 'contentId';
         $content = Phake::mock('OpenOrchestra\ModelInterface\Model\ContentInterface');
@@ -83,8 +90,15 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
         Phake::when($contentAttribute1)->getValue()->thenReturn(array('id' => 'foo', 'format' => ''));
         Phake::when($contentAttribute2)->getValue()->thenReturn('class2');
 
+        $mediaId = 'faleIdMedia';
+        $elementNode = Phake::mock('OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNode');
+        Phake::when($elementNode)->getAsText()->thenReturn($mediaId);
+        Phake::when($this->parserBBcode)->getElementByTagName(Phake::anyParameters())->thenReturn(array($elementNode));
+        Phake::when($contentAttribute3)->getValue()->thenReturn('<p>teststes</p>[media]'.$mediaId.'[/media]');
+
         $expected = array(
             'foo' => array('content-' . $contentId),
+            'faleIdMedia' => array('content-' . $contentId),
         );
 
         $this->assertSame($expected, $this->strategy->extractReference($content));
