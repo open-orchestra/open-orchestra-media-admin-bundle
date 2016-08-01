@@ -8,10 +8,14 @@ services:
         class: '%open_orchestra_media_admin.extract_reference_manager.class%'
     open_orchestra_media_admin.extract_reference.node:
         class: '%open_orchestra_media_admin.extract_reference.node.class%'
+        arguments:
+          - '@open_orchestra_bbcode.parser'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
     open_orchestra_media_admin.extract_reference.content:
         class: '%open_orchestra_media_admin.extract_reference.content.class%'
+        arguments:
+          - '@open_orchestra_bbcode.parser'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
 

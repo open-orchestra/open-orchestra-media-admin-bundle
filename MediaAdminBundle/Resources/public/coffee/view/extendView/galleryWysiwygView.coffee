@@ -11,6 +11,7 @@ extendView['galleryWysiwygView'] =
       media_id: @options.media.get('id')
       media_src: @options.media.get('thumbnail')
       media_format: null
+      style: null
 
     modalContainer = @$el.closest(".mediaModalContainer")
     editorId = modalContainer.data("input")

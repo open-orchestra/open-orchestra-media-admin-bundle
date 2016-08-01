@@ -45,7 +45,7 @@ class ExtractReferenceFromContentStrategy extends AbstractExtractReferenceStrate
      *
      * @param string $statusableElementId
      *
-     * return string
+     * @return string
      */
     public function getReferencePattern($statusableElementId)
     {

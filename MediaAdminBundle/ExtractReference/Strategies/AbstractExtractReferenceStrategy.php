@@ -2,6 +2,9 @@
 
 namespace OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies;
 
+use OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNode;
+use OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface;
+use OpenOrchestra\Media\BBcode\AbstractMediaCodeDefinition;
 use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 
@@ -10,6 +13,16 @@ use OpenOrchestra\ModelInterface\Model\StatusableInterface;
  */
 abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInterface
 {
+    protected $bbcodeParser;
+
+    /**
+     * @param BBcodeParserInterface $bbCoderParser
+     */
+    public function __construct(BBcodeParserInterface $bbCoderParser)
+    {
+        $this->bbcodeParser = $bbCoderParser;
+    }
+
     /**
      * @param StatusableInterface $statusableElement
      *
@@ -62,7 +75,8 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
     {
         if ($this->isMediaAttribute($element)) {
             $references[$element['id']][] = $this->formatReference($index, $statusableElementId);
-
+        } elseif (is_string($element) && $this->hasBBcodeMedia($element)) {
+            $references = $this->extractMediaBBCode($element, $index, $statusableElementId, $references);
         } elseif (is_array($element)) {
             foreach ($element as $item) {
                 $references = $this->extractMedia($index, $item, $statusableElementId , $references);
@@ -72,7 +86,40 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
         return $references;
     }
 
-    /*
+    /**
+     * @param string $str
+     * @param string $index
+     * @param string $statusableElementId
+     * @param array  $references
+     *
+     * @return array
+     */
+    protected function extractMediaBBCode($str, $index, $statusableElementId, array $references)
+    {
+        /** @var BBcodeParserInterface $parserBBcode */
+        $parserBBcode = $this->bbcodeParser->parse($str);
+        $mediaTags = $parserBBcode->getElementByTagName(AbstractMediaCodeDefinition::TAG_NAME);
+        /** @var BBcodeElementNode $mediaTag */
+        foreach ($mediaTags as $mediaTag) {
+            $references[$mediaTag->getAsText()][] = $this->formatReference($index, $statusableElementId);
+        }
+
+        return $references;
+    }
+
+    /**
+     * @param $str
+     *
+     * @return bool
+     */
+    protected function hasBBcodeMedia($str)
+    {
+        $BBCodeMedia = '['.AbstractMediaCodeDefinition::TAG_NAME.']';
+
+        return strpos($str, $BBCodeMedia) !== false;
+    }
+
+    /**
      * Check if $attributeValue matches with a media attribute
      *
      * @param mixed $attributeValue
@@ -83,7 +130,7 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
     {
         return is_array($attributeValue)
             && isset($attributeValue['id'])
-            && isset($attributeValue['format'])
+            && array_key_exists('format', $attributeValue)
             && $attributeValue['id'] != '';
     }
 }
