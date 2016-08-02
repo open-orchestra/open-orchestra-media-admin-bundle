@@ -13,7 +13,7 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
     protected $strategy;
     protected $mediaStorageManager;
     protected $fileSystem;
-    protected $tmpDir = '/tmp';
+    protected $tmpDir;
 
     protected $fullMedia;
     protected $fullMediaFileSystemName = 'original.jpg';
@@ -37,6 +37,7 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
      */
     public function setUp()
     {
+        $this->tmpDir = __DIR__ . '/../../Fixtures/Source';
         $this->fullMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->fullMedia)->getFilesystemName()->thenReturn($this->fullMediaFileSystemName);
         Phake::when($this->fullMedia)->getThumbnail()->thenReturn($this->fullMediaThumbnailName);
@@ -49,12 +50,14 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
         Phake::when($this->thumbnailNullMedia)->getThumbnail()->thenReturn($this->thumbnailNullMediaThumbnailName);
 
         $this->imageMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        Phake::when($this->imageMedia)->getFilesystemName()->thenReturn('fil-vertical.jpg');
         Phake::when($this->imageMedia)->getMimeType()->thenReturn('image/jpg');
 
         $this->audioMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->audioMedia)->getMimeType()->thenReturn('audio/mp3');
 
         $this->videoMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        Phake::when($this->videoMedia)->getFilesystemName()->thenReturn('video.mp4');
         Phake::when($this->videoMedia)->getMimeType()->thenReturn('video/mpeg');
 
         $this->pdfMedia = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
@@ -109,6 +112,33 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
         $this->strategy->generateAlternatives($media);
 
         $this->assertOriginalRemoved($media);
+    }
+
+    /**
+     * test setMediaInformation
+     *
+     * @param string $mediaName
+     *
+     * @dataProvider provideFileMediaInformation
+     */
+    public function testSetMediaInformation($mediaName)
+    {
+        $media = $this->{$mediaName};
+
+        $this->strategy->setMediaInformation($media);
+
+        Phake::verify($media, Phake::times(2))->addMediaInformation(Phake::anyParameters());
+    }
+
+    /**
+     * Provide media
+     */
+    public function provideFileMediaInformation()
+    {
+        return array(
+            array('imageMedia'),
+            array('videoMedia'),
+        );
     }
 
     /**
