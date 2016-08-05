@@ -73,10 +73,14 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
      */
     protected function extractMedia($index, $element, $statusableElementId, $references = array())
     {
+        dump(is_string($element));
+        if (is_string($element))
+            dump($this->hasBBcodeMedia($element));
         if ($this->isMediaAttribute($element)) {
             $references[$element['id']][] = $this->formatReference($index, $statusableElementId);
         } elseif (is_string($element) && $this->hasBBcodeMedia($element)) {
             $references = $this->extractMediaBBCode($element, $index, $statusableElementId, $references);
+            dump($references);
         } elseif (is_array($element)) {
             foreach ($element as $item) {
                 $references = $this->extractMedia($index, $item, $statusableElementId , $references);
@@ -114,9 +118,9 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
      */
     protected function hasBBcodeMedia($str)
     {
-        $BBCodeMedia = '['.AbstractMediaCodeDefinition::TAG_NAME.']';
+        $BBCodeMedia = '/\['.AbstractMediaCodeDefinition::TAG_NAME.'(\=\{.*\})?].*\[\/'.AbstractMediaCodeDefinition::TAG_NAME.'\]/m';
 
-        return strpos($str, $BBCodeMedia) !== false;
+        return preg_match($BBCodeMedia, $str) === 1;
     }
 
     /**

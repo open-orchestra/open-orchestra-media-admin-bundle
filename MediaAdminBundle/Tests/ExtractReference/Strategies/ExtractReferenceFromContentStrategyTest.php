@@ -94,7 +94,7 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
         $elementNode = Phake::mock('OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNode');
         Phake::when($elementNode)->getAsText()->thenReturn($mediaId);
         Phake::when($this->parserBBcode)->getElementByTagName(Phake::anyParameters())->thenReturn(array($elementNode));
-        Phake::when($contentAttribute3)->getValue()->thenReturn('<p>teststes</p>[media]'.$mediaId.'[/media]');
+        Phake::when($contentAttribute3)->getValue()->thenReturn('<p>teststes</p>[media={"format":"fixed_height"}]'.$mediaId.'[/media]');
 
         $expected = array(
             'foo' => array('content-' . $contentId),
