@@ -73,14 +73,10 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
      */
     protected function extractMedia($index, $element, $statusableElementId, $references = array())
     {
-        dump(is_string($element));
-        if (is_string($element))
-            dump($this->hasBBcodeMedia($element));
         if ($this->isMediaAttribute($element)) {
             $references[$element['id']][] = $this->formatReference($index, $statusableElementId);
         } elseif (is_string($element) && $this->hasBBcodeMedia($element)) {
             $references = $this->extractMediaBBCode($element, $index, $statusableElementId, $references);
-            dump($references);
         } elseif (is_array($element)) {
             foreach ($element as $item) {
                 $references = $this->extractMedia($index, $item, $statusableElementId , $references);
