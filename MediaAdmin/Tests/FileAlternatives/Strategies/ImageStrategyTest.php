@@ -110,7 +110,7 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
     /**
      * test generateAlternatives
      * 
-     * @param string $mediaNames
+     * @param string $mediaName
      * 
      * @dataProvider provideMedia
      */

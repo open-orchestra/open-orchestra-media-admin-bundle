@@ -66,6 +66,24 @@ class FileAlternativesManager
     }
 
     /**
+     * Try to find a strategy to set media information
+     *
+     * @param MediaInterface $media
+     */
+    public function setMediaInformation(MediaInterface $media)
+    {
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->support($media)) {
+                $strategy->setMediaInformation($media);
+
+                return;
+            }
+        }
+
+        $this->defaultStrategy->setMediaInformation($media);
+    }
+
+    /**
      * Try to find a strategy to generate the required file alternatives and run it
      *
      * @param MediaInterface $media

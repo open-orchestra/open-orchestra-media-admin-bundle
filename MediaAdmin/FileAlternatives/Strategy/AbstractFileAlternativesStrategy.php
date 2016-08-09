@@ -17,10 +17,20 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     /**
      * Get the $media type supported by the strategy
      *
-     * @return srtring
+     * @return string
      */
     public function getMediaType() {
         return static::MEDIA_TYPE;
+    }
+
+    /**
+     * @param MediaInterface $media
+     */
+    public function setMediaInformation(MediaInterface $media)
+    {
+        $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
+        $media->addMediaInformation('size', filesize($filePath));
+        $media->addMediaInformation('extension', pathinfo($filePath, PATHINFO_EXTENSION));
     }
 
     /**

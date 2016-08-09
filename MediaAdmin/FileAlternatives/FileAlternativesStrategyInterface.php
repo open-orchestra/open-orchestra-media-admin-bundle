@@ -23,9 +23,16 @@ interface FileAlternativesStrategyInterface
     /**
      * Get the $media type supported by the strategy
      *
-     * @return srtring
+     * @return string
      */
     public function getMediaType();
+
+    /**
+     * Set specific media information (extension, size, ...) in media
+     *
+     * @param MediaInterface $media;
+     */
+    public function setMediaInformation(MediaInterface $media);
 
     /**
      * Generate a thumbnail for $media
