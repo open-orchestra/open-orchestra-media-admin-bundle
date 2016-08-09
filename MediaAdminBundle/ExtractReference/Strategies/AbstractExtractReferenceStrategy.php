@@ -114,9 +114,9 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
      */
     protected function hasBBcodeMedia($str)
     {
-        $BBCodeMedia = '['.AbstractMediaCodeDefinition::TAG_NAME.']';
+        $BBCodeMedia = '/\['.AbstractMediaCodeDefinition::TAG_NAME.'(\=\{.*\})?].*\[\/'.AbstractMediaCodeDefinition::TAG_NAME.'\]/m';
 
-        return strpos($str, $BBCodeMedia) !== false;
+        return preg_match($BBCodeMedia, $str) === 1;
     }
 
     /**
