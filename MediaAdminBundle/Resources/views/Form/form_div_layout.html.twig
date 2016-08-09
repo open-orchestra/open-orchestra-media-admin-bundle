@@ -30,7 +30,7 @@
                     <i class="fa fa-folder-open-o"></i>
                     {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
                 </a>
-                <br /><br />
+                <br><br>
                 {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %}
                     <div class="alert alert-info">
                         {{ 'open_orchestra_backoffice.form.no_access'|trans }}
