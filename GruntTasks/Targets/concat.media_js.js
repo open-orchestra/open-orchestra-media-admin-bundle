@@ -7,6 +7,7 @@ module.exports = {
     'web/built/openorchestramediaadmin/js/view/*.js',
     'web/built/openorchestramediaadmin/js/media/*.js',
     'web/built/openorchestramediaadmin/js/media/view/*.js',
+    'web/built/openorchestramediaadmin/js/formBehavior/*.js',
     'web/built/openorchestramediaadmin/js/*.js'
   ],
   dest: 'web/built/media.js'
