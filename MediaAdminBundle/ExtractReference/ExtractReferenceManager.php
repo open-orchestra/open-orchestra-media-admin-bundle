@@ -59,4 +59,29 @@ class ExtractReferenceManager
 
         throw new ExtractReferenceStrategyNotFound();
     }
+
+    /**
+     * Get invalidate tag of references
+     *
+     * @param array $references
+     *
+     * @return array
+     */
+    public function getInvalidateTagStatusableElement(array $references)
+    {
+        $invalidateTag = array();
+        /** @var ExtractReferenceInterface $strategy */
+        foreach ($references as $reference) {
+            foreach ($this->strategies as $strategy) {
+                if ($strategy->supportReference($reference)) {
+                    $tag = $strategy->getInvalidateTagStatusableElement($reference);
+                    if (null !== $tag) {
+                        $invalidateTag[] = $tag;
+                    }
+                }
+            }
+        }
+
+        return $invalidateTag;
+    }
 }

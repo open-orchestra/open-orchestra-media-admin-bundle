@@ -17,6 +17,13 @@ interface ExtractReferenceInterface
     public function support(StatusableInterface $statusableElement);
 
     /**
+     * @param string $reference
+     *
+     * @return bool
+     */
+    public function supportReference($reference);
+
+    /**
      * @param StatusableInterface $statusableElement
      *
      * @return array
@@ -31,6 +38,15 @@ interface ExtractReferenceInterface
      * return string
      */
     public function getReferencePattern($statusableElementId);
+
+    /**
+     * Get invalidate tag of statusable element for reference
+     *
+     * @param string $reference
+     *
+     * @return string|null
+     */
+    public function getInvalidateTagStatusableElement($reference);
 
     /**
      * @return string
