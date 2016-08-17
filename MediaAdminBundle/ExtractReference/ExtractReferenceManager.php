@@ -61,20 +61,20 @@ class ExtractReferenceManager
     }
 
     /**
-     * Get invalidate tag of references
+     * Get cache tag of references
      *
      * @param array $references
      *
      * @return array
      */
-    public function getInvalidateTagStatusableElement(array $references)
+    public function getStatusableElementCacheTag(array $references)
     {
         $invalidateTag = array();
         /** @var ExtractReferenceInterface $strategy */
         foreach ($references as $reference) {
             foreach ($this->strategies as $strategy) {
                 if ($strategy->supportReference($reference)) {
-                    $tag = $strategy->getInvalidateTagStatusableElement($reference);
+                    $tag = $strategy->getStatusableElementCacheTag($reference);
                     if (null !== $tag) {
                         $invalidateTag[] = $tag;
                     }

@@ -79,13 +79,13 @@ class ExtractReferenceFromContentStrategy extends AbstractExtractReferenceStrate
     }
 
     /**
-     * Get invalidate tag of statusable element for reference
+     * Get cache tag of statusable element for reference
      *
      * @param string $reference
      *
      * @return string|null
      */
-    public function getInvalidateTagStatusableElement($reference)
+    public function getStatusableElementCacheTag($reference)
     {
         $id = preg_replace('/^'. self::REFERENCE_PREFIX .'/', '', $reference);
         $content = $this->contentRepository->findById($id);

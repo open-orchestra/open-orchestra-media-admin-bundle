@@ -163,11 +163,11 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      *
      * @dataProvider provideReferenceAndNode
      */
-    public function testInvalidateTagStatusableElement($reference, $node, $countTagManager, $expectedId)
+    public function testGetStatusableElementCacheTag($reference, $node, $countTagManager, $expectedId)
     {
         Phake::when($this->nodeRepository)->findVersionByDocumentId(Phake::anyParameters())->thenReturn($node);
 
-        $this->strategy->getInvalidateTagStatusableElement($reference);
+        $this->strategy->getStatusableElementCacheTag($reference);
 
         Phake::verify($this->tagManager, Phake::times($countTagManager))->formatNodeIdTag($expectedId);
     }

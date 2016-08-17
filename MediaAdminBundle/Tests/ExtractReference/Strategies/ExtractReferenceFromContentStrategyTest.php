@@ -141,11 +141,11 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
      *
      * @dataProvider provideReferenceAndContent
      */
-    public function testInvalidateTagStatusableElement($reference, $content, $countTagManager, $expectedId)
+    public function testGetStatusableElementCacheTag($reference, $content, $countTagManager, $expectedId)
     {
         Phake::when($this->contentRepository)->findById(Phake::anyParameters())->thenReturn($content);
 
-        $this->strategy->getInvalidateTagStatusableElement($reference);
+        $this->strategy->getStatusableElementCacheTag($reference);
 
         Phake::verify($this->tagManager, Phake::times($countTagManager))->formatContentIdTag($expectedId);
     }

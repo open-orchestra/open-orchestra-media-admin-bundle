@@ -41,7 +41,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
      */
     protected function invalidate($media)
     {
-        $tags = $this->extractReferenceManager->getInvalidateTagStatusableElement($media->getUsageReference());
+        $tags = $this->extractReferenceManager->getStatusableElementCacheTag($media->getUsageReference());
         $tags[] = $this->tagManager->formatMediaIdTag($media->getId());
         $this->cacheableManager->invalidateTags($tags);
     }

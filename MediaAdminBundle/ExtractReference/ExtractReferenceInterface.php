@@ -40,13 +40,13 @@ interface ExtractReferenceInterface
     public function getReferencePattern($statusableElementId);
 
     /**
-     * Get invalidate tag of statusable element for reference
+     * Get cache tag of statusable element for reference
      *
      * @param string $reference
      *
      * @return string|null
      */
-    public function getInvalidateTagStatusableElement($reference);
+    public function getStatusableElementCacheTag($reference);
 
     /**
      * @return string
