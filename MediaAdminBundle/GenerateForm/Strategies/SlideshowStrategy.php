@@ -17,10 +17,12 @@ class SlideshowStrategy extends AbstractBlockStrategy
     protected $translator;
 
     /**
+     * @param array               $basicConfigurationBlock
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(array $basicConfigurationBlock, TranslatorInterface $translator)
     {
+        parent::__construct($basicConfigurationBlock);
         $this->translator = $translator;
     }
 
@@ -56,7 +58,7 @@ class SlideshowStrategy extends AbstractBlockStrategy
             'attr' => array(
                 'data-prototype-label-add' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.add'),
                 'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.new'),
-               'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
+                'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
             ),
         ));
         $builder->add('width', 'text', array(

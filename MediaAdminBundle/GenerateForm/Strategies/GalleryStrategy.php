@@ -19,11 +19,13 @@ class GalleryStrategy extends AbstractBlockStrategy
     protected $thumbnailConfig = array();
 
     /**
+     * @param array               $basicConfigurationBlock
      * @param TranslatorInterface $translator
      * @param array               $thumbnailConfig
      */
-    public function __construct(TranslatorInterface $translator, array $thumbnailConfig)
+    public function __construct(array $basicConfigurationBlock, TranslatorInterface $translator, array $thumbnailConfig)
     {
+        parent::__construct($basicConfigurationBlock);
         $this->translator = $translator;
         $this->thumbnailConfig = $thumbnailConfig;
     }
