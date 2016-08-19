@@ -16,8 +16,9 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
      * @var ExtractReferenceFromNodeStrategy
      */
     protected $strategy;
-
     protected $parserBBcode;
+    protected $tagManager;
+    protected $nodeRepository;
 
     /**
      * Set up the test
@@ -27,7 +28,10 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
         $this->parserBBcode = Phake::mock('OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface');
         Phake::when($this->parserBBcode)->parse(Phake::anyParameters())->thenReturn($this->parserBBcode);
 
-        $this->strategy = new ExtractReferenceFromNodeStrategy($this->parserBBcode);
+        $this->tagManager = Phake::mock('OpenOrchestra\BaseBundle\Manager\TagManager');
+        $this->nodeRepository = Phake::mock('OpenOrchestra\ModelInterface\Repository\NodeRepositoryInterface');
+
+        $this->strategy = new ExtractReferenceFromNodeStrategy($this->parserBBcode, $this->tagManager, $this->nodeRepository);
     }
 
     /**
@@ -61,6 +65,31 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
             array('OpenOrchestra\ModelInterface\Model\NodeInterface', true),
             array('OpenOrchestra\ModelInterface\Model\ContentInterface', false),
             array('OpenOrchestra\ModelInterface\Model\StatusableInterface', false),
+        );
+    }
+
+    /**
+     * @param string $reference
+     * @param bool   $support
+     *
+     * @dataProvider provideReferenceAndSupport
+     */
+    public function testSupportReference($reference, $support)
+    {
+        $this->assertSame($support, $this->strategy->supportReference($reference));
+    }
+
+    /**
+     * @return array
+     */
+    public function provideReferenceAndSupport()
+    {
+        return array(
+            array('content-5646847541564561', false),
+            array('node-5646847541564561', true),
+            array('node-content-5646847541564561', true),
+            array('', false),
+            array('content-nodezùzdeldze', false),
         );
     }
 
@@ -124,6 +153,38 @@ class ExtractReferenceFromNodeStrategyTest extends AbstractBaseTestCase
         );
 
         $this->assertSame($expected, $this->strategy->extractReference($node));
+    }
+
+    /**
+     * @param string $reference
+     * @param mixed  $node
+     * @param int    $countTagManager
+     * @param string $expectedId
+     *
+     * @dataProvider provideReferenceAndNode
+     */
+    public function testGetStatusableElementCacheTag($reference, $node, $countTagManager, $expectedId)
+    {
+        Phake::when($this->nodeRepository)->findVersionByDocumentId(Phake::anyParameters())->thenReturn($node);
+
+        $this->strategy->getStatusableElementCacheTag($reference);
+
+        Phake::verify($this->tagManager, Phake::times($countTagManager))->formatNodeIdTag($expectedId);
+    }
+
+    /**
+     * @return array
+     */
+    public function provideReferenceAndNode()
+    {
+        $node = Phake::mock('OpenOrchestra\ModelInterface\Model\NodeInterface');
+        $nodeFakeId = 'fakeId';
+        Phake::when($node)->getNodeId()->thenReturn($nodeFakeId);
+
+        return array(
+            array('content-54546465464', $node, 1, $nodeFakeId),
+            array('content-nonContent', null, 0, null)
+        );
     }
 
     /**

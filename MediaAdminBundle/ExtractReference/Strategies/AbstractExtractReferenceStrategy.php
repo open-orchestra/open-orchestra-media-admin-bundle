@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies;
 
+use OpenOrchestra\BaseBundle\Manager\TagManager;
 use OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNode;
 use OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface;
 use OpenOrchestra\Media\BBcode\AbstractMediaCodeDefinition;
@@ -14,13 +15,16 @@ use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInterface
 {
     protected $bbcodeParser;
+    protected $tagManager;
 
     /**
      * @param BBcodeParserInterface $bbCoderParser
+     * @param TagManager            $tagManager
      */
-    public function __construct(BBcodeParserInterface $bbCoderParser)
+    public function __construct(BBcodeParserInterface $bbCoderParser, TagManager $tagManager)
     {
         $this->bbcodeParser = $bbCoderParser;
+        $this->tagManager = $tagManager;
     }
 
     /**
@@ -31,7 +35,7 @@ abstract class AbstractExtractReferenceStrategy implements ExtractReferenceInter
     abstract public function support(StatusableInterface $statusableElement);
 
     /**
-     * @param StatusableInterface|NodeInterface $statusableElement
+     * @param StatusableInterface $statusableElement
      *
      * @return array
      */

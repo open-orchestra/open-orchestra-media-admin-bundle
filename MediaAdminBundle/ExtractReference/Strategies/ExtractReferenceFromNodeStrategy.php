@@ -2,9 +2,12 @@
 
 namespace OpenOrchestra\MediaAdminBundle\ExtractReference\Strategies;
 
+use OpenOrchestra\BaseBundle\Manager\TagManager;
+use OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface;
 use OpenOrchestra\ModelInterface\Model\BlockInterface;
 use OpenOrchestra\ModelInterface\Model\NodeInterface;
 use OpenOrchestra\ModelInterface\Model\StatusableInterface;
+use OpenOrchestra\ModelInterface\Repository\NodeRepositoryInterface;
 
 /**
  * Class ExtractReferenceFromNodeStrategy
@@ -12,6 +15,19 @@ use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 class ExtractReferenceFromNodeStrategy extends AbstractExtractReferenceStrategy
 {
     const REFERENCE_PREFIX = 'node-';
+
+    protected $nodeRepository;
+
+    /**
+     * @param BBcodeParserInterface   $bbCoderParser
+     * @param TagManager              $tagManager
+     * @param NodeRepositoryInterface $nodeRepository
+     */
+    public function __construct(BBcodeParserInterface $bbCoderParser, TagManager $tagManager, NodeRepositoryInterface $nodeRepository)
+    {
+        parent::__construct($bbCoderParser, $tagManager);
+        $this->nodeRepository = $nodeRepository;
+    }
 
     /**
      * @param StatusableInterface $statusableElement
@@ -21,6 +37,16 @@ class ExtractReferenceFromNodeStrategy extends AbstractExtractReferenceStrategy
     public function support(StatusableInterface $statusableElement)
     {
         return $statusableElement instanceof NodeInterface;
+    }
+
+    /**
+     * @param string $reference
+     *
+     * @return bool
+     */
+    public function supportReference($reference)
+    {
+        return strpos($reference, self::REFERENCE_PREFIX) === 0;
     }
 
     /**
@@ -50,6 +76,25 @@ class ExtractReferenceFromNodeStrategy extends AbstractExtractReferenceStrategy
     public function getReferencePattern($statusableElementId)
     {
         return self::REFERENCE_PREFIX . $statusableElementId . '-';
+    }
+
+    /**
+     * Get cache tag of statusable element for reference
+     *
+     * @param string $reference
+     *
+     * @return string|null
+     */
+    public function getStatusableElementCacheTag($reference)
+    {
+        $id = preg_replace('/^'. self::REFERENCE_PREFIX .'/', '', $reference);
+        $id = preg_replace('/-[0-9]*$/', '', $id);
+        $node = $this->nodeRepository->findVersionByDocumentId($id);
+        if (null !== $node) {
+            return $this->tagManager->formatNodeIdTag($node->getNodeId());
+        }
+
+        return null;
     }
 
     /**

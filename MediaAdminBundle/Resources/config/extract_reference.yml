@@ -10,12 +10,16 @@ services:
         class: '%open_orchestra_media_admin.extract_reference.node.class%'
         arguments:
           - '@open_orchestra_bbcode.parser'
+          - '@open_orchestra_base.manager.tag'
+          - '@open_orchestra_model.repository.node'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
     open_orchestra_media_admin.extract_reference.content:
         class: '%open_orchestra_media_admin.extract_reference.content.class%'
         arguments:
           - '@open_orchestra_bbcode.parser'
+          - '@open_orchestra_base.manager.tag'
+          - '@open_orchestra_model.repository.content'
         tags:
             - { name: open_orchestra_media_admin.extract_reference.strategy }
 

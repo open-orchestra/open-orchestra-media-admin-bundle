@@ -59,4 +59,29 @@ class ExtractReferenceManager
 
         throw new ExtractReferenceStrategyNotFound();
     }
+
+    /**
+     * Get cache tag of references
+     *
+     * @param array $references
+     *
+     * @return array
+     */
+    public function getStatusableElementCacheTag(array $references)
+    {
+        $invalidateTag = array();
+        /** @var ExtractReferenceInterface $strategy */
+        foreach ($references as $reference) {
+            foreach ($this->strategies as $strategy) {
+                if ($strategy->supportReference($reference)) {
+                    $tag = $strategy->getStatusableElementCacheTag($reference);
+                    if (null !== $tag) {
+                        $invalidateTag[] = $tag;
+                    }
+                }
+            }
+        }
+
+        return $invalidateTag;
+    }
 }

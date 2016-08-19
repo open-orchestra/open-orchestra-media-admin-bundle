@@ -2,6 +2,8 @@
 
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
+use OpenOrchestra\Media\Model\MediaInterface;
+use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
@@ -15,27 +17,33 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
 {
     protected $cacheableManager;
     protected $tagManager;
+    protected $extractReferenceManager;
 
     /**
-     * @param CacheableManager $cacheableManager
-     * @param TagManager       $tagManager
+     * @param CacheableManager        $cacheableManager
+     * @param TagManager              $tagManager
+     * @param ExtractReferenceManager $extractReferenceManager
      */
-    public function __construct(CacheableManager $cacheableManager, TagManager $tagManager)
-    {
+    public function __construct(
+        CacheableManager $cacheableManager,
+        TagManager $tagManager,
+        ExtractReferenceManager $extractReferenceManager
+    ) {
         $this->cacheableManager = $cacheableManager;
         $this->tagManager = $tagManager;
+        $this->extractReferenceManager = $extractReferenceManager;
     }
 
     /**
      * Invalidate cache on $mediaId
      * 
-     * @param string $mediaId
+     * @param MediaInterface $media
      */
-    protected function invalidate($mediaId)
+    protected function invalidate($media)
     {
-        $this->cacheableManager->invalidateTags(array(
-            $this->tagManager->formatMediaIdTag($mediaId)
-        ));
+        $tags = $this->extractReferenceManager->getStatusableElementCacheTag($media->getUsageReference());
+        $tags[] = $this->tagManager->formatMediaIdTag($media->getId());
+        $this->cacheableManager->invalidateTags($tags);
     }
 
     /**
@@ -45,7 +53,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
      */
     public function updateMedia(MediaEvent $event)
     {
-        $this->invalidate($event->getMedia()->getId());
+        $this->invalidate($event->getMedia());
     }
 
     /**
@@ -55,7 +63,7 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
      */
     public function deleteMedia(MediaEvent $event)
     {
-        $this->invalidate($event->getMedia()->getId());
+        $this->invalidate($event->getMedia());
     }
 
     /**

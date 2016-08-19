@@ -16,8 +16,9 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
      * @var ExtractReferenceFromContentStrategy
      */
     protected $strategy;
-
     protected $parserBBcode;
+    protected $contentRepository;
+    protected $tagManager;
 
     /**
      * Set up the test
@@ -27,7 +28,10 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
         $this->parserBBcode = Phake::mock('OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface');
         Phake::when($this->parserBBcode)->parse(Phake::anyParameters())->thenReturn($this->parserBBcode);
 
-        $this->strategy = new ExtractReferenceFromContentStrategy($this->parserBBcode);
+        $this->tagManager = Phake::mock('OpenOrchestra\BaseBundle\Manager\TagManager');
+        $this->contentRepository = Phake::mock('OpenOrchestra\ModelInterface\Repository\ContentRepositoryInterface');
+
+        $this->strategy = new ExtractReferenceFromContentStrategy($this->parserBBcode, $this->tagManager, $this->contentRepository);
     }
 
     /**
@@ -70,6 +74,31 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
     }
 
     /**
+     * @param string $reference
+     * @param bool   $support
+     *
+     * @dataProvider provideReferenceAndSupport
+     */
+    public function testSupportReference($reference, $support)
+    {
+        $this->assertSame($support, $this->strategy->supportReference($reference));
+    }
+
+    /**
+     * @return array
+     */
+    public function provideReferenceAndSupport()
+    {
+        return array(
+            array('content-5646847541564561', true),
+            array('node-5646847541564561', false),
+            array('node-content-5646847541564561', false),
+            array('', false),
+            array('content-nodezùzdeldze', true),
+        );
+    }
+
+    /**
      * Test extract
      */
     public function testExtractReference()
@@ -102,5 +131,37 @@ class ExtractReferenceFromContentStrategyTest extends AbstractBaseTestCase
         );
 
         $this->assertSame($expected, $this->strategy->extractReference($content));
+    }
+
+    /**
+     * @param string $reference
+     * @param mixed  $content
+     * @param int    $countTagManager
+     * @param string $expectedId
+     *
+     * @dataProvider provideReferenceAndContent
+     */
+    public function testGetStatusableElementCacheTag($reference, $content, $countTagManager, $expectedId)
+    {
+        Phake::when($this->contentRepository)->findById(Phake::anyParameters())->thenReturn($content);
+
+        $this->strategy->getStatusableElementCacheTag($reference);
+
+        Phake::verify($this->tagManager, Phake::times($countTagManager))->formatContentIdTag($expectedId);
+    }
+
+    /**
+     * @return array
+     */
+    public function provideReferenceAndContent()
+    {
+        $content1 = Phake::mock('OpenOrchestra\ModelInterface\Model\ContentInterface');
+        $content1FakeId = 'fakeId';
+        Phake::when($content1)->getContentId()->thenReturn($content1FakeId);
+
+        return array(
+          array('content-54546465464', $content1, 1, $content1FakeId),
+          array('content-nonContent', null, 0, null)
+        );
     }
 }
