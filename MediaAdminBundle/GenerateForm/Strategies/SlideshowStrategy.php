@@ -17,12 +17,12 @@ class SlideshowStrategy extends AbstractBlockStrategy
     protected $translator;
 
     /**
-     * @param array               $basicConfigurationBlock
+     * @param array               $basicBlockConfiguration
      * @param TranslatorInterface $translator
      */
-    public function __construct(array $basicConfigurationBlock, TranslatorInterface $translator)
+    public function __construct(array $basicBlockConfiguration, TranslatorInterface $translator)
     {
-        parent::__construct($basicConfigurationBlock);
+        parent::__construct($basicBlockConfiguration);
         $this->translator = $translator;
     }
 
