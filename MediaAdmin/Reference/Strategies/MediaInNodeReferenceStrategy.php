@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
 use OpenOrchestra\ModelInterface\Model\ReadNodeInterface;
 use OpenOrchestra\Backoffice\Reference\Strategies\ReferenceStrategyInterface;
+use OpenOrchestra\ModelInterface\Model\NodeInterface;
 
 /**
  * Class MediaInNodeReferenceStrategy
@@ -41,7 +42,7 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
     {
         $nodeId = $entity->getId();
 
-        $mediasUsedInNode = $this->mediaRepository->findUsedInNode($nodeId);
+        $mediasUsedInNode = $this->mediaRepository->findByUsedInEntity($nodeId, NodeInterface::ENTITY_TYPE);
 
         foreach ($mediasUsedInNode as $media) {
             $media->removeUseInNode($nodeId);

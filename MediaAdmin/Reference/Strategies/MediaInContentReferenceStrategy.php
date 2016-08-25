@@ -41,7 +41,8 @@ class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy imp
     {
         $contentId = $entity->getId();
 
-        $mediasUsedInContent = $this->mediaRepository->findUsedInContent($contentId);
+        $mediasUsedInContent = $this->mediaRepository
+            ->findByUsedInEntity($contentId, ContentInterface::ENTITY_TYPE);
 
         foreach ($mediasUsedInContent as $media) {
             $media->removeUseInContent($contentId);
