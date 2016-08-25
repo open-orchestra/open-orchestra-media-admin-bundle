@@ -1,6 +1,7 @@
 parameters:
-    open_orchestra_media_admin.reference.strategy.media_in_node.class: OpenOrchestra\MediaAdmin\Reference\Strategie\MediaInNodeReferenceStrategy
-    open_orchestra_media_admin.reference.strategy.media_in_content.class: OpenOrchestra\MediaAdmin\Reference\Strategie\MediaInContentReferenceStrategy
+    open_orchestra_media_admin.reference.strategy.media_in_node.class: OpenOrchestra\MediaAdmin\Reference\Strategies\MediaInNodeReferenceStrategy
+    open_orchestra_media_admin.reference.strategy.media_in_content.class: OpenOrchestra\MediaAdmin\Reference\Strategies\MediaInContentReferenceStrategy
+    open_orchestra_media_admin.reference.strategy.keyword_in_media.class: OpenOrchestra\MediaAdmin\Reference\Strategies\KeywordInMediaReferenceStrategy
 
 services:
     open_orchestra_media_admin.reference.strategy.media_in_node:
@@ -14,6 +15,13 @@ services:
         class: '%open_orchestra_media_admin.reference.strategy.media_in_content.class%'
         arguments:
             - '@open_orchestra_media.repository.media'
+            - '@open_orchestra_bbcode.parser'
+        tags:
+            - { name: open_orchestra_backoffice.reference.strategy }
+    open_orchestra_media_admin.reference.strategy.keyword_in_media:
+        class: '%open_orchestra_media_admin.reference.strategy.keyword_in_media.class%'
+        arguments:
+            - '@open_orchestra_model.repository.keyword'
             - '@open_orchestra_bbcode.parser'
         tags:
             - { name: open_orchestra_backoffice.reference.strategy }

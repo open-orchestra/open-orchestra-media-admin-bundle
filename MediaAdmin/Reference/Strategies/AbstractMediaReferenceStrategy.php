@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Reference\Strategie;
+namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
 use OpenOrchestra\BBcodeBundle\Parser\BBcodeParser;
@@ -14,6 +14,10 @@ abstract class AbstractMediaReferenceStrategy
     protected $mediaRepository;
     protected $bbcodeParser;
 
+    /**
+     * MediaRepositoryInterface $mediaRepository
+     * BBcodeParser             $bbcodeParser
+     */
     public function __construct(MediaRepositoryInterface $mediaRepository, BBcodeParser $bbcodeParser)
     {
         $this->mediaRepository = $mediaRepository;

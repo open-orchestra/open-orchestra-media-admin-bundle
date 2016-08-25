@@ -1,10 +1,9 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Reference\Strategie;
+namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
-use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\ReadNodeInterface;
-use OpenOrchestra\Backoffice\Reference\Strategie\ReferenceStrategyInterface;
+use OpenOrchestra\Backoffice\Reference\Strategies\ReferenceStrategyInterface;
 
 /**
  * Class MediaInNodeReferenceStrategy
@@ -12,35 +11,35 @@ use OpenOrchestra\Backoffice\Reference\Strategie\ReferenceStrategyInterface;
 class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implements ReferenceStrategyInterface
 {
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      *
      * @return boolean
      */
-    public function support(StatusableInterface $statusableElement)
+    public function support($entity)
     {
-        return ($statusableElement instanceof ReadNodeInterface);
+        return ($entity instanceof ReadNodeInterface);
     }
 
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      */
-    public function addReferencesToEntity(StatusableInterface $statusableElement)
+    public function addReferencesToEntity($entity)
     {
-        $mediaIds = $this->extractMediasFromNode($statusableElement);
+        $mediaIds = $this->extractMediasFromNode($entity);
 
         foreach ($mediaIds as $mediaId) {
             /** @var MediaInterface $media */
             $media = $this->mediaRepository->find($mediaId);
-            $media->addUseInNode($statusableElement->getId());
+            $media->addUseInNode($entity->getId());
         }
     }
 
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      */
-    public function removeReferencesToEntity(StatusableInterface $statusableElement)
+    public function removeReferencesToEntity($entity)
     {
-        $nodeId = $statusableElement->getId();
+        $nodeId = $entity->getId();
 
         $mediasUsedInNode = $this->mediaRepository->findUsedInNode($nodeId);
 

@@ -1,10 +1,9 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Reference\Strategie;
+namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
-use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\ContentInterface;
-use OpenOrchestra\Backoffice\Reference\Strategie\ReferenceStrategyInterface;
+use OpenOrchestra\Backoffice\Reference\Strategies\ReferenceStrategyInterface;
 
 /**
  * Class MediaInContentReferenceStrategy
@@ -12,35 +11,35 @@ use OpenOrchestra\Backoffice\Reference\Strategie\ReferenceStrategyInterface;
 class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy implements ReferenceStrategyInterface
 {
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      *
      * @return boolean
      */
-    public function support(StatusableInterface $statusableElement)
+    public function support($entity)
     {
-        return ($statusableElement instanceof ContentInterface);
+        return ($entity instanceof ContentInterface);
     }
 
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      */
-    public function addReferencesToEntity(StatusableInterface $statusableElement)
+    public function addReferencesToEntity($entity)
     {
-        $mediaIds = $this->extractMediasFromContent($statusableElement);
+        $mediaIds = $this->extractMediasFromContent($entity);
 
         foreach ($mediaIds as $mediaId) {
             /** @var MediaInterface $media */
             $media = $this->mediaRepository->find($mediaId);
-            $media->addUseInContent($statusableElement->getId());
+            $media->addUseInContent($entity->getId());
         }
     }
 
     /**
-     * @param StatusableInterface $statusableElement
+     * @param mixed $entity
      */
-    public function removeReferencesToEntity(StatusableInterface $statusableElement)
+    public function removeReferencesToEntity($entity)
     {
-        $contentId = $statusableElement->getId();
+        $contentId = $entity->getId();
 
         $mediasUsedInContent = $this->mediaRepository->findUsedInContent($contentId);
 

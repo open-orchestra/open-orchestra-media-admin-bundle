@@ -5,6 +5,7 @@ parameters:
     open_orchestra_media_admin.subscriber.create_media.class: OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber
     open_orchestra_media_admin.subscriber.media_folder_group_transform.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaFolderGroupTransformSubscriber
     open_orchestra_media_admin.subscriber.create_root_folder.class: OpenOrchestra\MediaAdmin\EventSubscriber\CreateRootFolderSubscriber
+    open_orchestra_media_admin.subscriber.update_reference.class: OpenOrchestra\MediaAdmin\EventSubscriber\UpdateReferenceSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.media_cache_invalidate:
@@ -47,5 +48,12 @@ services:
             - '@object_manager'
             - '@translator'
             - '%open_orchestra_media.document.media_folder.class%'
+        tags:
+            - { name: kernel.event_subscriber }
+    open_orchestra_media_admin.subscriber.update_reference:
+        class: '%open_orchestra_media_admin.subscriber.update_reference.class%'
+        arguments:
+            - '@open_orchestra_backoffice.reference.manager'
+            - '@object_manager'
         tags:
             - { name: kernel.event_subscriber }
