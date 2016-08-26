@@ -25,13 +25,15 @@ class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy imp
      */
     public function addReferencesToEntity($entity)
     {
-        $mediaIds = $this->extractMediasFromContent($entity);
+        if ($this->support($entity)) {
+            $mediaIds = $this->extractMediasFromContent($entity);
 
-        foreach ($mediaIds as $mediaId) {
-            /** @var OpenOrchestra\Media\Model\MediaInterface $media */
-            $media = $this->mediaRepository->find($mediaId);
-            if ($media) {
-                $media->addUseInEntity($entity->getId(), ContentInterface::ENTITY_TYPE);
+            foreach ($mediaIds as $mediaId) {
+                /** @var OpenOrchestra\Media\Model\MediaInterface $media */
+                $media = $this->mediaRepository->find($mediaId);
+                if ($media) {
+                    $media->addUseInEntity($entity->getId(), ContentInterface::ENTITY_TYPE);
+                }
             }
         }
     }
@@ -41,13 +43,15 @@ class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy imp
      */
     public function removeReferencesToEntity($entity)
     {
-        $contentId = $entity->getId();
+        if ($this->support($entity)) {
+            $contentId = $entity->getId();
 
-        $mediasUsedInContent = $this->mediaRepository
-            ->findByUsedInEntity($contentId, ContentInterface::ENTITY_TYPE);
+            $mediasUsedInContent = $this->mediaRepository
+               ->findByUsedInEntity($contentId, ContentInterface::ENTITY_TYPE);
 
-        foreach ($mediasUsedInContent as $media) {
-            $media->removeUseInEntity($contentId, ContentInterface::ENTITY_TYPE);
+            foreach ($mediasUsedInContent as $media) {
+                $media->removeUseInEntity($contentId, ContentInterface::ENTITY_TYPE);
+            }
         }
     }
 
