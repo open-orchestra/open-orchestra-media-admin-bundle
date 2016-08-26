@@ -16,16 +16,18 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class GalleryStrategy extends AbstractBlockStrategy
 {
     protected $translator;
-    protected $thumbnailConfig = array();
+    protected $thumbnailConfiguration = array();
 
     /**
+     * @param array               $basicBlockConfiguration
      * @param TranslatorInterface $translator
-     * @param array               $thumbnailConfig
+     * @param array               $thumbnailConfiguration
      */
-    public function __construct(TranslatorInterface $translator, array $thumbnailConfig)
+    public function __construct(array $basicBlockConfiguration, TranslatorInterface $translator, array $thumbnailConfiguration)
     {
+        parent::__construct($basicBlockConfiguration);
         $this->translator = $translator;
-        $this->thumbnailConfig = $thumbnailConfig;
+        $this->thumbnailConfiguration = $thumbnailConfiguration;
     }
 
     /**
@@ -91,7 +93,7 @@ class GalleryStrategy extends AbstractBlockStrategy
     {
         $formats = array();
         $formats[MediaInterface::MEDIA_ORIGINAL] = $this->translator->trans('open_orchestra_media_admin.form.media.original_image');
-        foreach ($this->thumbnailConfig as $key => $thumbnail) {
+        foreach ($this->thumbnailConfiguration as $key => $thumbnail) {
             $formats[$key] = $this->translator->trans('open_orchestra_media_admin.form.media.' . $key);
         }
 
