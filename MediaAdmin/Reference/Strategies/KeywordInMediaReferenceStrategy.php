@@ -40,9 +40,11 @@ class KeywordInMediaReferenceStrategy extends AbstractKeywordReferenceStrategy i
         $keywordIds = $this->extractKeywordsFromKeywordableEntity($entity);
 
         foreach ($keywordIds as $keywordId) {
-            /** @var KeywordInterface $keyword */
+            /** @var OpenOrchestra\ModelInterface\Model\KeywordInterface $keyword */
             $keyword = $this->keywordRepository->find($keywordId);
-            $keyword->addUseInMedia($entity->getId());
+            if ($keyword) {
+                $keyword->addUseInEntity($entity->getId(), MediaInterface::ENTITY_TYPE);
+            }
         }
     }
 

@@ -29,9 +29,11 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
         $mediaIds = $this->extractMediasFromNode($entity);
 
         foreach ($mediaIds as $mediaId) {
-            /** @var MediaInterface $media */
+            /** @var OpenOrchestra\Media\Model\MediaInterface $media */
             $media = $this->mediaRepository->find($mediaId);
-            $media->addUseInNode($entity->getId());
+            if ($media) {
+                $media->addUseInEntity($entity->getId(), NodeInterface::ENTITY_TYPE);
+            }
         }
     }
 
@@ -45,7 +47,7 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
         $mediasUsedInNode = $this->mediaRepository->findByUsedInEntity($nodeId, NodeInterface::ENTITY_TYPE);
 
         foreach ($mediasUsedInNode as $media) {
-            $media->removeUseInNode($nodeId);
+            $media->removeUseInEntity($nodeId, NodeInterface::ENTITY_TYPE);
         }
     }
 
