@@ -6,30 +6,12 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use OpenOrchestra\GroupBundle\Document\Group;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
-use OpenOrchestra\ModelBundle\Document\TranslatedValue;
 
 /**
  * Class AbstractLoadGroupData
  */
 abstract class AbstractLoadGroupData extends AbstractFixture implements OrderedFixtureInterface
 {
-    /**
-     * Generate a translatedValue
-     *
-     * @param string $language
-     * @param string $value
-     *
-     * @return TranslatedValue
-     */
-    protected function generateTranslatedValue($language, $value)
-    {
-        $label = new TranslatedValue();
-        $label->setLanguage($language);
-        $label->setValue($value);
-
-        return $label;
-    }
-
     /**
      * @param string $name
      * @param string $enLabel
@@ -45,10 +27,8 @@ abstract class AbstractLoadGroupData extends AbstractFixture implements OrderedF
         $group = new Group();
         $group->setName($name);
 
-        $enLabel = $this->generateTranslatedValue('en', $enLabel);
-        $frLabel = $this->generateTranslatedValue('fr', $frLabel);
-        $group->addLabel($enLabel);
-        $group->addLabel($frLabel);
+        $group->addLabel('en', $enLabel);
+        $group->addLabel('fr', $frLabel);
 
         if (is_null($role)) {
             $group->addRole(TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER);

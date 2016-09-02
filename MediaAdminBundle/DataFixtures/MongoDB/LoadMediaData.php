@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\ModelBundle\Document\TranslatedValue;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
@@ -102,26 +101,11 @@ class LoadMediaData
             $media->addKeyword($this->getReference($keywordReference));
         }
         foreach ($languagesArray as $language => $labels) {
-            $media->addAlt($this->generatedValue($language, $labels['alt']));
-            $media->addTitle($this->generatedValue($language, $labels['title']));
+            $media->addAlt($language, $labels['alt']);
+            $media->addTitle($language, $labels['title']);
         }
 
         return $media;
-    }
-
-    /**
-     * @param string $language
-     * @param string $value
-     *
-     * @return TranslatedValue
-     */
-    public function generatedValue($language, $value)
-    {
-        $label = new TranslatedValue();
-        $label->setLanguage($language);
-        $label->setValue($value);
-
-        return $label;
     }
 
     /**

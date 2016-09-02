@@ -2,10 +2,8 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
-use OpenOrchestra\Backoffice\EventListener\TranslateValueInitializerListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -13,17 +11,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class MediaMetaType extends AbstractType
 {
-    protected $translateValueInitializer;
+    protected $frontLanguages;
     protected $mediaClass;
 
     /**
-     * @param TranslateValueInitializerListener $translateValueInitializer
-     * @param string                            $mediaClass
+     * @param string $mediaClass
+     * @param array  $frontLanguages
      */
-    public function __construct(TranslateValueInitializerListener $translateValueInitializer, $mediaClass)
+    public function __construct($mediaClass, array $frontLanguages)
     {
         $this->mediaClass = $mediaClass;
-        $this->translateValueInitializer = $translateValueInitializer;
+        $this->frontLanguages = array_keys($frontLanguages);
     }
 
     /**
@@ -32,15 +30,15 @@ class MediaMetaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this->translateValueInitializer, 'preSetData'));
-
-        $builder->add('titles', 'oo_translated_value_collection', array(
+        $builder->add('titles', 'oo_multi_languages', array(
             'label' => 'open_orchestra_media_admin.form.media.meta.title',
             'required' => false,
+            'languages' => $this->frontLanguages
         ));
-        $builder->add('alts', 'oo_translated_value_collection', array(
+        $builder->add('alts', 'oo_multi_languages', array(
             'label' => 'open_orchestra_media_admin.form.media.meta.alt',
             'required' => false,
+            'languages' => $this->frontLanguages
         ));
         $builder->add('copyright', null, array(
             'label' => 'open_orchestra_media_admin.form.media.meta.copyright',

@@ -17,15 +17,13 @@ class MediaMetaTypeTest extends AbstractBaseTestCase
     protected $form;
 
     protected $mediaClass = 'site';
-    protected $translateValueInitializer;
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->translateValueInitializer =  Phake::mock('OpenOrchestra\Backoffice\EventListener\TranslateValueInitializerListener');
-        $this->form = new MediaMetaType($this->translateValueInitializer, $this->mediaClass);
+        $this->form = new MediaMetaType($this->mediaClass, array());
     }
 
     /**

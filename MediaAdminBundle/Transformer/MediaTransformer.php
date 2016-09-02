@@ -2,12 +2,12 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use OpenOrchestra\Backoffice\Manager\MultiLanguagesChoiceManagerInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
-use OpenOrchestra\ModelInterface\Manager\TranslationChoiceManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -17,26 +17,26 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     protected $fileAlternativesManager;
-    protected $translationChoiceManager;
+    protected $multiLanguageChoiceManager;
     protected $mediaDomain;
 
     /**
-     * @param string                            $facadeClass
-     * @param FileAlternativesManager           $fileAlternativesManager
-     * @param TranslationChoiceManagerInterface $translationChoiceManager
-     * @param string                            $mediaDomain
-     * @param AuthorizationCheckerInterface     $authorizationChecker
+     * @param string                               $facadeClass
+     * @param FileAlternativesManager              $fileAlternativesManager
+     * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
+     * @param string                               $mediaDomain
+     * @param AuthorizationCheckerInterface        $authorizationChecker
      */
     public function __construct(
         $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
-        TranslationChoiceManagerInterface $translationChoiceManager,
+        MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
         parent::__construct($facadeClass, $authorizationChecker);
         $this->fileAlternativesManager = $fileAlternativesManager;
-        $this->translationChoiceManager = $translationChoiceManager;
+        $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
         $this->mediaDomain = $mediaDomain;
     }
 
@@ -55,8 +55,8 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 
         $mediaFolder = $mixed->getMediaFolder();
         $facade->isDeletable = $mixed->isDeletable() && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA, $mediaFolder);
-        $facade->alt = $this->translationChoiceManager->choose($mixed->getAlts());
-        $facade->title = $this->translationChoiceManager->choose($mixed->getTitles());
+        $facade->alt = $this->multiLanguageChoiceManager->choose($mixed->getAlts());
+        $facade->title = $this->multiLanguageChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
 
