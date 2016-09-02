@@ -49,15 +49,7 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
             array($mediaTag)
         );
 
-        foreach ($medias as $mediaId => $media) {
-            Phake::when($this->mediaRepository)->find($mediaId)->thenReturn($media);
-        }
-
-        $this->strategy->addReferencesToEntity($entity);
-
-        foreach ($medias as $mediaId => $media) {
-            Phake::verify($media)->addUseInEntity($entity->getId(), $entityType);
-        }
+        parent::checkAddReferencesToEntity($entity, $medias, $entityType, $this->mediaRepository);
     }
 
     /**
@@ -67,13 +59,7 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
      */
     protected function checkRemoveReferencesToEntity($entity, array $medias, $entityType)
     {
-        Phake::when($this->mediaRepository)->findByUsedInEntity(Phake::anyParameters())->thenReturn($medias);
-
-        $this->strategy->removeReferencesToEntity($entity);
-
-        foreach ($medias as $media) {
-            Phake::verify($media)->removeUseInEntity($entity->getId(), $entityType);
-        }
+        parent::checkRemoveReferencesToEntity($entity, $medias, $entityType, $this->mediaRepository);
     }
 
     /**
