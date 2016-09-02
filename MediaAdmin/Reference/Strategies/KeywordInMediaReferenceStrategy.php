@@ -62,7 +62,7 @@ class KeywordInMediaReferenceStrategy extends AbstractKeywordReferenceStrategy i
                 ->findByUsedInEntity($mediaId, MediaInterface::ENTITY_TYPE);
 
             foreach ($keywordsUsedInMedia as $keyword) {
-                $keyword->removeUseInMedia($mediaId);
+                $keyword->removeUseInEntity($mediaId, MediaInterface::ENTITY_TYPE);
             }
         }
     }
