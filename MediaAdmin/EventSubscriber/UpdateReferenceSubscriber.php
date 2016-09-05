@@ -3,7 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use OpenOrchestra\ModelInterface\Event\NodeEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\Backoffice\Reference\ReferenceManager;
 use OpenOrchestra\MediaAdmin\MediaEvents;
@@ -18,7 +17,7 @@ class UpdateReferenceSubscriber implements EventSubscriberInterface
     protected $objectManager;
 
     /**
-     * @param referenceManager $referenceManager
+     * @param ReferenceManager $referenceManager
      * @param ObjectManager    $objectManager
      */
     public function __construct(ReferenceManager $referenceManager, ObjectManager $objectManager)
@@ -28,7 +27,7 @@ class UpdateReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param NodeEvent $event
+     * @param MediaEvent $event
      */
     public function updateReferencesToMedia(MediaEvent $event)
     {
