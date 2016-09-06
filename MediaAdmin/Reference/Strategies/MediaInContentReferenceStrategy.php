@@ -66,7 +66,7 @@ class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy imp
 
         /** @var ContentAttributeInterface $attribute */
         foreach ($content->getAttributes() as $attribute) {
-            $references = $this->extractMediasFromElement($attribute->getValue(), $references);
+            $references = array_merge($reference, $this->extractMediasFromElement($attribute->getValue()));
         }
 
         return $references;

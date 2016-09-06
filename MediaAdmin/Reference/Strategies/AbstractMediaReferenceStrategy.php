@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
-use OpenOrchestra\BBcodeBundle\Parser\BBcodeParser;
 use OpenOrchestra\Media\BBcode\AbstractMediaCodeDefinition;
+use OpenOrchestra\BBcodeBundle\Parser\BBcodeParserInterface;
 
 /**
  * Class AbstractReferenceStrategy
@@ -16,9 +16,9 @@ abstract class AbstractMediaReferenceStrategy
 
     /**
      * MediaRepositoryInterface $mediaRepository
-     * BBcodeParser             $bbcodeParser
+     * BBcodeParserInterface    $bbcodeParser
      */
-    public function __construct(MediaRepositoryInterface $mediaRepository, BBcodeParser $bbcodeParser)
+    public function __construct(MediaRepositoryInterface $mediaRepository, BBcodeParserInterface $bbcodeParser)
     {
         $this->mediaRepository = $mediaRepository;
         $this->bbcodeParser = $bbcodeParser;
@@ -28,19 +28,22 @@ abstract class AbstractMediaReferenceStrategy
      * Recursively extract media ids from elements (bloc, attribute, collection attribute, etc ...)
      *
      * @param mixed $element
-     * @param array $references
      *
      * @return array
      */
-    protected function extractMediasFromElement($element, array $references = array())
+    protected function extractMediasFromElement($element)
     {
+        $references = array();
+
         if ($this->isMediaAttribute($element)) {
             $references[] = $element['id'];
+
         } elseif (is_string($element) && $this->hasMediaBBcode($element)) {
-            $references = $this->extractMediaFromBBCode($element, $references);
+            $references = array_merge($references, $this->extractMediaFromBBCode($element));
+
         } elseif (is_array($element)) {
             foreach ($element as $item) {
-                $references = $this->extractMediasFromElement($item, $references);
+                $references = array_merge($references, $this->extractMediasFromElement($item));
             }
         }
 
@@ -49,12 +52,13 @@ abstract class AbstractMediaReferenceStrategy
 
     /**
      * @param string $str
-     * @param array  $references
      *
      * @return array
      */
-    protected function extractMediaFromBBCode($str, array $references)
+    protected function extractMediaFromBBCode($str)
     {
+        $references = array();
+
         /** @var BBcodeParserInterface $parserBBcode */
         $parsedBBcode = $this->bbcodeParser->parse($str);
         $mediaTags = $parsedBBcode->getElementByTagName(AbstractMediaCodeDefinition::TAG_NAME);

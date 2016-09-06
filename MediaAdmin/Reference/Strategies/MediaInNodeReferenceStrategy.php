@@ -66,7 +66,7 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
 
         /** @var BlockInterface $block */
         foreach ($node->getBlocks() as $block) {
-            $references = $this->extractMediasFromElement($block->getAttributes(), $references);
+            $references = array_merge($references, $this->extractMediasFromElement($block->getAttributes()));
         }
 
         return $references;
