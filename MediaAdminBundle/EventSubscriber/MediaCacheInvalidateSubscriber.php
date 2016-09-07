@@ -3,12 +3,14 @@
 namespace OpenOrchestra\MediaAdminBundle\EventSubscriber;
 
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\DisplayBundle\Manager\CacheableManager;
 use OpenOrchestra\BaseBundle\Manager\TagManager;
+use OpenOrchestra\ModelInterface\Model\NodeInterface;
+use OpenOrchestra\ModelInterface\Model\ContentInterface;
+use OpenOrchestra\ModelInterface\Model\ContentTypeInterface;
 
 /**
  * Class MediaCacheInvalidateSubscriber
@@ -17,21 +19,17 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
 {
     protected $cacheableManager;
     protected $tagManager;
-    protected $extractReferenceManager;
 
     /**
      * @param CacheableManager        $cacheableManager
      * @param TagManager              $tagManager
-     * @param ExtractReferenceManager $extractReferenceManager
      */
     public function __construct(
         CacheableManager $cacheableManager,
-        TagManager $tagManager,
-        ExtractReferenceManager $extractReferenceManager
+        TagManager $tagManager
     ) {
         $this->cacheableManager = $cacheableManager;
         $this->tagManager = $tagManager;
-        $this->extractReferenceManager = $extractReferenceManager;
     }
 
     /**
@@ -41,8 +39,24 @@ class MediaCacheInvalidateSubscriber implements EventSubscriberInterface
      */
     protected function invalidate($media)
     {
-        $tags = $this->extractReferenceManager->getStatusableElementCacheTag($media->getUsageReference());
-        $tags[] = $this->tagManager->formatMediaIdTag($media->getId());
+        $tags = array($this->tagManager->formatMediaIdTag($media->getId()));
+
+        $nodeUsage = $media->getUseReferences(NodeInterface::ENTITY_TYPE);
+
+        foreach ($nodeUsage as $nodeId) {
+            $tags[] = $this->tagManager->formatNodeIdTag($nodeId);
+        }
+
+        $contentUsage = $media->getUseReferences(ContentInterface::ENTITY_TYPE);
+        foreach ($contentUsage as $contentId) {
+            $tags[] = $this->tagManager->formatContentIdTag($contentId);
+        }
+
+        $contentTypeUsage = $media->getUseReferences(ContentTypeInterface::ENTITY_TYPE);
+        foreach ($contentTypeUsage as $contentTypeId) {
+            $tags[] = $this->tagManager->formatContentTypeTag($contentTypeId);
+        }
+
         $this->cacheableManager->invalidateTags($tags);
     }
 
