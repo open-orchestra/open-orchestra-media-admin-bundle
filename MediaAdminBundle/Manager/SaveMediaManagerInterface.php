@@ -23,6 +23,8 @@ interface SaveMediaManagerInterface
      * @param string $filename
      * 
      * @return bool
+     *
+     * @deprecated will be remove in 2.0
      */
     public function isFileAllowed($filename);
 
@@ -30,12 +32,11 @@ interface SaveMediaManagerInterface
      * Create a media to fit an uploaded file
      * 
      * @param UploadedFile $uploadedFile
-     * @param string       $filename
      * @param string       $folderId
      * 
      * @return MediaInterface
      */
-    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId);
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId);
 
     /**
      * Save a media in database

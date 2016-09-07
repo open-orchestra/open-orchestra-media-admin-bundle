@@ -57,7 +57,9 @@ class MediaController extends AbstractAdminController
                 $data['format']
             );
 
-            $this->get('open_orchestra_media_admin.manager.save_media')->saveMedia($media);
+            $objectManager = $this->get('object_manager');
+            $objectManager->persist($media);
+            $objectManager->flush();
 
             $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }
@@ -127,7 +129,9 @@ class MediaController extends AbstractAdminController
             $this->get('open_orchestra_media_admin.file_alternatives.manager')
                 ->overrideAlternative($media, $tmpDir . DIRECTORY_SEPARATOR . $tmpFileName, $format);
 
-            $this->get('open_orchestra_media_admin.manager.save_media')->saveMedia($media);
+            $objectManager = $this->get('object_manager');
+            $objectManager->persist($media);
+            $objectManager->flush();
 
             $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
         }

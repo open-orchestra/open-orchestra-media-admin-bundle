@@ -94,7 +94,7 @@ class LoadMediaData
         $uploadedFile = new UploadedFile($tmpFilePath, $fileName, $mimeType);
 
         $saveMediaManager = $this->container->get('open_orchestra_media_admin.manager.save_media');
-        $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $fileName, $folderId);
+        $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $folderId);
 
         $media->setName($name);
         foreach ($keywordReferencesArray as $keywordReference) {
@@ -104,6 +104,8 @@ class LoadMediaData
             $media->addAlt($language, $labels['alt']);
             $media->addTitle($language, $labels['title']);
         }
+
+        $saveMediaManager->saveMedia($media);
 
         return $media;
     }

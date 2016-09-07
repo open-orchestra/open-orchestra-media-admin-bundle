@@ -58,29 +58,30 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * 
      * @param UploadedFile $uploadedFile
      * 
-     * @return string|null
+     * @return UploadedFile|null
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile)
     {
         $filename = time() . '-' . $uploadedFile->getClientOriginalName();
+        $path = $this->tmpDir . DIRECTORY_SEPARATOR . $filename;
 
-        if (FlowBasic::save($this->tmpDir . DIRECTORY_SEPARATOR . $filename, $this->tmpDir)) {
-
-            return $filename;
+        if (FlowBasic::save($path, $this->tmpDir)) {
+            return new UploadedFile($path, $uploadedFile->getClientOriginalName(), $uploadedFile->getClientMimeType());
         }
 
         return null;
     }
 
     /**
-     * Return true if the file is allowed to be uploaded based on its mime type
-     * 
-     * @param $filename
-     * 
+     * @param UploadedFile $filename
+     *
      * @return bool
+     *
+     * @deprecated will be remove in 2.0
      */
     public function isFileAllowed($filename)
     {
+        @trigger_error('The '.__NAMESPACE__.'\isFileAllowed method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $fileMimeType = finfo_file($finfo, $this->tmpDir . '/' . $filename);
 
@@ -91,23 +92,19 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * Create a media to fit an uploaded file
      * 
      * @param UploadedFile $uploadedFile
-     * @param string       $filename
      * @param string       $folderId
      * 
      * @return MediaInterface
      */
-    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId)
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId)
     {
+        /** @var MediaInterface $media */
         $media = new $this->mediaClass();
         $media->setFile($uploadedFile);
-        $media->setFilesystemName($filename);
+        $media->setFilesystemName($uploadedFile->getFilename());
         $media->setMediaFolder($this->folderRepository->find($folderId));
-        $media = $this->processMedia($media, $uploadedFile, $filename);
-
-        $this->saveMedia($media);
-
-        $event = new MediaEvent($media);
-        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
+        $media->setName($uploadedFile->getClientOriginalName());
+        $media->setMimeType($uploadedFile->getMimeType());
 
         return $media;
     }
@@ -119,27 +116,14 @@ class SaveMediaManager implements SaveMediaManagerInterface
      */
     public function saveMedia($media)
     {
+        $file = $media->getFile();
+        $this->mediaStorageManager->uploadFile($file->getFilename(), $file->getRealPath(), false);
+
         $this->objectManager->persist($media);
         $this->objectManager->flush();
-    }
 
-    /**
-     * Process $uploadedFile (thumbnail + storage) and attach it to $media
-     *
-     * @param MediaInterface $media
-     * @param UploadedFile   $uploadedFile
-     * @param string         $filename
-     *
-     * @return MediaInterface
-     */
-    protected function processMedia($media, $uploadedFile, $filename)
-    {
-        $media->setName($uploadedFile->getClientOriginalName());
-        $media->setMimeType($uploadedFile->getClientMimeType());
-
-        $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
-
-        return $media;
+        $event = new MediaEvent($media);
+        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
     }
 }
 

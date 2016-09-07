@@ -224,6 +224,18 @@ class ImageStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * @return array
+     */
+    public function provideFileMimeType()
+    {
+        return array(
+            array('otherMimeType', false),
+            array('image/jpeg', true),
+            array('image/png', true)
+        );
+    }
+
+    /**
      * test getName
      */
     public function testGetName()

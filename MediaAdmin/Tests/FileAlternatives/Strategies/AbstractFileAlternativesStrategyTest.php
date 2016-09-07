@@ -221,4 +221,24 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
             Phake::verify($this->mediaStorageManager, Phake::never())->deleteContent($fileName);
         }
     }
+
+    /**
+     * @param string $mimeType
+     * @param bool   $isValid
+     *
+     * @dataProvider provideFileMimeType
+     */
+    public function testValidateUploadedMedia($mimeType, $isValid)
+    {
+        $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        $file = Phake::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
+        Phake::when($media)->getFile()->thenReturn($file);
+        Phake::when($file)->getMimeType()->thenReturn($mimeType);
+
+        $validatorMessage = $this->strategy->validateUploadedMedia($media);
+        $this->assertInstanceOf('OpenOrchestra\MediaAdmin\FileAlternatives\UploadedMediaValidatorMessage', $validatorMessage);
+        $this->assertSame($validatorMessage->getMessage(), 'open_orchestra_media_admin.form.upload.not_allowed');
+        $this->assertSame($validatorMessage->isValid(), $isValid);
+    }
+
 }

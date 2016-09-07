@@ -92,6 +92,19 @@ class PdfStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * @return array
+     */
+    public function provideFileMimeType()
+    {
+        return array(
+            array('otherMimeType', false),
+            array('image/jpeg', false),
+            array('image/png', false),
+            array('application/pdf', true)
+        );
+    }
+
+    /**
      * test getName
      */
     public function testGetName()

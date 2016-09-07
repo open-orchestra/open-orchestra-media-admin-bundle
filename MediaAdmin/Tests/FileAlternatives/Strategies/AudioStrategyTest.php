@@ -77,6 +77,17 @@ class AudioStrategyTest extends AbstractFileAlternativesStrategy
     }
 
     /**
+     * @return array
+     */
+    public function provideFileMimeType()
+    {
+        return array(
+            array('otherMimeType', false),
+            array('audio/mp3', true)
+        );
+    }
+
+    /**
      * test getName
      */
     public function testGetName()

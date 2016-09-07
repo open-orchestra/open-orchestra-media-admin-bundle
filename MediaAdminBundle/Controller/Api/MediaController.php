@@ -120,18 +120,20 @@ class MediaController extends BaseController
         $uploadedFile = $request->files->get('file');
         $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
-        if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
+        if ($uploadedFile && $uploadedFile = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
+            $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $folderId);
+            $fileAlternativeManager = $this->get('open_orchestra_media_admin.file_alternatives.manager');
+            $validatorMessage = $fileAlternativeManager->validateUploadedMedia($media);
 
-            if ($saveMediaManager->isFileAllowed($filename)) {
-                $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
+            if ($validatorMessage->isValid()) {
+                $saveMediaManager->saveMedia($media);
 
                 return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
             }
-
             $translator = $this->container->get('translator');
 
             return new Response(
-                $translator->trans('open_orchestra_media_admin.form.upload.not_allowed'),
+                $translator->trans($validatorMessage->getMessage()),
                 403
             );
         }
@@ -140,7 +142,7 @@ class MediaController extends BaseController
     }
 
     /**
-     * @param string folderId
+     * @param string $folderId
      *
      * @Config\Route("/{folderId}/media-types", name="open_orchestra_api_media_type_list")
      * Config\Method({"POST"})
