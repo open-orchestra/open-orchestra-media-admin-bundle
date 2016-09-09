@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
-use OpenOrchestra\MediaAdmin\FileAlternatives\UploadedMediaValidatorMessage;
 use Symfony\Component\Filesystem\Filesystem;
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;

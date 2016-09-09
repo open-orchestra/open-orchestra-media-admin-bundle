@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives;
 
-use OpenOrchestra\Backoffice\Exception\MissingFileAlternativesStrategyException;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**

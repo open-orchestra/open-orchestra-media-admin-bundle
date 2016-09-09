@@ -138,7 +138,7 @@ class MediaController extends BaseController
 
         }
 
-        return array();
+        return new Response('', 202);
     }
 
     /**
