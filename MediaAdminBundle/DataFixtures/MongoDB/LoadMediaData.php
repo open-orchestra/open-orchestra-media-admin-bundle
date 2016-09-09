@@ -94,7 +94,7 @@ class LoadMediaData
         $uploadedFile = new UploadedFile($tmpFilePath, $fileName, $mimeType);
 
         $saveMediaManager = $this->container->get('open_orchestra_media_admin.manager.save_media');
-        $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $folderId);
+        $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
 
         $media->setName($name);
         foreach ($keywordReferencesArray as $keywordReference) {

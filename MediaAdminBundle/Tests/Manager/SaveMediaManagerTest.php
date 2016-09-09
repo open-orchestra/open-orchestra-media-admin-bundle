@@ -89,17 +89,36 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
     }
 
     /**
-     * Test createMediaFromUploadedFile
+     * Test initializeMediaFromUploadedFile
      */
-    public function testCreateMediaFromUploadedFile()
+    public function testInitializeMediaFromUploadedFile()
     {
-        $media = $this->mediaManager->createMediaFromUploadedFile($this->uploadedFile, $this->folderId);
+        $media = $this->mediaManager->initializeMediaFromUploadedFile($this->uploadedFile, $this->folderId);
 
         $this->assertSame($this->uploadedFile, $media->getFile());
         $this->assertSame($this->fileName, $media->getFilesystemName());
         $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
         $this->assertSame($this->originalName, $media->getName());
         $this->assertSame($this->mimeType, $media->getMimeType());
+    }
+
+    /**
+     * Test createMediaFromUploadedFile
+     *
+     * @deprecated will be remove in 2.0, use initializeMediaFromUploadedFile
+     */
+    public function testCreateMediaFromUploadedFile()
+    {
+        $filename = 'file.pdf';
+        $media = $this->mediaManager->createMediaFromUploadedFile($this->uploadedFile, $filename, $this->folderId);
+        $this->assertSame($this->uploadedFile, $media->getFile());
+        $this->assertSame('file.pdf', $media->getFilesystemName());
+        $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
+        Phake::verify($this->documentManager)->persist($media);
+        Phake::verify($this->documentManager)->flush();
+        $this->assertSame($this->originalName, $media->getName());
+        $this->assertSame($this->mimeType, $media->getMimeType());
+        Phake::verify($this->dispatcher)->dispatch(Phake::anyParameters());
     }
 
     /**

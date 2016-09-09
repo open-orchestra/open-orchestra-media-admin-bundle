@@ -90,13 +90,41 @@ class SaveMediaManager implements SaveMediaManagerInterface
 
     /**
      * Create a media to fit an uploaded file
+     *
+     * @param UploadedFile $uploadedFile
+     * @param string       $filename
+     * @param string       $folderId
+     *
+     * @return MediaInterface
+     * @deprecated will be remove in 2.0, use initializeMediaFromUploadedFile
+     */
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId)
+    {
+        @trigger_error('The '.__NAMESPACE__.'\createMediaFromUploadedFile method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
+
+        $media = new $this->mediaClass();
+        $media->setFile($uploadedFile);
+        $media->setFilesystemName($filename);
+        $media->setMediaFolder($this->folderRepository->find($folderId));
+        $media->setName($uploadedFile->getClientOriginalName());
+        $media->setMimeType($uploadedFile->getClientMimeType());
+        $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
+        $this->saveMedia($media);
+        $event = new MediaEvent($media);
+        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
+
+        return $media;
+    }
+
+    /**
+     * initialize a media to fit an uploaded file
      * 
      * @param UploadedFile $uploadedFile
      * @param string       $folderId
      * 
      * @return MediaInterface
      */
-    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId)
+    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId)
     {
         /** @var MediaInterface $media */
         $media = new $this->mediaClass();

@@ -30,13 +30,25 @@ interface SaveMediaManagerInterface
 
     /**
      * Create a media to fit an uploaded file
-     * 
+     *
+     * @param UploadedFile $uploadedFile
+     * @param string       $filename
+     * @param string       $folderId
+     *
+     * @return MediaInterface
+     * @deprecated will be remove in 2.0, use initializeMediaFromUploadedFile
+     */
+    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId);
+
+    /**
+     * initialize a media to fit an uploaded file
+     *
      * @param UploadedFile $uploadedFile
      * @param string       $folderId
-     * 
+     *
      * @return MediaInterface
      */
-    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId);
+    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId);
 
     /**
      * Save a media in database
