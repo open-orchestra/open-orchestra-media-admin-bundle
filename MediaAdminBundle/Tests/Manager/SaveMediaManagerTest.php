@@ -110,7 +110,9 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
     public function testCreateMediaFromUploadedFile()
     {
         $filename = 'file.pdf';
+        Phake::when($this->uploadedFile)->getClientMimeType()->thenReturn($this->mimeType);
         $media = $this->mediaManager->createMediaFromUploadedFile($this->uploadedFile, $filename, $this->folderId);
+
         $this->assertSame($this->uploadedFile, $media->getFile());
         $this->assertSame('file.pdf', $media->getFilesystemName());
         $this->assertSame($this->folderId, $media->getMediaFolder()->getId());

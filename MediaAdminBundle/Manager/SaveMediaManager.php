@@ -108,10 +108,8 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setMediaFolder($this->folderRepository->find($folderId));
         $media->setName($uploadedFile->getClientOriginalName());
         $media->setMimeType($uploadedFile->getClientMimeType());
-        $this->mediaStorageManager->uploadFile($filename, $this->tmpDir . '/' . $filename, false);
+
         $this->saveMedia($media);
-        $event = new MediaEvent($media);
-        $this->dispatcher->dispatch(MediaEvents::MEDIA_ADD, $event);
 
         return $media;
     }
