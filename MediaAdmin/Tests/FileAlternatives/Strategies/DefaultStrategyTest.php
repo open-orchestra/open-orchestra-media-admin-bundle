@@ -11,7 +11,6 @@ use Phake;
 class DefaultStrategyTest extends AbstractFileAlternativesStrategy
 {
     protected $thumbnail = 'default.jpg';
-    protected $allowedMineType = array('fakeMineType');
 
     /**
      * Set up the test
@@ -24,8 +23,7 @@ class DefaultStrategyTest extends AbstractFileAlternativesStrategy
             $this->fileSystem,
             $this->mediaStorageManager,
             $this->tmpDir,
-            $this->thumbnail,
-            $this->allowedMineType
+            $this->thumbnail
         );
     }
 
@@ -76,17 +74,6 @@ class DefaultStrategyTest extends AbstractFileAlternativesStrategy
      */
     public function testDeleteThumbnail($mediaName)
     {
-    }
-
-    /**
-     * @return array
-     */
-    public function provideFileMimeType()
-    {
-        return array(
-            array('otherMimeType', false),
-            array('fakeMineType', true)
-        );
     }
 
     /**

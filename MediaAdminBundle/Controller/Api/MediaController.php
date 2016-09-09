@@ -13,6 +13,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * Class MediaController
@@ -122,23 +123,22 @@ class MediaController extends BaseController
 
         if ($uploadedFile && $uploadedFile = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
             $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $folderId);
-            $fileAlternativeManager = $this->get('open_orchestra_media_admin.file_alternatives.manager');
-            $validatorMessage = $fileAlternativeManager->validateUploadedMedia($media);
+            $violations = $this->get('validator')->validate($media);
 
-            if ($validatorMessage->isValid()) {
-                $saveMediaManager->saveMedia($media);
-
-                return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+            if (count($violations) !== 0) {
+                return new Response(
+                    implode('.', $this->getViolationsMessage($violations)),
+                    403
+                );
             }
-            $translator = $this->container->get('translator');
 
-            return new Response(
-                $translator->trans($validatorMessage->getMessage()),
-                403
-            );
+            $saveMediaManager->saveMedia($media);
+
+            return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+
         }
 
-        return new Response('', 202);
+        return array();
     }
 
     /**
@@ -159,5 +159,20 @@ class MediaController extends BaseController
 
         return $this->get('open_orchestra_api.transformer_manager')
             ->get('media_type_collection')->transform($mediaCollection, $folderId);
+    }
+
+    /**
+     * @param ConstraintViolationListInterface $violations
+     *
+     * @return array
+     */
+    protected function getViolationsMessage(ConstraintViolationListInterface $violations)
+    {
+        $messages = array();
+        foreach ($violations as $violation) {
+            $messages[] = $violation->getMessage();
+        }
+
+        return $messages;
     }
 }

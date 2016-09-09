@@ -19,7 +19,6 @@ services:
             - '@open_orchestra_media_file.manager.storage'
             - '%open_orchestra_media_admin.tmp_dir%'
             - '%open_orchestra_media_admin.files.alternatives.default.thumbnail%'
-            - '%open_orchestra_media_admin.allowed_mime_type%'
 
     open_orchestra_media_admin.file_alternatives.strategy.image:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.image.class%'

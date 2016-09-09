@@ -51,7 +51,6 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('display.yml');
         $loader->load('icon.yml');
         $loader->load('file_utils.yml');
-        $loader->load('mime_type.yml');
         $loader->load('file_alternatives.yml');
         $loader->load('voter.yml');
         $loader->load('role_parameter.yml');

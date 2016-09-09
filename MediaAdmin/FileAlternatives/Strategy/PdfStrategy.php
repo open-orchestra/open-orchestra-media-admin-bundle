@@ -79,28 +79,6 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
     }
 
     /**
-     * @param MediaInterface $media
-     *
-     * @return UploadedMediaValidatorMessage
-     */
-    public function validateUploadedMedia(MediaInterface $media)
-    {
-        $file = $media->getFile();
-        $isValid = false;
-
-        if (null !== $file->getMimeType() &&
-            self::MIME_TYPE_PDF == $file->getMimeType()
-        ) {
-            $isValid = true;
-        }
-
-        return new UploadedMediaValidatorMessage(
-            $isValid,
-            'open_orchestra_media_admin.form.upload.not_allowed'
-        );
-    }
-
-    /**
      * @return string
      */
     public function getName()

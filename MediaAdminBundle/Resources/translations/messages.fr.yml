@@ -73,7 +73,6 @@ open_orchestra_media_admin:
             failed: "le fichier n'a pu être uploadé :"
             remaining: restantes
             completed: Achevé
-            not_allowed: Format non autorisé
         group:
             media_folder_role_edition: Liste des rôles par dossier de média
             media_folder_list: Liste des dossiers de média

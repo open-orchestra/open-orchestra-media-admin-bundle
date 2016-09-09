@@ -100,18 +100,4 @@ class VideoStrategyTest extends AbstractFileAlternativesStrategy
     {
         $this->assertSame('video_alternatives_strategy', $this->strategy->getName());
     }
-
-
-    /**
-     * @return array
-     */
-    public function provideFileMimeType()
-    {
-        return array(
-            array('otherMimeType', false),
-            array('image/jpeg', false),
-            array('image/png', false),
-            array('video/mp4', true)
-        );
-    }
 }

@@ -158,26 +158,4 @@ class FileAlternativesManager
 
         $this->defaultStrategy->overrideAlternative($media, $newFilePath, $formatName);
     }
-
-    /**
-     * @param MediaInterface $media
-     *
-     * @return UploadedMediaValidatorMessage
-     * @throws MissingFileAlternativesStrategyException
-     */
-    public function validateUploadedMedia(MediaInterface $media)
-    {
-        foreach ($this->strategies as $strategy) {
-            if ($strategy->support($media)) {
-                $validatorMessage = $strategy->validateUploadedMedia($media);
-                if (!$validatorMessage instanceof UploadedMediaValidatorMessage) {
-                    throw new InvalidArgumentException();
-                }
-
-                return $validatorMessage;
-            }
-        }
-
-        throw new MissingFileAlternativesStrategyException();
-    }
 }

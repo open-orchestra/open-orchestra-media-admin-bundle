@@ -73,14 +73,6 @@ interface FileAlternativesStrategyInterface
     public function overrideAlternative(MediaInterface $media, $newFilePath, $formatName);
 
     /**
-     * @param MediaInterface $media
-     *
-     * @return UploadedMediaValidatorMessage
-     * @throws MissingFileAlternativesStrategyException
-     */
-    public function validateUploadedMedia(MediaInterface $media);
-
-    /**
      * Return the name of the strategy
      * 
      * @return string

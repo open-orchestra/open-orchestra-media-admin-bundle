@@ -181,28 +181,6 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
     }
 
     /**
-     * @param MediaInterface $media
-     *
-     * @return UploadedMediaValidatorMessage
-     */
-    public function validateUploadedMedia(MediaInterface $media)
-    {
-        $file = $media->getFile();
-        $isValid = false;
-
-        if (null !== $file->getMimeType() &&
-            strpos($file->getMimeType(), self::MIME_TYPE_FRAGMENT_IMAGE) === 0
-        ) {
-            $isValid = true;
-        }
-
-        return new UploadedMediaValidatorMessage(
-            $isValid,
-            'open_orchestra_media_admin.form.upload.not_allowed'
-        );
-    }
-
-    /**
      * @return string
      */
     public function getName()
