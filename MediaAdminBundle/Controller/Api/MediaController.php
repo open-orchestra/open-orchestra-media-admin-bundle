@@ -91,7 +91,7 @@ class MediaController extends BaseController
     public function deleteAction($mediaId)
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
-        if (!$media->isDeletable()) {
+        if ($media->isUsed()) {
             throw new MediaNotDeletableException();
         }
 

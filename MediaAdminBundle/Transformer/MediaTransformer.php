@@ -54,7 +54,8 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->mimeType = $mixed->getMimeType();
 
         $mediaFolder = $mixed->getMediaFolder();
-        $facade->isDeletable = $mixed->isDeletable() && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA, $mediaFolder);
+        $facade->isDeletable = !$mixed->isUsed()
+            && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA, $mediaFolder);
         $facade->alt = $this->multiLanguageChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->multiLanguageChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());

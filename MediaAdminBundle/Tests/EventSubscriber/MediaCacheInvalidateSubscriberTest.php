@@ -18,7 +18,6 @@ class MediaCacheInvalidateSubscriberTest extends AbstractBaseTestCase
     protected $event;
     protected $media;
     protected $mediaId = 'mediaId';
-    protected $extractReferenceManager;
 
     /**
      * Set up the test
@@ -28,13 +27,12 @@ class MediaCacheInvalidateSubscriberTest extends AbstractBaseTestCase
         $this->tagManager = Phake::mock('OpenOrchestra\BaseBundle\Manager\TagManager');
 
         $this->cacheableManager = Phake::mock('OpenOrchestra\DisplayBundle\Manager\CacheableManager');
-        $this->extractReferenceManager = Phake::mock('OpenOrchestra\MediaAdminBundle\ExtractReference\ExtractReferenceManager');
 
-        $this->subscriber = new MediaCacheInvalidateSubscriber($this->cacheableManager, $this->tagManager, $this->extractReferenceManager);
+        $this->subscriber = new MediaCacheInvalidateSubscriber($this->cacheableManager, $this->tagManager);
 
         $this->media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($this->media)->getId()->thenReturn($this->mediaId);
-        Phake::when($this->media)->getUsageReference()->thenReturn(array());
+        Phake::when($this->media)->getUseReferences(Phake::anyParameters())->thenReturn(array());
 
         $this->event = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
         Phake::when($this->event)->getMedia()->thenReturn($this->media);
