@@ -74,7 +74,6 @@ open_orchestra_media_admin:
             failed: "file could not be uploaded:"
             remaining: remaining
             completed: Completed
-            not_allowed: Format not allowed
         group:
             media_folder_role_edition: Media role list
             media_folder_list: Media folder list

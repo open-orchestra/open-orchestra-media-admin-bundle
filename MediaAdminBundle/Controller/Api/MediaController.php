@@ -13,6 +13,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * Class MediaController
@@ -120,27 +121,28 @@ class MediaController extends BaseController
         $uploadedFile = $request->files->get('file');
         $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
-        if ($uploadedFile && $filename = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
+        if ($uploadedFile && $uploadedFile = $saveMediaManager->getFileFromChunks($uploadedFile)) {
+            $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
+            $violations = $this->get('validator')->validate($media);
 
-            if ($saveMediaManager->isFileAllowed($filename)) {
-                $media = $saveMediaManager->createMediaFromUploadedFile($uploadedFile, $filename, $folderId);
-
-                return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+            if (count($violations) !== 0) {
+                return new Response(
+                    implode('.', $this->getViolationsMessage($violations)),
+                    403
+                );
             }
 
-            $translator = $this->container->get('translator');
+            $saveMediaManager->saveMedia($media);
 
-            return new Response(
-                $translator->trans('open_orchestra_media_admin.form.upload.not_allowed'),
-                403
-            );
+            return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+
         }
 
         return new Response('', 202);
     }
 
     /**
-     * @param string folderId
+     * @param string $folderId
      *
      * @Config\Route("/{folderId}/media-types", name="open_orchestra_api_media_type_list")
      * Config\Method({"POST"})
@@ -157,5 +159,20 @@ class MediaController extends BaseController
 
         return $this->get('open_orchestra_api.transformer_manager')
             ->get('media_type_collection')->transform($mediaCollection, $folderId);
+    }
+
+    /**
+     * @param ConstraintViolationListInterface $violations
+     *
+     * @return array
+     */
+    protected function getViolationsMessage(ConstraintViolationListInterface $violations)
+    {
+        $messages = array();
+        foreach ($violations as $violation) {
+            $messages[] = $violation->getMessage();
+        }
+
+        return $messages;
     }
 }

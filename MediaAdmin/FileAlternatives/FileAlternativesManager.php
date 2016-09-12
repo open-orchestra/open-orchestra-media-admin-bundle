@@ -35,7 +35,7 @@ class FileAlternativesManager
      *
      * @param MediaInterface $media
      *
-     * @return srtring
+     * @return string
      */
     public function getMediaType(MediaInterface $media) {
         foreach ($this->strategies as $strategy) {
