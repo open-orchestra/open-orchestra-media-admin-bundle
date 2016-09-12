@@ -121,7 +121,7 @@ class MediaController extends BaseController
         $uploadedFile = $request->files->get('file');
         $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
-        if ($uploadedFile && $uploadedFile = $saveMediaManager->getFilenameFromChunks($uploadedFile)) {
+        if ($uploadedFile && $uploadedFile = $saveMediaManager->getFileFromChunks($uploadedFile)) {
             $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
             $violations = $this->get('validator')->validate($media);
 

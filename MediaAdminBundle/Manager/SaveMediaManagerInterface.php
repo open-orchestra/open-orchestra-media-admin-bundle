@@ -12,10 +12,22 @@ interface SaveMediaManagerInterface
 {
     /**
      * @param UploadedFile $uploadedFile
-     * 
+     *
+     * @deprecated will be remove in 2.0 use getFileFromChunks
+     *
      * @return string|null
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile);
+
+    /**
+     * Check if all chunks of a file being uploaded have been received
+     * If yes, return the name of the reassembled temporary file
+     *
+     * @param UploadedFile $uploadedFile
+     *
+     * @return UploadedFile|null
+     */
+    public function getFileFromChunks(UploadedFile $uploadedFile);
 
     /**
      * Return true if the file is allowed to be uploaded based on its mime type

@@ -57,10 +57,32 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * If yes, return the name of the reassembled temporary file
      * 
      * @param UploadedFile $uploadedFile
-     * 
-     * @return UploadedFile|null
+     *
+     * @deprecated will be remove in 2.0 use getFileFromChunks
+     *
+     * @return string|null
      */
     public function getFilenameFromChunks(UploadedFile $uploadedFile)
+    {
+        @trigger_error('The '.__NAMESPACE__.'\getFilenameFromChunks method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
+
+        $filename = time() . '-' . $uploadedFile->getClientOriginalName();
+        if (FlowBasic::save($this->tmpDir . DIRECTORY_SEPARATOR . $filename, $this->tmpDir)) {
+            return $filename;
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if all chunks of a file being uploaded have been received
+     * If yes, return the name of the reassembled temporary file
+     *
+     * @param UploadedFile $uploadedFile
+     *
+     * @return UploadedFile|null
+     */
+    public function getFileFromChunks(UploadedFile $uploadedFile)
     {
         $filename = time() . '-' . $uploadedFile->getClientOriginalName();
         $path = $this->tmpDir . DIRECTORY_SEPARATOR . $filename;
