@@ -28,7 +28,7 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
     protected $folderId = 'folderId';
     protected $uploadedFile;
     protected $originalName = 'original name';
-    protected $mimeType = 'some mime type';
+    protected $mimeType = 'image/jpeg';
 
     /**
      * Set up the test
@@ -49,7 +49,6 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
 
         $this->uploadedFile = Phake::mock('Symfony\Component\HttpFoundation\File\UploadedFile');
         Phake::when($this->uploadedFile)->getClientOriginalName()->thenReturn($this->originalName);
-        Phake::when($this->uploadedFile)->getClientMimeType()->thenReturn($this->mimeType);
 
         $this->mediaManager = new SaveMediaManager(
             $this->tmpDir,
@@ -89,11 +88,11 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
      */
     public function testCreateMediaFromUploadedFile()
     {
-        $filename = 'file.pdf';
+        $filename = 'What-are-you-talking-about.jpg';
         $media = $this->mediaManager->createMediaFromUploadedFile($this->uploadedFile, $filename, $this->folderId);
 
         $this->assertSame($this->uploadedFile, $media->getFile());
-        $this->assertSame('file.pdf', $media->getFilesystemName());
+        $this->assertSame('What-are-you-talking-about.jpg', $media->getFilesystemName());
         $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
 
         Phake::verify($this->documentManager)->persist($media);
