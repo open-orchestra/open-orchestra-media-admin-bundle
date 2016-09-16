@@ -25,8 +25,11 @@ class OpenOrchestra.GroupTree.MediaFolderTreeElementView extends OrchestraView
       'group'
       'roles'
     ])
+
+    # This view not needed groupTreeForm template, there is loaded here to optimize number of request
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTreeElement',
+      'OpenOrchestraBackofficeBundle:BackOffice:Underscore/groupTree/groupTreeForm',
     ]
     return
 
