@@ -72,7 +72,11 @@ MediaModalView = OrchestraView.extend(
       context: this
       success: (response) ->
         $('.modal-body-menu', @$el).html response
-        @initMenu($('#media-modal-' + $('#oo_folder_id').val()))
+        target = '#media-modal-' + $('#oo_folder_id').val()
+        @initMenu($(target))
+        @showFolder(
+          target: $(target + '>span')
+        )
     return
 
   openFormFolder: (event) ->
