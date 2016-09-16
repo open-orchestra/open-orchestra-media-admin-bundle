@@ -17,10 +17,13 @@ class OpenOrchestra.GroupTree.MediaFolderTreeView extends OrchestraView
   ###
   initialize: (options) ->
     @initializer options
+
+    # This view not needed mediaFolderTreeElement template, there is loaded here to optimize number of request
     @loadTemplates [
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTree',
       'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/messageNoSite',
       'OpenOrchestraBackofficeBundle:BackOffice:Underscore/backToList'
+      'OpenOrchestraMediaAdminBundle:BackOffice:Underscore/groupTree/mediaFolderTreeElement',
     ]
     return
 
