@@ -1,11 +1,11 @@
 formChannel = new (Backbone.Wreqr.EventAggregator)
-currentModal = null
 
 MediaModalView = OrchestraView.extend(
 
   extendView: ['breadcrumbAware']
 
   events:
+    'hidden.bs.modal': 'removeModal'
     'click .mediaModalClose': 'closeModal'
     'click .media-modal-menu-folder>span': 'showFolder'
     'click .media-modal-menu-new-folder': 'openFormFolder'
@@ -13,12 +13,11 @@ MediaModalView = OrchestraView.extend(
 
   initialize: (options) ->
     @options = @reduceOption(options, [
-      'body'
-      'input'
-      'domContainer'
       'url'
       'galleryView'
       'mediaType'
+      'input'
+      'body'
     ])
     @loadTemplates [
       "OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaModalView"
@@ -27,18 +26,10 @@ MediaModalView = OrchestraView.extend(
 
   render: (options) ->
     @setElement @renderTemplate('OpenOrchestraMediaAdminBundle:BackOffice:Underscore/mediaModalView', @options)
-
     @initMenu()
+    @$el.appendTo('body')
+    @$el.modal "show"
 
-    if currentModal != null
-      $('.modal-dialog', currentModal).replaceWith $('.modal-dialog', @$el)
-    else
-      @options.domContainer.html @$el
-      currentModal = @$el.detach().appendTo('body')
-      currentModal.modal "show"
-      currentModal.on 'hidden.bs.modal', ->
-        currentModal = null
-        return
 
   initMenu: (activeNode) ->
     @updateNavigation(activeNode) if activeNode?
@@ -51,8 +42,11 @@ MediaModalView = OrchestraView.extend(
     $(@el).jarvismenu opts
 
   closeModal: ->
-    if currentModal
-      currentModal.modal "hide"
+    @$el.modal "hide"
+
+  removeModal: ->
+    @$el.unbind()
+    @$el.remove()
 
   showFolder: (event) ->
     @updateNavigation($(event.target))
@@ -77,7 +71,7 @@ MediaModalView = OrchestraView.extend(
       method: 'GET'
       context: this
       success: (response) ->
-        $('.modal-body-menu', currentModal).html response
+        $('.modal-body-menu', @$el).html response
         @initMenu($('#media-modal-' + $('#oo_folder_id').val()))
     return
 
