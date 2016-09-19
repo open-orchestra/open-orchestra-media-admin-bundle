@@ -33,7 +33,7 @@ class FolderController extends AbstractAdminController
         $folder = $folderRepository->find($folderId);
 
         $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId));
-        $message = $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success');
+        $message = $this->get('translator')->trans('oplaen_orchestra_media_admin.form.folder.success');
 
         $form = $this->generateForm($folder, $url, TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER);
         $form->handleRequest($request);
@@ -79,10 +79,11 @@ class FolderController extends AbstractAdminController
         $event = $this->get("open_orchestra_media_admin.event.folder_event");
         $event->setFolder($folder);
         if ($this->handleForm($form, $message, $folder)) {
-            $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folder->getId()));
             $this->dispatchEvent(FolderEvents::FOLDER_UPDATE, $event);
 
-            return $this->redirect($url);
+            $response = new Response('', Response::HTTP_CREATED, array('Content-type' => 'text/html; charset=utf-8', 'document-id' => $folder->getId()));
+
+            return $this->render('BraincraftedBootstrapBundle::flash.html.twig', array(), $response);
         }
 
         return $this->renderAdminForm($form);

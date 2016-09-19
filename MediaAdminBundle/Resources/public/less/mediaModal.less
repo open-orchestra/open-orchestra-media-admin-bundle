@@ -38,12 +38,25 @@
                     }
                 }
 
+                .modal-body-flash {
+                    float: left;
+                    margin-left: 15px;
+                    width: calc(~"100% - 200px - 15px");
+                    height: 45px;
+                    display: none;
+                    &.flash-bag-active {
+                    	display: block;
+                    }
+                 }
+                 
                 .modal-body-content {
                     float: left;
                     margin-left: 15px;
                     width: calc(~"100% - 200px - 15px");
                     height: calc(~"100% - 15px");
-
+                    &.flash-bag-active {
+                        height: calc(~"100% - 60px");
+                    }
                     form[name=oo_media_crop] {
                         position: relative;
                         height: inherit;

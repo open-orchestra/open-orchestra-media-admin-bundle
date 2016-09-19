@@ -30,16 +30,15 @@ MediaModalView = OrchestraView.extend(
     @$el.appendTo('body')
     @$el.modal "show"
 
-
   initMenu: (activeNode) ->
     @updateNavigation(activeNode) if activeNode?
 
-    opts =
+    @opts =
       accordion: true
       speed: $.menu_speed
       closedSign: "<em class=\"fa fa-plus-square-o\"></em>"
       openedSign: "<em class=\"fa fa-minus-square-o\"></em>"
-    $(@el).jarvismenu opts
+    $(@el).jarvismenu @opts
 
   closeModal: ->
     @$el.modal "hide"
@@ -48,9 +47,22 @@ MediaModalView = OrchestraView.extend(
     @$el.unbind()
     @$el.remove()
 
-  showFolder: (event) ->
+  showFolder: (event, message) ->
     @updateNavigation($(event.target))
-    @openGallery($(event.target).parent().attr('id'))
+    @openGallery $(event.target).parent().attr('id')
+    $(".modal-body-flash", @$el).html ''
+    if typeof message != 'undefined'
+      $(".modal-body-flash", @$el).addClass('flash-bag-active')
+      $(".modal-body-content", @$el).addClass('flash-bag-active')
+      viewClass = appConfigurationView.getConfiguration('folder', 'showFlashBag')
+      new viewClass(
+        html: message
+        domContainer: $(".modal-body-flash", @$el)
+      )
+    else
+      $(".modal-body-flash", @$el).html ''
+      $(".modal-body-flash", @$el).removeClass('flash-bag-active')
+      $(".modal-body-content", @$el).removeClass('flash-bag-active')
 
   backToFolder: ->
     @openGallery($('.modal-body-menu nav .active', @el).attr('id'))
@@ -63,8 +75,9 @@ MediaModalView = OrchestraView.extend(
     $('.modal-body-menu nav .active', @el).removeClass("active");
     node.parent().addClass("active");
 
-  reloadFolder: ->
+  reloadFolder: (message, folderId) ->
     displayLoader $('.modal-body-menu', @$el)
+
     refreshMenu()
     $.ajax
       url: @options.url
@@ -72,17 +85,20 @@ MediaModalView = OrchestraView.extend(
       context: this
       success: (response) ->
         $('.modal-body-menu', @$el).html response
-        target = '#media-modal-' + $('#oo_folder_id').val()
-        @initMenu($(target))
-        @showFolder(
-          target: $(target + '>span')
-        )
+        @initMenu()
+        @showFolder { target: $('#media-modal-' + folderId + '>span') }, message
+        opts = @opts
+        $(".modal-body-menu", @el).find("a.active").each ->
+          $(this).parents("ul").slideDown opts.speed
+          $(this).parents("ul").parent("li").find("b:first").html opts.openedSign
+          $(this).parents("ul").parent("li").addClass "open"
+          return
     return
 
   openFormFolder: (event) ->
     event.preventDefault()
     @updateNavigation($(event.target))
-    @listenToOnce(formChannel, 'formSubmit', @reloadFolder)
+    @listenToOnce(formChannel, 'element-created', @reloadFolder)
     displayLoader $(".modal-body-content", @$el)
     domContainer = $(".modal-body-content", @$el)
     title = @getPath().join(' > ')
@@ -90,7 +106,7 @@ MediaModalView = OrchestraView.extend(
       url: $(event.currentTarget).data('url')
       method: 'GET'
       success: (response) ->
-        viewClass = appConfigurationView.getConfiguration('media', 'showMediaForm')
+        viewClass = appConfigurationView.getConfiguration('modal_folder_form', 'folder')
         new viewClass(
             html: response
             domContainer: domContainer
