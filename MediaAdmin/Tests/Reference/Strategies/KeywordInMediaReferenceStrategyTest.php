@@ -43,11 +43,12 @@ class KeywordInMediaReferenceStrategyTest extends AbstractMediaReferenceStrategy
 
     /**
      * @param mixed $entity
+     * @param string $entityId
      * @param array $keywords
      *
      * @dataProvider provideEntityWithKeywords
      */
-    public function testAddReferencesToEntity($entity, array $keywords)
+    public function testAddReferencesToEntity($entity, $entityId, array $keywords)
     {
         Phake::when($entity)->getKeywords()->thenReturn($keywords);
 
@@ -58,24 +59,25 @@ class KeywordInMediaReferenceStrategyTest extends AbstractMediaReferenceStrategy
         $this->strategy->addReferencesToEntity($entity);
 
         foreach ($keywords as $keyword) {
-            Phake::verify($keyword)->addUseInEntity($entity->getId(), MediaInterface::ENTITY_TYPE);
+            Phake::verify($keyword)->addUseInEntity($entityId, MediaInterface::ENTITY_TYPE);
         }
     }
 
     /**
-     * @param mixed $entity
-     * @param array $keywords
+     * @param mixed  $entity
+     * @param string $entityId
+     * @param array  $keywords
      *
      * @dataProvider provideEntityWithKeywords
      */
-    public function testRemoveReferencesToEntity($entity, array $keywords)
+    public function testRemoveReferencesToEntity($entity, $entityId, array $keywords)
     {
         Phake::when($this->keywordRepository)->findByUsedInEntity(Phake::anyParameters())->thenReturn($keywords);
 
         $this->strategy->removeReferencesToEntity($entity);
 
         foreach ($keywords as $keyword) {
-            Phake::verify($keyword)->removeUseInEntity($entity->getId(), MediaInterface::ENTITY_TYPE);
+            Phake::verify($keyword)->removeUseInEntity($entityId, MediaInterface::ENTITY_TYPE);
         }
     }
 
@@ -84,10 +86,14 @@ class KeywordInMediaReferenceStrategyTest extends AbstractMediaReferenceStrategy
      */
     public function provideEntityWithKeywords()
     {
-        $content = $this->createPhakeContent();
-        $node = $this->createPhakeNode();
-        $contentType = $this->createPhakeContentType();
-        $media = $this->createPhakeMedia();
+        $nodeId= 'nodeId';
+        $node = $this->createPhakeNode($nodeId);
+        $contentId = 'contentId';
+        $content = $this->createPhakeContent($contentId);
+        $contentTypeId = 'contentId';
+        $contentType = $this->createPhakeContentType($contentId);
+        $mediaId = 'mediaId';
+        $media = $this->createPhakeMedia($mediaId);
 
         $keyword1Id = 'keyword1';
         $keyword2Id = 'keyword2';
@@ -98,12 +104,12 @@ class KeywordInMediaReferenceStrategyTest extends AbstractMediaReferenceStrategy
         $keyword3 = $this->createPhakeKeyword($keyword3Id);
 
         return array(
-            'Node'                    => array($node, array()),
-            'Content'                 => array($content, array()),
-            'Content type'            => array($contentType, array()),
-            'Media with no keyword'   => array($media, array()),
-            'Media with one keyword'  => array($media, array($keyword1Id => $keyword1)),
-            'Media with two keywords' => array($media, array($keyword2Id => $keyword2, $keyword3Id => $keyword3))
+            'Node'                    => array($node, $nodeId, array()),
+            'Content'                 => array($content, $contentId, array()),
+            'Content type'            => array($contentType, $contentId, array()),
+            'Media with no keyword'   => array($media, $mediaId, array()),
+            'Media with one keyword'  => array($media, $mediaId, array($keyword1Id => $keyword1)),
+            'Media with two keywords' => array($media, $mediaId, array($keyword2Id => $keyword2, $keyword3Id => $keyword3))
         );
     }
 }

@@ -43,10 +43,11 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
 
     /**
      * @param mixed  $entity
+     * @param string $entityId
      * @param array  $medias
      * @param string $entityType
      */
-    protected function checkAddReferencesToEntity($entity, array $medias, $entityType)
+    protected function checkAddReferencesToEntity($entity, $entityId, array $medias, $entityType)
     {
         $mediaTag = Phake::mock('OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNodeInterface');
         Phake::when($mediaTag)->getAsText()->thenReturn($this->mediaInBBCodeId);
@@ -54,17 +55,18 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
             array($mediaTag)
         );
 
-        parent::checkAddReferencesToEntity($entity, $medias, $entityType, $this->mediaRepository);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, $entityType, $this->mediaRepository);
     }
 
     /**
      * @param mixed  $entity
+     * @apram string $entityId
      * @param array  $medias
      * @param string $entityType
      */
-    protected function checkRemoveReferencesToEntity($entity, array $medias, $entityType)
+    protected function checkRemoveReferencesToEntity($entity, $entityId, array $medias, $entityType)
     {
-        parent::checkRemoveReferencesToEntity($entity, $medias, $entityType, $this->mediaRepository);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, $entityType, $this->mediaRepository);
     }
 
     /**
