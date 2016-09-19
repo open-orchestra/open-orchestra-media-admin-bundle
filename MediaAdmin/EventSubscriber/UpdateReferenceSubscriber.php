@@ -7,6 +7,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use OpenOrchestra\Backoffice\Reference\ReferenceManager;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
+use OpenOrchestra\ModelInterface\ContentTypeEvents;
+use OpenOrchestra\ModelInterface\Event\ContentTypeEvent;
 
 /**
  * Class UpdateReferenceSubscriber
@@ -36,12 +38,23 @@ class UpdateReferenceSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param ContentEvent $event
+     */
+    public function updateReferencesToContentType(ContentTypeEvent $event)
+    {
+        $contentType = $event->getContentType();
+        $this->referenceManager->updateReferencesToEntity($contentType);
+    }
+
+    /**
      * @return array The event names to listen to
      */
     public static function getSubscribedEvents()
     {
         return array(
             MediaEvents::MEDIA_UPDATE => 'updateReferencesToMedia',
+            ContentTypeEvents::CONTENT_TYPE_CREATE => 'updateReferencesToContentType',
+            ContentTypeEvents::CONTENT_TYPE_UPDATE => 'updateReferencesToContentType',
         );
     }
 }
