@@ -33,7 +33,7 @@ class FolderController extends AbstractAdminController
         $folder = $folderRepository->find($folderId);
 
         $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId));
-        $message = $this->get('translator')->trans('oplaen_orchestra_media_admin.form.folder.success');
+        $message = $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success');
 
         $form = $this->generateForm($folder, $url, TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER);
         $form->handleRequest($request);
