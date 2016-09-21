@@ -30,11 +30,11 @@ class AddMediaFolderGroupRoleForFolderListener extends AbstractMediaFolderGroupR
                             $mediaFolderRole = $this->createMediaFolderGroupRole($document, $group, $role, $accessType);
                             $group->addModelGroupRole($mediaFolderRole);
                             $event->getDocumentManager()->persist($group);
-                            $event->getDocumentManager()->flush($group);
                         }
                     }
                 }
             }
+            $event->getDocumentManager()->flush();
         }
     }
 }
