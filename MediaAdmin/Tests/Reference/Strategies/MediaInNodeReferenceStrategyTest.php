@@ -42,25 +42,27 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
     }
 
     /**
-     * @param mixed $entity
-     * @param array $medias
+     * @param mixed  $entity
+     * @param string $entityId
+     * @param array  $medias
      *
      * @dataProvider provideEntityWithMedias
      */
-    public function testAddReferencesToEntity($entity, array $medias)
+    public function testAddReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkAddReferencesToEntity($entity, $medias, NodeInterface::ENTITY_TYPE);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE);
     }
 
     /**
-     * @param mixed $entity
-     * @param array $medias
+     * @param mixed  $entity
+     * @param string $entityId
+     * @param array  $medias
      *
      * @dataProvider provideEntityWithMedias
      */
-    public function testRemoveReferencesToEntity($entity, array $medias)
+    public function testRemoveReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkRemoveReferencesToEntity($entity, $medias, NodeInterface::ENTITY_TYPE);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE);
     }
 
     /**
@@ -68,9 +70,12 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function provideEntityWithMedias()
     {
-        $node = $this->createPhakeNode();
-        $contentType = $this->createPhakeContentType();
-        $content = $this->createPhakeContent();
+        $nodeId = 'nodeId';
+        $node = $this->createPhakeNode($nodeId);
+        $contentTypeId = 'contentTypeId';
+        $contentType = $this->createPhakeContentType($contentTypeId);
+        $contentId = 'contentId';
+        $content = $this->createPhakeContent($contentId);
 
         $mediaId = 'mediaId';
         $media = $this->createPhakeMedia($mediaId);
@@ -93,10 +98,10 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
         );
 
         return array(
-            'Media'        => array($media, array()),
-            'Content'      => array($content, array()),
-            'Content Type' => array($contentType, array()),
-            'Node'         => array($node, array($mediaId => $media, $this->mediaInBBCodeId => $mediaBBCode))
+            'Media'        => array($media, $mediaId, array()),
+            'Content'      => array($content, $contentId, array()),
+            'Content Type' => array($contentType, $contentTypeId, array()),
+            'Node'         => array($node, $nodeId, array($mediaId => $media, $this->mediaInBBCodeId => $mediaBBCode))
         );
     }
 }

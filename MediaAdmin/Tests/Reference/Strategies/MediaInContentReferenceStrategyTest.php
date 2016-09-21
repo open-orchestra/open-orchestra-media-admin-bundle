@@ -41,25 +41,27 @@ class MediaInContentReferenceStrategyTest extends AbstractMediaReferenceStrategy
     }
 
     /**
-     * @param mixed $entity
-     * @param array $medias
+     * @param mixed  $entity
+     * @param string $entityId
+     * @param array  $medias
      *
      * @dataProvider provideEntityWithMedias
      */
-    public function testAddReferencesToEntity($entity, array $medias)
+    public function testAddReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkAddReferencesToEntity($entity, $medias, ContentInterface::ENTITY_TYPE);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, ContentInterface::ENTITY_TYPE);
     }
 
     /**
-     * @param mixed $entity
-     * @param array $medias
+     * @param mixed  $entity
+     * @param string $entityId
+     * @param array  $medias
      *
      * @dataProvider provideEntityWithMedias
      */
-    public function testRemoveReferencesToEntity($entity, array $medias)
+    public function testRemoveReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkRemoveReferencesToEntity($entity, $medias, ContentInterface::ENTITY_TYPE);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, ContentInterface::ENTITY_TYPE);
     }
 
     /**
@@ -67,8 +69,10 @@ class MediaInContentReferenceStrategyTest extends AbstractMediaReferenceStrategy
      */
     public function provideEntityWithMedias()
     {
-        $node = $this->createPhakeNode();
-        $contentType = $this->createPhakeContentType();
+        $nodeId = 'nodeId';
+        $node = $this->createPhakeNode($nodeId);
+        $contentTypeId = 'contentTypeId';
+        $contentType = $this->createPhakeContentType($contentTypeId);
 
         $mediaId = 'mediaId';
         $media = $this->createPhakeMedia($mediaId);
@@ -78,16 +82,17 @@ class MediaInContentReferenceStrategyTest extends AbstractMediaReferenceStrategy
         $attributeBBcodeNoMedia = $this->createPhakeContentAttribute($this->bbCodeWithNoMedia);
         $attributeBBcodeMedia = $this->createPhakeContentAttribute($this->bbCodeWithMedia);
 
+        $contentId = 'contentId';
         $content = $this->createPhakeContent(
-            'contentId',
+            $contentId,
             array($attributeMedia, $attributeBBcodeNoMedia, $attributeBBcodeMedia)
         );
 
         return array(
-            'Media'        => array($media, array()),
-            'Node'         => array($node, array()),
-            'Content Type' => array($contentType, array()),
-            'Content'      => array($content, array($mediaId => $media, $this->mediaInBBCodeId => $mediaBBCode))
+            'Media'        => array($media, $mediaId, array()),
+            'Node'         => array($node, $nodeId, array()),
+            'Content Type' => array($contentType, $contentTypeId, array()),
+            'Content'      => array($content, $contentId, array($mediaId => $media, $this->mediaInBBCodeId => $mediaBBCode))
         );
     }
 }
