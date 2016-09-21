@@ -16,10 +16,6 @@ MediaFormView = OrchestraView.extend(
     @options.entityType = 'media'
     return
 
-  onViewReady: ->
-    if @options.submitted
-      formChannel.trigger('formSubmit')
-
   render: ->
     @setElement @renderTemplate('OpenOrchestraBackofficeBundle:BackOffice:Underscore/fullPageFormView', @options)
     @options.domContainer.html @$el

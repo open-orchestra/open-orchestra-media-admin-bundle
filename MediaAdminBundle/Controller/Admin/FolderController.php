@@ -79,10 +79,11 @@ class FolderController extends AbstractAdminController
         $event = $this->get("open_orchestra_media_admin.event.folder_event");
         $event->setFolder($folder);
         if ($this->handleForm($form, $message, $folder)) {
-            $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folder->getId()));
             $this->dispatchEvent(FolderEvents::FOLDER_UPDATE, $event);
 
-            return $this->redirect($url);
+            $response = new Response('', Response::HTTP_CREATED, array('Content-type' => 'text/html; charset=utf-8', 'document-id' => $folder->getId()));
+
+            return $this->render('BraincraftedBootstrapBundle::flash.html.twig', array(), $response);
         }
 
         return $this->renderAdminForm($form);
