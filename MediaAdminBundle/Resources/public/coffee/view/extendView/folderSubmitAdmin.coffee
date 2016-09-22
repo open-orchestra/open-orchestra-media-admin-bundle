@@ -6,21 +6,16 @@ extendView['folderSubmitAdmin'] = {
   addEventOnSave: (event) ->
     viewContext = @
     viewClass = appConfigurationView.getConfiguration(viewContext.options.entityType, viewContext.options.formView)
-    @buttonContext = $(event.target).parent() if event.originalEvent
     form = $(event.target).closest('form')
     if form.length == 0 && (clone = $(event.target).data('clone'))
       $('#' + clone).click()
     else
-      if $("textarea.tinymce", form).length > 0
-        tinymce.triggerSave()
       if !form.hasClass('HTML5validation')
         form.addClass('HTML5validation')
         form.submit ->
           event.preventDefault()
           form.ajaxSubmit
             url: form.data('action')
-            context:
-              button: viewContext.buttonContext
             statusCode:
               201: (response,  status, xhr) ->
                 viewContext.options.domContainer.modal 'hide'
