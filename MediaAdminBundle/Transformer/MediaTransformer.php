@@ -10,6 +10,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 
 /**
  * Class MediaTransformer
@@ -61,30 +62,44 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
 
-        $alternatives = $mixed->getAlternatives();
-        foreach ($alternatives as $format => $alternativeName) {
-            $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
-            $facade->addLink('_self_format_' . $format,
-                $this->generateRoute('open_orchestra_media_admin_media_override',
-                    array('format' => $format, 'mediaId' => $mixed->getId())
-                )
-            );
+        if ($this->hasGroup(MediaAdminGroupContext::MEDIA_ALTERNATIVES)) {
+            $alternatives = $mixed->getAlternatives();
+            foreach ($alternatives as $format => $alternativeName) {
+                $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
+                $facade->addLink('_self_format_' . $format,
+                    $this->generateRoute('open_orchestra_media_admin_media_override',
+                        array('format' => $format, 'mediaId' => $mixed->getId())
+                    )
+                );
+            }
+        }
+
+        $facade->isEditable = false;
+
+        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder)) {
+            $facade->isEditable = true;
         }
 
         $facade->addLink('_self_select', $mixed->getId());
-
-        $facade->addLink('_self_select_format', $this->generateRoute('open_orchestra_media_admin_media_select_format', array(
+        $facade->addLink('_api_full', $this->generateRoute('open_orchestra_api_media_show', array(
             'mediaId' => $mixed->getId()
         )));
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder)) {
-            $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
+        if ($this->hasGroup(MediaAdminGroupContext::MEDIA_ADVANCED_LINKS)) {
+
+            $facade->addLink('_self_select_format', $this->generateRoute('open_orchestra_media_admin_media_select_format', array(
                 'mediaId' => $mixed->getId()
             )));
 
-            $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
-                'mediaId' => $mixed->getId()
-            )));
+            if ($facade->isEditable) {
+                $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
+                    'mediaId' => $mixed->getId()
+                )));
+
+                $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
+                    'mediaId' => $mixed->getId()
+                )));
+            }
         }
 
         if ($facade->isDeletable) {
