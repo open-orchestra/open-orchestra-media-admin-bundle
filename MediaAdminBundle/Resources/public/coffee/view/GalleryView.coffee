@@ -12,7 +12,7 @@ GalleryView = OrchestraView.extend(
       'media'
       'domContainer'
     ])
-    @updateRole = @options.media.get("links")._self_crop && @options.media.get("links")._self_meta
+    @updateRole = @options.media.isEditable
 
     if !@options.modal
       @events['click .superbox-img'] = 'superboxOpen'
@@ -46,8 +46,7 @@ GalleryView = OrchestraView.extend(
   superboxOpen: ->
     if @updateRole
       listUrl = Backbone.history.fragment
-      Backbone.history.navigate(listUrl + '/media/' + @options.media.id + '/edit')
-      showTabMedia(@options.media, listUrl)
+      Backbone.history.navigate(listUrl + '/media/' + @options.media.id + '/edit', true)
 
   confirmRemoveMedia: (event) ->
     smartConfirm(
@@ -77,21 +76,27 @@ GalleryView = OrchestraView.extend(
 
   chooseFormat: ->
     viewContext = this
+    mediaSelectDomContainer = viewContext.$el.closest(".modal-body-content")
     extendView = []
     extendView = ['alternativeSelectWysiwygView'] if @wysiwygContext
+    displayLoader(mediaSelectDomContainer)
     $.ajax
-      url: @options.media.get('links')._self_select_format
+      url: @options.media.get('links')._api_full
       method: "GET"
-      success: (response) ->
-        viewClass = appConfigurationView.getConfiguration('media', 'showWysiwygSelect')
-        new viewClass(
-          domContainer: viewContext.$el.closest(".modal-body-content")
-          html: response
-          alternatives: viewContext.options.alternatives
-          original: viewContext.options.original
-          mediaName: viewContext.options.media.get('name')
-          extendView: extendView
-        )
+      success: (media) ->
+        $.ajax
+          url: media.links._self_select_format
+          method: "GET"
+          success: (response) ->
+            viewClass = appConfigurationView.getConfiguration('media', 'showWysiwygSelect')
+            new viewClass(
+              domContainer: mediaSelectDomContainer
+              html: response
+              alternatives: media.alternatives
+              original: viewContext.options.original
+              mediaName: viewContext.options.media.get('name')
+              extendView: extendView
+            )
 
   sendMedia: ->
     modalContainer = @$el.closest('.mediaModalContainer')

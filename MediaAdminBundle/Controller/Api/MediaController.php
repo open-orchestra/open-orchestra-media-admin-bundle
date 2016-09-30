@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 
 /**
  * Class MediaController
@@ -27,10 +28,12 @@ class MediaController extends BaseController
     /**
      * @param int $mediaId
      *
+     * @return FacadeInterface
+     *
      * @Config\Route("/{mediaId}", name="open_orchestra_api_media_show")
      * @Config\Method({"GET"})
      *
-     * @return FacadeInterface
+     * @Api\Groups({MediaAdminGroupContext::MEDIA_ALTERNATIVES, MediaAdminGroupContext::MEDIA_ADVANCED_LINKS})
      */
     public function showAction($mediaId)
     {
