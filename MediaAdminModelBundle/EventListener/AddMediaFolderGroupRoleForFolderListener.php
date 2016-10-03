@@ -23,20 +23,27 @@ class AddMediaFolderGroupRoleForFolderListener extends AbstractMediaFolderGroupR
             $groups = $this->container->get('open_orchestra_user.repository.group')->findAllWithSite();
             $mediaFolderRoles = $this->getMediaFolderRoles();
             /** @var GroupInterface $group */
-            $flushingGroups = array();
+            $groupsToFlush = array();
+
             foreach ($groups as $group) {
+
                 if ($group->getSite()->getSiteId() == $siteId) {
+
                     foreach ($mediaFolderRoles as $role => $translation) {
                         if (false === $group->hasModelGroupRoleByTypeAndIdAndRole(FolderInterface::GROUP_ROLE_TYPE, $document->getId(), $role)) {
                             $mediaFolderRole = $this->createMediaFolderGroupRole($document, $group, $role, $accessType);
                             $group->addModelGroupRole($mediaFolderRole);
-                            $event->getDocumentManager()->persist($group);
-                            $flushingGroups[] = $group;
+                            $groupsToFlush[$group->getId()] = $group;
                         }
+                    }
+
+                    if (isset($groupsToFlush[$group->getId()])) {
+                        $event->getDocumentManager()->persist($group);
                     }
                 }
             }
-            $event->getDocumentManager()->flush($flushingGroups);
+
+            $event->getDocumentManager()->flush($groupsToFlush);
         }
     }
 }
