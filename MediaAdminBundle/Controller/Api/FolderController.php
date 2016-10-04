@@ -44,7 +44,10 @@ class FolderController extends BaseController
                 throw new FolderNotDeletableException();
             }
             $folderManager->deleteTree($folder);
-            $this->dispatchEvent(FolderEvents::FOLDER_DELETE, new FolderEvent($folder));
+
+            $event = $this->get("open_orchestra_media_admin.event.folder_event");
+            $event->setFolder($folder);
+            $this->dispatchEvent(FolderEvents::FOLDER_DELETE, $event);
             $this->get('object_manager')->flush();
         }
 
