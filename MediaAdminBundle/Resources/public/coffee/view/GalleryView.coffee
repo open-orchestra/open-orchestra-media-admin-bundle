@@ -12,7 +12,7 @@ GalleryView = OrchestraView.extend(
       'media'
       'domContainer'
     ])
-    @updateRole = @options.media.isEditable
+    @updateRole = @options.media.get('is_editable')
 
     if !@options.modal
       @events['click .superbox-img'] = 'superboxOpen'
