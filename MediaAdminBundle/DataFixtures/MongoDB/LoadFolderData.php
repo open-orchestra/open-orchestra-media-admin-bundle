@@ -18,22 +18,24 @@ class LoadFolderData extends AbstractFixture implements OrderedFixtureInterface,
      */
     public function load(ObjectManager $manager)
     {
+        $site =  $this->getReference('site2');
+
         $rootImages = new MediaFolder();
         $rootImages->setName('Images folder');
-        $rootImages->setSiteId('2');
+        $rootImages->setSiteId($site->getSiteId());
         $manager->persist($rootImages);
         $this->addReference('mediaFolder-rootImages', $rootImages);
 
         $firstImages = new MediaFolder();
         $firstImages->setName('First images folder');
         $firstImages->setParent($rootImages);
-        $firstImages->setSiteId('2');
+        $firstImages->setSiteId($site->getSiteId());
         $manager->persist($firstImages);
         $this->addReference('mediaFolder-firstImages', $firstImages);
 
         $rootFiles = new MediaFolder();
         $rootFiles->setName('Files folder');
-        $rootFiles->setSiteId('2');
+        $rootFiles->setSiteId($site->getSiteId());
         $manager->persist($rootFiles);
         $this->addReference('mediaFolder-rootFiles', $rootFiles);
 
@@ -47,7 +49,7 @@ class LoadFolderData extends AbstractFixture implements OrderedFixtureInterface,
      */
     public function getOrder()
     {
-        return 50;
+        return 350;
     }
 
 }
