@@ -49,8 +49,6 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
      */
     public function testPostPersist(array $groups,  $site, $countMFGR)
     {
-        $countMFGR = count($this->mediaFolderRoles) * $countMFGR;
-
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($folder)->getSiteId()->thenReturn($site);
 
