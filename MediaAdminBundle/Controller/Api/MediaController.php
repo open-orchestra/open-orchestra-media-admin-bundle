@@ -126,8 +126,7 @@ class MediaController extends BaseController
 
         if ($uploadedFile && $uploadedFile = $saveMediaManager->getFileFromChunks($uploadedFile)) {
             $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
-            $violations = $this->get('validator')->validate($media);
-
+            $violations = $this->get('validator')->validate($media, null, array('upload'));
             if (count($violations) !== 0) {
                 return new Response(
                     implode('.', $this->getViolationsMessage($violations)),
