@@ -15,6 +15,7 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
      */
     protected $listener;
     protected $groupRepository;
+    protected $siteRepository;
     protected $documentManager;
 
     /**
@@ -27,6 +28,8 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
         $this->groupRepository = Phake::mock('OpenOrchestra\Backoffice\Repository\GroupRepositoryInterface');
         Phake::when($this->container)->get('open_orchestra_user.repository.group')->thenReturn($this->groupRepository);
         Phake::when($this->lifecycleEventArgs)->getDocumentManager()->thenReturn($this->documentManager);
+        $this->siteRepository = Phake::mock('OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface');
+        Phake::when($this->container)->get('open_orchestra_model.repository.site')->thenReturn($this->siteRepository);
 
         $this->listener = new AddMediaFolderGroupRoleForFolderListener($this->mediaFolderGroupRoleClass);
         $this->listener->setContainer($this->container);
@@ -41,25 +44,27 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
     }
 
     /**
-     * @param array  $groups
-     * @param string $site
-     * @param int    $countMFGR
+     * @param array $groups
+     * @param int   $expectedPersistTime
      *
      * @dataProvider provideGroupAndSite
      */
-    public function testPostPersist(array $groups,  $site, $countMFGR)
+    public function testPostPersist(array $groups, $expectedPersistTime)
     {
-        $countMFGR = count($this->mediaFolderRoles) * $countMFGR;
+        $siteId = 'siteId';
+        $site = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
+        Phake::when($site)->getId()->thenReturn($siteId);
+        Phake::when($this->siteRepository)->findOneBySiteId(Phake::anyParameters())->thenReturn($site);
 
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        Phake::when($folder)->getSiteId()->thenReturn($site);
+        Phake::when($folder)->findOneBySiteId(Phake::anyParameters())->thenReturn($site);
 
         Phake::when($this->lifecycleEventArgs)->getDocument()->thenReturn($folder);
-        Phake::when($this->groupRepository)->findAllWithSite()->thenReturn($groups);
+        Phake::when($this->groupRepository)->findAllWithSiteId($siteId)->thenReturn($groups);
 
         $this->listener->postPersist($this->lifecycleEventArgs);
 
-        Phake::verify($this->documentManager, Phake::times($countMFGR))->persist(Phake::anyParameters());
+        Phake::verify($this->documentManager, Phake::times($expectedPersistTime))->persist(Phake::anyParameters());
     }
 
     /**
@@ -67,21 +72,16 @@ class AddMediaFolderGroupRoleForFolderListenerTest extends AbstractMediaFolderGr
      */
     public function provideGroupAndSite()
     {
-        $group1 = $this->createMockGroup("FakeSiteId1");
-        $group2 = $this->createMockGroup("FakeSiteId2");
-        $group3 = $this->createMockGroup("FakeSiteId3");
-        Phake::when($group3)->hasModelGroupRoleByTypeAndIdAndRole(Phake::anyParameters())->thenReturn(false);
-
-        $site1 = "FakeSiteId1";
-        $site2 = "FakeSiteId2";
+        $groupWithNoGroupRole = $this->createMockGroup("FakeSiteId1");
+        $groupWithGroupRole = $this->createMockGroup("FakeSiteId2");
+        Phake::when($groupWithNoGroupRole)->hasModelGroupRoleByTypeAndIdAndRole(Phake::anyParameters())->thenReturn(false);
+        Phake::when($groupWithGroupRole)->hasModelGroupRoleByTypeAndIdAndRole(Phake::anyParameters())->thenReturn(true);
 
         return array(
-            array(array($group1), $site1, 1),
-            array(array($group2), $site2, 1),
-            array(array($group3), "", 0),
-            array(array($group3), $site2, 0),
-            array(array(), $site2, 0),
-            array(array(), "", 0),
+                array(array($groupWithNoGroupRole), 1),
+                array(array($groupWithGroupRole), 0),
+                array(array($groupWithNoGroupRole, $groupWithGroupRole), 2),
+                array(array(), 0),
         );
     }
 }
