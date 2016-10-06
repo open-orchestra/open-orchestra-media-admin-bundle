@@ -58,6 +58,6 @@ class LoadMediaThumbnailData
      */
     function getOrder()
     {
-        return 10;
+        return 310;
     }
 }
