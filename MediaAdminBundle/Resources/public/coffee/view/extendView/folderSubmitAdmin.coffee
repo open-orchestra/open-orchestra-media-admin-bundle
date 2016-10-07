@@ -1,7 +1,6 @@
 extendView = extendView || {}
 extendView['folderSubmitAdmin'] = $.extend({}, extendView['submitAdmin'],
   httpCreated: (response) ->
-    listUrl = undefined
     @options.domContainer.modal 'hide'
     launchNotification 'success', $(response[0]).text()
     widgetChannel.trigger 'element-created', this
