@@ -1,4 +1,5 @@
 <?php
+
 namespace OpenOrchestra\MediaAdmin\Tests\Reference\Strategies;
 
 use Phake;
@@ -90,7 +91,6 @@ class KeywordInMediaReferenceStrategyTest extends AbstractMediaReferenceStrategy
         $node = $this->createPhakeNode($nodeId);
         $contentId = 'contentId';
         $content = $this->createPhakeContent($contentId);
-        $contentTypeId = 'contentId';
         $contentType = $this->createPhakeContentType($contentId);
         $mediaId = 'mediaId';
         $media = $this->createPhakeMedia($mediaId);
