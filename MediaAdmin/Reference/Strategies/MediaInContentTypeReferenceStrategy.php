@@ -22,9 +22,9 @@ class MediaInContentTypeReferenceStrategy extends AbstractMediaReferenceStrategy
 
     /**
      * @param mixed $entity
-     * @param mixed $subEntity
+     * @param mixed $scope
      */
-    public function addReferencesToEntity($entity, $subEntity)
+    public function addReferencesToEntity($entity, $scope)
     {
         if ($this->support($entity)) {
             $mediaIds = $this->extractMediasFromContentType($entity);

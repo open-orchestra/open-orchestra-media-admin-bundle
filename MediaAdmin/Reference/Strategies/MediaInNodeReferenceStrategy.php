@@ -23,9 +23,9 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
 
     /**
      * @param mixed $entity
-     * @param mixed $subEntity
+     * @param mixed $scope
      */
-    public function addReferencesToEntity($entity, $subEntity)
+    public function addReferencesToEntity($entity, $scope)
     {
         if ($this->support($entity)) {
             $mediaIds = $this->extractMediasFromNode($entity);
