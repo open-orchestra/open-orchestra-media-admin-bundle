@@ -1,5 +1,5 @@
 extendView = extendView || {}
-extendView['folderSubmitAdmin'] = $.extend({}, extendView['submitAdmin'], http_created: (response) ->
+extendView['folderSubmitAdmin'] = $.extend({}, extendView['submitAdmin'], httpCreated: (response) ->
   listUrl = undefined
   @options.domContainer.modal 'hide'
   launchNotification 'success', $(response[0]).text()
