@@ -65,30 +65,6 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
     }
 
     /**
-     * @param string $filename
-     * @param bool   $expectedStatus
-     *
-     * @dataProvider provideFileType
-     *
-     * @deprecated will be remove in 2.0
-     */
-    public function testIsFileAllowed($filename, $expectedStatus)
-    {
-        $this->assertSame($expectedStatus, $this->mediaManager->isFileAllowed($filename));
-    }
-
-    /**
-     * @return array
-     */
-    public function provideFileType()
-    {
-        return array(
-            array('What-are-you-talking-about.jpg', true),
-            array('hecommon.mp3', false)
-        );
-    }
-
-    /**
      * Test initializeMediaFromUploadedFile
      */
     public function testInitializeMediaFromUploadedFile()
@@ -100,27 +76,6 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
         $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
         $this->assertSame($this->originalName, $media->getName());
         $this->assertSame($this->mimeType, $media->getMimeType());
-    }
-
-    /**
-     * Test createMediaFromUploadedFile
-     *
-     * @deprecated will be remove in 2.0, use initializeMediaFromUploadedFile
-     */
-    public function testCreateMediaFromUploadedFile()
-    {
-        $filename = 'file.pdf';
-        Phake::when($this->uploadedFile)->getClientMimeType()->thenReturn($this->mimeType);
-        $media = $this->mediaManager->createMediaFromUploadedFile($this->uploadedFile, $filename, $this->folderId);
-
-        $this->assertSame($this->uploadedFile, $media->getFile());
-        $this->assertSame('file.pdf', $media->getFilesystemName());
-        $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
-        Phake::verify($this->documentManager)->persist($media);
-        Phake::verify($this->documentManager)->flush();
-        $this->assertSame($this->originalName, $media->getName());
-        $this->assertSame($this->mimeType, $media->getMimeType());
-        Phake::verify($this->dispatcher)->dispatch(Phake::anyParameters());
     }
 
     /**
