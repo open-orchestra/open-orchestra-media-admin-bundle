@@ -50,7 +50,7 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function testAddReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkAddReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE, $this->mediaRepository);
     }
 
     /**
@@ -62,7 +62,7 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function testRemoveReferencesToEntity($entity, $entityId, array $medias)
     {
-        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE, $this->mediaRepository);
     }
 
     /**

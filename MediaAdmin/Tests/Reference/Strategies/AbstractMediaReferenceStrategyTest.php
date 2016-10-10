@@ -1,4 +1,5 @@
 <?php
+
 namespace OpenOrchestra\MediaAdmin\Tests\Reference\Strategies;
 
 use OpenOrchestra\Backoffice\Tests\Reference\Strategies\AbstractReferenceStrategyTest;
@@ -46,8 +47,9 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
      * @param string $entityId
      * @param array  $medias
      * @param string $entityType
+     * @param mixed  $itemRepository
      */
-    protected function checkAddReferencesToEntity($entity, $entityId, array $medias, $entityType)
+    protected function checkAddReferencesToEntity($entity, $entityId, array $medias, $entityType, $itemRepository)
     {
         $mediaTag = Phake::mock('OpenOrchestra\BBcodeBundle\ElementNode\BBcodeElementNodeInterface');
         Phake::when($mediaTag)->getAsText()->thenReturn($this->mediaInBBCodeId);
@@ -55,18 +57,19 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
             array($mediaTag)
         );
 
-        parent::checkAddReferencesToEntity($entity, $entityId, $medias, $entityType, $this->mediaRepository);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, $entityType, $itemRepository);
     }
 
     /**
      * @param mixed  $entity
-     * @apram string $entityId
+     * @param string $entityId
      * @param array  $medias
      * @param string $entityType
+     * @param mixed  $itemRepository
      */
-    protected function checkRemoveReferencesToEntity($entity, $entityId, array $medias, $entityType)
+    protected function checkRemoveReferencesToEntity($entity, $entityId, array $medias, $entityType, $itemRepository)
     {
-        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, $entityType, $this->mediaRepository);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, $entityType, $itemRepository);
     }
 
     /**
@@ -74,7 +77,7 @@ abstract class AbstractMediaReferenceStrategyTest extends AbstractReferenceStrat
      *
      * @param string $mediaId
      *
-     * @return Phake_IMock
+     * @return \Phake_IMock
      */
     protected function createPhakeMedia($mediaId = 'mediaId')
     {
