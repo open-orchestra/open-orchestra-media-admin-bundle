@@ -55,28 +55,6 @@ class SaveMediaManager implements SaveMediaManagerInterface
     /**
      * Check if all chunks of a file being uploaded have been received
      * If yes, return the name of the reassembled temporary file
-     * 
-     * @param UploadedFile $uploadedFile
-     *
-     * @deprecated will be remove in 2.0 use getFileFromChunks
-     *
-     * @return string|null
-     */
-    public function getFilenameFromChunks(UploadedFile $uploadedFile)
-    {
-        @trigger_error('The '.__NAMESPACE__.'\getFilenameFromChunks method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
-
-        $filename = time() . '-' . $uploadedFile->getClientOriginalName();
-        if (FlowBasic::save($this->tmpDir . DIRECTORY_SEPARATOR . $filename, $this->tmpDir)) {
-            return $filename;
-        }
-
-        return null;
-    }
-
-    /**
-     * Check if all chunks of a file being uploaded have been received
-     * If yes, return the name of the reassembled temporary file
      *
      * @param UploadedFile $uploadedFile
      *
@@ -92,48 +70,6 @@ class SaveMediaManager implements SaveMediaManagerInterface
         }
 
         return null;
-    }
-
-    /**
-     * @param UploadedFile $filename
-     *
-     * @return bool
-     *
-     * @deprecated will be remove in 2.0
-     */
-    public function isFileAllowed($filename)
-    {
-        @trigger_error('The '.__NAMESPACE__.'\isFileAllowed method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $fileMimeType = finfo_file($finfo, $this->tmpDir . '/' . $filename);
-
-        return in_array($fileMimeType, $this->allowedMimeTypes);
-    }
-
-    /**
-     * Create a media to fit an uploaded file
-     *
-     * @param UploadedFile $uploadedFile
-     * @param string       $filename
-     * @param string       $folderId
-     *
-     * @return MediaInterface
-     * @deprecated will be remove in 2.0, use initializeMediaFromUploadedFile
-     */
-    public function createMediaFromUploadedFile(UploadedFile $uploadedFile, $filename, $folderId)
-    {
-        @trigger_error('The '.__NAMESPACE__.'\createMediaFromUploadedFile method is deprecated since version 1.2.0 and will be removed in 2.0', E_USER_DEPRECATED);
-
-        $media = new $this->mediaClass();
-        $media->setFile($uploadedFile);
-        $media->setFilesystemName($filename);
-        $media->setMediaFolder($this->folderRepository->find($folderId));
-        $media->setName($uploadedFile->getClientOriginalName());
-        $media->setMimeType($uploadedFile->getClientMimeType());
-
-        $this->saveMedia($media);
-
-        return $media;
     }
 
     /**
