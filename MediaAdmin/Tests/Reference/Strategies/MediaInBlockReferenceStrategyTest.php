@@ -3,13 +3,13 @@
 namespace OpenOrchestra\MediaAdmin\Tests\Reference\Strategies;
 
 use Phake;
-use OpenOrchestra\ModelInterface\Model\NodeInterface;
-use OpenOrchestra\MediaAdmin\Reference\Strategies\MediaInNodeReferenceStrategy;
+use OpenOrchestra\ModelInterface\Model\BlockInterface;
+use OpenOrchestra\MediaAdmin\Reference\Strategies\MediaInBlockReferenceStrategy;
 
 /**
- * Class MediaInNodeReferenceStrategyTest
+ * Class MediaInBlockReferenceStrategyTest
  */
-class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTest
+class MediaInBlockReferenceStrategyTest extends AbstractMediaReferenceStrategyTest
 {
     /**
      * setUp
@@ -18,7 +18,7 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
     {
         parent::setUp();
 
-        $this->strategy = new MediaInNodeReferenceStrategy($this->mediaRepository, $this->bbcodeParser);
+        $this->strategy = new MediaInBlockReferenceStrategy($this->mediaRepository, $this->bbcodeParser);
     }
 
     /**
@@ -29,14 +29,14 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
     public function provideEntity()
     {
         $content = $this->createPhakeContent();
-        $node = $this->createPhakeNode();
+        $block = $this->createPhakeBlock();
         $contentType = $this->createPhakeContentType();
         $media = $this->createPhakeMedia();
 
         return array(
             'Media'        => array($media, false),
             'Content'      => array($content, false),
-            'Node'         => array($node, true),
+            'Block'         => array($block, true),
             'Content Type' => array($contentType, false)
         );
     }
@@ -50,8 +50,7 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function testAddReferencesToEntity($entity, $entityId, array $medias)
     {
-        $this->markTestSkipped();
-        parent::checkAddReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE, $this->mediaRepository);
+        parent::checkAddReferencesToEntity($entity, $entityId, $medias, BlockInterface::ENTITY_TYPE, $this->mediaRepository);
     }
 
     /**
@@ -63,8 +62,7 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function testRemoveReferencesToEntity($entity, $entityId, array $medias)
     {
-        $this->markTestSkipped();
-        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, NodeInterface::ENTITY_TYPE, $this->mediaRepository);
+        parent::checkRemoveReferencesToEntity($entity, $entityId, $medias, BlockInterface::ENTITY_TYPE, $this->mediaRepository);
     }
 
     /**
@@ -72,8 +70,6 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
      */
     public function provideEntityWithMedias()
     {
-        $nodeId = 'nodeId';
-        $node = $this->createPhakeNode($nodeId);
         $contentTypeId = 'contentTypeId';
         $contentType = $this->createPhakeContentType($contentTypeId);
         $contentId = 'contentId';
@@ -95,15 +91,10 @@ class MediaInNodeReferenceStrategyTest extends AbstractMediaReferenceStrategyTes
         $attributeBBcodeMedia = $this->bbCodeWithMedia;
         Phake::when($TinyMCEblockWithMedia)->getAttributes()->thenReturn(array($attributeBBcodeMedia));
 
-        Phake::when($node)->getBlocks()->thenReturn(
-            array($mediaBlock, $TinyMCEblockWithoutMedia, $TinyMCEblockWithMedia)
-        );
-
         return array(
             'Media'        => array($media, $mediaId, array()),
             'Content'      => array($content, $contentId, array()),
             'Content Type' => array($contentType, $contentTypeId, array()),
-            'Node'         => array($node, $nodeId, array($mediaId => $media, $this->mediaInBBCodeId => $mediaBBCode))
         );
     }
 }
