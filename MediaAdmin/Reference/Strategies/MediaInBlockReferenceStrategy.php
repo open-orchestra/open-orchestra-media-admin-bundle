@@ -33,7 +33,7 @@ class MediaInBlockReferenceStrategy extends AbstractMediaReferenceStrategy imple
                 /** @var OpenOrchestra\Media\Model\MediaInterface $media */
                 $media = $this->mediaRepository->find($mediaId);
                 if ($media) {
-                    $media->addUseInEntity($entity->getId(), NodeInterface::ENTITY_TYPE);
+                    $media->addUseInEntity($entity->getId(), BlockInterface::ENTITY_TYPE);
                 }
             }
         }
