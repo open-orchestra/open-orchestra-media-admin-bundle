@@ -38,7 +38,6 @@ services:
         class: '%open_orchestra_media_admin.subscriber.media_folder_group_transform.class%'
         arguments:
             - '@router'
-            - '@open_orchestra_api.transformer.media_folder_group_role'
         tags:
             - { name: kernel.event_subscriber }
     open_orchestra_media_admin.subscriber.create_root_folder:
