@@ -1,13 +1,13 @@
 open_orchestra_backoffice:
     block:
         slideshow:
-            title: Bloc diaporama
+            title: Diaporama
         gallery:
-            title: Bloc galerie
+            title: Galerie
         media_list_by_keyword:
-            title: Bloc liste de média par mot clé
+            title: Liste de média par mot clé
         display_media:
-            title: Bloc média
+            title: Média
     form:
       remove: Retirer
       no_access: Vous n'avez pas les droits d'accès à la mediathèque.
