@@ -8,8 +8,7 @@ window.OpenOrchestra or= {}
 ###
 class OpenOrchestra.ModalFolderFormView extends OrchestraView
 
-  events:
-    'click .submit_form': 'addEventOnSave'
+  extendView: ['modalFolderSubmitAdmin']
 
   ###*
    * @param {Object} options
@@ -29,6 +28,7 @@ class OpenOrchestra.ModalFolderFormView extends OrchestraView
       'OpenOrchestraBackofficeBundle:BackOffice:Underscore/fullPageFormView'
     ]
     @options.entityType = 'folder'
+    @options.formView = 'modal_folder_form'
     return
 
   ###*
@@ -39,33 +39,6 @@ class OpenOrchestra.ModalFolderFormView extends OrchestraView
     @options.domContainer.html @$el
     $('.js-widget-title', @options.domContainer).html @options.title
     $('.back-to-list', @options.domContainer).remove()
-
-  ###*
-   * @param {Object} event
-  ###
-  addEventOnSave: (event) ->
-    displayLoader @$el
-    viewContext = @
-    form = $(event.target).closest('form')
-    if !form.hasClass('HTML5validation')
-      form.addClass('HTML5validation')
-      form.submit ->
-        event.preventDefault()
-        form.ajaxSubmit
-          url: form.data('action')
-          statusCode:
-            201: (response,  status, xhr) ->
-              formChannel.trigger('element-created', response, xhr.getResponseHeader('document-id'))
-            200: (response) ->
-              window.OpenOrchestra.FormBehavior.channel.trigger 'deactivate', viewContext, form
-              widgetChannel.trigger 'form-error', viewContext
-              viewClass = appConfigurationView.getConfiguration('modal_folder_form', 'folder')
-              new viewClass(viewContext.addOption(
-                html: response
-                submitted: true
-              ))
-        false
-    return
 
 jQuery ->
   appConfigurationView.setConfiguration 'modal_folder_form', 'folder', OpenOrchestra.ModalFolderFormView
