@@ -21,7 +21,5 @@ class OpenOrchestraMediaAdminModelExtension extends Extension
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
-
-        $loader->load('listener.yml');
     }
 }

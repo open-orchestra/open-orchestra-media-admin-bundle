@@ -5,7 +5,6 @@ parameters:
     open_orchestra_api.transformer.media_type_collection.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaTypeCollectionTransformer
     open_orchestra_api.transformer.folder.class: OpenOrchestra\MediaAdminBundle\Transformer\FolderTransformer
     open_orchestra_api.transformer.folder_tree.class: OpenOrchestra\MediaAdminBundle\Transformer\FolderTreeTransformer
-    open_orchestra_api.transformer.media_folder_group_role.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaFolderGroupRoleTransformer
     open_orchestra_media_admin.transformer.embed_site_to_siteid.class: OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer
 
 services:
@@ -51,15 +50,6 @@ services:
         class: '%open_orchestra_api.transformer.folder_tree.class%'
         arguments:
             - '%open_orchestra_media_admin.facade.folder_tree.class%'
-        tags:
-            - { name: open_orchestra_api.transformer.strategy}
-    open_orchestra_api.transformer.media_folder_group_role:
-        class: '%open_orchestra_api.transformer.media_folder_group_role.class%'
-        arguments:
-            - '%open_orchestra_api.facade.model_group_role.class%'
-            - '%open_orchestra_group.document.model_group_role.class%'
-            - '@open_orchestra_backoffice.collector.backoffice_role'
-            - '@open_orchestra_media.repository.media_folder'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
     open_orchestra_media_admin.transformer.embed_site_to_siteid:
