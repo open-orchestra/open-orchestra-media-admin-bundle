@@ -37,7 +37,7 @@ class MediaListByKeywordStrategy extends AbstractStrategy
             'OpenOrchestraMediaAdminBundle:Block/MediaList:show.html.twig',
             array(
                 'id' => $block->getId(),
-                'class' => $block->getClass(),
+                'class' => $block->getStyle(),
                 'keywords' => $block->getAttribute('keywords')
             )
         );
