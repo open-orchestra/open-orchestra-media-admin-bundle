@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 use OpenOrchestra\ModelInterface\Model\ReadNodeInterface;
 use OpenOrchestra\Backoffice\Reference\Strategies\ReferenceStrategyInterface;
 use OpenOrchestra\ModelInterface\Model\NodeInterface;
+use OpenOrchestra\ModelInterface\Event\NodeEvent;
 
 /**
  * Class MediaInNodeReferenceStrategy
@@ -22,18 +23,19 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
     }
 
     /**
-     * @param mixed $entity
+     * @param mixed $event
      */
-    public function addReferencesToEntity($entity)
+    public function addReferencesToEntity($event)
     {
-        if ($this->support($entity)) {
-            $mediaIds = $this->extractMediasFromNode($entity);
+        $node = $event->getNode();
+        if ($this->support($node)) {
+            $mediaIds = $this->extractMediasFromNode($event);
 
             foreach ($mediaIds as $mediaId) {
                 /** @var OpenOrchestra\Media\Model\MediaInterface $media */
                 $media = $this->mediaRepository->find($mediaId);
                 if ($media) {
-                    $media->addUseInEntity($entity->getId(), NodeInterface::ENTITY_TYPE);
+                    $media->addUseInEntity($node->getId(), NodeInterface::ENTITY_TYPE);
                 }
             }
         }
@@ -56,16 +58,18 @@ class MediaInNodeReferenceStrategy extends AbstractMediaReferenceStrategy implem
     }
 
     /**
-     * @param ReadNodeInterface $node
+     * @param NodeEvent $event
      *
      * @return array
      */
-    protected function extractMediasFromNode(ReadNodeInterface $node)
+    protected function extractMediasFromNode(NodeEvent $event)
     {
         $references = array();
 
+        $blocks = ($event->getBlock() != null) ? array($event->getBlock()) : $event->getNode()->getBlocks();
+
         /** @var BlockInterface $block */
-        foreach ($node->getBlocks() as $block) {
+        foreach ($blocks as $block) {
             $references = array_merge($references, $this->extractMediasFromElement($block->getAttributes()));
         }
 
