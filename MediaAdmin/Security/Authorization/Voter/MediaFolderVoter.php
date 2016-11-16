@@ -24,6 +24,7 @@ class MediaFolderVoter extends AbstractPerimeterVoter
 
     /**
      * Vote for Read action
+     * A user can read a folder if it is in his perimeter
      *
      * @param MediaFolderInterface $folder
      * @param UserInterface        $user
@@ -37,6 +38,7 @@ class MediaFolderVoter extends AbstractPerimeterVoter
 
     /**
      * Vote for $action on $folder owned by $user
+     * A user can act on his own folders if he has the MEDIA_FOLDER_CONTRIBUTOR role and the folder is in his perimeter 
      *
      * @param string               $action
      * @param MediaFolderInterface $folder
@@ -52,6 +54,7 @@ class MediaFolderVoter extends AbstractPerimeterVoter
 
     /**
      * Vote for $action on $folder not owned by $user
+     * A user can act on someone else's folder if he has the matching super role and the folder is in his perimeter
      *
      * @param string               $action
      * @param MediaFolderInterface $folder
