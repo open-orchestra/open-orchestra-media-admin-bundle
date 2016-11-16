@@ -1,0 +1,13 @@
+parameters:
+    open_orchestra_media_admin.voter.media_folder.class: OpenOrchestra\MediaAdmin\Security\Authorization\Voter\MediaFolderVoter
+    open_orchestra_media_admin.voter.media.class:        OpenOrchestra\MediaAdmin\Security\Authorization\Voter\MediaVoter
+
+services:
+    open_orchestra_media_admin.voter.media_folder:
+       class: '%open_orchestra_media_admin.voter.media_folder.class%'
+       tags:
+            - { name: security.voter }
+    open_orchestra_media_admin.voter.media:
+       class: '%open_orchestra_media_admin.voter.media.class%'
+       tags:
+            - { name: security.voter }

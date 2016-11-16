@@ -6,6 +6,7 @@ use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\UserBundle\Model\UserInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
+use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractPerimeterVoter;
 
 /**
  * Class MediaFolderVoter
