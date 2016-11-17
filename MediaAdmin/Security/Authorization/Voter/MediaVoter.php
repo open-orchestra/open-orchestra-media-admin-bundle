@@ -6,14 +6,14 @@ use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\UserBundle\Model\UserInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
-use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractPerimeterVoter;
+use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter;
 
 /**
  * Class MediaVoter
  *
  * Voter checking rights on media management
  */
-class MediaVoter extends AbstractPerimeterVoter
+class MediaVoter extends AbstractEditorialVoter
 {
     /**
      * @return array
