@@ -34,7 +34,7 @@ class MediaFolderVoter extends AbstractEditorialVoter
      */
     protected function voteForReadAction($folder, $user)
     {
-        return $this->isSubjectInAllowedPerimeter($subject->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->isSubjectInAllowedPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
