@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
+namespace OpenOrchestra\MediaAdmin\Tests\Security\Authorization\Voter;
 
 use Phake;
 use OpenOrchestra\Backoffice\Tests\Security\Authorization\Voter\AbstractVoterTest as BaseAbstractVoterTest;
@@ -27,6 +27,11 @@ abstract class AbstractVoterTest extends BaseAbstractVoterTest
      */
     protected function createPhakeMedia()
     {
-        return Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        $folder = $this->createPhakeMediaFolder();
+
+        $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        Phake::when($media)->getMediaFolder()->thenReturn($folder);
+
+        return $media;
     }
 }

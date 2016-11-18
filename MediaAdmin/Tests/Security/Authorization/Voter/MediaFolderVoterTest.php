@@ -7,10 +7,9 @@ use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface as MediaRoleInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use OpenOrchestra\MediaAdmin\Security\Authorization\Voter\MediaFolderVoter;
-use OpenOrchestra\MediaAdmin\Security\Authorization\Voter\AbstractVoterTest;
 
 /**
- * Class NodeVoterTest
+ * Class MediaVoterTest
  */
 class MediaFolderVoterTest extends AbstractVoterTest
 {
@@ -42,9 +41,10 @@ class MediaFolderVoterTest extends AbstractVoterTest
         $contentType = $this->createPhakeContentType();
         $profile = $this->createPhakeWorkflowProfile();
         $status = $this->createPhakeStatus();
+        $media = $this->createPhakeMedia();
 
         return array(
-            'Bad subject : Node'             => array($node,     ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
+            'Bad subject : Node'             => array($node,        ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
             'Bad subject : Content'          => array($content,     ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
             'Bad subject : Trash Item'       => array($trashItem,   ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
             'Bad subject : Site'             => array($site,        ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
@@ -57,6 +57,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
             'Bad subject : Content type'     => array($contentType, ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
             'Bad subject : Workflow profile' => array($profile,     ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
             'Bad subject : Status'           => array($status,      ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
+            'Bad subject : Media'            => array($media,       ContributionActionInterface::READ, array(ContributionRoleInterface::DEVELOPER), true, VoterInterface::ACCESS_ABSTAIN),
         );
     }
 
@@ -103,7 +104,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
             'Bad role (Edit) : Site Admin'                => array($folder, ContributionActionInterface::EDIT,   array(ContributionRoleInterface::SITE_ADMIN),              true, VoterInterface::ACCESS_DENIED),
             'Bad role (Edit) : Trash Restorer'            => array($folder, ContributionActionInterface::EDIT,   array(ContributionRoleInterface::TRASH_RESTORER),          true, VoterInterface::ACCESS_DENIED),
             'Bad role (Edit) : Trash Supressor'           => array($folder, ContributionActionInterface::EDIT,   array(ContributionRoleInterface::TRASH_SUPRESSOR),         true, VoterInterface::ACCESS_DENIED),
-            'Bad role (Edit) : Media Contributor'         => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_CONTRIBUTOR),              true, VoterInterface::ACCESS_DENIED),
+            'Bad role (Edit) : Media contributor'         => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_CONTRIBUTOR),              true, VoterInterface::ACCESS_DENIED),
             'Bad role (Edit) : Media super editor'        => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_SUPER_EDITOR),             true, VoterInterface::ACCESS_DENIED),
             'Bad role (Edit) : Media super supressor'     => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_SUPER_SUPRESSOR),          true, VoterInterface::ACCESS_DENIED),
             'Bad role (Delete) : None'                    => array($folder, ContributionActionInterface::DELETE, array(),                                                   true, VoterInterface::ACCESS_DENIED),
@@ -113,7 +114,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
             'Bad role (Delete) : Site Admin'              => array($folder, ContributionActionInterface::DELETE, array(ContributionRoleInterface::SITE_ADMIN),              true, VoterInterface::ACCESS_DENIED),
             'Bad role (Delete) : Trash Restorer'          => array($folder, ContributionActionInterface::DELETE, array(ContributionRoleInterface::TRASH_RESTORER),          true, VoterInterface::ACCESS_DENIED),
             'Bad role (Delete) : Trash Supressor'         => array($folder, ContributionActionInterface::DELETE, array(ContributionRoleInterface::TRASH_SUPRESSOR),         true, VoterInterface::ACCESS_DENIED),
-            'Bad role (Delete) : Media Contributor'       => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_CONTRIBUTOR),              true, VoterInterface::ACCESS_DENIED),
+            'Bad role (Delete) : Media contributor'       => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_CONTRIBUTOR),              true, VoterInterface::ACCESS_DENIED),
             'Bad role (Delete) : Media super editor'      => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_SUPER_EDITOR),             true, VoterInterface::ACCESS_DENIED),
             'Bad role (Delete) : Media super supressor'   => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_SUPER_SUPRESSOR),          true, VoterInterface::ACCESS_DENIED),
         );
