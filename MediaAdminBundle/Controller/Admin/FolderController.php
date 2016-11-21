@@ -23,8 +23,6 @@ class FolderController extends AbstractAdminController
      * @Config\Route("/folder/form/{folderId}", name="open_orchestra_media_admin_folder_form")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA_FOLDER') or is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER')")
-     *
      * @return Response
      */
     public function formAction(Request $request, $folderId)
@@ -52,8 +50,6 @@ class FolderController extends AbstractAdminController
      *
      * @Config\Route("/folder/new/{parentId}", name="open_orchestra_media_admin_folder_new")
      * @Config\Method({"GET", "POST"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER')")
      *
      * @return Response
      */
@@ -92,8 +88,6 @@ class FolderController extends AbstractAdminController
     /**
      * @Config\Route("/folder/list/{mediaType}", defaults={"mediaType" = ""}, name="open_orchestra_media_admin_media_list_form")
      * @Config\Method({"GET"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
      *
      * @return Response
      */

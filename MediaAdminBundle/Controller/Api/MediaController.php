@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
+use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class MediaController
@@ -87,23 +88,24 @@ class MediaController extends BaseController
      * @Config\Route("/{mediaId}/delete", name="open_orchestra_api_media_delete")
      * @Config\Method({"DELETE"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_DELETE_MEDIA')")
-     *
      * @return Response
      * @throws MediaNotDeletableException
      */
     public function deleteAction($mediaId)
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
-        if ($media->isUsed()) {
-            throw new MediaNotDeletableException();
+
+        if ($media instanceof MediaInterface) {
+            if ($media->isUsed()) {
+                throw new MediaNotDeletableException();
+            }
+
+            $documentManager = $this->get('object_manager');
+            $documentManager->remove($media);
+            $documentManager->flush();
+
+            $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
         }
-
-        $documentManager = $this->get('object_manager');
-        $documentManager->remove($media);
-        $documentManager->flush();
-
-        $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
 
         return array();
     }
@@ -114,8 +116,6 @@ class MediaController extends BaseController
      *
      * @Config\Route("/upload/{folderId}", name="open_orchestra_api_media_upload")
      * Config\Method({"POST"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA')")
      *
      * @return FacadeInterface|Response
      */
