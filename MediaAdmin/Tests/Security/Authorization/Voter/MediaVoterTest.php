@@ -82,7 +82,7 @@ class MediaVoterTest extends AbstractVoterTest
         $media = $this->createPhakeMedia();
 
         return array(
-            'Not in perimeter : Add'    => array($media, ContributionActionInterface::ADD,    array(MediaRoleInterface::MEDIA_CONTRIBUTOR),     false, VoterInterface::ACCESS_DENIED),
+            'Not in perimeter : Add'    => array($media, ContributionActionInterface::CREATE, array(MediaRoleInterface::MEDIA_CONTRIBUTOR),     false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Read'   => array($media, ContributionActionInterface::READ,   array(),                                          false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Edit'   => array($media, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_SUPER_EDITOR),    false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Delete' => array($media, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_SUPER_SUPRESSOR), false, VoterInterface::ACCESS_DENIED),
@@ -129,7 +129,7 @@ class MediaVoterTest extends AbstractVoterTest
 
         return array(
             'Ok : Read'   => array($media, ContributionActionInterface::READ,   array(),                                          true, VoterInterface::ACCESS_GRANTED),
-            'Ok : Add'    => array($media, ContributionActionInterface::ADD,    array(MediaRoleInterface::MEDIA_CONTRIBUTOR),     true, VoterInterface::ACCESS_GRANTED),
+            'Ok : Add'    => array($media, ContributionActionInterface::CREATE,    array(MediaRoleInterface::MEDIA_CONTRIBUTOR),     true, VoterInterface::ACCESS_GRANTED),
             'Ok : Edit'   => array($media, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_SUPER_EDITOR),    true, VoterInterface::ACCESS_GRANTED),
             'Ok : Delete' => array($media, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_SUPER_SUPRESSOR), true, VoterInterface::ACCESS_GRANTED),
         );

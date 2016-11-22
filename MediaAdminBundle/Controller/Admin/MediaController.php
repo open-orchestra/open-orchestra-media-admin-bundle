@@ -11,6 +11,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class MediaController
@@ -31,6 +32,8 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
+
         if ($media instanceof MediaInterface) {
             $mediaFolder = $media->getMediaFolder();
 
@@ -104,6 +107,7 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
 
         $form = $this->createForm('oo_media', null, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_override', array(
@@ -148,6 +152,8 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
+
         if ($media instanceof MediaInterface) {
             $mediaFolder = $media->getMediaFolder();
 

@@ -82,7 +82,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
         $folder = $this->createPhakeMediaFolder();
 
         return array(
-            'Not in perimeter : Add'    => array($folder, ContributionActionInterface::ADD,    array(MediaRoleInterface::MEDIA_FOLDER_CONTRIBUTOR),     false, VoterInterface::ACCESS_DENIED),
+            'Not in perimeter : Add'    => array($folder, ContributionActionInterface::CREATE, array(MediaRoleInterface::MEDIA_FOLDER_CONTRIBUTOR),     false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Read'   => array($folder, ContributionActionInterface::READ,   array(),                                                 false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Edit'   => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_FOLDER_SUPER_EDITOR),    false, VoterInterface::ACCESS_DENIED),
             'Not in perimeter : Delete' => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR), false, VoterInterface::ACCESS_DENIED),
@@ -129,7 +129,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
 
         return array(
             'Ok : Read'   => array($folder, ContributionActionInterface::READ,   array(),                                                 true, VoterInterface::ACCESS_GRANTED),
-            'Ok : Add'    => array($folder, ContributionActionInterface::ADD,    array(MediaRoleInterface::MEDIA_FOLDER_CONTRIBUTOR),     true, VoterInterface::ACCESS_GRANTED),
+            'Ok : Add'    => array($folder, ContributionActionInterface::CREATE, array(MediaRoleInterface::MEDIA_FOLDER_CONTRIBUTOR),     true, VoterInterface::ACCESS_GRANTED),
             'Ok : Edit'   => array($folder, ContributionActionInterface::EDIT,   array(MediaRoleInterface::MEDIA_FOLDER_SUPER_EDITOR),    true, VoterInterface::ACCESS_GRANTED),
             'Ok : Delete' => array($folder, ContributionActionInterface::DELETE, array(MediaRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR), true, VoterInterface::ACCESS_GRANTED),
         );
