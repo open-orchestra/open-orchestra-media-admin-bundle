@@ -17,12 +17,12 @@ class LoadGroupV2Data extends AbstractLoadGroupV2Data implements OrchestraFuncti
      */
     public function load(ObjectManager $manager)
     {
-        $group = $this->getReference('group-v2');
+        $group = $this->getReference('group2');
 
-        $mediaPerimeter = $this->createPerimeter(array('first_images_folder'));
+        $mediaPerimeter = $this->createPerimeter(MediaInterface::ENTITY_TYPE, array('first_images_folder'));
         $mediaProfileCollection = $this->createProfileCollection(array('profile-Contributor', 'profile-Validator'));
         $group->addWorkflowProfileCollection(MediaInterface::ENTITY_TYPE, $mediaProfileCollection);
-        $group->addPerimeter(MediaInterface::ENTITY_TYPE, $mediaPerimeter);
+        $group->addPerimeter($mediaPerimeter);
 
         $manager->persist($group);
         $manager->flush();
