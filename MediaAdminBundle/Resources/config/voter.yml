@@ -4,10 +4,14 @@ parameters:
 
 services:
     open_orchestra_media_admin.voter.media_folder:
-       class: '%open_orchestra_media_admin.voter.media_folder.class%'
-       tags:
+        class: '%open_orchestra_media_admin.voter.media_folder.class%'
+        arguments:
+            - '@open_orchestra_group.perimeter_manager'
+        tags:
             - { name: security.voter }
     open_orchestra_media_admin.voter.media:
-       class: '%open_orchestra_media_admin.voter.media.class%'
-       tags:
+        class: '%open_orchestra_media_admin.voter.media.class%'
+        arguments:
+            - '@open_orchestra_group.perimeter_manager'
+        tags:
             - { name: security.voter }

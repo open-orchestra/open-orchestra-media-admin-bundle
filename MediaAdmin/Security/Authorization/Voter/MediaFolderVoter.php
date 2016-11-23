@@ -34,7 +34,7 @@ class MediaFolderVoter extends AbstractEditorialVoter
      */
     protected function voteForReadAction($folder, $user)
     {
-        return $this->isSubjectInAllowedPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -50,7 +50,7 @@ class MediaFolderVoter extends AbstractEditorialVoter
     protected function voteForOwnedSubject($action, $folder, UserInterface $user)
     {
         return $user->hasRole(ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR)
-            && $this->isSubjectInAllowedPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+            && $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -77,6 +77,6 @@ class MediaFolderVoter extends AbstractEditorialVoter
         }
 
         return $user->hasRole($requiredRole)
-            && $this->isSubjectInAllowedPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+            && $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
     }
 }
