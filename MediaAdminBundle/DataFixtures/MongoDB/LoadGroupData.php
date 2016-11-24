@@ -3,14 +3,14 @@
 namespace OpenOrchestra\MediaAdminBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\GroupBundle\DataFixtures\MongoDB\AbstractLoadGroupV2Data;
+use OpenOrchestra\GroupBundle\DataFixtures\MongoDB\AbstractLoadGroupData;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
- * Class LoadGroupV2Data
+ * Class LoadGroupData
  */
-class LoadGroupV2Data extends AbstractLoadGroupV2Data implements OrchestraFunctionalFixturesInterface
+class LoadGroupData extends AbstractLoadGroupData implements OrchestraFunctionalFixturesInterface
 {
     /**
      * @param ObjectManager $manager
