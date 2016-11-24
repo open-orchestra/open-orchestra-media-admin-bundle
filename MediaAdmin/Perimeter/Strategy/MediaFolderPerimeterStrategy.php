@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdmin\Perimeter\Strategy;
 
 use OpenOrchestra\Backoffice\Model\PerimeterInterface;
-use OpenOrchestra\ModelInterface\Model\ContentTypeInterface;
 use OpenOrchestra\Backoffice\Perimeter\Strategy\PerimeterStrategyInterface;
+use OpenOrchestra\Media\Model\MediaFolderInterface;
 
 /**
  * Class MediaFolderPerimeterStrategy
@@ -16,7 +16,7 @@ class MediaFolderPerimeterStrategy implements PerimeterStrategyInterface
      */
     public function getType()
     {
-        return ContentTypeInterface::ENTITY_TYPE;
+        return MediaFolderInterface::ENTITY_TYPE;
     }
 
     /**
@@ -28,9 +28,9 @@ class MediaFolderPerimeterStrategy implements PerimeterStrategyInterface
      */
     public function isInPerimeter($item, PerimeterInterface $perimeter)
     {
-        if (is_string($item)) {
+        if ($perimeter->getType() == $this->getType() && is_string($item)) {
             foreach ($perimeter->getItems() as $path) {
-                if (0 === strpos($path, $item)) {
+                if (0 === strpos($item, $path)) {
                     return true;
                 }
             }
