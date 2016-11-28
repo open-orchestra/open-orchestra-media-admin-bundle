@@ -3,28 +3,28 @@
 namespace OpenOrchestra\MediaAdminBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use OpenOrchestra\GroupBundle\DataFixtures\MongoDB\AbstractLoadGroupData;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraFunctionalFixturesInterface;
-use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterface;
+use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
  * Class LoadGroupData
  */
-class LoadGroupData extends AbstractLoadGroupData implements OrchestraProductionFixturesInterface, OrchestraFunctionalFixturesInterface
+class LoadGroupData extends AbstractLoadGroupData implements OrchestraFunctionalFixturesInterface
 {
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-        $groupFolders = $this->generateGroup(
-            'Media folders group',
-            'Media folders group',
-            'Groupe de dossiers de la médiathèque',
-            'site2',
-            'group-folders'
-        );
-        $manager->persist($groupFolders);
+        $group = $this->getReference('group2');
 
+        $mediaPerimeter = $this->createPerimeter(MediaInterface::ENTITY_TYPE, array('first_images_folder'));
+        $mediaProfileCollection = $this->createProfileCollection(array('profile-Contributor', 'profile-Validator'));
+        $group->addWorkflowProfileCollection(MediaInterface::ENTITY_TYPE, $mediaProfileCollection);
+        $group->addPerimeter($mediaPerimeter);
+
+        $manager->persist($group);
         $manager->flush();
     }
 
@@ -35,6 +35,6 @@ class LoadGroupData extends AbstractLoadGroupData implements OrchestraProduction
      */
     public function getOrder()
     {
-        return 601;
+        return 622;
     }
 }

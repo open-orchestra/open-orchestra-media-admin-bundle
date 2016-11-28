@@ -10,6 +10,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Response;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class FolderController
@@ -23,14 +24,13 @@ class FolderController extends AbstractAdminController
      * @Config\Route("/folder/form/{folderId}", name="open_orchestra_media_admin_folder_form")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA_FOLDER') or is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER')")
-     *
      * @return Response
      */
     public function formAction(Request $request, $folderId)
     {
         $folderRepository = $this->get('open_orchestra_media.repository.media_folder');
         $folder = $folderRepository->find($folderId);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $folder);
 
         $url = $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId));
         $message = $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success');
@@ -53,8 +53,6 @@ class FolderController extends AbstractAdminController
      * @Config\Route("/folder/new/{parentId}", name="open_orchestra_media_admin_folder_new")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_CREATE_MEDIA_FOLDER')")
-     *
      * @return Response
      */
     public function newAction(Request $request, $parentId)
@@ -67,6 +65,8 @@ class FolderController extends AbstractAdminController
         if ($parentFolder) {
             $folder->setParent($parentFolder);
         }
+        $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $folder);
+
         $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
         $folder->setSiteId($siteId);
 
@@ -93,16 +93,25 @@ class FolderController extends AbstractAdminController
      * @Config\Route("/folder/list/{mediaType}", defaults={"mediaType" = ""}, name="open_orchestra_media_admin_media_list_form")
      * @Config\Method({"GET"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
-     *
      * @return Response
      */
     public function showFoldersAction($mediaType)
     {
         $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
         $rootFolders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
+
+        $foldersToDisplay = array();
+        foreach ($rootFolders as $folder) {
+            if ($this->get('security.authorization_checker')->isGranted(ContributionActionInterface::READ, $folder)) {
+                $foldersToDisplay[] = $folder;
+            }
+        }
+        if (count($rootFolders) > 0 && count($foldersToDisplay) == 0) {
+            throw $this->createAccessDeniedException('Access Denied.');
+        }
+
         return $this->render( 'OpenOrchestraMediaAdminBundle:Tree:showModalFolderTree.html.twig', array(
-            'folders' => $rootFolders,
+            'folders' => $foldersToDisplay,
             'mediaType' => $mediaType
         ));
     }

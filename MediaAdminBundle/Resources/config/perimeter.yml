@@ -1,0 +1,8 @@
+parameters:
+    open_orchestra_media_admin.perimeter.media_folder.class: OpenOrchestra\MediaAdmin\Perimeter\Strategy\MediaFolderPerimeterStrategy
+
+services:
+    open_orchestra_media_admin.perimeter.media_folder:
+        class: '%open_orchestra_media_admin.perimeter.media_folder.class%'
+        tags:
+            - { name: open_orchestra_group.perimeter.strategy }

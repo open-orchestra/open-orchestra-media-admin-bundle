@@ -26,8 +26,6 @@ class FolderController extends BaseController
      * @Config\Route("/{folderId}/delete", name="open_orchestra_api_folder_delete")
      * @Config\Method({"DELETE"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_DELETE_MEDIA_FOLDER')")
-     *
      * @throws FolderNotDeletableException
      *
      * @return Response
@@ -58,8 +56,6 @@ class FolderController extends BaseController
      *
      * @Config\Route("/list/tree/{siteId}", name="open_orchestra_api_folder_list_tree")
      * @Config\Method({"GET"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
      *
      * @return FacadeInterface
      */

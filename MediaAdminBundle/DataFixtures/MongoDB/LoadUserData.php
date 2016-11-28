@@ -18,7 +18,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, O
     public function load(ObjectManager $manager)
     {
         $demoUser = $this->getReference('user-demo');
-        $demoUser->addGroup($this->getReference('group-folders'));
         $manager->persist($demoUser);
 
         $manager->flush();

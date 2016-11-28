@@ -11,6 +11,7 @@ use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStr
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class MediaController
@@ -24,8 +25,6 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/{mediaId}/crop", name="open_orchestra_media_admin_media_crop")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
-     *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
      */
@@ -33,39 +32,42 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
-        $mediaFolder = $media->getMediaFolder();
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
 
-        $form = $this->createForm('oo_media_crop', array('id' => $mediaId), array(
-            'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
-                'mediaId' => $mediaId,
-            ))
-        ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
+        if ($media instanceof MediaInterface) {
+            $mediaFolder = $media->getMediaFolder();
 
-        $form->handleRequest($request);
+            $form = $this->createForm('oo_media_crop', array('id' => $mediaId), array(
+                'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
+                    'mediaId' => $mediaId,
+                ))
+            ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
 
-        if ($form->isValid()) {
-            $data = $form->getData();
-            /** @var MediaInterface $media */
-            $media = $mediaRepository->find($mediaId);
+            $form->handleRequest($request);
 
-            $this->get('open_orchestra_media_admin.file_alternatives.strategy.image')->cropAlternative(
-                $media,
-                $data['x'],
-                $data['y'],
-                $data['h'],
-                $data['w'],
-                $data['format']
-            );
+            if ($form->isValid()) {
+                $data = $form->getData();
+                /** @var MediaInterface $media */
+                $media = $mediaRepository->find($mediaId);
 
-            $objectManager = $this->get('object_manager');
-            $objectManager->persist($media);
-            $objectManager->flush();
+                $this->get('open_orchestra_media_admin.file_alternatives.strategy.image')->cropAlternative(
+                    $media,
+                    $data['x'],
+                    $data['y'],
+                    $data['h'],
+                    $data['w'],
+                    $data['format']
+                );
 
-            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
+                $objectManager = $this->get('object_manager');
+                $objectManager->persist($media);
+                $objectManager->flush();
+
+                $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
+            }
+
+            return $this->renderAdminForm($form);
         }
-
-
-        return $this->renderAdminForm($form);
     }
 
     /**
@@ -73,8 +75,6 @@ class MediaController extends AbstractAdminController
      *
      * @Config\Route("/media/{mediaId}/select-format", name="open_orchestra_media_admin_media_select_format")
      * @Config\Method({"GET"})
-     *
-     * @Config\Security("is_granted('ROLE_ACCESS_MEDIA_FOLDER')")
      *
      * @return Response
      */
@@ -100,8 +100,6 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/override/{mediaId}/{format}", name="open_orchestra_media_admin_media_override")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
-     *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
      */
@@ -109,6 +107,7 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
 
         $form = $this->createForm('oo_media', null, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_override', array(
@@ -146,8 +145,6 @@ class MediaController extends AbstractAdminController
      * @Config\Route("/media/{mediaId}/meta", name="open_orchestra_media_admin_media_meta")
      * @Config\Method({"GET", "POST"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_UPDATE_MEDIA')")
-     *
      * @return Response
      * @throws \Doctrine\ODM\MongoDB\LockException
      */
@@ -155,24 +152,28 @@ class MediaController extends AbstractAdminController
     {
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
         $media = $mediaRepository->find($mediaId);
-        $mediaFolder = $media->getMediaFolder();
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $media);
 
-        $form = $this->createForm('oo_media_meta', $media, array(
-            'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
-                'mediaId' => $mediaId,
-            ))
-        ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
+        if ($media instanceof MediaInterface) {
+            $mediaFolder = $media->getMediaFolder();
 
-        $form->handleRequest($request);
+            $form = $this->createForm('oo_media_meta', $media, array(
+                'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
+                    'mediaId' => $mediaId,
+                ))
+            ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
 
-        if ($this->handleForm(
-            $form,
-            $this->get('translator')->trans('open_orchestra_media_admin.form.media.success')
-        )) {
-            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
+            $form->handleRequest($request);
+
+            if ($this->handleForm(
+                $form,
+                $this->get('translator')->trans('open_orchestra_media_admin.form.media.success')
+            )) {
+                $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
+            }
+
+            return $this->renderAdminForm($form);
         }
-
-        return $this->renderAdminForm($form);
     }
 
     /**

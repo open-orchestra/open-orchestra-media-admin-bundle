@@ -54,6 +54,8 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $loader->load('role_parameter.yml');
         $loader->load('event.yml');
         $loader->load('reference.yml');
+        $loader->load('voter.yml');
+        $loader->load('perimeter.yml');
 
         $this->addMediaFieldType($container);
         $this->setFilesParameters($container, $config, $loader);
