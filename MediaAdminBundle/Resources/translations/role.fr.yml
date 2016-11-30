@@ -1,6 +1,5 @@
 open_orchestra_role:
     label_access_media_folder: Dossier de la médiathèque
-    role_access_media_folder: Accéder au dossier
     role_access_create_media_folder: Créer un dossier
     role_access_update_media_folder: Editer un dossier
     role_access_delete_media_folder: Supprimer un dossier

@@ -1,6 +1,5 @@
 open_orchestra_role:
     label_access_media_folder: Media folder
-    role_access_media_folder: Access to folder
     role_access_create_media_folder: Create a folder
     role_access_update_media_folder: Update a folder
     role_access_delete_media_folder: Remove a folder

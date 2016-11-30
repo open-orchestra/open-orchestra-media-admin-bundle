@@ -7,7 +7,6 @@ use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +40,7 @@ class MediaController extends AbstractAdminController
                 'action' => $this->generateUrl('open_orchestra_media_admin_media_crop', array(
                     'mediaId' => $mediaId,
                 ))
-            ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
+            ), ContributionActionInterface::EDIT, $mediaFolder);
 
             $form->handleRequest($request);
 
@@ -86,7 +85,7 @@ class MediaController extends AbstractAdminController
         $form = $this->createForm(
             'oo_select_format', array('id' => $mediaId),
             array(),
-            TreeFolderPanelStrategy::ROLE_ACCESS_MEDIA_FOLDER, $mediaFolder
+            ContributionActionInterface::READ, $mediaFolder
         );
 
         return $this->renderAdminForm($form);
@@ -161,7 +160,7 @@ class MediaController extends AbstractAdminController
                 'action' => $this->generateUrl('open_orchestra_media_admin_media_meta', array(
                     'mediaId' => $mediaId,
                 ))
-            ), TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder);
+            ), ContributionActionInterface::EDIT, $mediaFolder);
 
             $form->handleRequest($request);
 

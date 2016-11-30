@@ -6,11 +6,11 @@ use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class MediaTransformer
@@ -56,7 +56,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 
         $mediaFolder = $mixed->getMediaFolder();
         $facade->isDeletable = !$mixed->isUsed()
-            && $this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA, $mediaFolder);
+            && $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mediaFolder);
         $facade->alt = $this->multiLanguageChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->multiLanguageChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
@@ -76,7 +76,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 
         $facade->isEditable = false;
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA, $mediaFolder)) {
+        if ($this->authorizationChecker->isGranted(ContributionActionInterface::EDIT, $mediaFolder)) {
             $facade->isEditable = true;
         }
 
