@@ -1,9 +1,5 @@
 parameters:
     open_orchestra_media.role:
-        role_access_media_folder :
-            category: open_orchestra_backoffice.left_menu.editorial.title
-            label: open_orchestra_role.label_access_media_folder
-            order: 1800
         role_access_create_media_folder :
             category: open_orchestra_backoffice.left_menu.editorial.title
             label: open_orchestra_role.label_access_media_folder

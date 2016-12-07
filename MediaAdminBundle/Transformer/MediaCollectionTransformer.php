@@ -4,10 +4,10 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
-use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class MediaCollectionTransformer
@@ -52,13 +52,13 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
             $facade->addMedia($this->getTransformer('media')->transform($media));
         }
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA, $folder)) {
+        if ($this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, $folder)) {
             $facade->addLink('_self_add', $this->generateRoute('open_orchestra_api_media_upload', array(
                 'folderId' => $folderId
             )));
         }
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_UPDATE_MEDIA_FOLDER, $folder)) {
+        if ($this->authorizationChecker->isGranted(ContributionActionInterface::EDIT, $folder)) {
             $facade->addLink('_self_folder', $this->generateRoute('open_orchestra_media_admin_folder_form', array(
                 'folderId' => $folderId
             )));
@@ -68,7 +68,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
             'folderId' => $folderId
         )));
 
-        if ($this->authorizationChecker->isGranted(TreeFolderPanelStrategy::ROLE_ACCESS_DELETE_MEDIA_FOLDER, $folder)) {
+        if ($this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $folder)) {
             $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_folder_delete', array(
                 'folderId' => $folderId
             )));

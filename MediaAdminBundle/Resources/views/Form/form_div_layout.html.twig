@@ -22,27 +22,20 @@
         </div>
         {% if not disabled %}
             <div class="media-form-type">
-                {% if is_granted('ROLE_ACCESS_MEDIA_FOLDER') %}
-                    <a class="btn btn-default mediaModalOpen
-                        {% if not is_granted('ROLE_ACCESS_MEDIA_FOLDER') %} hidden {% endif %}"
-                        data-target="modal_media_{{ id }}"
-                        data-input="{{ id }}"
-                        data-url="{{ path('open_orchestra_media_admin_media_list_form', {'mediaType': form.vars.filter}) }}"
-                        data-media-type="{% if form.vars.filter %}{{ form.vars.filter }}{% else %}false{% endif %}"
-                    >
-                        <i class="fa fa-folder-open-o"></i>
-                        {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
-                        {% if form.vars.filter %}<br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]{% endif %}
-                    </a>
-                    <br><br>
-                    <button class="btn btn-warning clear-media" data-input="{{ id }}">
-                        {{ 'open_orchestra_backoffice.form.remove'|trans }}
-                    </button>
-                {% else %}
-                    <div class="alert alert-info">
-                        {{ 'open_orchestra_backoffice.form.no_access'|trans }}
-                    </div>
-                {% endif %}
+                <a class="btn btn-default mediaModalOpen
+                    data-target="modal_media_{{ id }}"
+                    data-input="{{ id }}"
+                    data-url="{{ path('open_orchestra_media_admin_media_list_form', {'mediaType': form.vars.filter}) }}"
+                    data-media-type="{% if form.vars.filter %}{{ form.vars.filter }}{% else %}false{% endif %}"
+                >
+                    <i class="fa fa-folder-open-o"></i>
+                    {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
+                    {% if form.vars.filter %}<br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]{% endif %}
+                </a>
+                <br><br>
+                <button class="btn btn-warning clear-media" data-input="{{ id }}">
+                    {{ 'open_orchestra_backoffice.form.remove'|trans }}
+                </button>
             </div>
         {% endif %}
         {{ form_errors(form.children.id) }}

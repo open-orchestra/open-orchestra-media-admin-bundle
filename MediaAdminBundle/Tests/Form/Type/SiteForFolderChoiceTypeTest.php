@@ -19,9 +19,9 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
     protected $site2;
     protected $siteDeleted;
     protected $siteRepository;
-    protected $groupA; // site1, ROLE_ACCESS_MEDIA_FOLDER ok
-    protected $groupB; // site2, ROLE_ACCESS_MEDIA_FOLDER ko
-    protected $groupC; // siteDeleted, , ROLE_ACCESS_MEDIA_FOLDER ok
+    protected $groupA; // site1, ACCESS_MEDIA_FOLDER ok
+    protected $groupB; // site2, ACCESS_MEDIA_FOLDER ko
+    protected $groupC; // siteDeleted, , ACCESS_MEDIA_FOLDER ok
     protected $user;
     protected $token;
     protected $tokenStorage;
@@ -43,7 +43,6 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
         Phake::when($this->site2)->getSiteId()->thenReturn($this->siteId2);
         Phake::when($this->site2)->getName()->thenReturn($this->siteName2);
         Phake::when($this->site2)->isDeleted()->thenReturn(false);
-
 
         $this->siteDeleted = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         Phake::when($this->siteDeleted)->getSiteId()->thenReturn('site_id_deleted');
@@ -136,7 +135,10 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
 
         Phake::verify($resolverMock)->setDefaults(array(
                 'embed' => false,
-                'choices' => $this->choiceList
+            'choices' =>  array(
+                $this->siteId1 => $this->siteName1,
+                $this->siteId2 => $this->siteName2
+            )
         ));
     }
 

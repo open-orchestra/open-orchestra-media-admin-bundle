@@ -4,7 +4,6 @@ namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
 use FOS\UserBundle\Model\GroupableInterface;
 use OpenOrchestra\Backoffice\Model\GroupInterface;
-use OpenOrchestra\MediaAdminBundle\NavigationPanel\Strategies\TreeFolderPanelStrategy;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
 use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
@@ -75,15 +74,13 @@ class SiteForFolderChoiceType extends AbstractType
             $userGroups = $user->getGroups();
             /** @var GroupInterface $group */
             foreach ($userGroups as $group) {
-                if ($group->hasRole(TreeFolderPanelStrategy::ROLE_ACCESS_CREATE_MEDIA_FOLDER)) {
-                    /** @var SiteInterface $site */
-                    if ($site = $group->getSite()) {
-                        if (false === $site->isDeleted() && ! isset($choices[$site->getSiteId()])) {
-                            $choices[$site->getSiteId()] = $site->getName();
-                        }
-                    } else {
-                        return $this->getChoicesAllSite();
+                /** @var SiteInterface $site */
+                if ($site = $group->getSite()) {
+                    if (false === $site->isDeleted() && ! isset($choices[$site->getSiteId()])) {
+                        $choices[$site->getSiteId()] = $site->getName();
                     }
+                } else {
+                    return $this->getChoicesAllSite();
                 }
             }
         }
