@@ -16,11 +16,16 @@ use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter
 class MediaFolderVoter extends AbstractEditorialVoter
 {
     /**
-     * @return array
+     * @param mixed $subject
+     *
+     * @return bool
      */
-    protected function getSupportedClasses()
+    protected function supportSubject($subject)
     {
-        return array('OpenOrchestra\Media\Model\MediaFolderInterface');
+        return $this->supportedClasses(
+            $subject,
+            array('OpenOrchestra\Media\Model\MediaFolderInterface')
+        );
     }
 
     /**
