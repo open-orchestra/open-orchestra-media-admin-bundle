@@ -65,7 +65,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
 
         $this->user = Phake::mock('OpenOrchestra\UserBundle\Document\User');
         Phake::when($this->user)->getGroups()->thenReturn(array($this->groupA, $this->groupB, $this->groupC));
-        Phake::when($this->user)->isSuperAdmin()->thenReturn(false);
+        Phake::when($this->user)->hasRole(Phake::anyParameters())->thenReturn(false);
 
         $this->token = Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         Phake::when($this->token)->getUser()->thenReturn($this->user);
@@ -148,7 +148,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
      */
     public function testConfigureOptionsWithSuperAdminUser()
     {
-        Phake::when($this->user)->isSuperAdmin()->thenReturn(true);
+        Phake::when($this->user)->hasRole(Phake::anyParameters())->thenReturn(true);
         $resolverMock = Phake::mock('Symfony\Component\OptionsResolver\OptionsResolver');
 
         $this->form->configureOptions($resolverMock);

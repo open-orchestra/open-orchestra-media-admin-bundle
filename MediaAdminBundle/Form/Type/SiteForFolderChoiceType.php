@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
 use FOS\UserBundle\Model\GroupableInterface;
 use OpenOrchestra\Backoffice\Model\GroupInterface;
+use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
 use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
@@ -68,7 +69,9 @@ class SiteForFolderChoiceType extends AbstractType
 
         $token = $this->tokenStorage->getToken();
         if ($token && ($user = $token->getUser()) instanceof GroupableInterface) {
-            if ($user->isSuperAdmin()) {
+            if (($user->hasRole(ContributionRoleInterface::DEVELOPER) ||
+                $user->hasRole(ContributionRoleInterface::PLATFORM_ADMIN))
+            ) {
                 return $this->getChoicesAllSite();
             }
             $userGroups = $user->getGroups();
