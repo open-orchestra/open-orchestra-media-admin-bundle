@@ -22,7 +22,7 @@ class MediaFolderVoter extends AbstractEditorialVoter
      */
     protected function supportSubject($subject)
     {
-        return $this->supportedClasses(
+        return $this->supportClasses(
             $subject,
             array('OpenOrchestra\Media\Model\MediaFolderInterface')
         );
