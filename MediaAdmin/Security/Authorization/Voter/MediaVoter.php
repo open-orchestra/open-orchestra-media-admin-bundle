@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
 use OpenOrchestra\Media\Model\MediaFolderInterface;
+use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\UserBundle\Model\UserInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
@@ -16,11 +17,17 @@ use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter
 class MediaVoter extends AbstractEditorialVoter
 {
     /**
-     * @return array
+     * @param mixed $subject
+     *
+     * @return bool
      */
-    protected function getSupportedClasses()
+    protected function supportSubject($subject)
     {
-        return array('OpenOrchestra\Media\Model\MediaInterface');
+        return $this->supportClasses(
+            $subject,
+            array('OpenOrchestra\Media\Model\MediaInterface')
+        );
+
     }
 
     /**
@@ -42,7 +49,7 @@ class MediaVoter extends AbstractEditorialVoter
      * A user can act on his own medias if he has the MEDIA_CONTRIBUTOR role and the media is located into a folder in his perimeter 
      *
      * @param string         $action
-     * @param MediaInterface $folder
+     * @param MediaInterface $media
      * @param UserInterface  $user
      *
      * @return bool
