@@ -58,5 +58,6 @@ services:
             - '@open_orchestra_model.repository.site'
             - '@security.token_storage'
             - '@open_orchestra_media_admin.transformer.embed_site_to_siteid'
+            - '@security.authorization_checker'
         tags:
             - { name: form.type, alias: oo_site_for_folder_choice}

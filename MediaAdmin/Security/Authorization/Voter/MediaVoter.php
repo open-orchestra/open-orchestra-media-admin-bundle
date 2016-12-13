@@ -8,6 +8,7 @@ use OpenOrchestra\UserBundle\Model\UserInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class MediaVoter
@@ -35,13 +36,13 @@ class MediaVoter extends AbstractEditorialVoter
      * A user can read a media if it is located into a folder is in his perimeter
      *
      * @param MediaInterface $media
-     * @param UserInterface  $user
+     * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function voteForReadAction($media, UserInterface $user)
+    protected function voteForReadAction($media, TokenInterface $token)
     {
-        return $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -50,14 +51,14 @@ class MediaVoter extends AbstractEditorialVoter
      *
      * @param string         $action
      * @param MediaInterface $media
-     * @param UserInterface  $user
+     * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function voteForOwnedSubject($action, $media, UserInterface $user)
+    protected function voteForOwnedSubject($action, $media, TokenInterface $token)
     {
-        return $user->hasRole(ContributionRoleInterface::MEDIA_CONTRIBUTOR)
-            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->hasRole($token, ContributionRoleInterface::MEDIA_CONTRIBUTOR)
+            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -66,11 +67,11 @@ class MediaVoter extends AbstractEditorialVoter
      *
      * @param string         $action
      * @param MediaInterface $media
-     * @param UserInterface  $user
+     * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function voteForSomeoneElseSubject($action, $media, UserInterface $user)
+    protected function voteForSomeoneElseSubject($action, $media, TokenInterface $token)
     {
         $requiredRole = ContributionRoleInterface::MEDIA_CONTRIBUTOR;
 
@@ -83,7 +84,7 @@ class MediaVoter extends AbstractEditorialVoter
             break;
         }
 
-        return $user->hasRole($requiredRole)
-            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->hasRole($token, $requiredRole)
+            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 }

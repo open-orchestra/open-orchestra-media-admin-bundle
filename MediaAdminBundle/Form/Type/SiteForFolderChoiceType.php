@@ -12,6 +12,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class SiteForFolderChoiceType
@@ -20,20 +22,26 @@ class SiteForFolderChoiceType extends AbstractType
 {
     protected $siteRepository;
     protected $tokenStorage;
-    protected $embedSiteToSiteTransformer;
+    protected $embedSiteToSiteIdTransformer;
+    protected $authorizationChecker;
 
     /**
-     * @param SiteRepositoryInterface $siteRepository
+     * @param SiteRepositoryInterface       $siteRepository
+     * @param TokenStorageInterface         $tokenStorage
+     * @param EmbedSiteToSiteIdTransformer  $embedSiteToSiteIdTransformer
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         SiteRepositoryInterface $siteRepository,
         TokenStorageInterface $tokenStorage,
-        EmbedSiteToSiteIdTransformer $embedSiteToSiteIdTransformer
+        EmbedSiteToSiteIdTransformer $embedSiteToSiteIdTransformer,
+        AuthorizationCheckerInterface $authorizationChecker
     )
     {
         $this->siteRepository = $siteRepository;
         $this->tokenStorage = $tokenStorage;
         $this->embedSiteToSiteIdTransformer = $embedSiteToSiteIdTransformer;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -67,13 +75,14 @@ class SiteForFolderChoiceType extends AbstractType
     {
         $choices = array();
 
+        if ($this->authorizationChecker->isGranted(ContributionRoleInterface::PLATFORM_ADMIN)) {
+            return $this->getChoicesAllSite();
+        }
+
         $token = $this->tokenStorage->getToken();
-        if ($token && ($user = $token->getUser()) instanceof GroupableInterface) {
-            if (($user->hasRole(ContributionRoleInterface::DEVELOPER) ||
-                $user->hasRole(ContributionRoleInterface::PLATFORM_ADMIN))
-            ) {
-                return $this->getChoicesAllSite();
-            }
+        if ($token instanceof TokenInterface &&
+            ($user = $token->getUser()) instanceof GroupableInterface
+        ) {
             $userGroups = $user->getGroups();
             /** @var GroupInterface $group */
             foreach ($userGroups as $group) {

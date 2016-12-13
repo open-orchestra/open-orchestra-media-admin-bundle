@@ -20,7 +20,7 @@ class MediaFolderVoterTest extends AbstractVoterTest
     {
         parent::setUp();
 
-        $this->voter = new MediaFolderVoter($this->perimeterManager);
+        $this->voter = new MediaFolderVoter($this->accessDecisionManager, $this->perimeterManager);
     }
 
     /**

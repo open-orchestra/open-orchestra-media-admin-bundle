@@ -2,9 +2,11 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
+use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class SiteForFolderChoiceTypeTest
@@ -28,6 +30,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
     protected $embedSiteToSiteIdTransformer;
     protected $form;
     protected $choiceList; // site1
+    protected $authorizationChecker; // site1
 
     /**
      * Set up the test
@@ -53,19 +56,15 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
 
         $this->groupA = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupA)->getSite()->thenReturn($this->site1);
-        Phake::when($this->groupA)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(true);
 
         $this->groupB = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupB)->getSite()->thenReturn($this->site2);
-        Phake::when($this->groupB)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(false);
 
         $this->groupC = Phake::mock('OpenOrchestra\GroupBundle\Document\Group');
         Phake::when($this->groupC)->getSite()->thenReturn($this->siteDeleted);
-        Phake::when($this->groupC)->hasRole('ROLE_ACCESS_CREATE_MEDIA_FOLDER')->thenReturn(true);
 
         $this->user = Phake::mock('OpenOrchestra\UserBundle\Document\User');
         Phake::when($this->user)->getGroups()->thenReturn(array($this->groupA, $this->groupB, $this->groupC));
-        Phake::when($this->user)->hasRole(Phake::anyParameters())->thenReturn(false);
 
         $this->token = Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         Phake::when($this->token)->getUser()->thenReturn($this->user);
@@ -74,11 +73,13 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
         Phake::when($this->tokenStorage)->getToken()->thenReturn($this->token);
 
         $this->embedSiteToSiteIdTransformer = Phake::mock('OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer');
+        $this->authorizationChecker = Phake::mock(AuthorizationCheckerInterface::class);
 
         $this->form = new SiteForFolderChoiceType(
             $this->siteRepository,
             $this->tokenStorage,
-            $this->embedSiteToSiteIdTransformer
+            $this->embedSiteToSiteIdTransformer,
+            $this->authorizationChecker
         );
 
         $this->choiceList = array($this->siteId1 => $this->siteName1);
@@ -130,6 +131,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
     public function testConfigureOptions()
     {
         $resolverMock = Phake::mock('Symfony\Component\OptionsResolver\OptionsResolver');
+        Phake::when($this->token)->getRoles()->thenReturn(array());
 
         $this->form->configureOptions($resolverMock);
 
@@ -148,7 +150,7 @@ class SiteForFolderChoiceTypeTest extends AbstractBaseTestCase
      */
     public function testConfigureOptionsWithSuperAdminUser()
     {
-        Phake::when($this->user)->hasRole(Phake::anyParameters())->thenReturn(true);
+        Phake::when($this->authorizationChecker)->isGranted(Phake::anyParameters())->thenReturn(true);
         $resolverMock = Phake::mock('Symfony\Component\OptionsResolver\OptionsResolver');
 
         $this->form->configureOptions($resolverMock);

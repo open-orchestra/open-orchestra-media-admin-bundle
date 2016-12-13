@@ -3,10 +3,10 @@
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
 use OpenOrchestra\Media\Model\MediaFolderInterface;
-use OpenOrchestra\UserBundle\Model\UserInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class MediaFolderVoter
@@ -33,13 +33,13 @@ class MediaFolderVoter extends AbstractEditorialVoter
      * A user can read a folder if it is in his perimeter
      *
      * @param MediaFolderInterface $folder
-     * @param UserInterface        $user
+     * @param TokenInterface       $token
      *
      * @return bool
      */
-    protected function voteForReadAction($folder, UserInterface $user)
+    protected function voteForReadAction($folder, TokenInterface $token)
     {
-        return $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->isSubjectInPerimeter($folder->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -48,14 +48,14 @@ class MediaFolderVoter extends AbstractEditorialVoter
      *
      * @param string               $action
      * @param MediaFolderInterface $folder
-     * @param UserInterface        $user
+     * @param TokenInterface       $token
      *
      * @return bool
      */
-    protected function voteForOwnedSubject($action, $folder, UserInterface $user)
+    protected function voteForOwnedSubject($action, $folder, TokenInterface $token)
     {
-        return $user->hasRole(ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR)
-            && $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->hasRole($token, ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR)
+            && $this->isSubjectInPerimeter($folder->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -64,11 +64,11 @@ class MediaFolderVoter extends AbstractEditorialVoter
      *
      * @param string               $action
      * @param MediaFolderInterface $folder
-     * @param UserInterface        $user
+     * @param TokenInterface       $token
      *
      * @return bool
      */
-    protected function voteForSomeoneElseSubject($action, $folder, UserInterface $user)
+    protected function voteForSomeoneElseSubject($action, $folder, TokenInterface $token)
     {
         $requiredRole = ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR;
 
@@ -81,7 +81,7 @@ class MediaFolderVoter extends AbstractEditorialVoter
             break;
         }
 
-        return $user->hasRole($requiredRole)
-            && $this->isSubjectInPerimeter($folder->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->hasRole($token, $requiredRole)
+            && $this->isSubjectInPerimeter($folder->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 }
