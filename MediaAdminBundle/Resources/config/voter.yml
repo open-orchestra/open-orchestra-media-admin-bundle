@@ -6,12 +6,14 @@ services:
     open_orchestra_media_admin.voter.media_folder:
         class: '%open_orchestra_media_admin.voter.media_folder.class%'
         arguments:
+            - '@security.access.decision_manager'
             - '@open_orchestra_group.perimeter_manager'
         tags:
             - { name: security.voter }
     open_orchestra_media_admin.voter.media:
         class: '%open_orchestra_media_admin.voter.media.class%'
         arguments:
+            - '@security.access.decision_manager'
             - '@open_orchestra_group.perimeter_manager'
         tags:
             - { name: security.voter }
