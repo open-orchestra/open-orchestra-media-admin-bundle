@@ -14,7 +14,7 @@
     "ext-imagick": "~3.4.1",
     "doctrine/data-fixtures": "~1.2.0",
     "flowjs/flow-php-server": "~1.0.0",
-    "koala-framework/composer-extra-assets": "~2.0.4",
+    "alav/composer-assets": "~1.0.0",
     "php-ffmpeg/php-ffmpeg": "~0.6.1",
     "symfony/monolog-bundle": "~2.11.0",
     "open-orchestra/open-orchestra-cms-bundle": "self.version",
@@ -57,7 +57,7 @@
         "version": "~4.4.3"
       }
     },
-    "require-npm": {
+    "npm-assets": {
       "bower": "~1.7",
       "grunt": "~0.4",
       "grunt-cli": "~1.2",
@@ -75,8 +75,7 @@
       "glob": "~7.0.3",
       "merge": "~1.2.0"
     },
-    "expose-npm-packages": true,
-    "require-bower": {
+    "bower-assets": {
       "jquery": "~2.1.1",
       "jquery-ui": "~1.11.2",
       "backbone": "~1.2.3",
