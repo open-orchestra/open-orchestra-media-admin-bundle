@@ -42,9 +42,7 @@ class MediaVoter extends AbstractEditorialVoter
      */
     protected function voteForReadAction($media, TokenInterface $token)
     {
-        $user = $token->getUser();
-
-        return $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+        return $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -59,10 +57,8 @@ class MediaVoter extends AbstractEditorialVoter
      */
     protected function voteForOwnedSubject($action, $media, TokenInterface $token)
     {
-        $user = $token->getUser();
-
         return $this->hasRole($token, ContributionRoleInterface::MEDIA_CONTRIBUTOR)
-            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**
@@ -78,7 +74,6 @@ class MediaVoter extends AbstractEditorialVoter
     protected function voteForSomeoneElseSubject($action, $media, TokenInterface $token)
     {
         $requiredRole = ContributionRoleInterface::MEDIA_CONTRIBUTOR;
-        $user = $token->getUser();
 
         switch ($action) {
             case ContributionActionInterface::EDIT:
@@ -90,6 +85,6 @@ class MediaVoter extends AbstractEditorialVoter
         }
 
         return $this->hasRole($token, $requiredRole)
-            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $user, MediaFolderInterface::ENTITY_TYPE);
+            && $this->isSubjectInPerimeter($media->getMediaFolder()->getPath(), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 }
