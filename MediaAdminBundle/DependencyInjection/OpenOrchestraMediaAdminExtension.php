@@ -35,6 +35,11 @@ class OpenOrchestraMediaAdminExtension extends Extension
         foreach ($config['facades'] as $transformer => $facade) {
             $container->setParameter('open_orchestra_media_admin.facade.' . $transformer . '.class', $facade);
         }
+        $configurationRoles = $config['configuration_roles'];
+        if ($container->hasParameter('open_orchestra_backoffice.configuration.roles')) {
+            $configurationRoles = array_merge_recursive($container->getParameter('open_orchestra_backoffice.configuration.roles'), $configurationRoles);
+        }
+        $container->setParameter('open_orchestra_backoffice.configuration.roles', $configurationRoles);
 
         $loader = new YamlFileLoader(
             $container,

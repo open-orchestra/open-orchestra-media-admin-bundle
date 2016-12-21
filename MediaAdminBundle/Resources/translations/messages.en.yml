@@ -11,6 +11,9 @@ open_orchestra_backoffice:
     form:
       remove: Remove
       no_access: You don't have the access to the media management.
+      role:
+          folder: Media library folder
+          media: Media
 
 open_orchestra_media_admin:
     folder:
