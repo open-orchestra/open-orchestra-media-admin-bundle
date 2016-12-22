@@ -87,7 +87,7 @@ class SiteForFolderChoiceType extends AbstractType
             /** @var GroupInterface $group */
             foreach ($userGroups as $group) {
                 /** @var SiteInterface $site */
-                if ($site = $group->getSite()) {
+                if (!$group->isDeleted() && ($site = $group->getSite())) {
                     if (false === $site->isDeleted() && ! isset($choices[$site->getSiteId()])) {
                         $choices[$site->getSiteId()] = $site->getName();
                     }
