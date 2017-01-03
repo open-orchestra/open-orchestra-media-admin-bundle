@@ -6,6 +6,7 @@ use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 
 /**
  * Class OpenOrchestraMediaAdminExtensionTest
@@ -56,6 +57,23 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
             $audio,
             $container->getParameter('open_orchestra_media_admin.files.alternatives.audio.thumbnail')
         );
+
+        $configurationRoles = array(
+            'firstpackage' => array(
+                'folder' => array(
+                    ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                ),
+                'media' => array(
+                    ContributionRoleInterface::MEDIA_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
+                    ContributionRoleInterface::MEDIA_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
+                    ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                ),
+            ),
+        );
+
+        $this->assertEquals($configurationRoles, $container->getParameter('open_orchestra_backoffice.configuration.roles'));
     }
 
     /**
