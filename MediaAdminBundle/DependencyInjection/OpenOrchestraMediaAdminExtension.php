@@ -2,6 +2,10 @@
 
 namespace OpenOrchestra\MediaAdminBundle\DependencyInjection;
 
+use OpenOrchestra\Media\DisplayBlock\Strategies\DisplayMediaStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\GalleryStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\MediaListByKeywordStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\SlideshowStrategy;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -62,6 +66,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
 
         $this->addMediaFieldType($container);
         $this->setFilesParameters($container, $config, $loader);
+        $this->updateBlockConfiguration($container);
     }
 
     /**
@@ -155,6 +160,33 @@ class OpenOrchestraMediaAdminExtension extends Extension
         } else {
             $loader->load('alternatives_formats.yml');
         }
+    }
 
+    /**
+     * @param ContainerBuilder $container
+     */
+    protected function updateBlockConfiguration(ContainerBuilder $container)
+    {
+        $mediaBlockConfiguration = array(
+            GalleryStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+            ),
+            SlideshowStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+            ),
+            MediaListByKeywordStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+            ),
+            DisplayMediaStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+            ),
+        );
+
+        $blockConfiguration = array();
+        if ($container->hasParameter('open_orchestra_backoffice.block_configuration')) {
+            $blockConfiguration = $container->getParameter('open_orchestra_backoffice.block_configuration');
+        }
+        $blockConfiguration = array_merge($blockConfiguration, $mediaBlockConfiguration);
+        $container->setParameter('open_orchestra_backoffice.block_configuration', $blockConfiguration);
     }
 }
