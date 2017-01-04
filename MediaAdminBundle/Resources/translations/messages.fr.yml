@@ -11,6 +11,9 @@ open_orchestra_backoffice:
     form:
       remove: Retirer
       no_access: Vous n'avez pas les droits d'accès à la mediathèque.
+      role:
+          folder: Dossier médiathèque
+          media: Média
 
 open_orchestra_media_admin:
     folder:

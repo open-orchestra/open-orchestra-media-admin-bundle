@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 
 /**
  * Class Configuration
@@ -86,8 +87,43 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+            ->append($this->addConfigurationRoleConfiguration())
         ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    public function addConfigurationRoleConfiguration()
+    {
+        $builder = new TreeBuilder();
+        $configurationRole = $builder->root('configuration_roles');
+
+        $configurationRole
+            ->info('Array configuration roles')
+            ->prototype('array')
+                ->useAttributeAsKey('name')
+                ->prototype('array')
+                ->end()
+            ->end();
+
+        $configurationRole->defaultValue(array(
+            'firstpackage' => array(
+                'folder' => array(
+                    ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                ),
+                'media' => array(
+                    ContributionRoleInterface::MEDIA_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
+                    ContributionRoleInterface::MEDIA_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
+                    ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                ),
+            ),
+        ));
+
+        return $configurationRole;
     }
 }
