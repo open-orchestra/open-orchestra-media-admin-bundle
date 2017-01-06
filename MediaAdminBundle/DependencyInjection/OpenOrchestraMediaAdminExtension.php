@@ -170,15 +170,23 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $mediaBlockConfiguration = array(
             GalleryStrategy::NAME => array(
                 'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.gallery.title',
+                'description'     => 'open_orchestra_media_admin.block.gallery.description',
             ),
             SlideshowStrategy::NAME => array(
                 'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.slideshow.title',
+                'description'     => 'open_orchestra_media_admin.block.slideshow.description',
             ),
             MediaListByKeywordStrategy::NAME => array(
                 'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.media_list_by_keyword.title',
+                'description'     => 'open_orchestra_media_admin.block.media_list_by_keyword.description',
             ),
             DisplayMediaStrategy::NAME => array(
                 'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.display_media.title',
+                'description'     => 'open_orchestra_media_admin.block.display_media.description',
             ),
         );
 

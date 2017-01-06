@@ -45,6 +45,8 @@ class SlideshowStrategy extends AbstractBlockStrategy
         $builder->add('id', 'text', array(
             'label' => 'open_orchestra_backoffice.form.block.id',
             'constraints' => new NotBlank(),
+            'group_id' => 'data',
+            'sub_group_id' => 'content',
         ));
 
         $allowAdd = true;
@@ -60,12 +62,18 @@ class SlideshowStrategy extends AbstractBlockStrategy
                 'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.new'),
                 'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
             ),
+            'group_id' => 'data',
+            'sub_group_id' => 'content',
         ));
         $builder->add('width', 'text', array(
             'constraints' => new NotBlank(),
+            'group_id' => 'data',
+            'sub_group_id' => 'content',
         ));
         $builder->add('height', 'text', array(
             'constraints' => new NotBlank(),
+            'group_id' => 'data',
+            'sub_group_id' => 'content',
         ));
     }
 

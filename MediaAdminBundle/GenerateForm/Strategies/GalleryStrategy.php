@@ -56,17 +56,23 @@ class GalleryStrategy extends AbstractBlockStrategy
             ->add('id', 'text', array(
                 'label' => 'open_orchestra_backoffice.form.block.id',
                 'constraints' => new NotBlank(),
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ->add('thumbnailFormat', 'choice', array(
                 'choices' => $formats,
                 'label' => 'open_orchestra_media_admin.block.gallery.form.thumbnail_format',
                 'constraints' => new NotBlank(),
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ->add('imageFormat', 'choice', array(
                 'choices' => $formats,
                 'constraints' => new NotBlank(),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.image_format.label',
                 'attr' => array('help_text' => 'open_orchestra_media_admin.block.gallery.form.image_format.helper'),
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ->add('pictures', 'collection', array(
                 'type' => 'oo_media_choice',
@@ -78,10 +84,14 @@ class GalleryStrategy extends AbstractBlockStrategy
                     'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.gallery.form.media.delete'),
                 ),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ->add('width', 'text', array(
                 'required' => false,
                 'label' => 'open_orchestra_media_admin.block.gallery.form.width',
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ;
     }

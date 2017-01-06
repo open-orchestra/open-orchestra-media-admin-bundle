@@ -1,13 +1,4 @@
 open_orchestra_backoffice:
-    block:
-        slideshow:
-            title: Slideshow
-        gallery:
-            title: Gallery
-        media_list_by_keyword:
-            title: Media list by keyword
-        display_media:
-            title: Media
     form:
       remove: Remove
       no_access: You don't have the access to the media management.
@@ -90,6 +81,7 @@ open_orchestra_media_admin:
             browse: Browse
     block:
         slideshow:
+            title: Slideshow
             description: Scroll images.
             form:
                 media:
@@ -97,7 +89,8 @@ open_orchestra_media_admin:
                     new: New media
                     delete: Remove media
         gallery:
-            description: Block to display images.
+            title: Gallery
+            description: Block to display images
             form:
                 pictures: Pictures
                 media:
@@ -110,6 +103,7 @@ open_orchestra_media_admin:
                     label: Image format (full view)
                     helper: Image format (full view)
         media_list_by_keyword:
+            title: Media list by keyword
             description: Display a medias list.
         display_media:
             title: Media block
