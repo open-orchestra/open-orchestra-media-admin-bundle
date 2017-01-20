@@ -33,10 +33,14 @@ class DisplayMediaStrategy extends AbstractBlockStrategy
             ->add('picture', 'oo_media_choice', array(
                 'constraints' => new NotBlank(),
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ))
             ->add('nodeToLink', 'oo_node_choice', array(
                 'label' => 'open_orchestra_media_admin.block.display_media.form.node_link',
-                'required' => false
+                'required' => false,
+                'group_id' => 'data',
+                'sub_group_id' => 'content',
             ));
     }
 

@@ -2,6 +2,10 @@
 
 namespace OpenOrchestra\MediaAdminBundle\DependencyInjection;
 
+use OpenOrchestra\Media\DisplayBlock\Strategies\DisplayMediaStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\GalleryStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\MediaListByKeywordStrategy;
+use OpenOrchestra\Media\DisplayBlock\Strategies\SlideshowStrategy;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -62,6 +66,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
 
         $this->addMediaFieldType($container);
         $this->setFilesParameters($container, $config, $loader);
+        $this->updateBlockConfiguration($container);
     }
 
     /**
@@ -155,6 +160,41 @@ class OpenOrchestraMediaAdminExtension extends Extension
         } else {
             $loader->load('alternatives_formats.yml');
         }
+    }
 
+    /**
+     * @param ContainerBuilder $container
+     */
+    protected function updateBlockConfiguration(ContainerBuilder $container)
+    {
+        $mediaBlockConfiguration = array(
+            GalleryStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.gallery.title',
+                'description'     => 'open_orchestra_media_admin.block.gallery.description',
+            ),
+            SlideshowStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.slideshow.title',
+                'description'     => 'open_orchestra_media_admin.block.slideshow.description',
+            ),
+            MediaListByKeywordStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.media_list_by_keyword.title',
+                'description'     => 'open_orchestra_media_admin.block.media_list_by_keyword.description',
+            ),
+            DisplayMediaStrategy::NAME => array(
+                'category' => 'open_orchestra_backoffice.block_configuration.category.media',
+                'name'     => 'open_orchestra_media_admin.block.display_media.title',
+                'description'     => 'open_orchestra_media_admin.block.display_media.description',
+            ),
+        );
+
+        $blockConfiguration = array();
+        if ($container->hasParameter('open_orchestra_backoffice.block_configuration')) {
+            $blockConfiguration = $container->getParameter('open_orchestra_backoffice.block_configuration');
+        }
+        $blockConfiguration = array_merge($blockConfiguration, $mediaBlockConfiguration);
+        $container->setParameter('open_orchestra_backoffice.block_configuration', $blockConfiguration);
     }
 }

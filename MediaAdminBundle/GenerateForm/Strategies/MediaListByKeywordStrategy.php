@@ -32,9 +32,8 @@ class MediaListByKeywordStrategy extends AbstractBlockStrategy
             'is_condition' => true,
             'label' => 'open_orchestra_media_admin.form.media.list.keyword',
             'required' => false,
-            'new_attr' => array(
-                'class' => 'select-boolean',
-            ),
+            'group_id' => 'data',
+            'sub_group_id' => 'content',
         ));
     }
 
