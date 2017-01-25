@@ -42,11 +42,3 @@
         <div id="{{ id }}_modal"></div>
     {% endspaceless %}
 {% endblock %}
-
-{% block oo_tinymce_widget %}
-    {{ parent() }}
-      <div
-          id="modal_media_{{ id }}"
-          data-url="{{ path('open_orchestra_media_admin_media_list_form') }}"
-      ></div>
-{% endblock %}
