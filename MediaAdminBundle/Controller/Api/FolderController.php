@@ -61,6 +61,8 @@ class FolderController extends BaseController
      */
     public function listTreeFolderAction($siteId)
     {
+        // /!\ A OPTIMISER AVEC LA REDACTO DES NODES NON HYDRATES :!\
+
         $folders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
         $transformer = $this->get('open_orchestra_api.transformer_manager')->get('folder_tree');
 

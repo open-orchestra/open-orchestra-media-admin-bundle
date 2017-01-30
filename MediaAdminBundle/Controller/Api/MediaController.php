@@ -16,6 +16,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 
 /**
  * Class MediaController
@@ -26,6 +27,33 @@ use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
  */
 class MediaController extends BaseController
 {
+    /**
+     * @param Request $request
+     *
+     * @Config\Route("", name="open_orchestra_api_media_list")
+     * @Config\Method({"GET"})
+     * @Config\Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @return FacadeInterface
+     */
+    public function listAction(Request $request)
+    {
+//         var_dump($request);
+        $mapping = array(
+        );
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
+        $repository = $this->get('open_orchestra_media.repository.media');
+        $collection = $repository->findForPaginate($configuration);
+        $recordsTotal = $repository->count();
+        $recordsFiltered = $repository->countWithFilter($configuration);
+        $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('media_collection');
+        $facade = $collectionTransformer->transform($collection);
+        $facade->recordsTotal = $recordsTotal;
+        $facade->recordsFiltered = $recordsFiltered;
+
+        return $facade;
+    }
+
     /**
      * @param int $mediaId
      *
@@ -41,45 +69,6 @@ class MediaController extends BaseController
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
 
         return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
-    }
-
-    /**
-     * @param string $folderId
-     * @param string $mediaType
-     *
-     * @Config\Route("/folder/{folderId}/{mediaType}", defaults={"mediaType" = ""}, name="open_orchestra_api_media_list")
-     * @Config\Method({"GET"})
-     *
-     * @return FacadeInterface
-     */
-    public function listAction($folderId, $mediaType)
-    {
-        /** @var FolderInterface $folder */
-        $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
-        $this->denyAccessUnlessGranted(ContributionActionInterface::READ, $folder);
-
-        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
-
-        $parentId = null;
-        if ($folder->getParent() instanceof FolderInterface) {
-            $parentId = $folder->getParent()->getId();
-        }
-
-        if ($mediaType != "") {
-            $mediaCollection = $this->get('open_orchestra_media.repository.media')
-                ->findByFolderIdAndMediaType($folderId, $mediaType);
-        } else {
-            $mediaCollection = $this->get('open_orchestra_media.repository.media')
-                ->findByFolderId($folderId);
-        }
-
-        return $this->get('open_orchestra_api.transformer_manager')
-            ->get('media_collection')->transform(
-                $mediaCollection,
-                $folderId,
-                $folderDeletable,
-                $parentId
-        );
     }
 
     /**

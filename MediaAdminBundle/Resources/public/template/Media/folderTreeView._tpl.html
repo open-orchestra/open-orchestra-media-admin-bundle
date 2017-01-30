@@ -1,0 +1,7 @@
+<% console.log(tree) %>
+<% if (_.isArray(tree)) {%>
+    <% _.each(tree, function(folder) { %>
+        <option value="<%= folder.get('folder').folder_id %>"><%= folder.get('folder').name %></option>
+    <% }); %>
+    <%= renderTemplate('Media/folderTreeView', {tree: folder.get('folder').children, renderTemplate: renderTemplate}) %>
+<% }; %>

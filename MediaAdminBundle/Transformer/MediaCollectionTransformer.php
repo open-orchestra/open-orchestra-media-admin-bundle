@@ -7,7 +7,6 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class MediaCollectionTransformer
@@ -33,45 +32,15 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param ArrayCollection $mixed
-     * @param string|null     $folderId
-     * @param bool            $folderDeletable
-     * @param string|null     $parentId
      *
      * @return FacadeInterface
      */
-    public function transform($mixed, $folderId = null, $folderDeletable = false, $parentId = null)
+    public function transform($mixed)
     {
         $facade = $this->newFacade();
 
-        $facade->isFolderDeletable = $folderDeletable;
-        $facade->parentId = $parentId;
-
-        $folder = $this->folderRepository->find($folderId);
-
         foreach ($mixed as $media) {
             $facade->addMedia($this->getTransformer('media')->transform($media));
-        }
-
-        if ($this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, $folder)) {
-            $facade->addLink('_self_add', $this->generateRoute('open_orchestra_api_media_upload', array(
-                'folderId' => $folderId
-            )));
-        }
-
-        if ($this->authorizationChecker->isGranted(ContributionActionInterface::EDIT, $folder)) {
-            $facade->addLink('_self_folder', $this->generateRoute('open_orchestra_media_admin_folder_form', array(
-                'folderId' => $folderId
-            )));
-        }
-
-        $facade->addLink('_media_types', $this->generateRoute('open_orchestra_api_media_type_list', array(
-            'folderId' => $folderId
-        )));
-
-        if ($this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $folder)) {
-            $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_folder_delete', array(
-                'folderId' => $folderId
-            )));
         }
 
         return $facade;

@@ -1,0 +1,15 @@
+open_orchestra_media_admin:
+    media:
+        title_list: Media
+    media_filter:
+        none   : All
+        default: Default
+        image  : Image
+        audio  : Audio
+        video  : Video
+        pdf    : Pdf
+    table:
+        media:
+            label : Label / Tag
+            type  : Type
+            folder: Folder
