@@ -1,7 +1,7 @@
 import AbstractCollectionView from '../../../Service/DataTable/View/AbstractCollectionView'
 import MediaListView          from '../../View/Media/MediaListView'
 import Application            from '../../Application'
-import Folders                from '../../Collection/Folder/Folders'
+import FoldersTree            from '../../Collection/Folder/FoldersTree'
 
 /**
  * @class MediasView
@@ -36,14 +36,14 @@ class MediasView extends AbstractCollectionView
 
             return this;
         } else {
-            let folders = new Folders();
+            let foldersTree = new FoldersTree();
             $.when(
-                folders.fetch({siteId: Application.getContext().siteId})
+                foldersTree.fetch({siteId: Application.getContext().siteId})
             ).done( () => {
                 let template = this._renderTemplate('Media/mediasView', {
                     language: Application.getContext().language,
                     types   : this.mediaTypes,
-                    folders : folders
+                    foldersTree : foldersTree
                 });
                 this.$el.html(template);
                 this._listView = new MediaListView({

@@ -23,11 +23,14 @@
         </div>
     </div>
     <div class="form-group col-lg-6">
-        <label for="folder" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
+        <label for="folderId" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
         <div class="col-md-8">
             <div class="styled-select">
-                <select name='folder' class="form-control" id="folder">
-                    <%= renderTemplate('Media/folderTreeView', {tree: folders.models}) %>
+                <select name='folderId' class="form-control" id="folderId">
+                    <option value=""><%= Translator.trans('open_orchestra_media_admin.search_engine.folder.all') %></option>
+                    <% _.each(foldersTree.models[0].get('children'), function(child) { %>
+                        <%= renderTemplate('Media/folderTreeView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                    <% }); %>
                 </select>
             </div>
         </div>

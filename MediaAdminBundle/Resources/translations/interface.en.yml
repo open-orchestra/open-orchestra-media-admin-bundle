@@ -13,3 +13,6 @@ open_orchestra_media_admin:
             label : Label / Tag
             type  : Type
             folder: Folder
+    search_engine:
+        folder:
+            all: All folders

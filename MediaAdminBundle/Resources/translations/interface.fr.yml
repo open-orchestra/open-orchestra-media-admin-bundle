@@ -13,3 +13,6 @@ open_orchestra_media_admin:
             label : Libellé / Tag
             type  : Type
             folder: Dossier
+    search_engine:
+        folder:
+            all: Tous les dossiers
