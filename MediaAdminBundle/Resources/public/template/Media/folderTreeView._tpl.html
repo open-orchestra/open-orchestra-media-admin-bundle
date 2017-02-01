@@ -1,5 +1,3 @@
-<% console.log(tree) %>
-
 <option value="<%= tree.get('folder').id %>">
     <% for (i = 0; i < depth; i++) { %>&nbsp;&nbsp;<% }; %><%= tree.get('folder').get('name') %>
 </option>

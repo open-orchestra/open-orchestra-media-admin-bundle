@@ -10,6 +10,17 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     /**
      * @inheritDoc
      */
+    _drawCallback(settings)
+    {
+        let template = this._renderTemplate('Media/mediaListView', {
+            medias: this._collection
+        });
+        $(".table-responsive", this.$el).html(template);
+    }
+
+    /**
+     * @inheritDoc
+     */
     getTableId() {
         return 'media_list';
     }
@@ -18,31 +29,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      * @inheritDoc
      */
     getColumnsDefinition() {
-        return [
-            this._getColumnsDefinitionDeleteCheckbox(),
-            {
-                name: "title",
-                title: Translator.trans('open_orchestra_media_admin.table.media.label'),
-                orderable: true,
-                orderDirection: 'desc',
-                visibile: true,
-                createdCell: this._createEditLink
-            },
-//            {
-//                name: "properties",
-//                title: Translator.trans('open_orchestra_workflow_admin.table.statuses.specificities'),
-//                orderable: false,
-//                visibile: true,
-//                render: this._getAgglomeratedProperties
-//            },
-//            {
-//                name: "display_color",
-//                title: Translator.trans('open_orchestra_workflow_admin.table.statuses.display_color'),
-//                orderable: false,
-//                visibile: true,
-//                render: this._getFormatedColor
-//            }
-        ];
+        return [];
     }
 
     /**
@@ -50,26 +37,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     generateUrlUpdatePage(page) {
        return Backbone.history.generateUrl('listMedia', {page : page});
-    }
-
-    /**
-     *
-     * @param {Object} td
-     * @param {Object} cellData
-     * @param {Object} rowData
-     * @private
-     */
-    _createEditLink(td, cellData, rowData) {
-        let link = Backbone.history.generateUrl('editMedia', {
-            mediaId: rowData.get('id'),
-            name: rowData.get('name')
-        });
-        cellData = $('<a>',{
-            text: cellData,
-            href: '#'+link
-        });
-
-        $(td).html(cellData)
     }
 }
 

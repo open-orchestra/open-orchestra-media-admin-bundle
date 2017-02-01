@@ -50,7 +50,7 @@ class MediasView extends AbstractCollectionView
                     collection: this._collection,
                     settings  : this._settings
                 });
-                $('.medias-list', this.$el).html(this._listView.render().$el);
+                $('.medias', this.$el).html(this._listView.render().$el);
             });
 
             return this;
