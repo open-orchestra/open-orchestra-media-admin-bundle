@@ -38,4 +38,12 @@ class MediaCollectionFacade extends PaginateCollectionFacade
     {
         $this->medias[] = $facade;
     }
+
+    /**
+     * @return array
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
 }

@@ -38,7 +38,6 @@ class MediaController extends BaseController
      */
     public function listAction(Request $request)
     {
-//         var_dump($request);
         $mapping = array(
         );
         $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
@@ -52,6 +51,53 @@ class MediaController extends BaseController
         $facade->recordsFiltered = $recordsFiltered;
 
         return $facade;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Config\Route("/delete-multiple", name="open_orchestra_api_media_delete_multiple")
+     * @Config\Method({"DELETE"})
+     *
+     * @return Response
+     */
+    public function deleteMediasAction(Request $request)
+    {
+        $format = $request->get('_format', 'json');
+
+        $facade = $this->get('jms_serializer')->deserialize(
+            $request->getContent(),
+            $this->getParameter('open_orchestra_media_admin.facade.media_collection.class'),
+            $format
+            );
+
+        $mediaRepository = $this->get('open_orchestra_media.repository.media');
+        $medias = $this->get('open_orchestra_api.transformer_manager')->get('media_collection')->reverseTransform($facade);
+
+        $mediasIds = array();
+        foreach ($medias as $media) {
+            if ($this->isDeleteGranted($media)) {
+                $mediasIds[] = $media->getId();
+                $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
+            }
+        }
+        $mediaRepository->removeMedias($mediasIds);
+
+        return array();
+    }
+
+    /**
+     * Check if current user can delete $media
+     *
+     * @param MediaInterface $media
+     *
+     * @return boolean
+     */
+    protected function isDeleteGranted(MediaInterface $media)
+    {
+        return ($this->isGranted(ContributionActionInterface::DELETE, $media)
+            && !$media->isUsed()
+        );
     }
 
     /**

@@ -47,6 +47,26 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
     }
 
     /**
+     * @param FacadeInterface $facade
+     * @param null $source
+     *
+     * @return FacadeInterface|null
+     */
+    public function reverseTransform(FacadeInterface $facade, $source = null)
+    {
+        $medias = array();
+        $mediasFacade = $facade->getMedias();
+        foreach ($mediasFacade as $mediaFacade) {
+            $media = $this->getTransformer('media')->reverseTransform($mediaFacade);
+            if (null !== $media) {
+                $medias[] = $media;
+            }
+        }
+
+        return $medias;
+    }
+
+    /**
      * @return string
      */
     public function getName()

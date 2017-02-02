@@ -12,10 +12,18 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     _drawCallback(settings)
     {
-        let template = this._renderTemplate('Media/mediaListView', {
-            medias: this._collection
+        let mediaList = $('<div></div>').addClass('well');
+        var context = this;
+
+        this._collection.each(function(media) {
+            let template = context._renderTemplate('Media/mediaListCellView', {
+                media: media
+            });
+            mediaList.append(template);
+            $('input#checkbox' + media.cid + '.delete-checkbox', mediaList).data(media);
         });
-        $(".table-responsive", this.$el).html(template);
+
+        $(".table-responsive", this.$el).html(mediaList);
     }
 
     /**

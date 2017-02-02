@@ -29,6 +29,8 @@ class Medias extends DataTableCollection
         switch (method) {
             case "read":
                 return Routing.generate('open_orchestra_api_media_list');
+            case "delete":
+                return Routing.generate('open_orchestra_api_media_delete_multiple');
         }
     }
 }
