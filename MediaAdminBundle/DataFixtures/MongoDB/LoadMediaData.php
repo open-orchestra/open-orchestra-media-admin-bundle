@@ -37,15 +37,27 @@ class LoadMediaData
     {
         $logoOrchestra = $this->generateMedia(
             'logo-orchestra.png',
-            'mediaFolder-rootImages',
+            'mediaFolder-transparentImages',
             'logo Open-Orchestra',
             array('keyword-lorem'),
             array(
                 'en' => array('alt' => 'logo', 'title' => 'logo image'),
                 'fr' => array('alt' => 'thème', 'title' => 'thème./ image')
             )
-        );
+            );
         $this->addReference('logo-orchestra', $logoOrchestra);
+
+        $pdf = $this->generateMedia(
+            'sample-pdf.pdf',
+            'mediaFolder-pdfFolder',
+            'Demo pdf',
+            array(),
+            array(
+                'en' => array('alt' => 'demo pdf', 'title' => 'demo pdf'),
+                'fr' => array('alt' => 'demo pdf', 'title' => 'demo pdf')
+            )
+            );
+        $this->addReference('sample-pdf', $pdf);
 
         for ($i = 1; $i < 5; $i++) {
             $this->generateMedia(
@@ -70,8 +82,8 @@ class LoadMediaData
      * @param string $fileName
      * @param string $folderReference
      * @param string $name
-     * @param array $keywordReferencesArray
-     * @param array $languagesArray
+     * @param array  $keywordReferencesArray
+     * @param array  $languagesArray
      */
     protected function generateMedia(
         $fileName,
@@ -81,7 +93,7 @@ class LoadMediaData
         array $languagesArray
     ) {
         $folderId = $this->getReference($folderReference)->getId();
-        $filePath = __DIR__ . '/Images/' . $fileName;
+        $filePath = __DIR__ . '/Files/' . $fileName;
         $tmpFilePath = $this->container->getParameter('open_orchestra_media_admin.tmp_dir')
             . DIRECTORY_SEPARATOR . $fileName;
 

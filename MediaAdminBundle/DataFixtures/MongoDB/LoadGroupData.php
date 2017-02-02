@@ -19,7 +19,7 @@ class LoadGroupData extends AbstractLoadGroupData implements OrchestraFunctional
     {
         $group = $this->getReference('group2');
 
-        $mediaPerimeter = $this->createPerimeter(MediaInterface::ENTITY_TYPE, array('first_images_folder'));
+        $mediaPerimeter = $this->createPerimeter(MediaInterface::ENTITY_TYPE, array('animated_images'));
         $mediaProfileCollection = $this->createProfileCollection(array('profile-Contributor', 'profile-Validator'));
         $group->addWorkflowProfileCollection(MediaInterface::ENTITY_TYPE, $mediaProfileCollection);
         $group->addPerimeter($mediaPerimeter);
