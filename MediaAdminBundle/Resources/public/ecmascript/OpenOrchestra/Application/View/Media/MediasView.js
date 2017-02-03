@@ -36,21 +36,21 @@ class MediasView extends AbstractCollectionView
 
             return this;
         } else {
-            let foldersTree = new FoldersTree();
-            $.when(
-                foldersTree.fetch({siteId: Application.getContext().siteId})
-            ).done( () => {
-                let template = this._renderTemplate('Media/mediasView', {
-                    language: Application.getContext().language,
-                    types   : this.mediaTypes,
-                    foldersTree : foldersTree
-                });
-                this.$el.html(template);
-                this._listView = new MediaListView({
-                    collection: this._collection,
-                    settings  : this._settings
-                });
-                $('.medias', this.$el).html(this._listView.render().$el);
+            new FoldersTree().fetch({
+                siteId: Application.getContext().siteId,
+                success: (foldersTree) => {
+                    let template = this._renderTemplate('Media/mediasView', {
+                        language: Application.getContext().language,
+                        types   : this.mediaTypes,
+                        foldersTree : foldersTree
+                    });
+                    this.$el.html(template);
+                    this._listView = new MediaListView({
+                        collection: this._collection,
+                        settings  : this._settings
+                    });
+                    $('.medias', this.$el).html(this._listView.render().$el);
+                }
             });
 
             return this;

@@ -17,6 +17,7 @@ use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
+use OpenOrchestra\MediaAdminBundle\Exceptions\MediaNotFoundException;
 
 /**
  * Class MediaController
@@ -38,9 +39,7 @@ class MediaController extends BaseController
      */
     public function listAction(Request $request)
     {
-        $mapping = array(
-        );
-        $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request);
         $repository = $this->get('open_orchestra_media.repository.media');
         $collection = $repository->findForPaginate($configuration);
         $recordsTotal = $repository->count();
@@ -113,6 +112,9 @@ class MediaController extends BaseController
     public function showAction($mediaId)
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
+        if (!($media instanceof MediaInterface)) {
+            throw new MediaNotFoundException();
+        }
 
         return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
     }

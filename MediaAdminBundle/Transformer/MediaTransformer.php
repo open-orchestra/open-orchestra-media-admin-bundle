@@ -29,6 +29,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      * @param string                               $mediaDomain
      * @param AuthorizationCheckerInterface        $authorizationChecker
+     * @param MediaRepositoryInterface             $mediaRepository
      */
     public function __construct(
         $facadeClass,
