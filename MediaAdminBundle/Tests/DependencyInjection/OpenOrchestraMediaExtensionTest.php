@@ -90,7 +90,7 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
                     'fixed_width' => array('max_width' => 100, 'compression_quality' => 75),
                     'rectangle' => array('max_width' => 100, 'max_height' => 70, 'compression_quality' => 75)
                 ),
-                array('max_height' => 117, 'max_width' => 117, 'compression_quality' => 75),
+                array('max_height' => 97, 'max_width' => 236, 'compression_quality' => 75),
                 'orchestra-media-thumbnail-default.png',
                 'orchestra-media-thumbnail-audio.png',
                 array(

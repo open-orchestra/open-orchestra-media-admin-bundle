@@ -41,11 +41,6 @@ class MediaFacade extends AbstractFacade
     public $thumbnail;
 
     /**
-     * @Serializer\Type("boolean")
-     */
-    public $isDeletable;
-
-    /**
      * @Serializer\Type("string")
      */
     public $alt;

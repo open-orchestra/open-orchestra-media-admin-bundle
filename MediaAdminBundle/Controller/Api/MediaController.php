@@ -16,6 +16,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
+use OpenOrchestra\MediaAdminBundle\Exceptions\MediaNotFoundException;
 
 /**
  * Class MediaController
@@ -26,6 +28,77 @@ use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
  */
 class MediaController extends BaseController
 {
+    /**
+     * @param Request $request
+     *
+     * @Config\Route("", name="open_orchestra_api_media_list")
+     * @Config\Method({"GET"})
+     * @Config\Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     *
+     * @return FacadeInterface
+     */
+    public function listAction(Request $request)
+    {
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request);
+        $repository = $this->get('open_orchestra_media.repository.media');
+        $collection = $repository->findForPaginate($configuration);
+        $recordsTotal = $repository->count();
+        $recordsFiltered = $repository->countWithFilter($configuration);
+        $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('media_collection');
+        $facade = $collectionTransformer->transform($collection);
+        $facade->recordsTotal = $recordsTotal;
+        $facade->recordsFiltered = $recordsFiltered;
+
+        return $facade;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Config\Route("/delete-multiple", name="open_orchestra_api_media_delete_multiple")
+     * @Config\Method({"DELETE"})
+     *
+     * @return Response
+     */
+    public function deleteMediasAction(Request $request)
+    {
+        $format = $request->get('_format', 'json');
+
+        $facade = $this->get('jms_serializer')->deserialize(
+            $request->getContent(),
+            $this->getParameter('open_orchestra_media_admin.facade.media_collection.class'),
+            $format
+            );
+
+        $mediaRepository = $this->get('open_orchestra_media.repository.media');
+        $medias = $this->get('open_orchestra_api.transformer_manager')->get('media_collection')->reverseTransform($facade);
+
+        $mediasIds = array();
+        foreach ($medias as $media) {
+            if ($this->isDeleteGranted($media)) {
+                $mediasIds[] = $media->getId();
+                $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
+            }
+        }
+        $mediaRepository->removeMedias($mediasIds);
+
+        return array();
+    }
+
+    /**
+     * Check if current user can delete $media
+     *
+     * @param MediaInterface $media
+     *
+     * @return boolean
+     */
+    protected function isDeleteGranted(MediaInterface $media)
+    {
+        return ($this->isGranted(ContributionActionInterface::DELETE, $media)
+            && !$media->isUsed()
+        );
+    }
+
     /**
      * @param int $mediaId
      *
@@ -39,47 +112,11 @@ class MediaController extends BaseController
     public function showAction($mediaId)
     {
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
+        if (!($media instanceof MediaInterface)) {
+            throw new MediaNotFoundException();
+        }
 
         return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
-    }
-
-    /**
-     * @param string $folderId
-     * @param string $mediaType
-     *
-     * @Config\Route("/folder/{folderId}/{mediaType}", defaults={"mediaType" = ""}, name="open_orchestra_api_media_list")
-     * @Config\Method({"GET"})
-     *
-     * @return FacadeInterface
-     */
-    public function listAction($folderId, $mediaType)
-    {
-        /** @var FolderInterface $folder */
-        $folder = $this->get('open_orchestra_media.repository.media_folder')->find($folderId);
-        $this->denyAccessUnlessGranted(ContributionActionInterface::READ, $folder);
-
-        $folderDeletable = $this->get('open_orchestra_media_admin.manager.media_folder')->isDeletable($folder);
-
-        $parentId = null;
-        if ($folder->getParent() instanceof FolderInterface) {
-            $parentId = $folder->getParent()->getId();
-        }
-
-        if ($mediaType != "") {
-            $mediaCollection = $this->get('open_orchestra_media.repository.media')
-                ->findByFolderIdAndMediaType($folderId, $mediaType);
-        } else {
-            $mediaCollection = $this->get('open_orchestra_media.repository.media')
-                ->findByFolderId($folderId);
-        }
-
-        return $this->get('open_orchestra_api.transformer_manager')
-            ->get('media_collection')->transform(
-                $mediaCollection,
-                $folderId,
-                $folderDeletable,
-                $parentId
-        );
     }
 
     /**

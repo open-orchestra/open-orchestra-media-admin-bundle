@@ -61,9 +61,8 @@ class FolderController extends BaseController
      */
     public function listTreeFolderAction($siteId)
     {
-        $folders = $this->get('open_orchestra_media.repository.media_folder')->findAllRootFolderBySiteId($siteId);
-        $transformer = $this->get('open_orchestra_api.transformer_manager')->get('folder_tree');
+        $folders = $this->get('open_orchestra_media.repository.media_folder')->findFolderTree($siteId);
 
-        return $transformer->transform($folders);
+        return $this->get('open_orchestra_api.transformer_manager')->get('folder_tree')->transform($folders);
     }
 }

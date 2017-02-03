@@ -1,10 +1,10 @@
 parameters:
-    open_orchestra_api.transformer.media.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaTransformer
-    open_orchestra_api.transformer.media_collection.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaCollectionTransformer
-    open_orchestra_api.transformer.media_type.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaTypeTransformer
-    open_orchestra_api.transformer.media_type_collection.class: OpenOrchestra\MediaAdminBundle\Transformer\MediaTypeCollectionTransformer
-    open_orchestra_api.transformer.folder.class: OpenOrchestra\MediaAdminBundle\Transformer\FolderTransformer
-    open_orchestra_api.transformer.folder_tree.class: OpenOrchestra\MediaAdminBundle\Transformer\FolderTreeTransformer
+    open_orchestra_api.transformer.media.class                       : OpenOrchestra\MediaAdminBundle\Transformer\MediaTransformer
+    open_orchestra_api.transformer.media_collection.class            : OpenOrchestra\MediaAdminBundle\Transformer\MediaCollectionTransformer
+    open_orchestra_api.transformer.media_type.class                  : OpenOrchestra\MediaAdminBundle\Transformer\MediaTypeTransformer
+    open_orchestra_api.transformer.media_type_collection.class       : OpenOrchestra\MediaAdminBundle\Transformer\MediaTypeCollectionTransformer
+    open_orchestra_api.transformer.folder.class                      : OpenOrchestra\MediaAdminBundle\Transformer\FolderTransformer
+    open_orchestra_api.transformer.folder_tree.class                 : OpenOrchestra\MediaAdminBundle\Transformer\FolderTreeTransformer
     open_orchestra_media_admin.transformer.embed_site_to_siteid.class: OpenOrchestra\MediaAdminBundle\Form\DataTransformer\EmbedSiteToSiteIdTransformer
 
 services:
@@ -16,8 +16,10 @@ services:
             - '@open_orchestra_backoffice.manager.multi_languages_choice'
             - '%open_orchestra_media.media_domain%'
             - '@security.authorization_checker'
+            - '@open_orchestra_media.repository.media'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_api.transformer.media_collection:
         class: '%open_orchestra_api.transformer.media_collection.class%'
         arguments:
@@ -26,6 +28,7 @@ services:
             - '@open_orchestra_media.repository.media_folder'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_api.transformer.media_type:
         class: '%open_orchestra_api.transformer.media_type.class%'
         arguments:
@@ -34,23 +37,28 @@ services:
             - '@translator'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_api.transformer.media_type_collection:
         class: '%open_orchestra_api.transformer.media_type_collection.class%'
         arguments:
             - '%open_orchestra_media_admin.facade.media_type_collection.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_api.transformer.folder:
         class: '%open_orchestra_api.transformer.folder.class%'
         arguments:
             - '%open_orchestra_media_admin.facade.folder.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_api.transformer.folder_tree:
         class: '%open_orchestra_api.transformer.folder_tree.class%'
         arguments:
             - '%open_orchestra_media_admin.facade.folder_tree.class%'
+            - '%open_orchestra_media_admin.facade.folder.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
     open_orchestra_media_admin.transformer.embed_site_to_siteid:
         class: '%open_orchestra_media_admin.transformer.embed_site_to_siteid.class%'

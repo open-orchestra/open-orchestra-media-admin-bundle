@@ -21,23 +21,44 @@ class LoadFolderData extends AbstractFixture implements OrderedFixtureInterface,
         $site =  $this->getReference('site2');
 
         $rootImages = new MediaFolder();
-        $rootImages->setName('Images folder');
+        $rootImages->setName('Images');
         $rootImages->setSiteId($site->getSiteId());
         $manager->persist($rootImages);
         $this->addReference('mediaFolder-rootImages', $rootImages);
 
-        $firstImages = new MediaFolder();
-        $firstImages->setName('First images folder');
-        $firstImages->setParent($rootImages);
-        $firstImages->setSiteId($site->getSiteId());
-        $manager->persist($firstImages);
-        $this->addReference('mediaFolder-firstImages', $firstImages);
+        $animatedImages = new MediaFolder();
+        $animatedImages->setName('Animated Images');
+        $animatedImages->setParent($rootImages);
+        $animatedImages->setSiteId($site->getSiteId());
+        $manager->persist($animatedImages);
+        $this->addReference('mediaFolder-animatedImages', $animatedImages);
+
+        $transparentImages = new MediaFolder();
+        $transparentImages->setName('Transparent Images');
+        $transparentImages->setParent($rootImages);
+        $transparentImages->setSiteId($site->getSiteId());
+        $manager->persist($transparentImages);
+        $this->addReference('mediaFolder-transparentImages', $transparentImages);
+
+        $gifImages = new MediaFolder();
+        $gifImages->setName('Gif');
+        $gifImages->setParent($animatedImages);
+        $gifImages->setSiteId($site->getSiteId());
+        $manager->persist($gifImages);
+        $this->addReference('mediaFolder-gifImages', $gifImages);
 
         $rootFiles = new MediaFolder();
-        $rootFiles->setName('Files folder');
+        $rootFiles->setName('Files');
         $rootFiles->setSiteId($site->getSiteId());
         $manager->persist($rootFiles);
         $this->addReference('mediaFolder-rootFiles', $rootFiles);
+
+        $pdfFolder = new MediaFolder();
+        $pdfFolder->setName('Pdf');
+        $pdfFolder->setParent($rootFiles);
+        $pdfFolder->setSiteId($site->getSiteId());
+        $manager->persist($pdfFolder);
+        $this->addReference('mediaFolder-pdfFolder', $pdfFolder);
 
         $manager->flush();
     }

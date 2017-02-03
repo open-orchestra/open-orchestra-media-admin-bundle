@@ -1,0 +1,48 @@
+<div class="top-action-buttons">
+    <a class="btn btn-info" href="#" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
+</div>
+<h1> <%= Translator.trans('open_orchestra_media_admin.media.title_list') %></h1>
+<form class="form-horizontal search-engine">
+    <div class="form-group col-lg-6">
+        <input type="hidden" name='language' value="<%= language %>">
+        <label for="label" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.label') %></label>
+        <div class="col-md-8">
+            <input type="text" name='label' class="form-control" id="label">
+        </div>
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="select-type" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.type') %></label>
+        <div class="col-md-8">
+            <div class="styled-select">
+                <select name='type' class="form-control" id="type">
+                    <% _.each(types, function(label, type) { %>
+                        <option value="<%= type %>"><%= Translator.trans(label) %></option>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-lg-6">
+        <label for="folderId" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
+        <div class="col-md-8">
+            <div class="styled-select">
+                <select name='folderId' class="form-control" id="folderId">
+                    <option value=""><%= Translator.trans('open_orchestra_media_admin.search_engine.folder.all') %></option>
+                    <% _.each(foldersTree.models[0].get('children'), function(child) { %>
+                        <%= renderTemplate('Media/folderTreeView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-6">
+            <button class="btn btn-info col-md-offset-4 submit"><%= Translator.trans('open_orchestra_backoffice.search_engine.filter') %></button>
+        </div>
+    </div>
+</form>
+<div class="medias">
+</div>
+<div class="bottom-action-buttons">
+    <button class="btn btn-danger btn-delete disabled"><%= Translator.trans('open_orchestra_backoffice.table.delete_button') %></button>
+</div>

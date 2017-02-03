@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
 
 /**
  * Class MediaTransformer
@@ -20,6 +21,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $fileAlternativesManager;
     protected $multiLanguageChoiceManager;
     protected $mediaDomain;
+    protected $mediaRepository;
 
     /**
      * @param string                               $facadeClass
@@ -27,18 +29,21 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      * @param string                               $mediaDomain
      * @param AuthorizationCheckerInterface        $authorizationChecker
+     * @param MediaRepositoryInterface             $mediaRepository
      */
     public function __construct(
         $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager,
         $mediaDomain,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        MediaRepositoryInterface $mediaRepository
     ) {
         parent::__construct($facadeClass, $authorizationChecker);
         $this->fileAlternativesManager = $fileAlternativesManager;
         $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
         $this->mediaDomain = $mediaDomain;
+        $this->mediaRepository = $mediaRepository;
     }
 
     /**
@@ -55,8 +60,6 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->mimeType = $mixed->getMimeType();
 
         $mediaFolder = $mixed->getMediaFolder();
-        $facade->isDeletable = !$mixed->isUsed()
-            && $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mediaFolder);
         $facade->alt = $this->multiLanguageChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->multiLanguageChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
@@ -66,11 +69,6 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
             $alternatives = $mixed->getAlternatives();
             foreach ($alternatives as $format => $alternativeName) {
                 $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
-                $facade->addLink('_self_format_' . $format,
-                    $this->generateRoute('open_orchestra_media_admin_media_override',
-                        array('format' => $format, 'mediaId' => $mixed->getId())
-                    )
-                );
             }
         }
 
@@ -80,35 +78,31 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
             $facade->isEditable = true;
         }
 
-        $facade->addLink('_self_select', $mixed->getId());
-        $facade->addLink('_api_full', $this->generateRoute('open_orchestra_api_media_show', array(
-            'mediaId' => $mixed->getId()
-        )));
-
-        if ($this->hasGroup(MediaAdminGroupContext::MEDIA_ADVANCED_LINKS)) {
-
-            $facade->addLink('_self_select_format', $this->generateRoute('open_orchestra_media_admin_media_select_format', array(
-                'mediaId' => $mixed->getId()
-            )));
-
-            if ($facade->isEditable) {
-                $facade->addLink('_self_crop', $this->generateRoute('open_orchestra_media_admin_media_crop', array(
-                    'mediaId' => $mixed->getId()
-                )));
-
-                $facade->addLink('_self_meta', $this->generateRoute('open_orchestra_media_admin_media_meta', array(
-                    'mediaId' => $mixed->getId()
-                )));
-            }
-        }
-
-        if ($facade->isDeletable) {
-            $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_media_delete', array(
-                'mediaId' => $mixed->getId()
-            )));
-        }
+        $facade->addRight(
+            'can_edit',
+            $this->authorizationChecker->isGranted(ContributionActionInterface::EDIT, $mixed)
+        );
+        $facade->addRight(
+            'can_delete',
+            $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mixed) && !$mixed->isUsed()
+        );
 
         return $facade;
+    }
+
+    /**
+     * @param FacadeInterface $facade
+     * @param null $source
+     *
+     * @return FacadeInterface|null
+     */
+    public function reverseTransform(FacadeInterface $facade, $source = null)
+    {
+        if (null !== $facade->id) {
+            return $this->mediaRepository->find($facade->id);
+        }
+
+        return null;
     }
 
     /**

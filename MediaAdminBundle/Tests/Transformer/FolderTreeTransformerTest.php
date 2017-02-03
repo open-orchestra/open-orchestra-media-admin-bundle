@@ -19,6 +19,7 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
     protected $folderTransformer;
     protected $transformerManager;
     protected $facadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade';
+    protected $folderFacadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade';
 
     /**
      * Set up the test
@@ -33,7 +34,7 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
         $folderFacade = Phake::mock('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade');
         Phake::when($this->folderTransformer)->transform(Phake::anyParameters())->thenReturn($folderFacade);
 
-        $this->transformer = new FolderTreeTransformer($this->facadeClass);
+        $this->transformer = new FolderTreeTransformer($this->facadeClass, $this->folderFacadeClass);
         $this->transformer->setContext($this->transformerManager);
     }
 
@@ -47,58 +48,75 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
 
     /**
      * Test transform FolderInterface
+     *
+     * @param array $folderCollection
+     *
+     * @dataProvider provideTree
      */
-    public function testTransformFolder()
+    public function testTransform(array $folderCollection)
     {
-        $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        $subFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        Phake::when($subFolder)->getSubFolders()->thenReturn(array());
-        Phake::when($folder)->getSubFolders()->thenReturn(array($subFolder,$subFolder));
+        $facade = $this->transformer->transform($folderCollection);
 
-        $facade = $this->transformer->transform($folder);
-
-        $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade', $facade->folder);
-        $this->verifyFacade($facade, 3);
-    }
-
-    /**
-     * Test transform multiple root FolderInterface
-     */
-    public function testTransformRootFolders()
-    {
-        $rootFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        $subFolder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
-        Phake::when($subFolder)->getSubFolders()->thenReturn(array());
-        Phake::when($rootFolder)->getSubFolders()->thenReturn(array($subFolder));
-        $rootFolders = array($rootFolder, $rootFolder);
-
-        $facade = $this->transformer->transform($rootFolders);
-
-        $this->assertSame(null , $facade->folder);
-        $this->verifyFacade($facade, 4);
-    }
-
-    /**
-     * @param FolderTreeFacade $facade
-     * @param int              $count
-     */
-    protected function verifyFacade($facade, $count)
-    {
         $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade', $facade);
+        $this->assertSame(null, $facade->folder);
         $this->assertSame('children', $facade->collectionName);
         foreach ($facade->getChildren() as $child) {
             $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade', $child);
             $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade', $child->folder);
         }
-        Phake::verify($this->folderTransformer, Phake::times($count))->transform(Phake::anyParameters());
     }
 
-    public function testTransformEmpty()
+    /**
+     * @return array
+     */
+    public function provideTree()
     {
-        $folderCollection = array();
+        $rootFolder = $this->generateFolder('Root folder', 'rootId', 'rootFolderId', 'rootType', '2');
+        $subFolder  = $this->generateFolder('Sub folder' , 'subId' , 'subFolderId' , 'rootType', '3');
 
-        $facade = $this->transformer->transform($folderCollection);
+        $folderCollection1 = array(
+            array(
+                'folder'   => $rootFolder,
+                'children' => array(
+                    array('folder' => $subFolder)
+                )
+            )
+        );
 
-        $this->assertSame($facade, array());
+        $folderCollection2 = array(
+            array(
+                'folder'   => $rootFolder,
+                'children' => array(
+                    array('folder' => $subFolder),
+                    array('folder' => $subFolder)
+                )
+            )
+        );
+
+        return array(
+            array(array()),
+            array($folderCollection1),
+            array($folderCollection2),
+        );
+    }
+
+    /**
+     * @param string $name
+     * @param string $id
+     * @param string $folderId
+     * @param string $type
+     * @param string $siteId
+     *
+     * @return array
+     */
+    protected function generateFolder($name, $id, $folderId, $type, $siteId)
+    {
+        return array(
+            'name'     => $name,
+            '_id'      => $id,
+            'folderId' => $folderId,
+            'type'     => $type,
+            'siteId'   => $siteId
+        );
     }
 }

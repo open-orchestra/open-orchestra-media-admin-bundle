@@ -3,13 +3,13 @@
 namespace OpenOrchestra\MediaAdminBundle\Facade;
 
 use JMS\Serializer\Annotation as Serializer;
-use OpenOrchestra\BaseApi\Facade\AbstractFacade;
+use OpenOrchestra\ApiBundle\Facade\PaginateCollectionFacade;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 
 /**
  * Class MediaCollection
  */
-class MediaCollectionFacade extends AbstractFacade
+class MediaCollectionFacade extends PaginateCollectionFacade
 {
     /**
      * @Serializer\Type("string")
@@ -37,5 +37,13 @@ class MediaCollectionFacade extends AbstractFacade
     public function addMedia(FacadeInterface $facade)
     {
         $this->medias[] = $facade;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMedias()
+    {
+        return $this->medias;
     }
 }

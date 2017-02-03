@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Tests\Form\Type;
 
-use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
 use OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType;

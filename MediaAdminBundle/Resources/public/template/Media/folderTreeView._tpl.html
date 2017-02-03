@@ -1,0 +1,7 @@
+<option value="<%= tree.get('folder').id %>">
+    <% for (i = 0; i < depth; i++) { %>&nbsp;&nbsp;<% }; %><%= tree.get('folder').get('name') %>
+</option>
+
+<% _.each(tree.get('children'), function(child) { %>
+    <%= renderTemplate('Media/folderTreeView', {tree: child, depth: depth +1, renderTemplate: renderTemplate}) %>
+<% }); %>
