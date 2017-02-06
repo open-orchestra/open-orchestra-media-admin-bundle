@@ -52,22 +52,6 @@ open_orchestra_media_admin:
                 media: Media
             field_option:
                 filter: Authorized media type
-        upload:
-            unsupported: >
-                Your browser, unfortunately, is not supported by Flow.js. The library
-                requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a>
-                along with
-                <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
-            drop: Drop your files here to upload them
-            or: or
-            folder: Select a folder from your computer
-            file: Select a file from your computer
-            pause: Pause upload
-            resume: Resume upload
-            cancel: Cancel upload
-            failed: "file could not be uploaded:"
-            remaining: remaining
-            completed: Completed
         group:
             media_folder_role_edition: Media role list
             media_folder_list: Media folder list
