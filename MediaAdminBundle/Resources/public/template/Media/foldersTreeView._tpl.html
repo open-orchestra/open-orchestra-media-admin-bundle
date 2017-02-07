@@ -1,0 +1,15 @@
+<div class="tree">
+    <div class="actions">
+        <a href="#" class="btn btn-border btn-close">
+            <%= Translator.trans('open_orchestra_backoffice.node.tree.close') %>
+        </a>
+        <a href="#" class="btn btn-border btn-open">
+            <%= Translator.trans('open_orchestra_backoffice.node.tree.open') %>
+        </a>
+    </div>
+    <ul class="root-level">
+        <% _.each(foldersTree[0].get('children'), function(folderTree, key) { %>
+            <%= renderTemplate('Media/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
+        <% }); %>
+    </ul>
+</div>

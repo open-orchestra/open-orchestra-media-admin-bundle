@@ -2,6 +2,9 @@ open_orchestra_media_admin:
     loading: Loading ...
     media:
         title_list: Media
+    folder:
+        edit: Edit folder
+        add : Add a folder
     select:
         choose     : Choose a media
         size       : "Size:"
