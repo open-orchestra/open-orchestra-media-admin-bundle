@@ -34,7 +34,8 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
         $folderFacade = Phake::mock('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade');
         Phake::when($this->folderTransformer)->transform(Phake::anyParameters())->thenReturn($folderFacade);
 
-        $this->transformer = new FolderTreeTransformer($this->facadeClass, $this->folderFacadeClass);
+        $autorizationChecker = Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
+        $this->transformer = new FolderTreeTransformer($this->facadeClass, $this->folderFacadeClass, $autorizationChecker);
         $this->transformer->setContext($this->transformerManager);
     }
 

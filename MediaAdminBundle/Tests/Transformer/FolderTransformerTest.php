@@ -24,7 +24,9 @@ class FolderTransformerTest extends AbstractBaseTestCase
      */
     public function setUp()
     {
-        $this->transformer = new FolderTransformer($this->facadeClass);
+        $folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
+        $eventDispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->transformer = new FolderTransformer($this->facadeClass, $folderRepository, $eventDispatcher);
     }
 
     /**

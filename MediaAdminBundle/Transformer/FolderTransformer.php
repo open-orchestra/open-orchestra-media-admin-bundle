@@ -11,6 +11,7 @@ use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\Event\FolderEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class FolderTransformer
@@ -21,12 +22,14 @@ class FolderTransformer extends AbstractTransformer
     protected $eventDispatcher;
 
     /**
-     * @param string $facadeClass
+     * @param string                    $facadeClass
+     * @param FolderRepositoryInterface $folderRepository,
+     * @param EventDispatcherInterface  $eventDispatcher
      */
     public function __construct(
         $facadeClass = null,
         FolderRepositoryInterface $folderRepository,
-        $eventDispatcher
+        EventDispatcherInterface $eventDispatcher
     ){
         parent::__construct($facadeClass);
         $this->folderRepository = $folderRepository;
