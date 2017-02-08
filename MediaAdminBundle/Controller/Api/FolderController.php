@@ -10,6 +10,7 @@ use OpenOrchestra\MediaAdminBundle\Exceptions\HttpException\FolderNotDeletableEx
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Response;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class FolderController
@@ -64,5 +65,32 @@ class FolderController extends BaseController
         $folders = $this->get('open_orchestra_media.repository.media_folder')->findFolderTree($siteId);
 
         return $this->get('open_orchestra_api.transformer_manager')->get('folder_tree')->transform($folders);
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $folderId
+     *
+     * @Config\Route("/move", name="open_orchestra_api_folder_move")
+     * @Config\Method({"PUT"})
+     * @Api\Serialize()
+     *
+     * @return Response
+     */
+    public function updateChildrenOrderAction(Request $request)
+    {
+        $facade = $this->get('jms_serializer')->deserialize(
+            $request->getContent(),
+            'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade',
+            $request->get('_format', 'json')
+        );
+        $folder = $this->get('open_orchestra_media.repository.media_folder')->findOneById($facade->id);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $folder);
+
+        $this->get('open_orchestra_api.transformer_manager')->get('folder')->reverseTransform($facade, $folder);
+
+        $this->get('object_manager')->flush();
+
+        return array();
     }
 }

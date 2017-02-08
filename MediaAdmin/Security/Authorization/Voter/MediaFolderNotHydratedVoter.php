@@ -2,14 +2,12 @@
 
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
-use OpenOrchestra\Media\Model\MediaFolderInterface;
-
 /**
- * Class MediaFolderVoter
+ * Class MediaFolderNotHydratedVoter
  *
- * Voter checking rights on media folder management
+ * Voter checking rights on folder not hydrated
  */
-class MediaFolderVoter extends AbstractMediaFolderVoter
+class MediaFolderNotHydratedVoter extends AbstractMediaFolderVoter
 {
     /**
      * @param mixed $subject
@@ -18,9 +16,9 @@ class MediaFolderVoter extends AbstractMediaFolderVoter
      */
     protected function supportSubject($subject)
     {
-        return $this->supportClasses(
-            $subject,
-            array('OpenOrchestra\Media\Model\MediaFolderInterface')
+        return (is_array($subject) &&
+            array_key_exists('folderId', $subject) &&
+            array_key_exists('path', $subject)
         );
     }
 
@@ -31,6 +29,6 @@ class MediaFolderVoter extends AbstractMediaFolderVoter
      */
     protected function getPath($folder)
     {
-        return $folder->getPath();
+        return $folder['path'];
     }
 }

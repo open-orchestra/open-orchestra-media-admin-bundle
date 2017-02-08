@@ -1,5 +1,5 @@
-<li data-folder-id="<%= folderTree.get('folder').get('folder_id') %>"
-    <% if (true === folderTree.get('folder').get('rights').can_edit) {%> class="sortable-folder"<% }%>
+<li data-folder-id="<%= folderTree.get('folder').get('id') %>"
+    <% if (true === folderTree.get('folder').get('rights').can_edit) {%> class="sortable-node"<% }%>
 >
     <div>
         <% if (true === folderTree.get('folder').get('rights').can_edit) {%>
@@ -16,7 +16,7 @@
                 <%= Translator.trans('open_orchestra_media_admin.folder.edit') %>
             </a>
             <% if (true === folderTree.get('folder').get('rights').can_create) {%>
-                <a href="#<%= Backbone.history.generateUrl('newfolder', {
+                <a href="#<%= Backbone.history.generateUrl('newFolder', {
                     parentId: folderTree.get('folder').get('folder_id')
                 }) %>">
                     <%= Translator.trans('open_orchestra_media_admin.folder.add') %>
@@ -27,7 +27,7 @@
     <% if ( 0 !== folderTree.get('children').length) { %>
         <ul class="children <% if (true === folderTree.get('folder').get('rights').can_edit) {%> sortable-container<% }%>">
             <% _.each(folderTree.get('children'), function(folderTree, key) { %>
-                <%= renderTemplate('Media/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
+                <%= renderTemplate('Folder/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
             <% }); %>
         </ul>
     <% }; %>

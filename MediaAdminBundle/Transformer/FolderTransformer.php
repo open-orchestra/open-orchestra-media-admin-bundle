@@ -6,12 +6,33 @@ use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderFacade;
+use OpenOrchestra\Media\Model\MediaFolderInterface;
+use OpenOrchestra\MediaAdmin\FolderEvents;
+use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 
 /**
  * Class FolderTransformer
  */
 class FolderTransformer extends AbstractTransformer
 {
+    protected $folderRepository;
+    protected $eventDispatcher;
+
+    /**
+     * @param string $facadeClass
+     */
+    public function __construct(
+        $facadeClass = null,
+        FolderRepositoryInterface $folderRepository,
+        $eventDispatcher
+    ){
+        parent::__construct($facadeClass);
+        $this->folderRepository = $folderRepository;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * @param FolderInterface $folder
      *
@@ -37,6 +58,23 @@ class FolderTransformer extends AbstractTransformer
         $facade->siteId = $folder->getSiteId();
 
         return $facade;
+    }
+
+    /**
+     * @param FacadeInterface $facade
+     * @param mixed|null      $source
+     *
+     * @return mixed
+     */
+    public function reverseTransform(FacadeInterface $facade, $source = null)
+    {
+        if ($source instanceof MediaFolderInterface) {
+            $parent = $this->folderRepository->findOneById($facade->parentId);
+            $source->setParent($parent);
+            $source->setPath($parent->getPath() . '/' . $source->getFolderId());
+            $event = new FolderEvent($source);
+            $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+        }
     }
 
     /**
