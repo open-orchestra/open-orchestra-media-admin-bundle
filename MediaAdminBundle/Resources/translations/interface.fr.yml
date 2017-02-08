@@ -1,5 +1,8 @@
 open_orchestra_media_admin:
     loading: Chargement ...
+    navigation:
+        contribution:
+            media: Media
     media:
         title_list: Média
     folder:
