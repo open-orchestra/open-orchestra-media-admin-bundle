@@ -1,0 +1,48 @@
+<div class="top-action-buttons">
+    <a class="btn btn-border btn-return" href="#<%= Backbone.history.generateUrl('listMedia') %>" role="button">
+        <%= Translator.trans('open_orchestra_backoffice.back_to_list') %>
+    </a>
+</div>
+<h1><%= Translator.trans('open_orchestra_media_admin.upload.title') %></h1>
+<form class="form-horizontal search-engine">
+    <div class="form-group col-lg-6">
+        <label for="folderId" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
+        <div class="col-md-8">
+            <div class="styled-select">
+                <select name='folderId' class="form-control" id="folderId">
+                    <% _.each(foldersTree.models[0].get('children'), function(child) { %>
+                        <%= renderTemplate('Media/folderTreeView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="flow-error">
+    <%= Translator.trans('open_orchestra_media_admin.upload.unsupported') %>
+</div>
+
+<div class="dropbox flow-drop">
+    <%= Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
+    <span><%= Translator.trans('open_orchestra_media_admin.upload.or') %></span>
+    <a class="btn btn-info flow-browse-folder">
+        <%= Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
+    </a>
+    <a class="btn btn-info flow-browse">
+        <%= Translator.trans('open_orchestra_media_admin.upload.select_file') %>
+    </a>
+</div>
+
+<div class="progress">
+    <div
+        class="progress-bar progress-bar-success"
+        role="progressbar"
+        aria-valuenow="60"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        style="width:0%;"
+    >
+    </div>
+</div>
+
+<ul class="flow-list"></ul>

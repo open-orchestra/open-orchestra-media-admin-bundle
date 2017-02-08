@@ -18,9 +18,12 @@
   .image {
     background: #dadada;
     text-align: center;
-    height: 93px;
-    line-height: 92px;
+    height: 97px;
+    line-height: 96px;
     white-space: nowrap;
+    img {
+        max-height: 97px;
+    }
   }
   .title {
     .fontSize(14);
@@ -64,6 +67,10 @@
 /* ===================================================================
  * NEW MEDIA
  * =================================================================*/
+.flow-error {
+  display: none;
+}
+
 .page-tabs {
   display: block;
   margin-top: 8px;
@@ -102,6 +109,7 @@
   }
 }
 .progress {
+  display: none;
   border-radius: 10px;
   height: 15px;
   margin-bottom: 35px;

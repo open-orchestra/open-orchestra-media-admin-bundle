@@ -1,6 +1,7 @@
 import OrchestraRouter from '../OrchestraRouter'
 import Medias          from '../../Collection/Media/Medias'
 import MediasView      from '../../View/Media/MediasView'
+import MediaUploadView from '../../View/Media/MediaUploadView'
 import Application     from '../../Application'
 
 /**
@@ -13,7 +14,8 @@ class MediaRouter extends OrchestraRouter
      */
     preinitialize(options) {
         this.routes = {
-            'media/list(/:page)' : 'listMedia'
+            'media/list(/:page)': 'listMedia',
+            'media/new'         : 'newMedia'
         };
     }
 
@@ -48,6 +50,14 @@ class MediaRouter extends OrchestraRouter
                 Application.getRegion('content').html(el);
             }
         });
+    }
+
+    /**
+     * New media
+     */
+    newMedia() {
+        let mediaUploadView = new MediaUploadView();
+        Application.getRegion('content').html(mediaUploadView.render().$el);
     }
 }
 
