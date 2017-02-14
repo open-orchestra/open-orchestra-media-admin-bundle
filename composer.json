@@ -45,7 +45,6 @@
 
   "autoload": {
     "psr-4": {
-      "OpenOrchestra\\MediaAdminModelBundle\\": "MediaAdminModelBundle/",
       "OpenOrchestra\\MediaAdminBundle\\": "MediaAdminBundle/",
       "OpenOrchestra\\MediaAdmin\\": "MediaAdmin/"
     }
