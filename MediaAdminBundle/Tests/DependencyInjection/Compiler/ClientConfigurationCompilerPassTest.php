@@ -49,6 +49,6 @@ class ClientConfigurationCompilerPassTest extends \PHPUnit_Framework_TestCase
         Phake::when($this->containerBuilder)->getParameter('open_orchestra_media_admin.media_type_filter')->thenReturn($mediaFilterType);
 
         $this->compiler->process($this->containerBuilder);
-        Phake::verify($definition)->addMethodCall('addClientConfiguration', array('media_type_filter', $mediaFilterType));
+        Phake::verify($definition)->addMethodCall('addClientConfiguration', array('media_filter_type', $mediaFilterType));
     }
 }
