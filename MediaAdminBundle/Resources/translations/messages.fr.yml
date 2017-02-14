@@ -38,9 +38,8 @@ open_orchestra_media_admin:
             edit: Editer le dossier
         media:
             file: Uploader un fichier
-            manual_crop: Crop manuel
+            manual_crop: Rognage manuel
             alternative_file: Uploader une image alternative
-            crop: Crop
             success: Le média a été sauvegardé
             format: Choisissez un format
             original_image: Originel
@@ -51,12 +50,16 @@ open_orchestra_media_admin:
             no_media_selected: Aucun média sélectionné
             list:
                 keyword: Mot-clé
-            meta:
-                title: Titre
-                alt: Alt
-                copyright: Copyright
-                comment: Commentaire
-                keywords: Mot-clés
+            title: Titre
+            alt: Alt
+            copyright: Copyright
+            comment: Commentaire
+            keywords: Mot-clés
+            group:
+                information: Information
+            sub_group:
+                properties: Propriétés
+                format    : Format de l'image
         field_type:
             custom_type:
                 media: Média

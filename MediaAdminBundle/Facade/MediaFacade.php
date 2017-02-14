@@ -56,6 +56,11 @@ class MediaFacade extends AbstractFacade
     public $isEditable;
 
     /**
+     * @Serializer\Type("string")
+     */
+    public $mediaType;
+
+    /**
      * @Serializer\Type("array<string, string>")
      */
     protected $alternatives = array();

@@ -1,8 +1,11 @@
-import OrchestraRouter from '../OrchestraRouter'
-import Medias          from '../../Collection/Media/Medias'
-import MediasView      from '../../View/Media/MediasView'
-import MediaUploadView from '../../View/Media/MediaUploadView'
-import Application     from '../../Application'
+import OrchestraRouter    from '../OrchestraRouter'
+import Medias             from '../../Collection/Media/Medias'
+import MediasView         from '../../View/Media/MediasView'
+import MediaFormView      from '../../View/Media/MediaFormView'
+import MediaImageFormView from '../../View/Media/MediaImageFormView'
+import MediaUploadView    from '../../View/Media/MediaUploadView'
+import Application        from '../../Application'
+import FormBuilder        from '../../../Service/Form/Model/FormBuilder'
 
 /**
  * @class MediaRouter
@@ -14,8 +17,13 @@ class MediaRouter extends OrchestraRouter
      */
     preinitialize(options) {
         this.routes = {
-            'media/list(/:page)': 'listMedia',
-            'media/new'         : 'newMedia'
+            'media/list(/:page)'            : 'listMedia',
+            'media/new'                     : 'newMedia',
+            'media/edit/:mediaType/:mediaId': 'editMedia'
+        };
+
+        this._mediaViews = {
+            'image': MediaImageFormView
         };
     }
 
@@ -58,6 +66,25 @@ class MediaRouter extends OrchestraRouter
     newMedia() {
         let mediaUploadView = new MediaUploadView();
         Application.getRegion('content').html(mediaUploadView.render().$el);
+    }
+
+    /**
+     * Edit media
+     */
+    editMedia(mediaType, mediaId) {
+        let url = Routing.generate('open_orchestra_media_admin_media_form', {mediaId: mediaId});
+        this._displayLoader(Application.getRegion('content'));
+        FormBuilder.createFormFromUrl(url, (form) => {
+            let formViewClass = MediaFormView;
+            if (typeof this._mediaViews[mediaType] !== 'undefined') {
+                formViewClass = this._mediaViews[mediaType]
+            }
+            let mediaFormView = new formViewClass({
+                form: form,
+                mediaId: mediaId
+            });
+            Application.getRegion('content').html(mediaFormView.render().$el);
+        });
     }
 }
 

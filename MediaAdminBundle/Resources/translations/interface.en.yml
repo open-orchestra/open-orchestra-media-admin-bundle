@@ -16,6 +16,8 @@ open_orchestra_media_admin:
     search_engine:
         folder:
             all: All folders
+    form_media:
+        edit: Edit media
     upload:
         title        : New media
         unsupported: >
@@ -36,5 +38,4 @@ open_orchestra_media_admin:
         remaining    : remaining
         processing   : server is processing, please wait
         completed    : completed
-
 
