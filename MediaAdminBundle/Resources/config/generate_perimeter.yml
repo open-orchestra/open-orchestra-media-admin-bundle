@@ -1,0 +1,11 @@
+parameters:
+    open_orchestra_group.generate_perimeter.folder.class: OpenOrchestra\MediaAdminBundle\GeneratePerimeter\Strategy\FolderGeneratePerimeterStrategy
+
+services:
+    open_orchestra_group.generate_perimeter.folder:
+        class: '%open_orchestra_group.generate_perimeter.folder.class%'
+        arguments:
+            - '@open_orchestra_media.repository.media_folder'
+            - '@open_orchestra_backoffice.context_manager'
+        tags:
+            - { name: open_orchestra_group.generate_perimeter.strategy }

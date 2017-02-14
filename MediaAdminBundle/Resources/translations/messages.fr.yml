@@ -14,6 +14,7 @@ open_orchestra_backoffice:
       role:
           folder: Dossier médiathèque
           media: Média
+    oo_group_perimeters_tree_list_collection_media_folder : Répertoires media
 
 open_orchestra_media_admin:
     folder:
