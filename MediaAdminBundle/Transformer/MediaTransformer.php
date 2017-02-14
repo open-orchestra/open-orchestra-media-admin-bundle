@@ -60,7 +60,6 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->mimeType = $mixed->getMimeType();
 
         $mediaFolder = $mixed->getMediaFolder();
-        $facade->alt = $this->multiLanguageChoiceManager->choose($mixed->getAlts());
         $facade->title = $this->multiLanguageChoiceManager->choose($mixed->getTitles());
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());

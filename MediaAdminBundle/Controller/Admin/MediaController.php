@@ -39,8 +39,8 @@ class MediaController extends AbstractAdminController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
             $this->get('open_orchestra_media_admin.media_form.manager')->runAdditionalProcess($media, $form);
+            $this->dispatchEvent(MediaEvents::MEDIA_UPDATE, new MediaEvent($media));
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans('open_orchestra_media_admin.form.media.success')

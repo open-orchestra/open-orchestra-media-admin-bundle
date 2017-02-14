@@ -62,6 +62,6 @@ class MediaFormManager
             }
         }
 
-        return $this->defaultStrategy->postProcess($media, $form);
+        return $this->defaultStrategy->runAdditionalProcess($media, $form);
     }
 }

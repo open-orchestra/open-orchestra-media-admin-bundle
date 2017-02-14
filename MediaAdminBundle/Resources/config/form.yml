@@ -1,9 +1,6 @@
 parameters:
     open_orchestra_media_admin.type.media.class                 : OpenOrchestra\MediaAdminBundle\Form\Type\MediaType
     open_orchestra_media_admin.type.folder.class                : OpenOrchestra\MediaAdminBundle\Form\Type\FolderType
-    open_orchestra_media_admin.type.media_crop.class            : OpenOrchestra\MediaAdminBundle\Form\Type\MediaCropType
-    open_orchestra_media_admin.type.media_select_format.class   : OpenOrchestra\MediaAdminBundle\Form\Type\MediaSelectFormatType
-    open_orchestra_media_admin.type.media_meta.class            : OpenOrchestra\MediaAdminBundle\Form\Type\MediaMetaType
     open_orchestra_media_admin.type.media_choice.class          : OpenOrchestra\MediaAdminBundle\Form\Type\Component\MediaChoiceType
     open_orchestra_media_admin.type.site_for_folder_choice.class: OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType
     open_orchestra_media_admin.type.media_base.class            : OpenOrchestra\MediaAdminBundle\Form\Type\MediaBaseType
@@ -24,28 +21,6 @@ services:
             - '%open_orchestra_media.document.media_folder.class%'
         tags:
             - { name: form.type, alias: oo_folder}
-
-    open_orchestra_media_admin.type.media_select_format:
-        class: '%open_orchestra_media_admin.type.media_select_format.class%'
-        arguments:
-            - '%open_orchestra_media_admin.files.alternatives.image.formats%'
-        tags:
-            - { name: form.type, alias: oo_select_format}
-
-    open_orchestra_media_admin.type.media_crop:
-        class: '%open_orchestra_media_admin.type.media_crop.class%'
-        arguments:
-            - '%open_orchestra_media_admin.files.alternatives.image.formats%'
-        tags:
-            - { name: form.type, alias: oo_media_crop}
-
-    open_orchestra_media_admin.type.media_meta:
-        class: '%open_orchestra_media_admin.type.media_meta.class%'
-        arguments:
-            - '%open_orchestra_media.document.media.class%'
-            - '%open_orchestra_backoffice.orchestra_choice.front_language%'
-        tags:
-            - { name: form.type, alias: oo_media_meta}
 
     open_orchestra_media_admin.type.media_choice:
         class: '%open_orchestra_media_admin.type.media_choice.class%'
