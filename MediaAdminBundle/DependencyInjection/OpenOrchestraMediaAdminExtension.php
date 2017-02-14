@@ -27,6 +27,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('open_orchestra_media_admin.tmp_dir', $config['tmp_dir']);
+        $container->setParameter('open_orchestra_media_admin.media_type_filter', $config['media_type_filter']);
         $container->setParameter(
             'open_orchestra_media_admin.max_width_generation',
             $config['max_width_generation']
@@ -104,6 +105,9 @@ class OpenOrchestraMediaAdminExtension extends Extension
 
         $container->setParameter('open_orchestra_backoffice.field_types', $fieldTypes);
 
+        $mediaTypeFilterChoices = array('' => 'open_orchestra_media_admin.media_filter.none');
+        $mediaTypeFilterChoices = array_merge($mediaTypeFilterChoices, $container->getParameter('open_orchestra_media_admin.media_type_filter'));
+
         $options = array_merge(
             $container->getParameter('open_orchestra_backoffice.options'),
             array(
@@ -111,14 +115,7 @@ class OpenOrchestraMediaAdminExtension extends Extension
                     'type' => 'choice',
                     'label' => 'open_orchestra_media_admin.form.field_type.field_option.filter',
                     'required' => false,
-                    'choices' => array(
-                        '' => 'open_orchestra_media_admin.media_filter.none',
-                        'default' => 'open_orchestra_media_admin.media_filter.default',
-                        'image' => 'open_orchestra_media_admin.media_filter.image',
-                        'audio' => 'open_orchestra_media_admin.media_filter.audio',
-                        'video' => 'open_orchestra_media_admin.media_filter.video',
-                        'pdf' => 'open_orchestra_media_admin.media_filter.pdf',
-                    ),
+                    'choices' => $mediaTypeFilterChoices,
                 )
             )
         );

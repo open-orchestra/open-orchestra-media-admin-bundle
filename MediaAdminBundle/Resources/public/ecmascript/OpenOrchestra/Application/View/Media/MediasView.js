@@ -13,14 +13,8 @@ class MediasView extends AbstractCollectionView
      */
     constructor (options) {
         super(options);
-        this.mediaTypes = {
-            ''       : 'open_orchestra_media_admin.media_filter.none',
-            'default': 'open_orchestra_media_admin.media_filter.default',
-            'image'  : 'open_orchestra_media_admin.media_filter.image',
-            'audio'  : 'open_orchestra_media_admin.media_filter.audio',
-            'video'  : 'open_orchestra_media_admin.media_filter.video',
-            'pdf'    : 'open_orchestra_media_admin.media_filter.pdf'
-        };
+        this.mediaTypes = Application.getConfiguration().getParameter('media_filter_type');
+        this.mediaTypes[''] = 'open_orchestra_media_admin.media_filter.none';
     }
 
     /**

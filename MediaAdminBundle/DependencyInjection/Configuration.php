@@ -30,6 +30,18 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('compression_quality')->defaultValue(75)->end()
                 ->end()
             ->end()
+            ->arrayNode('media_type_filter')
+                ->info('Media type available to filter')
+                ->useAttributeAsKey('type')
+                ->defaultValue(array(
+                    'default' => 'open_orchestra_media_admin.media_filter.default',
+                    'image' => 'open_orchestra_media_admin.media_filter.image',
+                    'audio' => 'open_orchestra_media_admin.media_filter.audio',
+                    'video' => 'open_orchestra_media_admin.media_filter.video',
+                    'pdf' => 'open_orchestra_media_admin.media_filter.pdf',
+                ))
+                ->prototype('scalar')->end()
+            ->end()
             ->arrayNode('files')->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('alternatives')->addDefaultsIfNotSet()
