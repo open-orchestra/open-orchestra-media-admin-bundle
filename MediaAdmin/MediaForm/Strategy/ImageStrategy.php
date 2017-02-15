@@ -46,11 +46,9 @@ class ImageStrategy implements MediaFormStrategyInterface
     /**
      * Get the form type associated to $media
      *
-     * @param MediaInterface $media
-     *
      * @return string
      */
-    public function getFormType(MediaInterface $media)
+    public function getFormType()
     {
         return 'oo_media_image';
     }

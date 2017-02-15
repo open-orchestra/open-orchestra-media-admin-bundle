@@ -22,13 +22,11 @@ class DefaultStrategy implements MediaFormStrategyInterface
     }
 
     /**
-     * Get the form type associated to $media
-     *
-     * @param MediaInterface $media
+     * Get the form type associated tothe strategy $media
      *
      * @return string
      */
-    public function getFormType(MediaInterface $media)
+    public function getFormType()
     {
         return 'oo_media_base';
     }

@@ -187,3 +187,4 @@ class ImageStrategy extends AbstractFileAlternativesStrategy
         return 'image_alternatives_strategy';
     }
 }
+

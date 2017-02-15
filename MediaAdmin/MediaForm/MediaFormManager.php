@@ -41,11 +41,11 @@ class MediaFormManager
     public function getFormType(MediaInterface $media) {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                return $strategy->getFormType($media);
+                return $strategy->getFormType();
             }
         }
 
-        return $this->defaultStrategy->getFormType($media);
+        return $this->defaultStrategy->getFormType();
     }
 
     /**

@@ -20,11 +20,9 @@ interface MediaFormStrategyInterface
     /**
      * Get the form type associated to $media
      *
-     * @param MediaInterface $media
-     *
      * @return string
      */
-    public function getFormType(MediaInterface $media);
+    public function getFormType();
 
     /**
      * Run additional process when the form submission is valid
