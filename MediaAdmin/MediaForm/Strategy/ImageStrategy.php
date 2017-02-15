@@ -72,21 +72,16 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function cropAlternative(FormInterface $form)
     {
-        if (null != $form['x']->getData()
-            && null != $form['y']->getData()
-            && null != $form['h']->getData()
-            && null != $form['w']->getData()
-        ){
+        $x = $form->get('x')->getData();
+        $y = $form->get('y')->getData();
+        $h = $form->get('h')->getData();
+        $w = $form->get('w')->getData();
+        $format = $form->get('format')->getData();
+
+        if (null != $x && null != $y && null != $h && null != $w && null !== $format) {
             $media = $form->getData();
 
-            $this->imageAlternativeStrategy->cropAlternative(
-                $media,
-                $form['x']->getData(),
-                $form['y']->getData(),
-                $form['h']->getData(),
-                $form['w']->getData(),
-                $form['format']->getData()
-            );
+            $this->imageAlternativeStrategy->cropAlternative($media, $x, $y, $h, $w, $format);
 
             $this->objectManager->persist($media);
             $this->objectManager->flush();
@@ -100,15 +95,17 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function overrideAlternative(FormInterface $form)
     {
-        if (null != $form['file']->getData() && null != $form['format']->getData()) {
+        $file = $form->get('file')->getData();
+        $format = $form->get('format')->getData();
+
+        if (null != $file && null != $format) {
             $media = $form->getData();
-            $file = $form['file']->getData();
 
             $tmpFileName = time() . '-' . $file->getClientOriginalName();
             $file->move($this->tmpDir, $tmpFileName);
             $tmpFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
 
-            $this->imageAlternativeStrategy->overrideAlternative($media, $tmpFilePath, $form['format']->getData());
+            $this->imageAlternativeStrategy->overrideAlternative($media, $tmpFilePath, $format);
 
             $this->objectManager->persist($media);
             $this->objectManager->flush();
