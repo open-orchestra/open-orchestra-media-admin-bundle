@@ -20,7 +20,7 @@ class MediaRouter extends OrchestraRouter
     preinitialize(options) {
         this.routes = {
             'media/list(/:page)'   : 'listMedia',
-            'media/new'            : 'newMedia'
+            'media/new'            : 'newMedia',
             'folder/list'          : 'listFolders',
             'folder/edit/:folderId': 'editFolder',
             'folder/new/:parentId' : 'newFolder'
