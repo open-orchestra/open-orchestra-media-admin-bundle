@@ -22,7 +22,6 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
     public function __construct(
         FolderRepositoryInterface $folderRepository,
         CurrentSiteIdInterface $contextManager
-
     ) {
         $this->folderRepository = $folderRepository;
         parent::__construct($contextManager);
@@ -47,7 +46,7 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
     {
         $treeFolders = $this->folderRepository->findFolderTree($this->contextManager->getCurrentSiteId());
 
-        return $this->generateTreePerimeter(is_array($treeFolders) ? $treeFolders : array());
+        return $this->generateTreePerimeter($treeFolders);
     }
 
     /**
@@ -59,7 +58,7 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
     {
         $treeFolders = $this->folderRepository->findFolderTree($this->contextManager->getCurrentSiteId());
 
-        return $this->getTreePerimeterConfiguration(is_array($treeFolders) ? $treeFolders : array());
+        return $this->getTreePerimeterConfiguration($treeFolders);
     }
 
     /**
