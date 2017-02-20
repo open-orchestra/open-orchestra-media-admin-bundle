@@ -9,6 +9,7 @@ use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\ExtractReference
 use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\TwigGlobalsCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use OpenOrchestra\MediaAdminBundle\DependencyInjection\Compiler\MediaFormCompilerPass;
 
 /**
  * Class OpenOrchestraMediaAdminBundle
@@ -25,6 +26,7 @@ class OpenOrchestraMediaAdminBundle extends Bundle
         $container->addCompilerPass(new ExtractReferenceCompilerPass());
         $container->addCompilerPass(new TwigGlobalsCompilerPass());
         $container->addCompilerPass(new FileAlternativesCompilerPass());
+        $container->addCompilerPass(new MediaFormCompilerPass());
         $container->addCompilerPass(new FieldToElasticaTypeCompilerPass());
         $container->addCompilerPass(new ClientConfigurationCompilerPass());
     }

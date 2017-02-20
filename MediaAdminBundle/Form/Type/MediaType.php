@@ -35,7 +35,7 @@ class MediaType extends AbstractType
             'label' => 'open_orchestra_media_admin.form.media.file',
             'label_attr' => array('accept' => implode(',', $this->mimeTypes)),
             'constraints' => array(new File(array(
-                    'mimeTypes' => $this->mimeTypes
+                'mimeTypes' => $this->mimeTypes
             )))
         ));
 

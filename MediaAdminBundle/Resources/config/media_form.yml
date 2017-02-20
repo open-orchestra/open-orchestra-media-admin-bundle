@@ -1,0 +1,22 @@
+parameters:
+    open_orchestra_media_admin.media_form.manager.class         : OpenOrchestra\MediaAdmin\MediaForm\MediaFormManager
+    open_orchestra_media_admin.media_form.strategy.default.class: OpenOrchestra\MediaAdmin\MediaForm\Strategy\DefaultStrategy
+    open_orchestra_media_admin.media_form.strategy.image.class  : OpenOrchestra\MediaAdmin\MediaForm\Strategy\ImageStrategy
+
+services:
+    open_orchestra_media_admin.media_form.manager:
+        class    : '%open_orchestra_media_admin.media_form.manager.class%'
+        arguments:
+            - '@open_orchestra_media_admin.media_form.strategy.default'
+
+    open_orchestra_media_admin.media_form.strategy.default:
+        class: '%open_orchestra_media_admin.media_form.strategy.default.class%'
+
+    open_orchestra_media_admin.media_form.strategy.image:
+        class: '%open_orchestra_media_admin.media_form.strategy.image.class%'
+        arguments:
+            - '@open_orchestra_media_admin.file_alternatives.strategy.image'
+            - '@object_manager'
+            - '%open_orchestra_media_admin.tmp_dir%'
+        tags:
+            - { name: open_orchestra_media_admin.media_form.strategy }

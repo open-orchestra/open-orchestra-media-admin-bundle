@@ -40,7 +40,6 @@ open_orchestra_media_admin:
             file: Upload a file
             manual_crop: Manual crop
             alternative_file: Upload an alternative image
-            crop: Crop
             success: The media has been saved
             format: Choose a format
             original_image: Original
@@ -51,12 +50,17 @@ open_orchestra_media_admin:
             no_media_selected: No media selected
             list:
                 keyword: Mot-clé
-            meta:
-                title: Title
-                alt: Alt
-                copyright: Copyright
-                comment: Comment
-                keywords: Keywords
+            title: Title
+            alt: Alt
+            copyright: Copyright
+            comment: Comment
+            keywords: Keywords
+            folder: Folder
+            group:
+                information: Information
+            sub_group:
+                properties: Properties
+                format    : Image format
         field_type:
             custom_type:
                 media: Media

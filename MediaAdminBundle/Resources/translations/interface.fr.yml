@@ -16,6 +16,8 @@ open_orchestra_media_admin:
     search_engine:
         folder:
             all: Tous les dossiers
+    form_media:
+        edit: Editer le média
     upload:
         title        : Nouveau média
         unsupported: >

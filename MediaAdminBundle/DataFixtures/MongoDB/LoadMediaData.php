@@ -41,10 +41,11 @@ class LoadMediaData
             'logo Open-Orchestra',
             array('keyword-lorem'),
             array(
-                'en' => array('alt' => 'logo', 'title' => 'logo image'),
-                'fr' => array('alt' => 'thème', 'title' => 'thème./ image')
+                'en' => array('title' => 'Open Orchestra Logo'),
+                'fr' => array('title' => 'Logo Open Orchestra'),
+                'de' => array('title' => 'Open Orchestra Logo')
             )
-            );
+        );
         $this->addReference('logo-orchestra', $logoOrchestra);
 
         $pdf = $this->generateMedia(
@@ -53,10 +54,11 @@ class LoadMediaData
             'Demo pdf',
             array(),
             array(
-                'en' => array('alt' => 'demo pdf', 'title' => 'demo pdf'),
-                'fr' => array('alt' => 'demo pdf', 'title' => 'demo pdf')
+                'en' => array('title' => 'demo pdf'),
+                'fr' => array('title' => 'pdf de démo'),
+                'de' => array('title' => 'pdf-Demo')
             )
-            );
+        );
         $this->addReference('sample-pdf', $pdf);
 
         for ($i = 1; $i < 5; $i++) {
@@ -66,8 +68,9 @@ class LoadMediaData
                 'Image 0' . $i,
                 array('keyword-lorem', 'keyword-dolor'),
                 array(
-                    'en' => array('alt' => 'image 0' . $i, 'title' => 'image 0' . $i),
-                    'fr' => array('alt' => 'image 0' . $i, 'title' => 'image 0' . $i)
+                    'en' => array('title' => 'image 0' . $i),
+                    'fr' => array('title' => 'image 0' . $i),
+                    'de' => array('title' => 'image 0' . $i)
                 )
             );
         }
@@ -113,7 +116,6 @@ class LoadMediaData
             $media->addKeyword($this->getReference($keywordReference));
         }
         foreach ($languagesArray as $language => $labels) {
-            $media->addAlt($language, $labels['alt']);
             $media->addTitle($language, $labels['title']);
         }
 

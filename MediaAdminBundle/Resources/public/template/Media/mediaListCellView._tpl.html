@@ -4,7 +4,11 @@
         <div class="title">
             <span><%= media.get('title') %></span>
             <div class="edit pull-right">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <% if (true === media.get('rights').can_edit) { %>
+                    <a href="#<%= Backbone.history.generateUrl('editMedia', {'mediaId': media.get('id'), 'mediaType': media.get('media_type')}) %>">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                <% }; %>
                 <input class="form-control delete-checkbox" type="checkbox" id="checkbox<%= media.cid%>"
                     <% if (false === media.get('rights').can_delete) { %> disabled="disabled"<% }; %>
                 >

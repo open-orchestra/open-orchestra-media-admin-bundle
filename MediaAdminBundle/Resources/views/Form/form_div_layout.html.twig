@@ -42,3 +42,42 @@
         <div id="{{ id }}_modal"></div>
     {% endspaceless %}
 {% endblock %}
+
+{% block _oo_media_image_format_widget %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+
+        <!-- STORED ALTERNATIVE VERSIONS -->
+        <div class="media_crop_preview">
+            <img class="media_crop_original" src="{{ form.parent.vars.alternatives.original }}"
+            {% if ('' != form.vars.value) %}style="display: none;"{% endif %}>
+            {% for choice in form.vars.choices %}
+                <img class="media_crop_{{ choice.value }}" src="{{ form.parent.vars.alternatives[choice.value] }}"
+                {% if (choice.value != form.vars.value) %}style="display: none;"{% endif %}>
+            {% endfor %}
+        </div>
+
+        <!-- ALTERNATIVE VERSIONS ACTION BUTTONS -->
+        <div class="media_format_actions"{% if ('' == form.vars.value) %} style="display:none;"{% endif %}>
+            <a href="#" class="btn btn-border btn-crop" id="crop_action_button" role="button">
+                {{ 'open_orchestra_media_admin.form.media.manual_crop'|trans }}
+            </a>
+            <a href="#" class="btn btn-border btn-exchange" id="upload_action_button" role="button">
+                {{ 'open_orchestra_media_admin.form.media.alternative_file'|trans }}
+            </a>
+        </div>
+
+        <!-- CROP TOOL -->
+        <div id="crop-group" style="display:none">
+            <img src="{{ form.parent.vars.alternatives.original }}" class="superbox-current-img"/><br />
+            <div id="preview-pane" style="display: none">
+                <div class="preview-container">
+                    <img  class="jcrop-preview" alt="Preview" />
+                </div>
+            </div>
+        </div>
+
+        <!-- UPLOAD TOOL -->
+        <div class="media-override-format-form" style="display:none"></div>
+    {% endspaceless %}
+{% endblock _oo_media_image_format_widget %}

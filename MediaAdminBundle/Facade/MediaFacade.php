@@ -43,17 +43,17 @@ class MediaFacade extends AbstractFacade
     /**
      * @Serializer\Type("string")
      */
-    public $alt;
-
-    /**
-     * @Serializer\Type("string")
-     */
     public $title;
 
     /**
      * @Serializer\Type("boolean")
      */
     public $isEditable;
+
+    /**
+     * @Serializer\Type("string")
+     */
+    public $mediaType;
 
     /**
      * @Serializer\Type("array<string, string>")
