@@ -72,8 +72,10 @@ class ImageStrategyTest extends AbstractBaseTestCase
     /**
      * test cropAlternative
      *
-     * @param string $format
-     * @param array  $crop
+     * @param array       $crop
+     * @param Phake_IMock $file
+     * @param int         $cropCount
+     * @param int         $overrideCount
      *
      * @dataProvider provideFormData
      */
@@ -101,8 +103,10 @@ class ImageStrategyTest extends AbstractBaseTestCase
     /**
      * test overrideAlternative
      *
-     * @param string $format
-     * @param array  $crop
+     * @param array       $crop
+     * @param Phake_IMock $file
+     * @param int         $cropCount
+     * @param int         $overrideCount
      *
      * @dataProvider provideFormData
      */
@@ -127,7 +131,9 @@ class ImageStrategyTest extends AbstractBaseTestCase
     }
 
     /**
-     * @param string $value
+     * @param Phake_IMock $parentForm
+     * @param string      $childName
+     * @param string      $childValue
      *
      * @return Phake_IMock
      */

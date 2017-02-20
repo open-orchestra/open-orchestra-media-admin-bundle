@@ -18,7 +18,7 @@ interface MediaFormStrategyInterface
     public function support(MediaInterface $media);
 
     /**
-     * Get the form type associated to $media
+     * Get the form type associated with $media
      *
      * @return string
      */

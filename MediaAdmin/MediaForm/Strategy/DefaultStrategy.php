@@ -22,7 +22,7 @@ class DefaultStrategy implements MediaFormStrategyInterface
     }
 
     /**
-     * Get the form type associated tothe strategy $media
+     * Get the form type associated with the strategy $media
      *
      * @return string
      */

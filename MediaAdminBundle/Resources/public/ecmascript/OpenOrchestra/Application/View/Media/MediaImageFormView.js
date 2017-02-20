@@ -25,6 +25,24 @@ class MediaImageFormView extends MediaFormView
     }
 
     /**
+     * @inheritdoc
+     */
+    render() {
+        super.render();
+        this._onRenderEnd();
+
+        return this;
+    }
+
+    /**
+     * Refresh render
+     */
+    refreshRender() {
+        super.refreshRender();
+        this._onRenderEnd();
+    }
+
+    /**
      * Triggered when the template is rendered
      * @private
      */

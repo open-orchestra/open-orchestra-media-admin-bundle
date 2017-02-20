@@ -38,25 +38,8 @@ class MediaFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
         this.$el.html(template);
         this._$formRegion = $('.form-edit', this.$el);
         super.render();
-        this._onRenderEnd();
 
         return this;
-    }
-
-    /**
-     * Refresh render
-     */
-    refreshRender() {
-        super.refreshRender();
-        this._onRenderEnd();
-    }
-
-    /**
-     * hook on render end
-     *
-     * @private
-     */
-    _onRenderEnd() {
     }
 }
 

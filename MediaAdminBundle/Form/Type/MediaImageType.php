@@ -39,7 +39,6 @@ class MediaImageType extends MediaBaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder
             ->add('format', 'choice', array(
                 'choices'      => $this->getChoices(),
@@ -85,8 +84,6 @@ class MediaImageType extends MediaBaseType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
-
         $media = $form->getData();
         $view->vars['alternatives'] = array(
             'original' => $this->storageManager->getUrl($media->getFilesystemName())
