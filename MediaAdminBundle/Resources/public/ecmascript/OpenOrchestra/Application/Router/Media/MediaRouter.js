@@ -5,7 +5,6 @@ import MediaFormView      from '../../View/Media/MediaFormView'
 import MediaImageFormView from '../../View/Media/MediaImageFormView'
 import MediaUploadView    from '../../View/Media/MediaUploadView'
 import Application        from '../../Application'
-import Configuration      from '../../../Service/Configuration'
 import FormBuilder        from '../../../Service/Form/Model/FormBuilder'
 
 /**
@@ -22,6 +21,8 @@ class MediaRouter extends OrchestraRouter
             'media/new'                     : 'newMedia',
             'media/edit/:mediaType/:mediaId': 'editMedia'
         };
+
+        Application.getConfiguration().addParameter('mediaViews', {'image': MediaImageFormView});
     }
 
     /**
@@ -69,15 +70,12 @@ class MediaRouter extends OrchestraRouter
      * Edit media
      */
     editMedia(mediaType, mediaId) {
-    	console.log(Configuration);
-        Configuration.addParameter('mediaViews', {'image': MediaImageFormView});
-
         let url = Routing.generate('open_orchestra_media_admin_media_form', {mediaId: mediaId});
         this._displayLoader(Application.getRegion('content'));
         FormBuilder.createFormFromUrl(url, (form) => {
             let formViewClass = MediaFormView;
-            if (typeof Configuration.getParameter('mediaViews')[mediaType] !== 'undefined') {
-                formViewClass = Configuration.getParameter('mediaViews')[mediaType][mediaType]
+            if (typeof Application.getConfiguration().getParameter('mediaViews')[mediaType] !== 'undefined') {
+                formViewClass = Application.getConfiguration().getParameter('mediaViews')[mediaType];
             }
             let mediaFormView = new formViewClass({
                 form: form,
