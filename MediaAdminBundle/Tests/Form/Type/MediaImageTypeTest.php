@@ -53,7 +53,7 @@ class MediaImageTypeTest extends AbstractBaseTestCase
 
         $this->form->buildForm($builder, array());
 
-        Phake::verify($builder, Phake::times(10))->add(Phake::anyParameters());
+        Phake::verify($builder, Phake::times(6))->add(Phake::anyParameters());
     }
 
     /**
@@ -74,8 +74,6 @@ class MediaImageTypeTest extends AbstractBaseTestCase
         $this->form->buildView($formView, $formInterface, $options);
 
         $expectedVars = array('original' => 'url', 'format1' => 'url', 'format2' => 'url');
-        $this->assertEquals('fakeValue', $formView->vars['delete_button']);
-        $this->assertEquals(false, $formView->vars['new_button']);
         $this->assertEquals($expectedVars, $formView->vars['alternatives']);
     }
 
