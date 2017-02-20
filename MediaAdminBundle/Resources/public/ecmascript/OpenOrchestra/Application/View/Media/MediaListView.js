@@ -29,9 +29,12 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     {
         let mediaList = $('<div></div>').addClass('well');
         var context = this;
-
         this._collection.each(function(media) {
-            let template = context._renderTemplate('Media/mediaListCellView', {
+            let templateFile = 'Media/mediaListCellView';
+            if (context._settings.selectionMod) {
+                templateFile = 'Media/Modal/mediaSelectCellView';
+            }
+            let template = context._renderTemplate(templateFile, {
                 media: media
             });
             mediaList.append(template);

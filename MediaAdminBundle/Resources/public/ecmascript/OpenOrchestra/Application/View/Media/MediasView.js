@@ -13,8 +13,9 @@ class MediasView extends AbstractCollectionView
      */
     constructor (options) {
         super(options);
-        this.mediaTypes = Application.getConfiguration().getParameter('media_filter_type');
-        this.mediaTypes[''] = 'open_orchestra_media_admin.media_filter.none';
+        let noFilter =  {'': 'open_orchestra_media_admin.media_filter.none'};
+        let mediaTypes = Application.getConfiguration().getParameter('media_filter_type');
+        this.mediaTypes = Object.assign(noFilter, mediaTypes);
     }
 
     /**
@@ -36,7 +37,8 @@ class MediasView extends AbstractCollectionView
                     let template = this._renderTemplate('Media/mediasView', {
                         language: Application.getContext().language,
                         types   : this.mediaTypes,
-                        foldersTree : foldersTree
+                        foldersTree : foldersTree,
+                        selectionMod: this._settings.selectionMod
                     });
                     this.$el.html(template);
                     this._listView = new MediaListView({

@@ -1,4 +1,6 @@
-import MediaRouter from './Router/Media/MediaRouter'
+import MediaRouter         from './Router/Media/MediaRouter'
+import FormBehaviorManager from '../Service/Form/Behavior/Manager'
+import MediaChoice         from '../Service/Form/Behavior/MediaChoice'
 
 /**
  * @class MediaSubApplication
@@ -10,6 +12,7 @@ class MediaSubApplication
      */
     run() {
         this._initRouter();
+        this._initFormBehaviorManager();
     }
 
     /**
@@ -18,6 +21,14 @@ class MediaSubApplication
      */
     _initRouter() {
         new MediaRouter();
+    }
+
+    /**
+     * Initialize form behavior library
+     * @private
+     */
+    _initFormBehaviorManager() {
+        FormBehaviorManager.add(MediaChoice);
     }
 }
 

@@ -2,46 +2,50 @@
 
 {% block oo_media_choice_widget %}
     {% spaceless %}
-        {{ block('form_widget') }}
-        {% set src = '' %}
-        {% if
-            value is not null and
-            value.id is defined and
-            value.format is defined and
-            value.id is not empty
-        %}
-            {% set src = get_media_url(value.id, value.format) %}
-        {% endif %}
-        <div class="oo-media-choice-preview-image">
-            <img
-                height="100px"
-                {% if src != '' %}src="{{ src }}"{% endif %}
-                id="previewImage_{{ id }}"
-            />
-            <span class="media-form-no-img-selected">{{ 'open_orchestra_media_admin.form.media.no_media_selected'|trans }}</span>
-        </div>
-        {% if not disabled %}
-            <div class="media-form-type">
-                <a class="btn btn-default mediaModalOpen
-                    data-target="modal_media_{{ id }}"
-                    data-input="{{ id }}"
-                    data-url="{{ path('open_orchestra_media_admin_media_list_form', {'mediaType': form.vars.filter}) }}"
-                    data-media-type="{% if form.vars.filter %}{{ form.vars.filter }}{% else %}false{% endif %}"
+        <div class="media-forms orchestra-media-choice">
+            {{ block('form_widget') }}
+            {% set src = '' %}
+            {% if
+                value is not null and
+                value.id is defined and
+                value.format is defined and
+                value.id is not empty
+            %}
+                {% set src = get_media_url(value.id, value.format) %}
+            {% endif %}
+
+            <div class="image" id="preview-{{ form.vars.id }}">
+                <img height="100px" src="{{ src }}" alt="{{ value.alt }}" title="{{ value.alt }}" />
+                <span
+                    class="media-form-no-img-selected"
+                    {% if ('' != src) %}
+                        style="display:none"
+                    {% endif %}
                 >
-                    <i class="fa fa-folder-open-o"></i>
+                    {{ 'open_orchestra_media_admin.form.media.no_media_selected'|trans }}
+                </span> 
+            </div>
+            {% if not disabled %}
+                <a class="btn btn-border btn-browse"
+                    role="button"
+                    data-media-type="{% if form.vars.filter %}{{ form.vars.filter }}{% else %}false{% endif %}"
+                    data-form-id="{{ form.vars.id }}"
+                >
                     {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
                     {% if form.vars.filter %}<br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]{% endif %}
                 </a>
-                <br><br>
-                <button class="btn btn-warning clear-media" data-input="{{ id }}">
+                <a class="btn btn-border btn-remove"
+                    role="button"
+                    data-form-id="{{ form.vars.id }}"
+                >
                     {{ 'open_orchestra_backoffice.form.remove'|trans }}
-                </button>
-            </div>
-        {% endif %}
-        {{ form_errors(form.children.id) }}
-        <div id="{{ id }}_modal"></div>
+                </a>
+            {% endif %}
+            {{ form_errors(form.children.id) }}
+            <div id="{{ id }}_modal"></div>
+        </div>
     {% endspaceless %}
-{% endblock %}
+{% endblock oo_media_choice_widget %}
 
 {% block _oo_media_image_format_row %}
     {% if form.parent.vars.alternatives is defined %}
