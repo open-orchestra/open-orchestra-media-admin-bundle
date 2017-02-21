@@ -48,8 +48,8 @@ class MediaCreatedSubscriber implements EventSubscriberInterface
         if (!empty($this->medias)) {
             /** @var MediaInterface $media */
             foreach ($this->medias as $media) {
-                //$this->fileAlternativesManager->generateThumbnail($media);
-                //$this->fileAlternativesManager->generateAlternatives($media);
+                $this->fileAlternativesManager->generateThumbnail($media);
+                $this->fileAlternativesManager->generateAlternatives($media);
             }
             $this->objectManager->flush();
         }

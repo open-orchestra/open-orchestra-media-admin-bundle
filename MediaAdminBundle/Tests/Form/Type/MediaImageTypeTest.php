@@ -65,6 +65,7 @@ class MediaImageTypeTest extends AbstractBaseTestCase
         $formView = Phake::mock('Symfony\Component\Form\FormView');
         $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         Phake::when($media)->getAlernative(Phake::anyParameters())->thenReturn('fakeAlternative');
+        Phake::when($media)->getAlternatives()->thenReturn(array('fakeAlternative' => 'fakeKey'));
         Phake::when($formInterface)->getData()->thenReturn($media);
         $options = array(
             'delete_button' => 'fakeValue'
@@ -75,6 +76,21 @@ class MediaImageTypeTest extends AbstractBaseTestCase
 
         $expectedVars = array('original' => 'url', 'format1' => 'url', 'format2' => 'url');
         $this->assertEquals($expectedVars, $formView->vars['alternatives']);
+    }
+
+    /**
+     * test buildView without alternatives
+     */
+    public function testBuildViewWithoutAlternatives()
+    {
+        $formInterface = Phake::mock('Symfony\Component\Form\FormInterface');
+        $formView = Phake::mock('Symfony\Component\Form\FormView');
+        $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
+        Phake::when($media)->getAlternatives()->thenReturn(array());
+        Phake::when($formInterface)->getData()->thenReturn($media);
+
+        $this->form->buildView($formView, $formInterface, array());
+        $this->assertArrayNotHasKey('alternatives', $formView->vars);
     }
 
     /**

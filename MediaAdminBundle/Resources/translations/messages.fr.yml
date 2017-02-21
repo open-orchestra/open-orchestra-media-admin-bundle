@@ -40,6 +40,7 @@ open_orchestra_media_admin:
             file: Uploader un fichier
             manual_crop: Rognage manuel
             alternative_file: Uploader une image alternative
+            alternative_loading: Les alternatives sont en cours de régénération.
             success: Le média a été sauvegardé
             format: Choisissez un format
             original_image: Originel

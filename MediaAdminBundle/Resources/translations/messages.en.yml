@@ -40,6 +40,7 @@ open_orchestra_media_admin:
             file: Upload a file
             manual_crop: Manual crop
             alternative_file: Upload an alternative image
+            alternative_loading: Alternatives are being regenerations.
             success: The media has been saved
             format: Choose a format
             original_image: Original
