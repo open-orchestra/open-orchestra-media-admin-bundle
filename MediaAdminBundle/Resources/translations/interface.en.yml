@@ -2,6 +2,7 @@ open_orchestra_media_admin:
     loading: Loading ...
     media:
         title_list: Media
+        choose    : Choose a media
     media_filter:
         none   : All
         default: Default

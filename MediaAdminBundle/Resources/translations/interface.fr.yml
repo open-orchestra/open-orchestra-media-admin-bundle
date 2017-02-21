@@ -2,6 +2,7 @@ open_orchestra_media_admin:
     loading: Chargement ...
     media:
         title_list: Média
+        choose    : Choisissez un média
     media_filter:
         none   : Tous
         default: Défaut

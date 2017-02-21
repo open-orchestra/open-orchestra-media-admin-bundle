@@ -20,18 +20,16 @@ class MediaModalView extends ModalView
     render() {
         let page = 0;
         let pageLength = 10;
-        let container = this._createModalContainer(Translator.trans('open_orchestra_media_admin.media.title_list'));
+        let container = this._createModalContainer(Translator.trans('open_orchestra_media_admin.media.choose'));
         new Medias().fetch({
             data : {
                 start: page * pageLength,
                 length: pageLength
             },
             success: (medias) => {
-            	console.log(medias.models);
                 this._medias = {};
-                for (i = 0; i < medias.models.length; i++) {
-                	console.log(media)
-                    this._medias[media.models[i][id]] = media.models[i];
+                for (var media of medias.models) {
+                    this._medias[media.get('id')] = media;
                 }
                 let mediasView = new MediasView({
                     collection: medias,
@@ -63,12 +61,15 @@ class MediaModalView extends ModalView
 
     _previewMedia(event)
     {
-        console.log(this)
         let img = $(event.target);
+        let media = this._medias[img.data('id')];
+        console.log(media);
+        let container = this._createModalContainer(media.get('title'));
         let template = this._renderTemplate('Media/Modal/mediaPreviewView', {
-            media: null
+            media: this._medias[img.data('id')]
         });
-        this.$el.html(template);
+        $('.modal-body', container).append(template);
+        this.$el.html(container);
     }
 
     _selectMedia(event)
