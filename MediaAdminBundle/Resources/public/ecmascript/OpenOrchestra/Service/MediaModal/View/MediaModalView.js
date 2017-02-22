@@ -41,8 +41,8 @@ class MediaModalView extends ModalView
                         deferLoading: [medias.recordsTotal, medias.recordsFiltered],
                         data        : medias.models,
                         pageLength  : pageLength,
-                        selectionMod: true
-                    }
+                    },
+                    selectionMod: true
                 });
                 this._mediaCollection = medias;
                 let el = mediasView.render().$el;

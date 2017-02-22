@@ -20,21 +20,13 @@ class MediasView extends AbstractCollectionView
         if (!_.isUndefined(options.filterType)) {
             this._filterType = options.filterType;
         }
+        this._selectionMod = options.selectionMod;
     }
 
     /**
      * Render medias view
      */
     render() {
-        if (0 === this._collection.recordsTotal) {
-            let template = this._renderTemplate('List/emptyListView' , {
-                title: Translator.trans('open_orchestra_media_admin.media.title_list'),
-                urlAdd: ''
-            });
-            this.$el.html(template);
-
-            return this;
-        } else {
             new FoldersTree().fetch({
                 siteId: Application.getContext().siteId,
                 success: (foldersTree) => {
@@ -42,21 +34,21 @@ class MediasView extends AbstractCollectionView
                         language    : Application.getContext().language,
                         types       : this.mediaTypes,
                         foldersTree : foldersTree,
-                        selectionMod: this._settings.selectionMod,
+                        selectionMod: this._selectionMod,
                         filterType  : this._filterType
                     });
                     this.$el.html(template);
                     this._listView = new MediaListView({
-                        collection: this._collection,
-                        settings  : this._settings,
-                        filterType: this._filterType
+                        collection  : this._collection,
+                        settings    : this._settings,
+                        filterType  : this._filterType,
+                        selectionMod: this._selectionMod
                     });
                     $('.medias', this.$el).html(this._listView.render().$el);
                 }
             });
 
             return this;
-        }
     }
 }
 

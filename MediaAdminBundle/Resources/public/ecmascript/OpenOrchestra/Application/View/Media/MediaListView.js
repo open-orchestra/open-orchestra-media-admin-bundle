@@ -18,6 +18,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         };
         super(options);
         this._filterType = options.filterType;
+        this._selectionMod = options.selectionMod;
         this._maxRefresh = 5;
         this._countRefresh = 0;
     }
@@ -31,7 +32,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         var context = this;
         this._collection.each(function(media) {
             let templateFile = 'Media/mediaListCellView';
-            if (context._settings.selectionMod) {
+            if (context._selectionMod) {
                 templateFile = 'Media/Modal/mediaSelectCellView';
             }
             let template = context._renderTemplate(templateFile, {
