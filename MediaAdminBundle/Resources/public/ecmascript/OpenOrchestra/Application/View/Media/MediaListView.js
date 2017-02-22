@@ -96,11 +96,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     _getSyncOptions() {
         if ('' != this._filterType) {
-            return  {
-                data:{
-                    'filter[type]': this._filterType
-                }
-            };
+            return  {data: {'filter[type]': this._filterType}};
         }
 
         return {};

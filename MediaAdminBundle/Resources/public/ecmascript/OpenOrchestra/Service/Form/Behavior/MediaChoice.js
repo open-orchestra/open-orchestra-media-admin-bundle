@@ -19,6 +19,11 @@ class MediaChoice extends AbstractBehavior
         }
     }
 
+    /**
+     * Open the media modal
+     *
+     * @param {Object} event
+     */
     _browseMedia(event)
     {
         event.preventDefault();
@@ -41,6 +46,11 @@ class MediaChoice extends AbstractBehavior
         return false;
     }
 
+    /**
+     * Remove the selected media
+     *
+     * @param {Object} event
+     */
     _removeMedia(event)
     {
         event.preventDefault();

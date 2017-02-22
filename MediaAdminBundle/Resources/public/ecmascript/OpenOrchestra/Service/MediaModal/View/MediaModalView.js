@@ -16,12 +16,15 @@ class MediaModalView extends ModalView
         this._selectCallback = options.selectCallback;
         this._filterType = options.filterType;
         this.events['click #modal-media-choose']  = '_previewMedia';
-        this.events['change #modal-media-format'] = '_selectFormat';
+        this.events['change #modal-media-format'] = '_updatePreview';
         this.events['click #modal-media-select']  = '_selectMedia';
         this.events['click #modal-media-return']  = 'render';
         Application.getConfiguration().addParameter('mediaViewTemplates', {'image': 'Media/Modal/mediaImageDetailView'});
     }
 
+    /**
+     * @return {Object}
+     */
     render() {
         let page = 0;
         let pageLength = 10;
@@ -54,6 +57,14 @@ class MediaModalView extends ModalView
         return this;
     }
 
+    /**
+     * Create the modal
+     *
+     * @param {String}  title
+     * @param {Boolean} withFooter
+     *
+     * @return {Object}
+     */
     _createModalContainer(title, withFooter = false) {
         let template = this._renderTemplate('Media/Modal/mediaModalContainer', {
             'title': title,
@@ -63,6 +74,11 @@ class MediaModalView extends ModalView
         return $(template);
     }
 
+    /**
+     * Open the media details screen
+     *
+     * @param {Object} event
+     */
     _previewMedia(event)
     {
         let mediaList = this._mediaCollection.where({id: $(event.target).data('id') });
@@ -78,11 +94,21 @@ class MediaModalView extends ModalView
         this.$el.html(container);
     }
 
-    _selectFormat(event)
+    /**
+     * Update the preview
+     *
+     * @param {Object} event
+     */
+    _updatePreview(event)
     {
         $('#modal-media-img', this.$el).attr('src', $(event.currentTarget).find(':selected').data('src'));
     }
 
+    /**
+     * Select the media
+     *
+     * @param {Object} event
+     */
     _selectMedia(event)
     {
         this._selectCallback({
