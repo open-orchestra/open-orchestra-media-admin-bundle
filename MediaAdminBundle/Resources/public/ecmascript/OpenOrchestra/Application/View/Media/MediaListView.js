@@ -17,9 +17,9 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             this._interval = setInterval($.proxy(this._refreshList, this), 5000);
         };
         super(options);
+        this._filterType = options.filterType;
         this._maxRefresh = 5;
         this._countRefresh = 0;
-
     }
 
     /**
@@ -85,6 +85,24 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     generateUrlUpdatePage(page) {
        return Backbone.history.generateUrl('listMedia', {page : page});
+    }
+
+    /**
+     * Return options used to fetch collection
+     *
+     * @returns {{}}
+     * @private
+     */
+    _getSyncOptions() {
+        if ('' != this._filterType) {
+            return  {
+                data:{
+                    'filter[type]': this._filterType
+                }
+            };
+        }
+
+        return {};
     }
 }
 

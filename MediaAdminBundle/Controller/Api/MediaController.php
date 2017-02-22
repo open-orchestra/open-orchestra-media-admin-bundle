@@ -34,15 +34,23 @@ class MediaController extends BaseController
      * @Config\Route("", name="open_orchestra_api_media_list")
      * @Config\Method({"GET"})
      * @Config\Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Api\Groups({MediaAdminGroupContext::MEDIA_ALTERNATIVES})
      *
      * @return FacadeInterface
      */
     public function listAction(Request $request)
     {
         $configuration = PaginateFinderConfiguration::generateFromRequest($request);
+        if ($request->get('filter') && isset($request->get('filter')['type'])) {
+            $configuration->addSearch('type', $request->get('filter')['type']);
+        }
         $repository = $this->get('open_orchestra_media.repository.media');
         $collection = $repository->findForPaginate($configuration);
-        $recordsTotal = $repository->count();
+        if ($request->get('filter') && isset($request->get('filter')['type'])) {
+            $recordsTotal = $repository->count($request->get('filter')['type']);
+        } else {
+            $recordsTotal = $repository->count();
+        }
         $recordsFiltered = $repository->countWithFilter($configuration);
         $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('media_collection');
         $facade = $collectionTransformer->transform($collection);

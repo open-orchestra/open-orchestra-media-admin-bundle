@@ -14,24 +14,25 @@ class MediaChoice extends AbstractBehavior
      */
     getExtraEvents() {
         return {
-            'click .btn-browse': '_openModal',
+            'click .btn-browse': '_browseMedia',
             'click .btn-remove': '_removeMedia'
         }
     }
 
-    _openModal(event)
+    _browseMedia(event)
     {
         event.preventDefault();
         let formId = $(event.currentTarget).data('form-id');
         let mediaModalView = new MediaModalView({
             selectCallback: function(media) {
-                $('#preview-' + formId + ' span').hide();
+                $('#preview-' + formId + ' .no-media').hide();
                 $('#preview-' + formId + ' img').attr('src', media.src);
                 $('#' + formId + '_id').val(media.id);
                 $('#' + formId + '_format').val(media.format);
                 $('#' + formId + '_alt').val(media.alt);
                 $('#' + formId + '_legend').val(media.legend);
-            }
+            },
+            filterType   : $(event.currentTarget).data('media-type')
         });
 
         Application.getRegion('modal').html(mediaModalView.render().$el);
@@ -44,12 +45,12 @@ class MediaChoice extends AbstractBehavior
     {
         event.preventDefault();
         let formId = $(event.currentTarget).data('form-id');
-        $('#preview-' + formId + ' img').attr('src', '');
+        $('#preview-' + formId + ' img').attr('src', '/img/no-media.png');
         $('#' + formId + '_id').val('');
         $('#' + formId + '_format').val('');
         $('#' + formId + '_alt').val('');
         $('#' + formId + '_legend').val('');
-        $('#preview-' + formId + ' span').show();
+        $('#preview-' + formId + ' .no-media').show();
     }
 
     /**

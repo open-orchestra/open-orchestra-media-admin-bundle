@@ -2,7 +2,22 @@ open_orchestra_media_admin:
     loading: Loading ...
     media:
         title_list: Media
-        choose    : Choose a media
+    select:
+        choose     : Choose a media
+        size       : "Size:"
+        bytes      : "bytes"
+        update_date: "Update date:"
+        tags       : "Tags:"
+        alternative: "Alternative:"
+        legend     : "Legend:"
+        validate   : Validate
+        back       : Back
+        format:
+            description   : "Format:"
+            original_image: Original
+            rectangle     : Rectangle (100p x 70p)
+            fixed_width   : Fixed width (100p)
+            fixed_height  : Fixed height (100p)
     media_filter:
         none   : All
         default: Default

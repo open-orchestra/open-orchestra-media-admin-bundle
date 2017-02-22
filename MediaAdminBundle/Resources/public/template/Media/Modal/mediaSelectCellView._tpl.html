@@ -1,14 +1,8 @@
 <div class="col-5">
     <div class="item">
         <div class="image">
-            <a class="media-select">
-                <img
-                    src="<%= media.get('thumbnail') %>"
-                    data-id="<%= media.get('id') %>"
-                    data-format="original"
-                    data-alt="Alt à définir"
-                    data-legend="Légende à définir"
-                />
+            <a id="modal-media-choose">
+                <img src="<%= media.get('thumbnail') %>" data-id="<%= media.get('id') %>">
             </a>
         </div>
         <div class="title">

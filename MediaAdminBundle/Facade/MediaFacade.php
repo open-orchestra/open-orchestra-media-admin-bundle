@@ -61,11 +61,38 @@ class MediaFacade extends AbstractFacade
     protected $alternatives = array();
 
     /**
+     * @Serializer\Type("array<string, string>")
+     */
+    protected $mediaInformations = array();
+
+    /**
+     * @Serializer\Type("array<string>")
+     */
+    protected $keywords = array();
+
+    /**
      * @param string $key
      * @param string $link
      */
     public function addAlternative($key, $link)
     {
         $this->alternatives[$key] = $link;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function addMediaInformation($key, $value)
+    {
+        $this->mediaInformations[$key] = $value;
+    }
+
+    /**
+     * @param string $keyword
+     */
+    public function addKeyword($keyword)
+    {
+        $this->keywords[] = $keyword;
     }
 }
