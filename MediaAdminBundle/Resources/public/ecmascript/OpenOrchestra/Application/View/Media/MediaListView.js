@@ -12,14 +12,15 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      *
      * @param {Object} options
      */
-    constructor(options) {
-        options.settings.initComplete = () => {
+    constructor({filterType, selectionMod, collection, settings}) {
+        settings.initComplete = () => {
             this._interval = setInterval($.proxy(this._refreshList, this), 5000);
         };
-        super(options);
+        super({'collection': collection, 'settings': settings});
+        this._filterType = filterType;
+        this._selectionMod = selectionMod;
         this._maxRefresh = 5;
         this._countRefresh = 0;
-
     }
 
     /**
@@ -29,9 +30,12 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     {
         let mediaList = $('<div></div>').addClass('well');
         var context = this;
-
         this._collection.each(function(media) {
-            let template = context._renderTemplate('Media/mediaListCellView', {
+            let templateFile = 'Media/mediaListCellView';
+            if (context._selectionMod) {
+                templateFile = 'Media/Modal/mediaSelectCellView';
+            }
+            let template = context._renderTemplate(templateFile, {
                 media: media
             });
             mediaList.append(template);
@@ -82,6 +86,20 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     generateUrlUpdatePage(page) {
        return Backbone.history.generateUrl('listMedia', {page : page});
+    }
+
+    /**
+     * Return options used to fetch collection
+     *
+     * @returns {{}}
+     * @private
+     */
+    _getSyncOptions() {
+        if ('' != this._filterType) {
+            return  {data: {'filter[type]': this._filterType}};
+        }
+
+        return {};
     }
 }
 

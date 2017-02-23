@@ -64,12 +64,21 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->original = $this->generateMediaUrl($mixed->getFilesystemName());
         $facade->thumbnail = $this->generateMediaUrl($mixed->getThumbnail());
         $facade->mediaType = $mixed->getMediaType();
+        $facade->updatedAt = $mixed->getUpdatedAt();
 
         if ($this->hasGroup(MediaAdminGroupContext::MEDIA_ALTERNATIVES)) {
             $alternatives = $mixed->getAlternatives();
             foreach ($alternatives as $format => $alternativeName) {
                 $facade->addAlternative($format, $this->generateMediaUrl($alternativeName));
             }
+        }
+
+        foreach ($mixed->getMediaInformations() as $name => $value) {
+            $facade->addMediaInformation($name, $value);
+        }
+
+        foreach ($mixed->getKeywords() as $keyword) {
+            $facade->addKeyword($keyword);
         }
 
         $facade->isEditable = false;

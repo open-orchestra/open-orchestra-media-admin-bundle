@@ -2,6 +2,22 @@ open_orchestra_media_admin:
     loading: Chargement ...
     media:
         title_list: Média
+    select:
+        choose     : Choisissez un média
+        size       : "Taille :"
+        bytes      : "octets"
+        update_date: "Date de modification :"
+        tags       : "Tags :"
+        alternative: "Alternative :"
+        legend     : "Légende :"
+        validate   : Valider
+        back       : Retour
+        format:
+            description   : "Format :"
+            original_image: Originel
+            rectangle     : Rectangle (100p x 70p)
+            fixed_width   : Largeur fixe (100p)
+            fixed_height  : Hauteur fixe (100p)
     media_filter:
         none   : Tous
         default: Défaut

@@ -53,7 +53,14 @@
 /* media in forms */
 .media-forms {
   &.format .image { float: none; margin: 0 0 10px; }
-  .image { margin-right: 20px; float: left;}
+  .image {
+    margin-right: 20px;
+    float: left;
+    img {
+        border: 1px solid rgb(204, 204, 204);
+        max-width: 160px;
+    }
+  }
   .btn-border { padding: 4px 5px; margin-right: 20px;}
   .no-media {
     .fontSize(12);
@@ -151,6 +158,18 @@
   margin-top: 20px;
 }
 
+/* ===================================================================
+ * MEDIA MODAL
+ * =================================================================*/
+div.modal-body {
+  div.row.medias {
+    margin-left: 15px;
+    margin-bottom: 25px;
+  }
+  #modal-media-format {
+    width: 300px;
+  }
+}
 
 @media (max-width: @mobile) {
   /* medias */

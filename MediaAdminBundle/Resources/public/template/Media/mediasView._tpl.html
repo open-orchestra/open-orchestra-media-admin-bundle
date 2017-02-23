@@ -1,7 +1,9 @@
-<div class="top-action-buttons">
-    <a class="btn btn-info" href="#<%= Backbone.history.generateUrl('newMedia') %>" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
-</div>
+<% if (!selectionMod) { %>
+    <div class="top-action-buttons">
+        <a class="btn btn-info" href="#<%= Backbone.history.generateUrl('newMedia') %>" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
+    </div>
 <h1> <%= Translator.trans('open_orchestra_media_admin.media.title_list') %></h1>
+<% } %>
 <form class="form-horizontal search-engine">
     <div class="form-group col-lg-6">
         <input type="hidden" name='language' value="<%= language %>">
@@ -10,18 +12,20 @@
             <input type="text" name='label' class="form-control" id="label">
         </div>
     </div>
-    <div class="form-group col-lg-6">
-        <label for="select-type" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.type') %></label>
-        <div class="col-md-8">
-            <div class="styled-select">
-                <select name='type' class="form-control" id="type">
-                    <% _.each(types, function(label, type) { %>
-                        <option value="<%= type %>"><%= Translator.trans(label) %></option>
-                    <% }); %>
-                </select>
+    <% if ('' == filterType) { %>
+        <div class="form-group col-lg-6">
+            <label for="select-type" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.type') %></label>
+            <div class="col-md-8">
+                <div class="styled-select">
+                    <select name='type' class="form-control" id="type">
+                        <% _.each(types, function(label, type) { %>
+                            <option value="<%= type %>"><%= Translator.trans(label) %></option>
+                        <% }); %>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
+    <% } %>
     <div class="form-group col-lg-6">
         <label for="folderId" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
         <div class="col-md-8">
@@ -43,6 +47,9 @@
 </form>
 <div class="medias">
 </div>
-<div class="bottom-action-buttons">
-    <button class="btn btn-danger btn-delete disabled"><%= Translator.trans('open_orchestra_backoffice.table.delete_button') %></button>
-</div>
+<% if (! selectionMod) { %>
+    <div class="bottom-action-buttons">
+        <button class="btn btn-danger btn-delete disabled"><%= Translator.trans('open_orchestra_backoffice.table.delete_button') %></button>
+    </div>
+<% } %>
+

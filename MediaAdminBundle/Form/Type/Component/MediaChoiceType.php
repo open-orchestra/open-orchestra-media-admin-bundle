@@ -32,8 +32,10 @@ class MediaChoiceType extends AbstractType
         }
 
         $builder
-            ->add('id', 'hidden', $mediaOptions)
-            ->add('format', 'hidden');
+            ->add('id'    , 'hidden', $mediaOptions)
+            ->add('format', 'hidden')
+            ->add('alt'   , 'hidden')
+            ->add('legend', 'hidden');
 
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);

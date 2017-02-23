@@ -50,7 +50,8 @@ class MediaRouter extends OrchestraRouter
                         deferLoading: [medias.recordsTotal, medias.recordsFiltered],
                         data: medias.models,
                         pageLength: pageLength
-                    }
+                    },
+                    selectionMod: false
                 });
                 let el = mediasView.render().$el;
                 Application.getRegion('content').html(el);

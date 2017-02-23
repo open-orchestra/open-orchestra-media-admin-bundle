@@ -51,7 +51,7 @@ class MediaChoiceTypeTest extends AbstractBaseTestCase
         $this->form->buildForm($builder, array());
 
         Phake::verify($builder)->addModelTransformer(Phake::anyParameters());
-        Phake::verify($builder, Phake::times(2))->add(Phake::anyParameters());
+        Phake::verify($builder, Phake::times(4))->add(Phake::anyParameters());
     }
 
     /**

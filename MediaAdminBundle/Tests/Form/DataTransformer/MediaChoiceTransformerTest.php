@@ -48,7 +48,7 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     public function provideTransformData()
     {
         return array(
-            'empty' => array('', array('id' => '', 'format' => '')),
+            'empty' => array('', array('id' => '', 'format' => '', 'alt' => '', 'legend' => '')),
             'id' => array(array('id' => 'id'), array('id' => 'id')),
         );
     }
@@ -70,7 +70,7 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     public function provideReverseTransformData()
     {
         return array(
-            'empty' => array('', array('id' => '', 'format' => '')),
+            'empty' => array('', array('id' => '', 'format' => '', 'alt' => '', 'legend' => '')),
             'id' => array(array('id' => 'id'), array('id' => 'id')),
         );
     }
