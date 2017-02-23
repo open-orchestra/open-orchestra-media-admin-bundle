@@ -1,0 +1,13 @@
+<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.size') %></span>
+<%= media.get('media_informations').size %> <%= Translator.trans('open_orchestra_media_admin.select.bytes') %><br>
+
+<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></span>
+<% update_date = new Date(media.get('updated_at')) %>
+<%= update_date.toDateString() %><br/>
+
+<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.tags') %></span>
+<% if (media.get('keywords').length > 0) { %>
+    <%= media.get('keywords').join(', ') %>
+<% } else { %>
+    -
+<% } %>

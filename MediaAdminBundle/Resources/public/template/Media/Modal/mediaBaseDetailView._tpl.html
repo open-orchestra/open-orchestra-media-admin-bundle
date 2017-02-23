@@ -1,32 +1,10 @@
 <div class="row medias">
-    <div class="col-sm-4 image">
-        <img src="<%= media.get('thumbnail') %>" id="modal-media-img" data-id="<%= media.get('id') %>">
-    </div>
+    <%= renderTemplate('Media/Modal/Include/mediaSelectionPreview', {'media': media}) %>
     <div class="col-sm-8">
-        <span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.size') %></span>
-        <%= media.get('media_informations').size %> <%= Translator.trans('open_orchestra_media_admin.select.bytes') %><br>
-
-        <span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></span>
-        <% update_date = new Date(media.get('updated_at')) %>
-        <%= update_date.toDateString() %><br/>
-
-        <span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.tags') %></span>
-        <% if (media.get('keywords').length > 0) { %>
-            <%= media.get('keywords').join(', ') %>
-        <% } else { %>
-            -
-        <% } %>
-
+        <%= renderTemplate('Media/Modal/Include/mediaSelectionBaseInfo', {'media': media}) %>
         <input type="hidden" id="modal-media-format" value="original">
     </div>
 </div>
 <div>
-    <div class="form-group">
-        <span class="col-sm-2"><%= Translator.trans('open_orchestra_media_admin.select.alternative') %></span>
-        <input type="text" id="modal-media-alt" class="col-sm-10"><br>
-    </div>
-    <div class="form-group">
-        <span class="col-sm-2"><%= Translator.trans('open_orchestra_media_admin.select.legend') %></span>
-        <input type="text" id="modal-media-legend" class="col-sm-10"><br>
-    </div>
+    <%= renderTemplate('Media/Modal/Include/mediaSelectionAlt', {'media': media}) %>
 </div>

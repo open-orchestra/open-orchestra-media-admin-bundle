@@ -90,7 +90,7 @@ class MediaModalView extends ModalView
             template = mediaViewTemplates[media.get('media_type')];
         }
         $('.modal-body', container).append(this._renderTemplate(template, {'media': media}));
-        $('.modal-footer', container).append(this._renderTemplate('Media/Modal/buttons'));
+        $('.modal-footer', container).append(this._renderTemplate('Media/Modal/Include/buttons'));
         this.$el.html(container);
     }
 
