@@ -12,13 +12,13 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      *
      * @param {Object} options
      */
-    constructor(options) {
-        options.settings.initComplete = () => {
+    constructor({filterType, selectionMod, collection, settings}) {
+        settings.initComplete = () => {
             this._interval = setInterval($.proxy(this._refreshList, this), 5000);
         };
-        super(options);
-        this._filterType = options.filterType;
-        this._selectionMod = options.selectionMod;
+        super({'collection': collection, 'settings': settings});
+        this._filterType = filterType;
+        this._selectionMod = selectionMod;
         this._maxRefresh = 5;
         this._countRefresh = 0;
     }

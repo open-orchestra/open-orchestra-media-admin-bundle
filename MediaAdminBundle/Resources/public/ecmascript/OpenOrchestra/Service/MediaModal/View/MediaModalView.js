@@ -19,7 +19,6 @@ class MediaModalView extends ModalView
         this.events['change #modal-media-format'] = '_updatePreview';
         this.events['click #modal-media-select']  = '_selectMedia';
         this.events['click #modal-media-return']  = 'render';
-        Application.getConfiguration().addParameter('mediaViewTemplates', {'image': 'Media/Modal/mediaImageDetailView'});
     }
 
     /**
