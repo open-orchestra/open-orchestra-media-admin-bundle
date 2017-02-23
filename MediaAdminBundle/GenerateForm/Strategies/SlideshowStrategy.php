@@ -53,10 +53,11 @@ class SlideshowStrategy extends AbstractBlockStrategy
         if (isset($options['disabled']) && $options['disabled']) {
             $allowAdd = false;
         }
-        $builder->add('pictures', 'collection', array(
+        $builder->add('pictures', 'bootstrap_collection', array(
             'type' => 'oo_media_choice',
             'constraints' => new NotBlank(),
             'allow_add' => $allowAdd,
+            'allow_delete' => $allowAdd,
             'attr' => array(
                 'data-prototype-label-add' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.add'),
                 'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.new'),
