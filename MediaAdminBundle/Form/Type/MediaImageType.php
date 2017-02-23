@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
@@ -85,11 +86,16 @@ class MediaImageType extends MediaBaseType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $media = $form->getData();
-        $view->vars['alternatives'] = array(
-            'original' => $this->storageManager->getUrl($media->getFilesystemName())
-        );
-        foreach($this->thumbnailConfig as $key => $params) {
-            $view->vars['alternatives'][$key] = $this->storageManager->getUrl($media->getAlternative($key));
+        if (!empty($media->getAlternatives())) {
+            $view->vars['alternatives'] = array(
+                MediaInterface::MEDIA_ORIGINAL => $this->storageManager->getUrl($media->getFilesystemName())
+            );
+            foreach ($this->thumbnailConfig as $key => $params) {
+                $url = $this->storageManager->getUrl($media->getAlternative($key));
+                if (null !== $url) {
+                    $view->vars['alternatives'][$key] = $url;
+                }
+            }
         }
     }
 

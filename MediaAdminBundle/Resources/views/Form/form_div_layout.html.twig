@@ -43,10 +43,19 @@
     {% endspaceless %}
 {% endblock %}
 
+{% block _oo_media_image_format_row %}
+    {% if form.parent.vars.alternatives is defined %}
+        {{ form_row(form) }}
+    {% else %}
+        <p class="well text-center">
+            {{ 'open_orchestra_media_admin.form.media.alternative_loading'|trans }}
+        </p>
+    {% endif %}
+{% endblock _oo_media_image_format_row %}
+
 {% block _oo_media_image_format_widget %}
     {% spaceless %}
         {{ form_widget(form) }}
-
         <!-- STORED ALTERNATIVE VERSIONS -->
         <div class="media_crop_preview">
             <img class="media_crop_original" src="{{ form.parent.vars.alternatives.original }}"

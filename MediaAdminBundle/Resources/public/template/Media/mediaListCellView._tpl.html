@@ -1,6 +1,13 @@
 <div class="col-5">
     <div class="item">
-        <div class="image"><img src="<%= media.get('thumbnail') %>" alt="<%= media.get('alt') %>" /></div>
+        <div class="image">
+            <% if (media.has('thumbnail')) { %>
+                <img src="<%= media.get('thumbnail') %>" alt="<%= media.get('alt') %>" />
+            <% } else { %>
+                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only"> <%= Translator.trans('open_orchestra_media_admin.loading') %></span>
+            <% } %>
+        </div>
         <div class="title">
             <span><%= media.get('title') %></span>
             <div class="edit pull-right">
