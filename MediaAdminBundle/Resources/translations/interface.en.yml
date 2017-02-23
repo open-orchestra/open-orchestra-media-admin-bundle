@@ -1,4 +1,5 @@
 open_orchestra_media_admin:
+    loading: Loading ...
     media:
         title_list: Media
     media_filter:

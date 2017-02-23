@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
@@ -87,7 +88,7 @@ class MediaImageType extends MediaBaseType
         $media = $form->getData();
         if (!empty($media->getAlternatives())) {
             $view->vars['alternatives'] = array(
-                'original' => $this->storageManager->getUrl($media->getFilesystemName())
+                MediaInterface::MEDIA_ORIGINAL => $this->storageManager->getUrl($media->getFilesystemName())
             );
             foreach ($this->thumbnailConfig as $key => $params) {
                 $url = $this->storageManager->getUrl($media->getAlternative($key));
