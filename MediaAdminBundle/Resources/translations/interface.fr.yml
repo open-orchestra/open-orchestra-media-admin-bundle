@@ -1,7 +1,7 @@
 open_orchestra_media_admin:
     loading: Chargement ...
     media:
-        title_list: Média
+        title_list: Médiathèque
     select:
         choose     : Choisissez un média
         size       : "Taille :"
