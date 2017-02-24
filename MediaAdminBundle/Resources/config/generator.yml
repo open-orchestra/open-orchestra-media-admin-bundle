@@ -9,7 +9,6 @@ services:
         class: '%open_orchestra_media_admin.slideshow.generate_form.class%'
         arguments:
             - '%open_orchestra_backoffice.block_default_configuration%'
-            - '@translator'
         tags:
             - { name: open_orchestra_backoffice.generate_form.strategy }
     open_orchestra_media_admin.gallery.generate_form:

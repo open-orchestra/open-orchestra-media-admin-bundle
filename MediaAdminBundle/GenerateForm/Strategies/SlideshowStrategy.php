@@ -6,7 +6,6 @@ use OpenOrchestra\Backoffice\GenerateForm\Strategies\AbstractBlockStrategy;
 use OpenOrchestra\Media\DisplayBlock\Strategies\SlideshowStrategy as BaseSlideshowStrategy;
 use OpenOrchestra\ModelInterface\Model\BlockInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -14,16 +13,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class SlideshowStrategy extends AbstractBlockStrategy
 {
-    protected $translator;
-
     /**
-     * @param array               $basicBlockConfiguration
-     * @param TranslatorInterface $translator
+     * @param array $basicBlockConfiguration
      */
-    public function __construct(array $basicBlockConfiguration, TranslatorInterface $translator)
+    public function __construct(array $basicBlockConfiguration)
     {
         parent::__construct($basicBlockConfiguration);
-        $this->translator = $translator;
     }
 
     /**
@@ -55,24 +50,26 @@ class SlideshowStrategy extends AbstractBlockStrategy
         }
         $builder->add('pictures', 'bootstrap_collection', array(
             'type' => 'oo_media_choice',
+            'label' => 'open_orchestra_media_admin.block.slideshow.form.pictures',
             'constraints' => new NotBlank(),
             'allow_add' => $allowAdd,
             'allow_delete' => $allowAdd,
-            'attr' => array(
-                'data-prototype-label-add' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.add'),
-                'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.new'),
-                'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.slideshow.form.media.delete'),
-            ),
+            'add_button_text' => 'open_orchestra_media_admin.block.slideshow.form.media.add',
+            'delete_button_text' => 'open_orchestra_media_admin.block.slideshow.form.media.delete',
             'group_id' => 'data',
             'sub_group_id' => 'content',
+            'sub_widget_col' => 9,
+            'button_col' => 3
         ));
         $builder->add('width', 'text', array(
             'constraints' => new NotBlank(),
+            'label' => 'open_orchestra_media_admin.block.slideshow.form.width',
             'group_id' => 'data',
             'sub_group_id' => 'content',
         ));
         $builder->add('height', 'text', array(
             'constraints' => new NotBlank(),
+            'label' => 'open_orchestra_media_admin.block.slideshow.form.height',
             'group_id' => 'data',
             'sub_group_id' => 'content',
         ));

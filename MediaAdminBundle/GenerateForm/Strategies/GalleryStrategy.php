@@ -79,14 +79,13 @@ class GalleryStrategy extends AbstractBlockStrategy
                 'constraints' => new NotBlank(),
                 'allow_add' => $allowAdd,
                 'allow_delete' => $allowAdd,
-                'attr' => array(
-                    'data-prototype-label-add' => $this->translator->trans('open_orchestra_media_admin.block.gallery.form.media.add'),
-                    'data-prototype-label-new' => $this->translator->trans('open_orchestra_media_admin.block.gallery.form.media.new'),
-                    'data-prototype-label-remove' => $this->translator->trans('open_orchestra_media_admin.block.gallery.form.media.delete'),
-                ),
+                'add_button_text' => 'open_orchestra_media_admin.block.gallery.form.media.add',
+                'delete_button_text' => 'open_orchestra_media_admin.block.gallery.form.media.delete',
                 'label' => 'open_orchestra_media_admin.block.gallery.form.pictures',
                 'group_id' => 'data',
                 'sub_group_id' => 'content',
+                'sub_widget_col' => 9,
+                'button_col' => 3
             ))
             ->add('width', 'text', array(
                 'required' => false,
