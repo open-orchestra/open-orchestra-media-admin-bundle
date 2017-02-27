@@ -2,6 +2,7 @@ import MediaRouter         from './Router/Media/MediaRouter'
 import FormBehaviorManager from '../Service/Form/Behavior/Manager'
 import MediaChoice         from '../Service/Form/Behavior/MediaChoice'
 import Application         from '../Application/Application'
+import TinymceManager      from '../Service/Tinymce/TinymceManager'
 
 /**
  * @class MediaSubApplication
@@ -23,6 +24,8 @@ class MediaSubApplication
      */
     _initConfiguration() {
         Application.getConfiguration().addParameter('mediaViewTemplates', {'image': 'Media/Modal/mediaImageDetailView'});
+        let toolbar = TinymceManager.getSetting('toolbar');
+        TinymceManager.setSetting('toolbar', toolbar + ' | media');
     }
 
     /**
