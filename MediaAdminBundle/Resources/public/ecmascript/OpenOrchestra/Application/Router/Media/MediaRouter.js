@@ -19,11 +19,12 @@ class MediaRouter extends OrchestraRouter
      */
     preinitialize(options) {
         this.routes = {
-            'media/list(/:page)'   : 'listMedia',
-            'media/new'            : 'newMedia',
-            'folder/list'          : 'listFolders',
-            'folder/edit/:folderId': 'editFolder',
-            'folder/new/:parentId' : 'newFolder'
+            'media/list(/:page)'            : 'listMedia',
+            'media/new'                     : 'newMedia',
+            'media/edit/:mediaType/:mediaId': 'editMedia',
+            'folder/list'                   : 'listFolders',
+            'folder/edit/:folderId'         : 'editFolder',
+            'folder/new/:parentId'          : 'newFolder'
         };
 
         Application.getConfiguration().addParameter('mediaViews', {'image': MediaImageFormView});
