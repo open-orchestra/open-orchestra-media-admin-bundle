@@ -34,6 +34,19 @@ class FoldersTreeView extends AbstractTreeView
      * @param {Object} ui
      * @private
      */
+    _startDrag(event, ui) {
+        let initialParentId = ui.item.parent().parent('li').data('folder-id');
+        if (typeof initialParentId === 'undefined') {
+            throw new ApplicationError('undefined parent folder id');
+        }
+        $(ui.item).data('old-parent-id', initialParentId);
+    };
+
+    /**
+     * @param {Object} event
+     * @param {Object} ui
+     * @private
+     */
     _sortAction(event, ui) {
         let folderId = $(ui.item).data('folder-id');
         let newParentId = $(ui.item).parent().parent('li').data('folder-id');
@@ -41,8 +54,10 @@ class FoldersTreeView extends AbstractTreeView
             throw new ApplicationError('undefined new parent folder id');
         }
 
-       let folder = new Folder({id: folderId, parent_id: newParentId});
-       folder.save();
+        if (newParentId != $(ui.item).data('old-parent-id')) {
+            let folder = new Folder({id: folderId, parent_id: newParentId});
+            folder.save();
+        }
     };
 }
 
