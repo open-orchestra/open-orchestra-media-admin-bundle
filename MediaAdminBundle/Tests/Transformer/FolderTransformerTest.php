@@ -28,7 +28,16 @@ class FolderTransformerTest extends AbstractBaseTestCase
     {
         $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
         $this->eventDispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->transformer = new FolderTransformer($this->facadeClass, $this->folderRepository, $this->eventDispatcher);
+        $folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
+        $folderEventFactory = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEventFactory');
+        Phake::when($folderEventFactory)->createFolderEvent()->thenReturn($folderEvent);
+
+        $this->transformer = new FolderTransformer(
+            $this->facadeClass,
+            $this->folderRepository,
+            $this->eventDispatcher,
+            $folderEventFactory
+        );
     }
 
     /**

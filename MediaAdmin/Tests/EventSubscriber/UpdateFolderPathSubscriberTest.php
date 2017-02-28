@@ -31,10 +31,15 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
         $this->currentSiteManager = Phake::mock('OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface');
         Phake::when($this->currentSiteManager)->getCurrentSiteId()->thenReturn('fakeId');
 
+        $folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
+        $folderEventFactory = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEventFactory');
+        Phake::when($folderEventFactory)->createFolderEvent()->thenReturn($folderEvent);
+
         $this->subscriber = new UpdateFolderPathSubscriber(
             $this->folderRepository,
             $this->eventDispatcher,
-            $this->currentSiteManager
+            $this->currentSiteManager,
+            $folderEventFactory
         );
     }
 
