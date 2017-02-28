@@ -51,6 +51,7 @@ services:
             - '%open_orchestra_media_admin.facade.folder.class%'
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'
+            - '@open_orchestra_media_admin.event.folder_event.factory'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
 

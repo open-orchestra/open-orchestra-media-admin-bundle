@@ -10,8 +10,8 @@ use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OpenOrchestra\MediaAdmin\Event\FolderEventFactory;
 
 /**
  * Class FolderTransformer
@@ -20,20 +20,24 @@ class FolderTransformer extends AbstractTransformer
 {
     protected $folderRepository;
     protected $eventDispatcher;
+    protected $folderEventFactory;
 
     /**
      * @param string                    $facadeClass
      * @param FolderRepositoryInterface $folderRepository,
      * @param EventDispatcherInterface  $eventDispatcher
+     * @param FolderEventFactory        $folderEventFactory
      */
     public function __construct(
         $facadeClass = null,
         FolderRepositoryInterface $folderRepository,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        FolderEventFactory $folderEventFactory
     ){
         parent::__construct($facadeClass);
         $this->folderRepository = $folderRepository;
         $this->eventDispatcher = $eventDispatcher;
+        $this->folderEventFactory = $folderEventFactory;
     }
 
     /**
@@ -75,7 +79,8 @@ class FolderTransformer extends AbstractTransformer
             $parent = $this->folderRepository->findOneById($facade->parentId);
             $source->setParent($parent);
             $source->setPath($parent->getPath() . '/' . $source->getFolderId());
-            $event = new FolderEvent($source);
+            $event = $this->folderEventFactory->createFolderEvent();
+            $event->setFolder($source);
             $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
         }
     }

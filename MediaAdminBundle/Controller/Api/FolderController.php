@@ -77,7 +77,7 @@ class FolderController extends BaseController
      *
      * @return Response
      */
-    public function updateChildrenOrderAction(Request $request)
+    public function moveFolderAction(Request $request)
     {
         $facade = $this->get('jms_serializer')->deserialize(
             $request->getContent(),

@@ -11,11 +11,9 @@ class FoldersTreeView extends AbstractTreeView
     /**
      * Initialize
      * @param {FoldersTree} foldersTree
-     * @param {string}      language
      */
-    initialize({foldersTree, language}) {
+    initialize({foldersTree}) {
         this._foldersTree = foldersTree;
-        this._language = language
     }
 
     /**
@@ -26,8 +24,7 @@ class FoldersTreeView extends AbstractTreeView
     _getTreeTemplate() {
         return this._renderTemplate('Folder/foldersTreeView',
             {
-                foldersTree : this._foldersTree.models,
-                language: this._language
+                foldersTree : this._foldersTree.models
             }
         );
     }

@@ -8,6 +8,7 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
+use OpenOrchestra\MediaAdmin\Event\FolderEventFactory;
 
 /**
  * Class UpdateFolderPathSubscriber
@@ -17,20 +18,24 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     protected $folderRepository;
     protected $eventDispatcher;
     protected $currentSiteManager;
+    protected $folderEventFactory;
 
     /**
-     * @param FolderRepositoryInterface  $nodeRepository
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param CurrentSiteIdInterface   $currentSiteManager
+     * @param FolderRepositoryInterface $nodeRepository
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param CurrentSiteIdInterface    $currentSiteManager
+     * @param FolderEventFactory        $folderEventFactory
      */
     public function __construct(
         FolderRepositoryInterface $folderRepository,
         EventDispatcherInterface $eventDispatcher,
-        CurrentSiteIdInterface $currentSiteManager
+        CurrentSiteIdInterface $currentSiteManager,
+        FolderEventFactory $folderEventFactory
     ){
         $this->folderRepository = $folderRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->currentSiteManager = $currentSiteManager;
+        $this->folderEventFactory = $folderEventFactory;
     }
 
     /**
@@ -50,7 +55,8 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
         }
 
         foreach ($sonsToUpdate as $sonToUpdate) {
-            $event = new FolderEvent($sonToUpdate);
+            $event = $this->folderEventFactory->createFolderEvent();
+            $event->setFolder($sonToUpdate);
             $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
         }
     }

@@ -13,14 +13,6 @@ class FolderEvent extends Event
     protected $folder;
 
     /**
-     * @param FolderInterface $folder
-     */
-    public function __construct(FolderInterface $folder = null)
-    {
-        $this->folder = $folder;
-    }
-
-    /**
      * @return FolderInterface
      */
     public function getFolder()
