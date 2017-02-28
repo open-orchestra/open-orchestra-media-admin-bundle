@@ -1,20 +1,11 @@
 open_orchestra_backoffice:
-    block:
-        slideshow:
-            title: Diaporama
-        gallery:
-            title: Galerie
-        media_list_by_keyword:
-            title: Liste de média par mot clé
-        display_media:
-            title: Média
     form:
       remove: Retirer
       no_access: Vous n'avez pas les droits d'accès à la mediathèque.
       role:
           folder: Dossier médiathèque
           media: Média
-    oo_group_perimeters_tree_list_collection_media_folder : Répertoires media
+    oo_group_perimeters_tree_list_collection_media_folder : Répertoires médiathèque
 
 open_orchestra_media_admin:
     folder:
@@ -79,13 +70,18 @@ open_orchestra_media_admin:
             browse: Parcourir
     block:
         slideshow:
+            title: Diaporama
             description: Fait défiler des images.
             form:
+                width: Largeur
+                height: Hauteur
+                pictures: Images
                 media:
                     add: Ajouter un média
                     new: Nouveau média
                     delete: Retirer le média
         gallery:
+            title: Galerie
             description: Affiche des images.
             form:
                 pictures: Images
@@ -99,6 +95,7 @@ open_orchestra_media_admin:
                     label: Format de l'image (vue complète)
                     helper: Format de l'image (vue complète)
         media_list_by_keyword:
+            title: Liste de média par mot clé
             description: Affiche une liste de média par mot clé.
         display_media:
             title: Bloc média
