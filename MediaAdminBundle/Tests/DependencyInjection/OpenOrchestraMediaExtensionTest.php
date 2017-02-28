@@ -61,14 +61,20 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
         $configurationRoles = array(
             'firstpackage' => array(
                 'folder' => array(
-                    ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
-                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
-                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                    ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => array(
+                        'label' => 'open_orchestra_backoffice.role.contributor.label'),
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => array(
+                        'label' => 'open_orchestra_backoffice.role.editor.label'),
+                    ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => array(
+                        'label' => 'open_orchestra_backoffice.role.supressor.label'),
                 ),
                 'media' => array(
-                    ContributionRoleInterface::MEDIA_CONTRIBUTOR => 'open_orchestra_backoffice.role.contributor',
-                    ContributionRoleInterface::MEDIA_SUPER_EDITOR => 'open_orchestra_backoffice.role.editor',
-                    ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => 'open_orchestra_backoffice.role.suppresor',
+                    ContributionRoleInterface::MEDIA_CONTRIBUTOR => array(
+                        'label' => 'open_orchestra_backoffice.role.contributor.label'),
+                    ContributionRoleInterface::MEDIA_SUPER_EDITOR => array(
+                        'label' => 'open_orchestra_backoffice.role.editor.label'),
+                    ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => array(
+                        'label' => 'open_orchestra_backoffice.role.supressor.label'),
                 ),
             ),
         );
