@@ -1,5 +1,7 @@
 <div class="row medias">
-    <%= renderTemplate('Media/Modal/Include/mediaSelectionPreview', {'media': media}) %>
+    <div class="col-sm-4 image">
+        <img src="<%= media.get('thumbnail') %>" id="modal-media-img" data-id="<%= media.get('id') %>">
+    </div>
     <div class="col-sm-8">
         <%= renderTemplate('Media/Modal/Include/mediaSelectionBaseInfo', {'media': media}) %>
         <input type="hidden" id="modal-media-format" value="original">
