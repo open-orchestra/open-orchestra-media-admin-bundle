@@ -18,13 +18,26 @@ class FolderTransformerTest extends AbstractBaseTestCase
     protected $transformer;
 
     protected $facadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade';
+    protected $folderRepository;
+    protected $eventDispatcher;
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->transformer = new FolderTransformer($this->facadeClass);
+        $this->folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
+        $this->eventDispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
+        $folderEventFactory = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEventFactory');
+        Phake::when($folderEventFactory)->createFolderEvent()->thenReturn($folderEvent);
+
+        $this->transformer = new FolderTransformer(
+            $this->facadeClass,
+            $this->folderRepository,
+            $this->eventDispatcher,
+            $folderEventFactory
+        );
     }
 
     /**
@@ -82,6 +95,39 @@ class FolderTransformerTest extends AbstractBaseTestCase
         return array(
             array('foo', 'bar', $parentFolder, $siteId, 'FakeParentId'),
             array('foo', 'bar', null, $siteId, '-'),
+        );
+    }
+
+    /**
+     * test reverseTransform
+     */
+    public function testReverseTransform()
+    {
+        $facade = Phake::mock('OpenOrchestra\BaseApi\Facade\FacadeInterface');
+        $facade->parentId = 'pid';
+
+        $source = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
+        Phake::when($source)->getFolderId()->thenReturn('folderId');
+
+        $parentFolder = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
+        Phake::when($parentFolder)->getPath()->thenReturn('parentPath');
+        Phake::when($this->folderRepository)->findOneById(Phake::anyParameters())->thenReturn($parentFolder);
+
+        $this->transformer->reverseTransform($facade, $source);
+        Phake::verify($source)->setParent($parentFolder);
+        Phake::verify($this->eventDispatcher)->dispatch(Phake::anyParameters());
+    }
+
+    /**
+     * Provide facade
+     *
+     * @return array
+     */
+    public function provideFacade()
+    {
+
+        return array(
+            array($folder, $parentFolder, 1)
         );
     }
 }
