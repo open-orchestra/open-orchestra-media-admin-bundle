@@ -62,19 +62,25 @@ class OpenOrchestraMediaAdminExtensionTest extends AbstractBaseTestCase
             'firstpackage' => array(
                 'folder' => array(
                     ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => array(
-                        'label' => 'open_orchestra_backoffice.role.contributor.label'),
+                        'label' => 'open_orchestra_backoffice.role.contributor.label'
+                    ),
                     ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => array(
-                        'label' => 'open_orchestra_backoffice.role.editor.label'),
+                        'label' => 'open_orchestra_backoffice.role.editor.label'
+                    ),
                     ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => array(
-                        'label' => 'open_orchestra_backoffice.role.supressor.label'),
+                        'label' => 'open_orchestra_backoffice.role.supressor.label'
+                    ),
                 ),
                 'media' => array(
                     ContributionRoleInterface::MEDIA_CONTRIBUTOR => array(
-                        'label' => 'open_orchestra_backoffice.role.contributor.label'),
+                        'label' => 'open_orchestra_backoffice.role.contributor.label'
+                    ),
                     ContributionRoleInterface::MEDIA_SUPER_EDITOR => array(
-                        'label' => 'open_orchestra_backoffice.role.editor.label'),
+                        'label' => 'open_orchestra_backoffice.role.editor.label'
+                    ),
                     ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => array(
-                        'label' => 'open_orchestra_backoffice.role.supressor.label'),
+                        'label' => 'open_orchestra_backoffice.role.supressor.label'
+                    ),
                 ),
             ),
         );
