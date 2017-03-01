@@ -115,7 +115,6 @@ class FolderTransformerTest extends AbstractBaseTestCase
 
         $this->transformer->reverseTransform($facade, $source);
         Phake::verify($source)->setParent($parentFolder);
-        Phake::verify($source)->setPath($parentFolder->getPath() . '/' . $source->getFolderId());
         Phake::verify($this->eventDispatcher)->dispatch(Phake::anyParameters());
     }
 
