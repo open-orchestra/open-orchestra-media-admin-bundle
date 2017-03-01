@@ -78,10 +78,9 @@ class FolderTransformer extends AbstractTransformer
         if ($source instanceof MediaFolderInterface) {
             $parent = $this->folderRepository->findOneById($facade->parentId);
             $source->setParent($parent);
-            $source->setPath($parent->getPath() . '/' . $source->getFolderId());
             $event = $this->folderEventFactory->createFolderEvent();
             $event->setFolder($source);
-            $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+            $this->eventDispatcher->dispatch(FolderEvents::PARENT_UPDATED, $event);
         }
     }
 

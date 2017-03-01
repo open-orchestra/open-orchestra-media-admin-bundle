@@ -44,20 +44,16 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     public function updatePath(FolderEvent $event)
     {
         $folder = $event->getFolder();
-        $parentPath = $folder->getPath();
+        $parent = $folder->getParent();
+        $folder->setPath($parent->getPath() . '/' . $folder->getFolderId());
+
         $siteId = $this->currentSiteManager->getCurrentSiteId();
         $sons = $this->folderRepository->findByParentAndSite($folder->getId(), $siteId);
 
-        $sonsToUpdate = array();
         foreach ($sons as $son) {
-            $son->setPath($parentPath . '/' . $son->getFolderId());
-            $sonsToUpdate[$son->getFolderId()] = $son;
-        }
-
-        foreach ($sonsToUpdate as $sonToUpdate) {
             $event = $this->folderEventFactory->createFolderEvent();
-            $event->setFolder($sonToUpdate);
-            $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+            $event->setFolder($son);
+            $this->eventDispatcher->dispatch(FolderEvents::PARENT_UPDATED, $event);
         }
     }
 
@@ -67,7 +63,7 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FolderEvents::PATH_UPDATED => 'updatePath',
+            FolderEvents::PARENT_UPDATED => 'updatePath',
         );
     }
 }

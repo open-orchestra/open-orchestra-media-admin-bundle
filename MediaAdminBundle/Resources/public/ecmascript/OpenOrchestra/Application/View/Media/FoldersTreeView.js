@@ -35,7 +35,7 @@ class FoldersTreeView extends AbstractTreeView
      * @private
      */
     _startDrag(event, ui) {
-        let initialParentId = ui.item.parent().parent('li').data('folder-id');
+        let initialParentId = ui.item.parent('ul').parent('li').data('folder-id');
         if (typeof initialParentId === 'undefined') {
             throw new ApplicationError('undefined parent folder id');
         }
@@ -49,7 +49,7 @@ class FoldersTreeView extends AbstractTreeView
      */
     _sortAction(event, ui) {
         let folderId = $(ui.item).data('folder-id');
-        let newParentId = $(ui.item).parent().parent('li').data('folder-id');
+        let newParentId = $(ui.item).parent('ul').parent('li').data('folder-id');
         if (typeof newParentId === 'undefined') {
             throw new ApplicationError('undefined new parent folder id');
         }

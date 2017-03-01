@@ -56,7 +56,7 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
      */
     public function testEventSubscribed()
     {
-        $this->assertArrayHasKey(FolderEvents::PATH_UPDATED, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(FolderEvents::PARENT_UPDATED, $this->subscriber->getSubscribedEvents());
     }
 
     /**
