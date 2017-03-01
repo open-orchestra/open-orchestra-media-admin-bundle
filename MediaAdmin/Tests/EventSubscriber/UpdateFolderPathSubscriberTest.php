@@ -66,19 +66,20 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
     {
         $siteId = $this->currentSiteManager->getCurrentSiteId();
         $parentFolderId = 'parent';
+        $grandParentPath = '/';
         $parentPath = 'parentPath';
-        $son1FolderId = 'son1FolderId';
-        $son2FolderId = 'son2FolderId';
+
+        $grandParent = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
+        Phake::when($grandParent)->getPath()->thenReturn($grandParentPath);
 
         $parent = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         Phake::when($parent)->getFolderId()->thenReturn($parentFolderId);
         Phake::when($parent)->getPath()->thenReturn($parentPath);
+        Phake::when($parent)->getParent()->thenReturn($grandParent);
+
         $son1 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
-        Phake::when($son1)->getFolderId()->thenReturn($son1FolderId);
         $son2 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
-        Phake::when($son2)->getFolderId()->thenReturn($son2FolderId);
         $son3 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
-        Phake::when($son3)->getFolderId()->thenReturn($son2FolderId);
 
         $sons = new ArrayCollection();
         $sons->add($son1);
@@ -92,10 +93,8 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
 
         $this->subscriber->updatePath($event);
 
-        Phake::verify($son1)->setPath($parentPath . '/' . $son1FolderId);
-        Phake::verify($son2)->setPath($parentPath . '/' . $son2FolderId);
-        Phake::verify($son3)->setPath($parentPath . '/' . $son2FolderId);
+        Phake::verify($parent)->setPath($grandParentPath . '/' . $parentFolderId);
 
-        Phake::verify($this->eventDispatcher, Phake::times(2))->dispatch(Phake::anyParameters());
+        Phake::verify($this->eventDispatcher, Phake::times(3))->dispatch(Phake::anyParameters());
     }
 }
