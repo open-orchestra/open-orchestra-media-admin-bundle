@@ -2,26 +2,29 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;
 use OpenOrchestra\BaseApi\Exceptions\HttpException\FacadeClassNotSetException;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class FolderTreeTransformer
  */
-class FolderTreeTransformer extends AbstractTransformer
+class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     protected $folderFacadeClass;
 
     /**
-     * @param string $treeFacadeClass
-     * @param string $folderFacadeClass
+     * @param string                        $treeFacadeClass
+     * @param string                        $folderFacadeClass
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct($treeFacadeClass, $folderFacadeClass)
+    public function __construct($treeFacadeClass, $folderFacadeClass, AuthorizationCheckerInterface $authorizationChecker)
     {
-        parent::__construct($treeFacadeClass);
+        parent::__construct($treeFacadeClass, $authorizationChecker);
         $this->folderFacadeClass = $folderFacadeClass;
     }
 
@@ -61,6 +64,14 @@ class FolderTreeTransformer extends AbstractTransformer
         $folderFacade->name = $rootFolder['name'];
         $folderFacade->type = $rootFolder['type'];
         $folderFacade->siteId = $rootFolder['siteId'];
+        $folderFacade->addRight(
+            'can_edit',
+            $this->authorizationChecker->isGranted(ContributionActionInterface::EDIT, $rootFolder)
+        );
+        $folderFacade->addRight(
+            'can_create',
+            $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, $rootFolder)
+        );
 
         $treeFacade = $this->newFacade();
         $treeFacade->folder = $folderFacade;

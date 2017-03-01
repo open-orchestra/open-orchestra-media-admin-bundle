@@ -1,7 +1,14 @@
 open_orchestra_media_admin:
     loading: Chargement ...
+    navigation:
+        contribution:
+            media: Media
     media:
-        title_list: Médiathèque
+        title_list: Média
+    folder:
+        edit      : Editer le dossier
+        add       : Ajouter un dossier
+        title_list: Dossiers
     select:
         choose     : Choisissez un média
         size       : "Taille :"

@@ -49,6 +49,9 @@ services:
         class: '%open_orchestra_api.transformer.folder.class%'
         arguments:
             - '%open_orchestra_media_admin.facade.folder.class%'
+            - '@open_orchestra_media.repository.media_folder'
+            - '@event_dispatcher'
+            - '@open_orchestra_media_admin.event.folder_event.factory'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
 
@@ -57,6 +60,7 @@ services:
         arguments:
             - '%open_orchestra_media_admin.facade.folder_tree.class%'
             - '%open_orchestra_media_admin.facade.folder.class%'
+            - '@security.authorization_checker'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
 
