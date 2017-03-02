@@ -8,5 +8,4 @@ namespace OpenOrchestra\MediaAdminBundle\Context;
 class MediaAdminGroupContext
 {
     const MEDIA_ALTERNATIVES = 'media_alternatives';
-    const MEDIA_ADVANCED_LINKS = 'media_advanced_links';
 }

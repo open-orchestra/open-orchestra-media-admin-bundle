@@ -41,11 +41,6 @@ class MediaTypeTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->translatedName = $this->translator
             ->trans('open_orchestra_media_admin.media_filter.' . $mixed->getMediaType());
 
-        $facade->addLink('_filter', $this->generateRoute('open_orchestra_api_media_list', array(
-            'folderId' => $folderId,
-            'mediaType' => $facade->name
-        )));
-
         return $facade;
     }
 
