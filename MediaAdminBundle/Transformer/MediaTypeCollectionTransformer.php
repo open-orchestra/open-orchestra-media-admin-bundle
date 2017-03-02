@@ -27,10 +27,6 @@ class MediaTypeCollectionTransformer extends AbstractTransformer
             }
         }
 
-        $facade->addLink('_no_filter', $this->generateRoute('open_orchestra_api_media_list', array(
-            'folderId' => $folderId
-        )));
-
         return $facade;
     }
 

@@ -108,26 +108,6 @@ class MediaController extends BaseController
     }
 
     /**
-     * @param int $mediaId
-     *
-     * @return FacadeInterface
-     *
-     * @Config\Route("/{mediaId}", name="open_orchestra_api_media_show")
-     * @Config\Method({"GET"})
-     *
-     * @Api\Groups({MediaAdminGroupContext::MEDIA_ALTERNATIVES, MediaAdminGroupContext::MEDIA_ADVANCED_LINKS})
-     */
-    public function showAction($mediaId)
-    {
-        $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
-        if (!($media instanceof MediaInterface)) {
-            throw new MediaNotFoundException();
-        }
-
-        return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
-    }
-
-    /**
      * @param $mediaId
      *
      * @Config\Route("/{mediaId}/delete", name="open_orchestra_api_media_delete")
