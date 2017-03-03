@@ -11,6 +11,11 @@
                     <%= Translator.trans('open_orchestra_backoffice.node.tree.open') %>
                 </a>
             </div>
+            <% if (true === foldersTree[0].get('rights').can_create) {%>
+            <a href="#<%= Backbone.history.generateUrl('newFolder', {}) %>">
+                <%= Translator.trans('open_orchestra_media_admin.folder.add') %>
+            </a>
+            <% };%>
             <ul class="root-level">
                 <% _.each(foldersTree[0].get('children'), function(folderTree, key) { %>
                     <%= renderTemplate('Folder/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>

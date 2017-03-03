@@ -27,6 +27,8 @@ open_orchestra_media_admin:
             name: Nom
             site: Sélectionner des sites pour ce répertoire
             edit: Editer le dossier
+            sub_group:
+                property: Propriété
         media:
             file: Uploader un fichier
             manual_crop: Rognage manuel

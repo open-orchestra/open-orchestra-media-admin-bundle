@@ -2,6 +2,8 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use OpenOrchestra\Media\Model\FolderInterface;
+use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;
 use OpenOrchestra\BaseApi\Exceptions\HttpException\FacadeClassNotSetException;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
@@ -37,6 +39,10 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
     {
         $facade = $this->newFacade();
         $facade->folder = null;
+        $facade->addRight(
+            'can_create',
+            true
+        );
 
         if (is_array($folderCollection)) {
             foreach ($folderCollection as $folder) {
