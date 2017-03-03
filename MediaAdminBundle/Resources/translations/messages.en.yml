@@ -27,6 +27,8 @@ open_orchestra_media_admin:
             name: Name
             site: Select sites for this folder
             edit: Edit folder
+            sub_group:
+                property: Property
         media:
             file: Upload a file
             manual_crop: Manual crop

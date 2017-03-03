@@ -33,7 +33,7 @@
                 <select name='folderId' class="form-control" id="folderId">
                     <option value=""><%= Translator.trans('open_orchestra_media_admin.search_engine.folder.all') %></option>
                     <% _.each(foldersTree.models[0].get('children'), function(child) { %>
-                        <%= renderTemplate('Media/folderTreeView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
                     <% }); %>
                 </select>
             </div>

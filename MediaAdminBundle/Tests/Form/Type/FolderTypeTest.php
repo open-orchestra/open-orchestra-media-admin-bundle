@@ -41,7 +41,7 @@ class FolderTypeTest extends AbstractBaseTestCase
 
         $this->form->buildForm($builder, array());
 
-        Phake::verify($builder, Phake::times(2))->add(Phake::anyParameters());
+        Phake::verify($builder, Phake::times(1))->add(Phake::anyParameters());
     }
 
     /**
@@ -55,6 +55,15 @@ class FolderTypeTest extends AbstractBaseTestCase
 
         Phake::verify($resolverMock)->setDefaults(array(
             'data_class' => $this->class,
+            'group_enabled' => true,
+            'delete_button' => false,
+            'new_button' => false,
+            'sub_group_render' => array(
+                'property' => array(
+                    'rank' => 0,
+                    'label' => 'open_orchestra_media_admin.form.folder.sub_group.property',
+                )
+            )
         ));
     }
 }

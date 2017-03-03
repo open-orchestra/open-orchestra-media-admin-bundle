@@ -2,7 +2,7 @@ open_orchestra_media_admin:
     loading: Chargement ...
     navigation:
         contribution:
-            media: Media
+            media: Médiathèque
     media:
         title_list: Média
     folder:
@@ -37,6 +37,8 @@ open_orchestra_media_admin:
             label : Libellé / Tag
             type  : Type
             folder: Dossier
+        folder:
+            new: Nouveau répertoire
     search_engine:
         folder:
             all: Tous les dossiers
