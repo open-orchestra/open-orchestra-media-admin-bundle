@@ -3,5 +3,5 @@
 </option>
 
 <% _.each(tree.get('children'), function(child) { %>
-    <%= renderTemplate('Media/folderTreeView', {tree: child, depth: depth +1, renderTemplate: renderTemplate}) %>
+    <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: depth +1, renderTemplate: renderTemplate}) %>
 <% }); %>
