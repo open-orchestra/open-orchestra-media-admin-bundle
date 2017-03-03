@@ -13,6 +13,9 @@ class Folder extends OrchestraModel
         switch (method) {
             case "update":
                 return Routing.generate('open_orchestra_api_folder_move', urlParameter);
+            case "delete":
+                urlParameter.folderId = this.get('id');
+                return Routing.generate('open_orchestra_api_folder_delete', urlParameter);
         }
     }
 }

@@ -1,4 +1,5 @@
 import MediaRouter         from './Router/Media/MediaRouter'
+import FolderRouter        from './Router/Folder/FolderRouter'
 import FormBehaviorManager from '../Service/Form/Behavior/Manager'
 import MediaChoice         from '../Service/Form/Behavior/MediaChoice'
 import Application         from '../Application/Application'
@@ -34,6 +35,7 @@ class MediaSubApplication
      */
     _initRouter() {
         new MediaRouter();
+        new FolderRouter();
     }
 
     /**
