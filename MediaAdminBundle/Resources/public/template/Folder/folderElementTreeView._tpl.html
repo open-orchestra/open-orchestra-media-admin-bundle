@@ -25,11 +25,9 @@
             <% };%>
         </div>
     </div>
-    <% if ( 0 !== folderTree.get('children').length) { %>
-        <ul class="children <% if (true === folderTree.get('folder').get('rights').can_edit) {%> sortable-container<% }%>">
-            <% _.each(folderTree.get('children'), function(folderTree, key) { %>
-                <%= renderTemplate('Folder/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
-            <% }); %>
-        </ul>
-    <% }; %>
+    <ul class="children <% if (true === folderTree.get('folder').get('rights').can_edit) {%> sortable-container<% }%>">
+        <% _.each(folderTree.get('children'), function(folderTree, key) { %>
+            <%= renderTemplate('Folder/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
+        <% }); %>
+    </ul>
 </li>
