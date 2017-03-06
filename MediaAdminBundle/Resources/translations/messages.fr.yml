@@ -6,6 +6,15 @@ open_orchestra_backoffice:
           folder: Dossier médiathèque
           media: Média
     oo_group_perimeters_tree_list_collection_media_folder : Répertoires médiathèque
+    block:
+        slideshow:
+            title: Diaporama
+        gallery:
+            title: Galerie
+        media_list_by_keyword:
+            title: Liste de média par mot clé
+        display_media:
+            title: Bloc média
 
 open_orchestra_media_admin:
     folder:
