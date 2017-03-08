@@ -1,13 +1,23 @@
-<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.size') %></span>
-<%= media.get('media_informations').size %> <%= Translator.trans('open_orchestra_media_admin.select.bytes') %><br>
+<div class="row">
+    <span class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.size') %></span>
+    <span class="col-sm-7"><%= media.get('media_informations').size %> <%= Translator.trans('open_orchestra_media_admin.select.bytes') %></span>
+</div>
 
-<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></span>
-<% update_date = new Date(media.get('updated_at')) %>
-<%= update_date.toDateString() %><br/>
+<div class="row">
+    <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></div>
+    <div class="col-sm-7">
+        <% update_date = new Date(media.get('updated_at')) %>
+        <%= update_date.toDateString() %>
+    </div>
+</div>
 
-<span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.tags') %></span>
-<% if (media.get('keywords').length > 0) { %>
-    <%= media.get('keywords').join(', ') %>
-<% } else { %>
-    -
-<% } %>
+<div class="row">
+    <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.tags') %></div>
+    <div class="col-sm-7">
+        <% if (media.get('keywords').length > 0) { %>
+        <%= media.get('keywords').join(', ') %>
+        <% } else { %>
+        -
+        <% } %>
+    </div>
+</div>

@@ -6,18 +6,24 @@
         <%= renderTemplate('Media/Modal/Include/mediaSelectionBaseInfo', {'media': media}) %>
         <br/>
 
-        <span class="col-sm-3"><%= Translator.trans('open_orchestra_media_admin.select.format.description') %></span>
+        <div class="row">
+            <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.format.description') %></div>
+            <div class="col-sm-7">
+                <div class="styled-select">
+                    <select class="form-control" id="modal-media-format">
+                        <option value="original" data-src="<%= media.get('thumbnail') %>">
+                            <%= Translator.trans('open_orchestra_media_admin.select.format.original_image') %>
+                        </option>
+                        <% _.each(media.get('alternatives'), function(src, format) { %>
+                        <option value="<%= format %>" data-src="<%= src %>">
+                            <%= Translator.trans('open_orchestra_media_admin.select.format.' + format) %>
+                        </option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-        <select class="form-control" id="modal-media-format">
-            <option value="original" data-src="<%= media.get('thumbnail') %>">
-                <%= Translator.trans('open_orchestra_media_admin.select.format.original_image') %>
-            </option>
-            <% _.each(media.get('alternatives'), function(src, format) { %>
-                <option value="<%= format %>" data-src="<%= src %>">
-                    <%= Translator.trans('open_orchestra_media_admin.select.format.' + format) %>
-                </option>
-            <% }); %>
-        </select>
     </div>
 </div>
 <div>
