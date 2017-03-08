@@ -2,8 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use OpenOrchestra\Media\Model\FolderInterface;
-use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;
 use OpenOrchestra\BaseApi\Exceptions\HttpException\FacadeClassNotSetException;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
