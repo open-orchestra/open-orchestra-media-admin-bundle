@@ -41,6 +41,18 @@ class MediaFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
 
         return this;
     }
+
+    /**
+     * Render a form
+     *
+     * @private
+     */
+    _renderForm() {
+        super._renderForm();
+        $('#page-name', this.$el).html($("input[id*='oo_media_']", this.$el).first().val());
+
+        return this;
+    }
 }
 
 export default MediaFormView;
