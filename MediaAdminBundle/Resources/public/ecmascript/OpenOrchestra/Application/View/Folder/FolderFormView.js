@@ -12,12 +12,10 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
     /**
      * Initialize
      * @param {Form}   form
-     * @param {Array}  name
      * @param {string} folderId
      */
-    initialize({form, name, folderId = null}) {
+    initialize({form, folderId = null}) {
         super.initialize({form : form});
-        this._name = name;
         this._folderId = folderId;
     }
 
@@ -25,12 +23,26 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritdoc
      */
     render() {
-        let template = this._renderTemplate('Folder/folderEditView', {
-            name: this._name
-        });
+        let template = this._renderTemplate('Folder/folderEditView');
         this.$el.html(template);
         this._$formRegion = $('.form-edit', this.$el);
         super.render();
+
+        return this;
+    }
+
+    /**
+     * Render a form
+     *
+     * @private
+     */
+    _renderForm() {
+        super._renderForm();
+        let title = $('#oo_folder_name', this.$el).val();
+        if (null === this._folderId) {
+            title = Translator.trans('open_orchestra_media_admin.table.folder.new');
+        }
+        $('#page-name', this.$el).html(title);
 
         return this;
     }

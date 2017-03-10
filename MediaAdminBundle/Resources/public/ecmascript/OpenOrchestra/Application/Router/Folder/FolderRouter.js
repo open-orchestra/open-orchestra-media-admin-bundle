@@ -15,9 +15,9 @@ class FolderRouer extends AbstractMediaRouter
      */
     preinitialize(options) {
         this.routes = {
-            'folder/list'                   : 'listFolders',
-            'folder/edit/:folderId/:name'   : 'editFolder',
-            'folder/new(/:parentId)'        : 'newFolder'
+            'folder/list'           : 'listFolders',
+            'folder/edit/:folderId' : 'editFolder',
+            'folder/new(/:parentId)': 'newFolder'
         };
     }
 
@@ -43,7 +43,6 @@ class FolderRouer extends AbstractMediaRouter
      *  Edit Folder
      *
      * @param {String} folderId
-     * @param {string} name
      */
     editFolder(folderId) {
         this._displayLoader(Application.getRegion('content'));
@@ -51,7 +50,6 @@ class FolderRouer extends AbstractMediaRouter
         FormBuilder.createFormFromUrl(url, (form) => {
             let folderFormView = new FolderFormView({
                 form: form,
-                name: name,
                 folderId: folderId
             });
             Application.getRegion('content').html(folderFormView.render().$el);
@@ -71,8 +69,7 @@ class FolderRouer extends AbstractMediaRouter
         }
         FormBuilder.createFormFromUrl(url, (form) => {
             let folderFormView = new FolderFormView({
-                form: form,
-                name: Translator.trans('open_orchestra_media_admin.table.folder.new')
+                form : form
             });
             Application.getRegion('content').html(folderFormView.render().$el);
         });
