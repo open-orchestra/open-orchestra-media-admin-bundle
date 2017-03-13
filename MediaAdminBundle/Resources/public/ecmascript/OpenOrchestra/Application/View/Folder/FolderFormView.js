@@ -73,13 +73,8 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      */
     _redirectEditElement(data, textStatus, jqXHR) {
         let folderId = jqXHR.getResponseHeader('folderId');
-        let name = jqXHR.getResponseHeader('name');
-        if (null === folderId || null === name) {
-            throw new ApplicationError('Invalid folderId or name');
-        }
         let url = Backbone.history.generateUrl('editFolder', {
-            folderId: folderId,
-            name: name
+            folderId: folderId
         });
         Backbone.Events.trigger('form:deactivate', this);
         Backbone.history.navigate(url, true);
