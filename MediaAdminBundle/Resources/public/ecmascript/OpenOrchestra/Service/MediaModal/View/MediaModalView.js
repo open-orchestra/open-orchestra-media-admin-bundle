@@ -1,7 +1,8 @@
-import ModalView   from '../../../Service/Modal/View/ModalView'
-import Medias      from '../../../Application/Collection/Media/Medias'
-import Application from '../../../Application/Application'
-import MediasView  from '../../../Application/View/Media/MediasView'
+import ModalView     from '../../../Service/Modal/View/ModalView'
+import Medias        from '../../../Application/Collection/Media/Medias'
+import Application   from '../../../Application/Application'
+import MediasView    from '../../../Application/View/Media/MediasView'
+import DateFormatter from '../../../Service/DataFormatter/DateFormatter'
 
 /**
  * @class MediaModalView
@@ -88,7 +89,7 @@ class MediaModalView extends ModalView
         if (typeof mediaViewTemplates[media.get('media_type')] !== 'undefined') {
             template = mediaViewTemplates[media.get('media_type')];
         }
-        $('.modal-body', container).append(this._renderTemplate(template, {'media': media}));
+        $('.modal-body', container).append(this._renderTemplate(template, {media: media, DateFormatter: DateFormatter}));
         $('.modal-footer', container).append(this._renderTemplate('Media/Modal/Include/buttons'));
         this.$el.html(container);
     }
