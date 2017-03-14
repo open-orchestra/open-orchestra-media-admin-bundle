@@ -23,26 +23,16 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritdoc
      */
     render() {
-        let template = this._renderTemplate('Folder/folderEditView');
-        this.$el.html(template);
-        this._$formRegion = $('.form-edit', this.$el);
-        super.render();
-
-        return this;
-    }
-
-    /**
-     * Render a form
-     *
-     * @private
-     */
-    _renderForm() {
-        super._renderForm();
-        let title = $('#oo_folder_name', this.$el).val();
+        let title = $('#oo_folder_name', this._form.$form).val();
         if (null === this._folderId) {
             title = Translator.trans('open_orchestra_media_admin.table.folder.new');
         }
-        $('#page-name', this.$el).html(title);
+        let template = this._renderTemplate('Folder/folderEditView', {
+            title: title
+        });
+        this.$el.html(template);
+        this._$formRegion = $('.form-edit', this.$el);
+        super.render();
 
         return this;
     }
