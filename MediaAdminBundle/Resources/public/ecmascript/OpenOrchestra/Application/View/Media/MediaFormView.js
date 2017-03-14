@@ -34,22 +34,12 @@ class MediaFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritdoc
      */
     render() {
-        let template = this._renderTemplate(this._template);
+        let template = this._renderTemplate(this._template, {
+            title: $("input[id*='oo_media_']", this._form.$form).first().val()
+        });
         this.$el.html(template);
         this._$formRegion = $('.form-edit', this.$el);
         super.render();
-
-        return this;
-    }
-
-    /**
-     * Render a form
-     *
-     * @private
-     */
-    _renderForm() {
-        super._renderForm();
-        $('#page-name', this.$el).html($("input[id*='oo_media_']", this.$el).first().val());
 
         return this;
     }
