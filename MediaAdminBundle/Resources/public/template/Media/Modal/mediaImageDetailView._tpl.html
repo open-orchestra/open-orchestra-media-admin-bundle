@@ -3,7 +3,7 @@
         <img src="<%= media.get('original') %>" id="modal-media-img" data-id="<%= media.get('id') %>">
     </div>
     <div class="col-sm-8">
-        <%= renderTemplate('Media/Modal/Include/mediaSelectionBaseInfo', {'media': media}) %>
+        <%= renderTemplate('Media/Modal/Include/mediaSelectionBaseInfo', {'media': media, DateFormatter: DateFormatter}) %>
         <br/>
 
         <div class="row">

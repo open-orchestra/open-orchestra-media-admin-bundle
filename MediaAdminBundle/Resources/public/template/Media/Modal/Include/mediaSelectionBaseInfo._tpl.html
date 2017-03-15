@@ -6,8 +6,7 @@
 <div class="row">
     <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></div>
     <div class="col-sm-7">
-        <% update_date = new Date(media.get('updated_at')) %>
-        <%= update_date.toDateString() %>
+        <%= DateFormatter.format(media.get('updated_at'))%>
     </div>
 </div>
 
