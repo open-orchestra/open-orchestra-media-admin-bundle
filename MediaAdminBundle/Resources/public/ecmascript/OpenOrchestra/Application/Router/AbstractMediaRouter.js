@@ -19,11 +19,13 @@ class AbstractMediaRouter extends OrchestraRouter
             [
                 {
                     label: Translator.trans('open_orchestra_media_admin.media.title_list'),
-                    link: '#'+Backbone.history.generateUrl('listMedia')
+                    link: '#'+Backbone.history.generateUrl('listMedia'),
+                    id : 'course-media'
                 },
                 {
                     label: Translator.trans('open_orchestra_media_admin.folder.title_list'),
-                    link: '#'+Backbone.history.generateUrl('listFolders')
+                    link: '#'+Backbone.history.generateUrl('listFolders'),
+                    id : 'course-folder'
                 }
             ]
         ]

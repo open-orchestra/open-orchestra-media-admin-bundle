@@ -22,6 +22,28 @@ class FolderRouer extends AbstractMediaRouter
     }
 
     /**
+     * @inheritdoc
+     */
+    getNavigationHighlight() {
+        return {
+            listFolders : 'course-media-library',
+            editFolder  : 'course-media-library',
+            newFolder   : 'course-media-library'
+        };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getBreadcrumbHighlight() {
+        return {
+            listFolders : 'course-folder',
+            editFolder  : 'course-folder',
+            newFolder   : 'course-folder'
+        };
+    }
+
+    /**
      *  List Folders
      */
     listFolders() {

@@ -26,6 +26,28 @@ class MediaRouter extends AbstractMediaRouter
     }
 
     /**
+     * @inheritdoc
+     */
+    getNavigationHighlight() {
+        return {
+            listMedia : 'course-media-library',
+            newMedia  : 'course-media-library',
+            editMedia : 'course-media-library'
+        };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getBreadcrumbHighlight() {
+        return {
+            listMedia : 'course-media',
+            newMedia  : 'course-media',
+            editMedia : 'course-media'
+        };
+    }
+
+    /**
      *  List Media
      *
      * @param {String} page
