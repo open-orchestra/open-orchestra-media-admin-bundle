@@ -12,12 +12,10 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
     /**
      * Initialize
      * @param {Form}   form
-     * @param {Array}  name
      * @param {string} folderId
      */
-    initialize({form, name, folderId = null}) {
+    initialize({form, folderId = null}) {
         super.initialize({form : form});
-        this._name = name;
         this._folderId = folderId;
     }
 
@@ -25,8 +23,12 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritdoc
      */
     render() {
+        let title = $('#oo_folder_name', this._form.$form).val();
+        if (null === this._folderId) {
+            title = Translator.trans('open_orchestra_media_admin.table.folder.new');
+        }
         let template = this._renderTemplate('Folder/folderEditView', {
-            name: this._name
+            title: title
         });
         this.$el.html(template);
         this._$formRegion = $('.form-edit', this.$el);
@@ -61,13 +63,8 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      */
     _redirectEditElement(data, textStatus, jqXHR) {
         let folderId = jqXHR.getResponseHeader('folderId');
-        let name = jqXHR.getResponseHeader('name');
-        if (null === folderId || null === name) {
-            throw new ApplicationError('Invalid folderId or name');
-        }
         let url = Backbone.history.generateUrl('editFolder', {
-            folderId: folderId,
-            name: name
+            folderId: folderId
         });
         Backbone.Events.trigger('form:deactivate', this);
         Backbone.history.navigate(url, true);
