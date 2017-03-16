@@ -1,6 +1,6 @@
 open_orchestra_media_admin:
     loading: Chargement ...
-    navigation:
+    menu:
         contribution:
             media: Médiathèque
     media:

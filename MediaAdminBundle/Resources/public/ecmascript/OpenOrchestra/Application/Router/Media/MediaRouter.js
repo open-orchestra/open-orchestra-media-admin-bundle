@@ -28,11 +28,11 @@ class MediaRouter extends AbstractMediaRouter
     /**
      * @inheritdoc
      */
-    getNavigationHighlight() {
+    getMenuHighlight() {
         return {
-            listMedia : 'course-media-library',
-            newMedia  : 'course-media-library',
-            editMedia : 'course-media-library'
+            listMedia : 'navigation-media-library',
+            newMedia  : 'navigation-media-library',
+            editMedia : 'navigation-media-library'
         };
     }
 
@@ -41,9 +41,9 @@ class MediaRouter extends AbstractMediaRouter
      */
     getBreadcrumbHighlight() {
         return {
-            listMedia : 'course-media',
-            newMedia  : 'course-media',
-            editMedia : 'course-media'
+            listMedia : 'navigation-media',
+            newMedia  : 'navigation-media',
+            editMedia : 'navigation-media'
         };
     }
 
