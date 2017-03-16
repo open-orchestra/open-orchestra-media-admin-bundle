@@ -5,6 +5,15 @@ open_orchestra_backoffice:
           folder: Media library folder
           media: Media
     oo_group_perimeters_tree_list_collection_media_folder : Media folders
+    block:
+        slideshow:
+            title: Slideshow
+        gallery:
+            title: Gallery
+        media_list_by_keyword:
+            title: Media list by keyword
+        display_media:
+            title: Media block
 
 open_orchestra_media_admin:
     folder:
