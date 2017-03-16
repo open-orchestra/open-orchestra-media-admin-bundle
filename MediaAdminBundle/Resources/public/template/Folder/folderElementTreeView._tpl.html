@@ -2,12 +2,15 @@
     <% if (true === folderTree.get('folder').get('rights').can_edit) {%> class="sortable-node"<% }%>
 >
     <div>
-        <% if (true === folderTree.get('folder').get('rights').can_edit) {%>
-            <i class="fa fa-arrows sortable-handler" aria-hidden="true"></i>
-        <% }; %>
-        <% if ( 0 !== folderTree.get('children').length) { %>
-            <i class="fa fa-chevron-down toggle-tree" aria-hidden="true"></i>
-        <% }; %>
+        <p class="tree-icon">
+            <% if (true === folderTree.get('folder').get('rights').can_edit) {%>
+                <i class="fa fa-arrows sortable-handler" aria-hidden="true"></i>
+            <% }; %>
+            <% if ( 0 !== folderTree.get('children').length) { %>
+                <i class="fa fa-chevron-down toggle-tree" aria-hidden="true"></i>
+            <% }; %>
+        </p>
+
         <span><%= folderTree.get('folder').get('name') %></span>
         <div class="links">
             <a href="#<%= Backbone.history.generateUrl('editFolder', {
