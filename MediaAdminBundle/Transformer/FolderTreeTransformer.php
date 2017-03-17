@@ -37,10 +37,6 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
     {
         $facade = $this->newFacade();
         $facade->folder = null;
-        $facade->addRight(
-            'can_create',
-            true
-        );
 
         if (is_array($folderCollection)) {
             foreach ($folderCollection as $folder) {

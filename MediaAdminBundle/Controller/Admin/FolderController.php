@@ -55,16 +55,15 @@ class FolderController extends AbstractAdminController
      */
     public function newAction(Request $request, $parentId=null)
     {
-        $folderClass = $this->container->getParameter('open_orchestra_media.document.media_folder.class');
+        $folderClass = $this->getParameter('open_orchestra_media.document.media_folder.class');
         $folder = new $folderClass();
         if (!is_null($parentId)) {
-            $parentFolder = $this->container->get('open_orchestra_media.repository.media_folder')->find($parentId);
+            $parentFolder = $this->get('open_orchestra_media.repository.media_folder')->find($parentId);
             $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $parentFolder);
             if ($parentFolder) {
                 $folder->setParent($parentFolder);
             }
         }
-        $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $folder);
         $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
         $folder->setSiteId($siteId);
         $url = $this->generateUrl('open_orchestra_media_admin_folder_new');
