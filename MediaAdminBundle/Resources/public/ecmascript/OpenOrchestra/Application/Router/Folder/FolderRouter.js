@@ -26,9 +26,7 @@ class FolderRouer extends AbstractMediaRouter
      */
     getMenuHighlight() {
         return {
-            listFolders : 'navigation-media-library',
-            editFolder  : 'navigation-media-library',
-            newFolder   : 'navigation-media-library'
+            '*' : 'navigation-media-library'
         };
     }
 
@@ -37,9 +35,7 @@ class FolderRouer extends AbstractMediaRouter
      */
     getBreadcrumbHighlight() {
         return {
-            listFolders : 'navigation-folder',
-            editFolder  : 'navigation-folder',
-            newFolder   : 'navigation-folder'
+            '*' : 'navigation-folder'
         };
     }
 

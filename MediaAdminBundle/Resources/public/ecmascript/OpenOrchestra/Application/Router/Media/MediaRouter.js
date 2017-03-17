@@ -30,9 +30,7 @@ class MediaRouter extends AbstractMediaRouter
      */
     getMenuHighlight() {
         return {
-            listMedia : 'navigation-media-library',
-            newMedia  : 'navigation-media-library',
-            editMedia : 'navigation-media-library'
+            '*' : 'navigation-media-library'
         };
     }
 
@@ -41,9 +39,7 @@ class MediaRouter extends AbstractMediaRouter
      */
     getBreadcrumbHighlight() {
         return {
-            listMedia : 'navigation-media',
-            newMedia  : 'navigation-media',
-            editMedia : 'navigation-media'
+            '*' : 'navigation-media'
         };
     }
 
