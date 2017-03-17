@@ -26,6 +26,24 @@ class MediaRouter extends AbstractMediaRouter
     }
 
     /**
+     * @inheritdoc
+     */
+    getMenuHighlight() {
+        return {
+            '*' : 'navigation-media-library'
+        };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getBreadcrumbHighlight() {
+        return {
+            '*' : 'navigation-media'
+        };
+    }
+
+    /**
      *  List Media
      *
      * @param {String} page

@@ -1,6 +1,6 @@
 open_orchestra_media_admin:
     loading: Loading ...
-    navigation:
+    menu:
         contribution:
             media: Media
     media:
