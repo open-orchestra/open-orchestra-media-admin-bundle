@@ -1,7 +1,6 @@
 open_orchestra_backoffice:
     form:
       remove: Retirer
-      no_access: Vous n'avez pas les droits d'accès à la mediathèque.
       role:
           folder: Dossier médiathèque
           media: Média
@@ -30,12 +29,8 @@ open_orchestra_media_admin:
         folder:
             success: Le répertoire a été sauvegardé
             delete: Ce répertoire contient des média, vous ne pouvez pas le supprimer.
-            confirm_delete:
-                title: Etes-vous sur de supprimer le dossier ?
-                text: La suppression entrainera la suppression des sous-dossier
             name: Nom
             site: Sélectionner des sites pour ce répertoire
-            edit: Editer le dossier
             sub_group:
                 property: Propriété
         media:
@@ -49,14 +44,11 @@ open_orchestra_media_admin:
             rectangle: Rectangle (100p x 70p)
             fixed_width: Largeur fixe (100p)
             fixed_height: Hauteur fixe (100p)
-            media_thumbnail: Médiathéque
             no_media_selected: Aucun média sélectionné
             list:
                 keyword: Mot-clé
             title: Titre
-            alt: Alt
             copyright: Copyright
-            comment: Commentaire
             keywords: Mot-clés
             group:
                 information: Information
@@ -72,13 +64,8 @@ open_orchestra_media_admin:
             media_folder_role_edition: Liste des rôles par dossier de média
             media_folder_list: Liste des dossiers de média
             media_folder_role_no_site: Le groupe doit être lié a un site pour gérer les rôles par dossier de média
-    left_menu:
-        tree:
-            new_media_folder: Nouveau répertoire
-            delete_media_folder: Etes vous sûr de supprimer le répertoire %folderName%?
-        editorial:
-            media: Médiathèque
-            browse: Parcourir
+
+
     block:
         slideshow:
             title: Diaporama
@@ -113,12 +100,6 @@ open_orchestra_media_admin:
             description: Affiche une image
             form:
                 node_link: Ajoute un lien au média
-    media:
-        current_preview: Image
-        crop: Crop
-        meta: Méta
-        delete_question: Souhaitez-vous supprimer ce média ?
-        delete_explanation: Cette opération est non réversible.
     log:
         media:
             add: Ajoute un média nommé media_name

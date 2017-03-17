@@ -1,7 +1,6 @@
 open_orchestra_backoffice:
     form:
       remove: Remove
-      no_access: You don't have the access to the media management.
       role:
           folder: Media library folder
           media: Media
@@ -30,12 +29,8 @@ open_orchestra_media_admin:
         folder:
             success: The folder has been saved
             delete: This folder contains media, you can't delete it.
-            confirm_delete:
-                title: Are you sure to delete this folder?
-                text: Deleting this folder will delete all of his subfolder.
             name: Name
             site: Select sites for this folder
-            edit: Edit folder
             sub_group:
                 property: Property
         media:
@@ -49,14 +44,11 @@ open_orchestra_media_admin:
             rectangle: Rectangle (100p x 70p)
             fixed_width: Fixed width (100p)
             fixed_height: Fixed height (100p)
-            media_thumbnail: Media Preview
             no_media_selected: No media selected
             list:
                 keyword: Mot-clé
             title: Title
-            alt: Alt
             copyright: Copyright
-            comment: Comment
             keywords: Keywords
             folder: Folder
             group:
@@ -73,13 +65,7 @@ open_orchestra_media_admin:
             media_folder_role_edition: Media role list
             media_folder_list: Media folder list
             media_folder_role_no_site: The group must be linked to a site to manage roles by media folder
-    left_menu:
-        tree:
-            new_media_folder: New Folder
-            delete_media_folder: Are you sure to delete the folder %folderName%?
-        editorial:
-            media: Media
-            browse: Browse
+
     block:
         slideshow:
             title: Slideshow
@@ -111,12 +97,6 @@ open_orchestra_media_admin:
             description: Display a picture
             form:
                 node_link: Add a link to the media
-    media:
-        current_preview: Image
-        crop: Crop
-        meta: Meta
-        delete_question: Would you like to delete this media?
-        delete_explanation: This operation is not reversible.
     log:
         media:
             add: Add a new media with media name media_name
