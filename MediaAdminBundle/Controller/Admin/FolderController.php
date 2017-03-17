@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use OpenOrchestra\MediaAdmin\FolderEvents;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +42,7 @@ class FolderController extends AbstractAdminController
         }
         return $this->renderAdminForm($form);
     }
+
     /**
      * @param Request $request
      * @param string  $parentId
