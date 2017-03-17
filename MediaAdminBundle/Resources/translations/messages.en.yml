@@ -1,6 +1,7 @@
 open_orchestra_backoffice:
     form:
       remove: Remove
+      browse: Browse
       role:
           folder: Media library folder
           media: Media
@@ -71,6 +72,9 @@ open_orchestra_media_admin:
             title: Slideshow
             description: Scroll images.
             form:
+                pictures: Pictures
+                height: Height
+                width: Widht
                 media:
                     add: Add media
                     new: New media
@@ -106,4 +110,3 @@ open_orchestra_media_admin:
             create: Create a new folder with folder name folder_name
             delete: Delete a folder with folder name folder_name
             update: Update a folder with folder name folder_name
-

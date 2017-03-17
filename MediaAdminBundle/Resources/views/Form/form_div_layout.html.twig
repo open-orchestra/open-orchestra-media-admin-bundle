@@ -33,7 +33,7 @@
                     data-media-type="{{ form.vars.filter }}"
                     data-form-id="{{ form.vars.id }}"
                 >
-                    {{ 'open_orchestra_media_admin.left_menu.editorial.browse'|trans({'language':context.currentLocale}) }}
+                    {{ 'open_orchestra_backoffice.form.browse'|trans({'language':context.currentLocale}) }}
                     {% if form.vars.filter %}
                         <br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]
                     {% endif %}
@@ -98,52 +98,3 @@
         <div class="media-override-format-form" style="display:none"></div>
     {% endspaceless %}
 {% endblock _oo_media_image_format_widget %}
-
-
-
-{% block bootstrap_collection_widget %}
-    {% spaceless %}
-        {% set delete_button_text = form.vars.delete_button_text %}
-        {% set add_button_text = form.vars.add_button_text %}
-        {% if translation_domain is not same as (false) %}
-            {% set delete_button_text = delete_button_text|trans({}, translation_domain) %}
-            {% set add_button_text = add_button_text|trans({}, translation_domain) %}
-        {% endif %}
-        {% if prototype is defined %}
-            {% set prototype_vars = {} %}
-            {% if style is defined %}
-                {% set prototype_vars = prototype_vars|merge({'style': style}) %}
-            {% endif %}
-            {% set prototype_html = '<div class="col-xs-' ~ form.vars.sub_widget_col ~ '">' ~ form_widget(prototype, prototype_vars) ~ '</div>' %}
-            {% if form.vars.allow_delete %}
-                {% set prototype_html = prototype_html ~ '<div class="col-xs-' ~ form.vars.button_col ~ '"><a href="#" class="' ~ form.vars.delete_button_class ~ '" data-removefield="collection" data-field="__id__"><i class="fa fa-trash"></i></a></div>' %}
-            {% endif %}
-            {% set prototype_html = '<div class="row">' ~ prototype_html ~ '</div>' %}
-
-            {% set attr = attr|merge({'data-prototype': prototype_html }) %}
-            {% set attr = attr|merge({'data-prototype-name': prototype_name }) %}
-        {% endif %}
-        <div {{ block('widget_container_attributes') }}>
-            <ul class="bc-collection list-unstyled">
-                {% for field in form %}
-                    <li>
-                        <div class="row">
-                            <div class="col-xs-{{ form.vars.sub_widget_col }}">
-                                {{ form_widget(field) }}
-                                {{ form_errors(field) }}
-                            </div>
-                            {% if form.vars.allow_delete %}
-                                <div class="col-xs-{{ form.vars.button_col }}">
-                                    <a href="#" class="{{ form.vars.delete_button_class }}" data-removefield="collection" data-field="{{ field.vars.id }}">{{ delete_button_text|parse_icons|raw }}</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% if form.vars.allow_add %}
-                <a href="#" class="btn btn-border glyphicon glyphicon-plus" data-addfield="collection" data-collection="{{ form.vars.id }}" data-prototype-name="{{ prototype_name }}">{{ add_button_text|parse_icons|raw }}</a>
-            {% endif %}
-        </div>
-    {% endspaceless %}
-{% endblock bootstrap_collection_widget %}
