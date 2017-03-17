@@ -1,6 +1,6 @@
 <?php
-namespace OpenOrchestra\MediaAdmin\MediaForm\Strategy;
 
+namespace OpenOrchestra\MediaAdmin\MediaForm\Strategy;
 
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy as ImageAlternativeStrategy;
@@ -78,7 +78,7 @@ class ImageStrategy implements MediaFormStrategyInterface
         $w = $form->get('w')->getData();
         $format = $form->get('format')->getData();
 
-        if (null != $x && null != $y && null != $h && null != $w && null !== $format) {
+        if (null !== $x && null !== $y && null !== $h && null !== $w && null !== $format) {
             $media = $form->getData();
 
             $this->imageAlternativeStrategy->cropAlternative($media, $x, $y, $h, $w, $format);
@@ -98,7 +98,7 @@ class ImageStrategy implements MediaFormStrategyInterface
         $file = $form->get('file')->getData();
         $format = $form->get('format')->getData();
 
-        if (null != $file && null != $format) {
+        if (null !== $file && null !== $format) {
             $media = $form->getData();
 
             $tmpFileName = time() . '-' . $file->getClientOriginalName();

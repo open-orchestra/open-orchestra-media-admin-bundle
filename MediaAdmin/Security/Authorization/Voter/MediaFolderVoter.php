@@ -2,8 +2,6 @@
 
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
-use OpenOrchestra\Media\Model\MediaFolderInterface;
-
 /**
  * Class MediaFolderVoter
  *
