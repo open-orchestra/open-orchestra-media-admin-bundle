@@ -60,7 +60,6 @@ services:
         arguments:
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'
-            - '@open_orchestra_backoffice.context_manager'
             - '@open_orchestra_media_admin.event.folder_event.factory'
         tags:
             - { name: kernel.event_subscriber }

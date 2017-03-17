@@ -28,9 +28,6 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
 
         $this->eventDispatcher = Phake::mock('Symfony\Component\EventDispatcher\EventDispatcher');
 
-        $this->currentSiteManager = Phake::mock('OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface');
-        Phake::when($this->currentSiteManager)->getCurrentSiteId()->thenReturn('fakeId');
-
         $folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
         $folderEventFactory = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEventFactory');
         Phake::when($folderEventFactory)->createFolderEvent()->thenReturn($folderEvent);
@@ -38,7 +35,6 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
         $this->subscriber = new UpdateFolderPathSubscriber(
             $this->folderRepository,
             $this->eventDispatcher,
-            $this->currentSiteManager,
             $folderEventFactory
         );
     }
@@ -64,7 +60,6 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
      */
     public function testUpdatePath()
     {
-        $siteId = $this->currentSiteManager->getCurrentSiteId();
         $parentFolderId = 'parent';
         $grandParentPath = '/';
         $parentPath = 'parentPath';
