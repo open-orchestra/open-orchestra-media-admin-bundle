@@ -1,7 +1,9 @@
 <% if (!selectionMod) { %>
-    <div class="top-action-buttons">
-        <a class="btn btn-info" href="#<%= Backbone.history.generateUrl('newMedia') %>" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
-    </div>
+    <% if (can_create) { %>
+        <div class="top-action-buttons">
+            <a class="btn btn-info" href="#<%= Backbone.history.generateUrl('newMedia') %>" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
+        </div>
+    <% } %>
 <h1> <%= Translator.trans('open_orchestra_media_admin.media.title_list') %></h1>
 <% } %>
 <form class="form-horizontal search-engine">

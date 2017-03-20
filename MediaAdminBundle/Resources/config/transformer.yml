@@ -27,6 +27,7 @@ services:
             - '%open_orchestra_media_admin.facade.media_collection.class%'
             - '@security.authorization_checker'
             - '@open_orchestra_media.repository.media_folder'
+            - '@security.token_storage'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
 

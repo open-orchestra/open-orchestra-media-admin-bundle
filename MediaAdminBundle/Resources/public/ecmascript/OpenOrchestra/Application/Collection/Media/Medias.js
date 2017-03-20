@@ -14,6 +14,19 @@ class Medias extends DataTableCollection
     }
 
     /**
+     * @param response
+     *
+     * @returns {Object}
+     */
+    parse(response) {
+        if (response.hasOwnProperty('rights')) {
+            this.rights = response.rights;
+        }
+
+        return super.parse(response);
+    }
+
+    /**
      * @inheritdoc
      */
     toJSON(options) {
