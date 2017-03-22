@@ -1,5 +1,11 @@
-<li>
-    <a href="#<%= Backbone.history.generateUrl('listMedia') %>" id="navigation-media-library">
-        <%= Translator.trans('open_orchestra_media_admin.menu.contribution.media') %>
-    </a>
-</li>
+<% if (access_section.media || access_section.media_folder) { %>
+    <li>
+        <% if (access_section.media) { %>
+            <a href="#<%= Backbone.history.generateUrl('listMedia') %>" id="navigation-media-library">
+        <% } else { %>
+            <a href="#<%= Backbone.history.generateUrl('listFolders') %>" id="navigation-media-library">
+        <% } %>
+            <%= Translator.trans('open_orchestra_media_admin.menu.contribution.media') %>
+        </a>
+    </li>
+<% } %>
