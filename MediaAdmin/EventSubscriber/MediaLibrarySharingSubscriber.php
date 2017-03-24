@@ -3,7 +3,6 @@
 namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\Media\Model\MediaLibrarySharingInterface;
 use OpenOrchestra\Media\Repository\MediaLibrarySharingRepositoryInterface;
 use OpenOrchestra\ModelInterface\Model\SiteInterface;
@@ -17,27 +16,23 @@ use Symfony\Component\Form\FormEvents;
  */
 class MediaLibrarySharingSubscriber implements EventSubscriberInterface
 {
-    protected $contextManager;
     protected $mediaLibrarySharingRepository;
     protected $mediaLibrarySharingClass;
     protected $objectManager;
     protected $siteRepository;
 
     /**
-     * @param CurrentSiteIdInterface                 $contextManager
      * @param MediaLibrarySharingRepositoryInterface $mediaLibrarySharingRepository
      * @param String                                 $mediaLibrarySharingClass
      * @param ObjectManager                          $objectManager
      * @param SiteRepositoryInterface                $siteRepository
      */
     public function __construct(
-        CurrentSiteIdInterface $contextManager,
         MediaLibrarySharingRepositoryInterface $mediaLibrarySharingRepository,
         $mediaLibrarySharingClass,
         ObjectManager $objectManager,
         SiteRepositoryInterface $siteRepository
     ) {
-        $this->contextManager = $contextManager;
         $this->mediaLibrarySharingRepository = $mediaLibrarySharingRepository;
         $this->mediaLibrarySharingClass = $mediaLibrarySharingClass;
         $this->objectManager = $objectManager;
@@ -83,9 +78,6 @@ class MediaLibrarySharingSubscriber implements EventSubscriberInterface
             'sub_group_id' => 'media',
             'data' => $siteAllowedShare
         ));
-
-
-        $event->getForm()->get('media_sharing')->setData($siteAllowedShare);
     }
 
     /**
@@ -101,10 +93,8 @@ class MediaLibrarySharingSubscriber implements EventSubscriberInterface
                 $mediaLibrarySharing->setSiteId($siteId);
             }
             $mediaLibrarySharing->setAllowedSites($event->getForm()->get('media_sharing')->getData());
-            dump($event->getForm()->get('media_sharing')->getData());
-            dump($mediaLibrarySharing);
             $this->objectManager->persist($mediaLibrarySharing);
-            dump($this->objectManager->flush());
+            $this->objectManager->flush();
         }
     }
 
