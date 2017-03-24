@@ -1,7 +1,7 @@
 {
   "contribution": {
     "media": {
-      "template": "Navigation/Contribution/media",
+      "template": "Menu/Contribution/media",
       "rank": 15
     }
   }
