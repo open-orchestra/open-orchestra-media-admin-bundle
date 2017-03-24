@@ -1,11 +1,21 @@
-<div class="modal-dialog modal-lg">
+<div class="media-modal modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
-           <h4 class="modal-title"><%= title %></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"></h4>
+            <div class="form-group col-lg-12 ">
+                <div class="styled-select">
+                    <select class="form-control select-site">
+                        <% _.each(sites, function(site, key) { %>
+                            <option value="<%= site.get('site_id') %>" <%if (currentSiteId == site.get('site_id')) {%> selected="selected" <%}%> >
+                                <%= site.get('name') %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="modal-body"></div>
-        <% if (withFooter) { %>
-            <div class="modal-footer"></div>
-        <% } %>
+        <div class="modal-footer"></div>
     </div>
 </div>

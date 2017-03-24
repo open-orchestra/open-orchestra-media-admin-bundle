@@ -1,8 +1,9 @@
-import ModalView     from '../../../Service/Modal/View/ModalView'
-import Medias        from '../../../Application/Collection/Media/Medias'
-import Application   from '../../../Application/Application'
-import MediasView    from '../../../Application/View/Media/MediasView'
-import DateFormatter from '../../../Service/DataFormatter/DateFormatter'
+import ModalView              from '../../../Service/Modal/View/ModalView'
+import Medias                 from '../../../Application/Collection/Media/Medias'
+import SitesShareMediaLibrary from '../../../Application/Collection/Site/SitesShareMediaLibrary'
+import Application            from '../../../Application/Application'
+import MediasView             from '../../../Application/View/Media/MediasView'
+import DateFormatter          from '../../../Service/DataFormatter/DateFormatter'
 
 /**
  * @class MediaModalView
@@ -16,41 +17,28 @@ class MediaModalView extends ModalView
         super.preinitialize(options);
         this._selectCallback = options.selectCallback;
         this._filterType = options.filterType;
+        this._currentSiteId = Application.getContext().siteId;
+
         this.events['click #modal-media-choose']  = '_previewMedia';
         this.events['change #modal-media-format'] = '_updatePreview';
         this.events['click #modal-media-select']  = '_selectMedia';
-        this.events['click #modal-media-return']  = 'render';
+        this.events['click #modal-media-return']  = '_renderMedias';
+        this.events['change .select-site']        = '_changeSite';
     }
 
     /**
      * @return {Object}
      */
     render() {
-        let page = 0;
-        let pageLength = 10;
-        let container = this._createModalContainer(Translator.trans('open_orchestra_media_admin.select.choose'));
-        new Medias().fetch({
-            data   : {
-                'start'       : page * pageLength,
-                'length'      : pageLength,
-                'filter[type]': this._filterType
-            },
-            success: (medias) => {
-                let mediasView = new MediasView({
-                    filterType: this._filterType,
-                    collection: medias,
-                    settings  : {
-                        page        : page,
-                        deferLoading: [medias.recordsTotal, medias.recordsFiltered],
-                        data        : medias.models,
-                        pageLength  : pageLength,
-                    },
-                    selectionMod: true
+        new SitesShareMediaLibrary().fetch({
+            success: (sites) => {
+                let template = this._renderTemplate('Media/Modal/mediaModalContainer', {
+                    'sites': sites.models,
+                    'currentSiteId':  this._currentSiteId
                 });
-                this._mediaCollection = medias;
-                let el = mediasView.render().$el;
-                $('.modal-body', container).append(el);
-                this.$el.html(container);
+
+                this.$el.html(template);
+                this._renderMedias();
             }
         });
 
@@ -58,20 +46,43 @@ class MediaModalView extends ModalView
     }
 
     /**
-     * Create the modal
-     *
-     * @param {String}  title
-     * @param {Boolean} withFooter
-     *
-     * @return {Object}
+     * @private
      */
-    _createModalContainer(title, withFooter = false) {
-        let template = this._renderTemplate('Media/Modal/mediaModalContainer', {
-            'title': title,
-            'withFooter': withFooter
-        });
+    _renderMedias() {
+        this._displayLoader($('.modal-body', this.$el));
+        let page = 0;
+        let pageLength = 10;
+        new Medias().fetch({
+            urlParameter: {
+              siteId: this._currentSiteId
+            },
+            data   : {
+                'start'       : page * pageLength,
+                'length'      : pageLength,
+                'filter[type]': this._filterType
+            },
+            success: (medias) => {
+                console.log(medias);
+                let mediasView = new MediasView({
+                    siteId: this._currentSiteId,
+                    filterType: this._filterType,
+                    collection: medias,
+                    settings  : {
+                        page        : page,
+                        deferLoading: [medias.recordsTotal, medias.recordsFiltered],
+                        data        : medias.models,
+                        pageLength  : pageLength
+                    },
+                    selectionMod: true
+                });
+                this._mediaCollection = medias;
+                let el = mediasView.render().$el;
 
-        return $(template);
+                $('.modal-title', this.$el).html(Translator.trans('open_orchestra_media_admin.select.choose'));
+                $('.modal-body', this.$el).html(el);
+                $('.modal-footer', this.$el).html('').hide();
+            }
+        });
     }
 
     /**
@@ -83,15 +94,16 @@ class MediaModalView extends ModalView
     {
         let mediaList = this._mediaCollection.where({id: $(event.target).data('id') });
         let media = mediaList[0];
-        let container = this._createModalContainer(media.get('title'), true);
         let template = 'Media/Modal/mediaBaseDetailView';
         let mediaViewTemplates = Application.getConfiguration().getParameter('mediaViewTemplates');
         if (typeof mediaViewTemplates[media.get('media_type')] !== 'undefined') {
             template = mediaViewTemplates[media.get('media_type')];
         }
-        $('.modal-body', container).append(this._renderTemplate(template, {media: media, DateFormatter: DateFormatter}));
-        $('.modal-footer', container).append(this._renderTemplate('Media/Modal/Include/buttons'));
-        this.$el.html(container);
+        template = this._renderTemplate(template, {media: media, DateFormatter: DateFormatter});
+
+        $('.modal-title', this.$el).html(media.get('title'));
+        $('.modal-body', this.$el).html(template);
+        $('.modal-footer', this.$el).html(this._renderTemplate('Media/Modal/Include/buttons')).show();
     }
 
     /**
@@ -119,6 +131,17 @@ class MediaModalView extends ModalView
             'src'   : $('#modal-media-img', this.$el).attr('src')
         });
         this.hide();
+    }
+
+    /**
+     * @param {Object} event
+     * @private
+     */
+    _changeSite(event)
+    {
+        this._currentSiteId = $(event.currentTarget).val();
+        console.log(this._currentSiteId);
+        this._renderMedias();
     }
 }
 

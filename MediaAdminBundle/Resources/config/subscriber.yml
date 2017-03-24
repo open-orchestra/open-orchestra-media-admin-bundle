@@ -1,11 +1,13 @@
 parameters:
-    open_orchestra_media_admin.subscriber.media_cache_invalidate.class: OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
-    open_orchestra_log.subscriber.media.class                         : OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
-    open_orchestra_media_admin.subscriber.delete_media.class          : OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber
-    open_orchestra_media_admin.subscriber.create_media.class          : OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber
-    open_orchestra_media_admin.subscriber.create_root_folder.class    : OpenOrchestra\MediaAdmin\EventSubscriber\CreateRootFolderSubscriber
-    open_orchestra_media_admin.subscriber.update_reference.class      : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateReferenceSubscriber
-    open_orchestra_media_admin.subscriber.update_folder_path.class    : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateFolderPathSubscriber
+    open_orchestra_media_admin.subscriber.media_cache_invalidate.class      : OpenOrchestra\MediaAdminBundle\EventSubscriber\MediaCacheInvalidateSubscriber
+    open_orchestra_log.subscriber.media.class                               : OpenOrchestra\MediaAdminBundle\EventSubscriber\LogMediaSubscriber
+    open_orchestra_media_admin.subscriber.delete_media.class                : OpenOrchestra\MediaAdmin\EventSubscriber\MediaDeletedSubscriber
+    open_orchestra_media_admin.subscriber.create_media.class                : OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber
+    open_orchestra_media_admin.subscriber.create_root_folder.class          : OpenOrchestra\MediaAdmin\EventSubscriber\CreateRootFolderSubscriber
+    open_orchestra_media_admin.subscriber.update_reference.class            : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateReferenceSubscriber
+    open_orchestra_media_admin.subscriber.update_folder_path.class          : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateFolderPathSubscriber
+    open_orchestra_media_admin.subscriber.add_choice_site_share_media.class : OpenOrchestra\MediaAdmin\EventSubscriber\AddChoiceSiteShareMediaSubscriber
+    open_orchestra_media_admin.subscriber.media_library_sharing.class       : OpenOrchestra\MediaAdmin\EventSubscriber\MediaLibrarySharingSubscriber
 
 services:
     open_orchestra_media_admin.subscriber.media_cache_invalidate:
@@ -61,5 +63,23 @@ services:
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'
             - '@open_orchestra_media_admin.event.folder_event.factory'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    open_orchestra_media_admin.subscriber.add_choice_site_share_media:
+        class: '%open_orchestra_media_admin.subscriber.add_choice_site_share_media.class%'
+        arguments:
+            - '@open_orchestra_media_admin.subscriber.media_library_sharing'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    open_orchestra_media_admin.subscriber.media_library_sharing:
+        class: '%open_orchestra_media_admin.subscriber.media_library_sharing.class%'
+        arguments:
+            - '@open_orchestra_backoffice.context_manager'
+            - '@open_orchestra_media.repository.media_library_sharing'
+            - '%open_orchestra_media.document.media_library_sharing.class%'
+            - '@object_manager'
+            - '@open_orchestra_model.repository.site'
         tags:
             - { name: kernel.event_subscriber }

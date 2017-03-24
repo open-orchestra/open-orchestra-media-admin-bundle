@@ -27,6 +27,9 @@ open_orchestra_media_admin:
         audio: Audio
         pdf: Pdf
     form:
+        site:
+          sub_group:
+            media: Media library
         folder:
             success: The folder has been saved
             delete: This folder contains media, you can't delete it.

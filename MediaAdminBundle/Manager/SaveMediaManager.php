@@ -77,13 +77,15 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * 
      * @param UploadedFile $uploadedFile
      * @param string       $folderId
-     * 
+     * @param string       $siteId
+     *
      * @return MediaInterface
      */
-    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId)
+    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId, $siteId)
     {
         /** @var MediaInterface $media */
         $media = new $this->mediaClass();
+        $media->setSiteId($siteId);
         $media->setFile($uploadedFile);
         $media->setFilesystemName($uploadedFile->getFilename());
         $media->setMediaFolder($this->folderRepository->find($folderId));

@@ -95,7 +95,7 @@ class LoadMediaData
         array $keywordReferencesArray,
         array $languagesArray
     ) {
-        $folderId = $this->getReference($folderReference)->getId();
+        $folder = $this->getReference($folderReference);
         $filePath = __DIR__ . '/Files/' . $fileName;
         $tmpFilePath = $this->container->getParameter('open_orchestra_media_admin.tmp_dir')
             . DIRECTORY_SEPARATOR . $fileName;
@@ -109,8 +109,7 @@ class LoadMediaData
         $uploadedFile = new UploadedFile($tmpFilePath, $fileName, $mimeType);
 
         $saveMediaManager = $this->container->get('open_orchestra_media_admin.manager.save_media');
-        $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
-
+        $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folder->getId(), $folder->getSiteId());
         $media->setName($name);
         foreach ($keywordReferencesArray as $keywordReference) {
             $media->addKeyword($this->getReference($keywordReference));

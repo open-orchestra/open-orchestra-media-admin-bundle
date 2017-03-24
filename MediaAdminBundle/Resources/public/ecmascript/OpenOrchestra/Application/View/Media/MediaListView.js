@@ -12,13 +12,14 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      *
      * @param {Object} options
      */
-    constructor({filterType, selectionMod, collection, settings}) {
+    constructor({filterType, selectionMod, siteId, collection, settings}) {
         settings.initComplete = () => {
             this._interval = setInterval($.proxy(this._refreshList, this), 5000);
         };
         super({'collection': collection, 'settings': settings});
         this._filterType = filterType;
         this._selectionMod = selectionMod;
+        this._siteId = siteId;
         this._maxRefresh = 5;
         this._countRefresh = 0;
     }
@@ -95,11 +96,17 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      * @private
      */
     _getSyncOptions() {
+        let syncOptions = {
+            urlParameter: {
+                siteId: this._siteId
+            }
+        };
+
         if ('' != this._filterType) {
-            return  {data: {'filter[type]': this._filterType}};
+            syncOptions.data = {'filter[type]': this._filterType};
         }
 
-        return {};
+        return syncOptions;
     }
 }
 

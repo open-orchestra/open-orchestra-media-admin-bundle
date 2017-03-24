@@ -26,6 +26,7 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
 
     protected $folder;
     protected $folderId = 'folderId';
+    protected $siteId = 'fakeSiteId';
     protected $uploadedFile;
     protected $originalName = 'original name';
     protected $mimeType = 'some mime type';
@@ -69,13 +70,18 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
      */
     public function testInitializeMediaFromUploadedFile()
     {
-        $media = $this->mediaManager->initializeMediaFromUploadedFile($this->uploadedFile, $this->folderId);
+        $media = $this->mediaManager->initializeMediaFromUploadedFile(
+            $this->uploadedFile,
+            $this->folderId,
+            $this->siteId
+        );
 
         $this->assertSame($this->uploadedFile, $media->getFile());
         $this->assertSame($this->fileName, $media->getFilesystemName());
         $this->assertSame($this->folderId, $media->getMediaFolder()->getId());
         $this->assertSame($this->originalName, $media->getName());
         $this->assertSame($this->mimeType, $media->getMimeType());
+        $this->assertSame($this->siteId, $media->getSiteId());
     }
 
     /**

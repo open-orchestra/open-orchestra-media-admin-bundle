@@ -39,9 +39,10 @@ class Medias extends DataTableCollection
      * @inheritdoc
      */
     _getSyncUrl(method, options) {
+        let urlParameter = options.urlParameter || {};
         switch (method) {
             case "read":
-                return Routing.generate('open_orchestra_api_media_list');
+                return Routing.generate('open_orchestra_api_media_list', urlParameter);
             case "delete":
                 return Routing.generate('open_orchestra_api_media_delete_multiple');
         }

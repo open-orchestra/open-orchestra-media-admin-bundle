@@ -69,7 +69,6 @@ class FolderController extends BaseController
 
     /**
      * @param Request $request
-     * @param string  $folderId
      *
      * @Config\Route("/move", name="open_orchestra_api_folder_move")
      * @Config\Method({"PUT"})
