@@ -21,5 +21,11 @@ class ClientConfigurationCompilerPass implements CompilerPassInterface
     {
         $clientConfiguration = $container->getDefinition('open_orchestra_backoffice.manager.client_configuration');
         $clientConfiguration->addMethodCall('addClientConfiguration', array('media_filter_type', $container->getParameter('open_orchestra_media_admin.media_type_filter')));
+
+        if ($container->hasParameter('open_orchestra_media.allowed_mime_type')) {
+            $allowedMineType = $container->getParameter('open_orchestra_media.allowed_mime_type');
+            $clientConfiguration->addMethodCall('addClientConfiguration', array('allowed_mime_types', $allowedMineType));
+        }
+
     }
 }
