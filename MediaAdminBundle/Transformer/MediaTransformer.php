@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use OpenOrchestra\Backoffice\BusinessRules\BusinessRulesManager;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
@@ -22,6 +23,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $multiLanguageChoiceManager;
     protected $mediaDomain;
     protected $mediaRepository;
+    protected $businessRulesManager;
 
     /**
      * @param string                               $facadeClass
@@ -30,6 +32,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
      * @param string                               $mediaDomain
      * @param AuthorizationCheckerInterface        $authorizationChecker
      * @param MediaRepositoryInterface             $mediaRepository
+     * @param BusinessRulesManager           $businessRulesManager
      */
     public function __construct(
         $facadeClass,
@@ -37,13 +40,15 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager,
         $mediaDomain,
         AuthorizationCheckerInterface $authorizationChecker,
-        MediaRepositoryInterface $mediaRepository
+        MediaRepositoryInterface $mediaRepository,
+        BusinessRulesManager $businessRulesManager
     ) {
-        parent::__construct($facadeClass, $authorizationChecker);
         $this->fileAlternativesManager = $fileAlternativesManager;
         $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
         $this->mediaDomain = $mediaDomain;
         $this->mediaRepository = $mediaRepository;
+        $this->businessRulesManager = $businessRulesManager;
+        parent::__construct($facadeClass, $authorizationChecker);
     }
 
     /**
@@ -93,7 +98,8 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         );
         $facade->addRight(
             'can_delete',
-            $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mixed) && !$mixed->isUsed()
+            $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mixed) &&
+            $this->businessRulesManager->isGranted(ContributionActionInterface::DELETE, $mixed)
         );
 
         return $facade;

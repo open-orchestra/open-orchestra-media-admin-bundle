@@ -1,0 +1,15 @@
+parameters:
+    open_orchestra_media_admin.business_rules_manager.folder.class: OpenOrchestra\MediaAdminBundle\BusinessRules\Strategies\FolderStrategy
+    open_orchestra_media_admin.business_rules_manager.media.class:  OpenOrchestra\MediaAdminBundle\BusinessRules\Strategies\MediaStrategy
+
+services:
+    open_orchestra_media_admin.business_rules_manager.folder:
+        class: '%open_orchestra_media_admin.business_rules_manager.folder.class%'
+        arguments:
+            - '@open_orchestra_media_admin.manager.media_folder'
+        tags:
+            - { name: open_orchestra_backoffice.business_rules.strategy }
+    open_orchestra_media_admin.business_rules_manager.media:
+        class: '%open_orchestra_media_admin.business_rules_manager.media.class%'
+        tags:
+            - { name: open_orchestra_backoffice.business_rules.strategy }
