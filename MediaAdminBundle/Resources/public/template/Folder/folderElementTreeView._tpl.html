@@ -8,29 +8,31 @@
             <% }; %>
             <% if ( 0 !== folderTree.get('children').length) { %>
                 <i class="fa fa-chevron-down toggle-tree" aria-hidden="true"></i>
-            <% }; %>
+            <% } %>
         </p>
 
         <span><%= folderTree.get('folder').get('name') %></span>
         <div class="links">
-            <a href="#<%= Backbone.history.generateUrl('editFolder', {
-                folderId: folderTree.get('folder').get('id'),
-                name: folderTree.get('folder').get('name')
-            }) %>">
-                <%= Translator.trans('open_orchestra_media_admin.folder.edit') %>
-            </a>
+            <% if (true === folderTree.get('folder').get('rights').can_edit) {%>
+                <a href="#<%= Backbone.history.generateUrl('editFolder', {
+                    folderId: folderTree.get('folder').get('id'),
+                    name: folderTree.get('folder').get('name')
+                }) %>">
+                    <%= Translator.trans('open_orchestra_media_admin.folder.edit') %>
+                </a>
+            <% } %>
             <% if (true === folderTree.get('folder').get('rights').can_create) {%>
                 <a href="#<%= Backbone.history.generateUrl('newFolder', {
                     parentId: folderTree.get('folder').get('id')
                 }) %>">
                     <%= Translator.trans('open_orchestra_media_admin.folder.add') %>
                 </a>
-            <% };%>
+            <% } %>
         </div>
     </div>
     <ul class="children <% if (true === folderTree.get('folder').get('rights').can_edit) {%> sortable-container<% }%>">
         <% _.each(folderTree.get('children'), function(folderTree, key) { %>
             <%= renderTemplate('Folder/folderElementTreeView', {renderTemplate: renderTemplate, folderTree: folderTree}) %>
-        <% }); %>
+        <% }) %>
     </ul>
 </li>

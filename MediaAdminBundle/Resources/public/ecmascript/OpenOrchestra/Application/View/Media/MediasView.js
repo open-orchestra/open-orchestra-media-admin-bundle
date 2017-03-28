@@ -27,28 +27,29 @@ class MediasView extends AbstractCollectionView
      * Render medias view
      */
     render() {
-            new FoldersTree().fetch({
-                siteId: Application.getContext().siteId,
-                success: (foldersTree) => {
-                    let template = this._renderTemplate('Media/mediasView', {
-                        language    : Application.getContext().language,
-                        types       : this.mediaTypes,
-                        foldersTree : foldersTree,
-                        selectionMod: this._selectionMod,
-                        filterType  : this._filterType
-                    });
-                    this.$el.html(template);
-                    this._listView = new MediaListView({
-                        collection  : this._collection,
-                        settings    : this._settings,
-                        filterType  : this._filterType,
-                        selectionMod: this._selectionMod
-                    });
-                    $('.medias', this.$el).html(this._listView.render().$el);
-                }
-            });
+        new FoldersTree().fetch({
+            siteId: Application.getContext().siteId,
+            success: (foldersTree) => {
+                let template = this._renderTemplate('Media/mediasView', {
+                    language    : Application.getContext().language,
+                    types       : this.mediaTypes,
+                    foldersTree : foldersTree,
+                    selectionMod: this._selectionMod,
+                    filterType  : this._filterType,
+                    can_create  : this._collection.rights.can_create
+                });
+                this.$el.html(template);
+                this._listView = new MediaListView({
+                    collection  : this._collection,
+                    settings    : this._settings,
+                    filterType  : this._filterType,
+                    selectionMod: this._selectionMod
+                });
+                $('.medias', this.$el).html(this._listView.render().$el);
+            }
+        });
 
-            return this;
+        return this;
     }
 }
 

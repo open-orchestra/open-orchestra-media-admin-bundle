@@ -2,6 +2,8 @@
 
 namespace OpenOrchestra\MediaAdmin\Security\Authorization\Voter;
 
+use OpenOrchestra\UserBundle\Model\UserInterface;
+
 /**
  * Class MediaFolderNotHydratedVoter
  *
@@ -30,5 +32,16 @@ class MediaFolderNotHydratedVoter extends AbstractMediaFolderVoter
     protected function getPath($folder)
     {
         return $folder['path'];
+    }
+
+    /**
+     * @param mixed         $subject
+     * @param UserInterface $user
+     *
+     * @return string
+     */
+    protected function isCreator($subject, UserInterface $user)
+    {
+        return (isset($subject['createdBy']) && $subject['createdBy'] === $user->getUsername());
     }
 }

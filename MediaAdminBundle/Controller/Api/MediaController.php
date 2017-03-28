@@ -17,7 +17,6 @@ use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
-use OpenOrchestra\MediaAdminBundle\Exceptions\MediaNotFoundException;
 
 /**
  * Class MediaController

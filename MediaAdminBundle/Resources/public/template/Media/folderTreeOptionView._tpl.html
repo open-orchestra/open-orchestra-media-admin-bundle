@@ -1,4 +1,4 @@
-<option value="<%= tree.get('folder').id %>">
+<option value="<%= tree.get('folder').id %>" <% if (false === tree.get('folder').get('rights').can_create) {%> disabled="disabled"<% }%>>
     <% for (i = 0; i < depth; i++) { %>&nbsp;&nbsp;<% }; %><%= tree.get('folder').get('name') %>
 </option>
 

@@ -7,6 +7,9 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface as MediaRoleInterface;
+use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
 
 /**
  * Class MediaCollectionTransformer
@@ -15,6 +18,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     /** @var  FolderRepositoryInterface */
     protected $folderRepository;
+    protected $user;
 
     /**
      * @param string                        $facadeClass
@@ -24,10 +28,12 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
     public function __construct(
         $facadeClass,
         AuthorizationCheckerInterface $authorizationChecker,
-        FolderRepositoryInterface $folderRepository
+        FolderRepositoryInterface $folderRepository,
+        TokenStorage $tokenStorage
     ) {
         parent::__construct($facadeClass, $authorizationChecker);
         $this->folderRepository = $folderRepository;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -42,6 +48,13 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
         foreach ($mixed as $media) {
             $facade->addMedia($this->getTransformer('media')->transform($media));
         }
+
+        $facade->addRight(
+            'can_create',
+            $this->user->hasRole(MediaRoleInterface::MEDIA_CONTRIBUTOR)
+            || $this->user->hasRole(ContributionRoleInterface::PLATFORM_ADMIN)
+            || $this->user->hasRole(ContributionRoleInterface::DEVELOPER)
+        );
 
         return $facade;
     }
