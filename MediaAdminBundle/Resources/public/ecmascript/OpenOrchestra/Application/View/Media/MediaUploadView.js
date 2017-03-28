@@ -28,20 +28,7 @@ class MediaUploadView extends OrchestraView
             'testChunks': false
         });
 
-        this._allowed_mime_types = [
-           'image/jpeg',
-           'image/png',
-           'image/gif',
-           'audio/mpeg',
-           'video/mpeg',
-           'video/mp4',
-           'video/quicktime',
-           'video/x-ms-wmv',
-           'video/x-msvideo',
-           'video/x-flv',
-           'video/webm',
-           'application/pdf'
-       ];
+        this._allowed_mime_types = Application.getConfiguration().getParameter('allowed_mime_types')
 
         this._colors = {
             'success'   : '#38b5e9',
