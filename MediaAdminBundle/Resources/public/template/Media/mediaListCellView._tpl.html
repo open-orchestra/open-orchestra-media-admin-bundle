@@ -2,24 +2,24 @@
     <div class="item">
         <div class="image">
             <% if (media.has('thumbnail')) { %>
-                <img src="<%= media.get('thumbnail') %>" alt="<%= media.get('alt') %>" />
+                <img src="<%- media.get('thumbnail') %>" alt="<%- media.get('alt') %>" />
             <% } else { %>
                 <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                <span class="sr-only"> <%= Translator.trans('open_orchestra_media_admin.loading') %></span>
+                <span class="sr-only"> <%- Translator.trans('open_orchestra_media_admin.loading') %></span>
             <% } %>
         </div>
         <div class="title">
-            <span><%= media.get('title') %></span>
+            <span><%- media.get('title') %></span>
             <div class="edit pull-right">
                 <% if (true === media.get('rights').can_edit) { %>
-                    <a href="#<%= Backbone.history.generateUrl('editMedia', {'mediaId': media.get('id'), 'mediaType': media.get('media_type')}) %>">
+                    <a href="#<%- Backbone.history.generateUrl('editMedia', {'mediaId': media.get('id'), 'mediaType': media.get('media_type')}) %>">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                 <% }; %>
-                <input class="form-control delete-checkbox" type="checkbox" id="checkbox<%= media.cid%>"
+                <input class="form-control delete-checkbox" type="checkbox" id="checkbox<%- media.cid%>"
                     <% if (false === media.get('rights').can_delete) { %> disabled="disabled"<% }; %>
                 >
-                <label for="checkbox<%= media.cid%>"></label>
+                <label for="checkbox<%- media.cid%>"></label>
             </div>
         </div>
     </div>

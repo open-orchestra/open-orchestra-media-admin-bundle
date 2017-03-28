@@ -8,7 +8,7 @@
                     <select class="form-control select-site">
                         <% _.each(sites, function(site, key) { %>
                             <option value="<%= site.get('site_id') %>" <%if (currentSiteId == site.get('site_id')) {%> selected="selected" <%}%> >
-                                <%= site.get('name') %>
+                                <%- site.get('name') %>
                             </option>
                         <% }); %>
                     </select>

@@ -1,4 +1,4 @@
-<li data-folder-id="<%= folderTree.get('folder').get('id') %>"
+<li data-folder-id="<%- folderTree.get('folder').get('id') %>"
     <% if (true === folderTree.get('folder').get('rights').can_edit) {%> class="sortable-node"<% }%>
 >
     <div>
@@ -11,21 +11,21 @@
             <% } %>
         </p>
 
-        <span><%= folderTree.get('folder').get('name') %></span>
+        <span><%- folderTree.get('folder').get('name') %></span>
         <div class="links">
             <% if (true === folderTree.get('folder').get('rights').can_edit) {%>
-                <a href="#<%= Backbone.history.generateUrl('editFolder', {
+                <a href="#<%- Backbone.history.generateUrl('editFolder', {
                     folderId: folderTree.get('folder').get('id'),
                     name: folderTree.get('folder').get('name')
                 }) %>">
-                    <%= Translator.trans('open_orchestra_media_admin.folder.edit') %>
+                    <%- Translator.trans('open_orchestra_media_admin.folder.edit') %>
                 </a>
             <% } %>
             <% if (true === folderTree.get('folder').get('rights').can_create) {%>
-                <a href="#<%= Backbone.history.generateUrl('newFolder', {
+                <a href="#<%- Backbone.history.generateUrl('newFolder', {
                     parentId: folderTree.get('folder').get('id')
                 }) %>">
-                    <%= Translator.trans('open_orchestra_media_admin.folder.add') %>
+                    <%- Translator.trans('open_orchestra_media_admin.folder.add') %>
                 </a>
             <% } %>
         </div>
