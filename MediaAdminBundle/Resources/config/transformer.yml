@@ -17,6 +17,7 @@ services:
             - '%open_orchestra_media.media_domain%'
             - '@security.authorization_checker'
             - '@open_orchestra_media.repository.media'
+            - '@open_orchestra_backoffice.business_rules_manager'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
 

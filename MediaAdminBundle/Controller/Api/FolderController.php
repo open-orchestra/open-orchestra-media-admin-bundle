@@ -38,7 +38,7 @@ class FolderController extends BaseController
             $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $folder);
             $folderManager = $this->get('open_orchestra_media_admin.manager.media_folder');
 
-            if (!$folderManager->isDeletable($folder)) {
+            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::DELETE, $folder)) {
                 throw new FolderNotDeletableException();
             }
             $folderManager->deleteTree($folder);
