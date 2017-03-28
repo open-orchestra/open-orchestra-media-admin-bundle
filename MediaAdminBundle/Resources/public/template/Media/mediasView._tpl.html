@@ -6,7 +6,8 @@
     <% } %>
 <h1> <%= Translator.trans('open_orchestra_media_admin.media.title_list') %></h1>
 <% } %>
-<form class="form-horizontal search-engine">
+
+<form class="form-horizontal search-engine ">
     <div class="form-group col-lg-6">
         <input type="hidden" name='language' value="<%= language %>">
         <label for="label" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.label') %></label>
@@ -19,7 +20,7 @@
             <label for="select-type" class="control-label col-md-4"><%= Translator.trans('open_orchestra_media_admin.table.media.type') %></label>
             <div class="col-md-8">
                 <div class="styled-select">
-                    <select name='type' class="form-control" id="type">
+                    <select name='type' class="form-control" id="select-type">
                         <% _.each(types, function(label, type) { %>
                             <option value="<%= type %>"><%= Translator.trans(label) %></option>
                         <% }); %>
@@ -35,7 +36,7 @@
                 <select name='folderId' class="form-control" id="folderId">
                     <option value=""><%= Translator.trans('open_orchestra_media_admin.search_engine.folder.all') %></option>
                     <% _.each(foldersTree.models[0].get('children'), function(child) { %>
-                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate, selectionMod: selectionMod}) %>
                     <% }); %>
                 </select>
             </div>

@@ -29,28 +29,29 @@ class MediaController extends BaseController
 {
     /**
      * @param Request $request
+     * @param string  $siteId
      *
-     * @Config\Route("", name="open_orchestra_api_media_list")
+     * @Config\Route("/list/{siteId}", name="open_orchestra_api_media_list")
      * @Config\Method({"GET"})
      * @Config\Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Api\Groups({MediaAdminGroupContext::MEDIA_ALTERNATIVES})
      *
      * @return FacadeInterface
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, $siteId)
     {
         $configuration = PaginateFinderConfiguration::generateFromRequest($request);
         if ($request->get('filter') && isset($request->get('filter')['type'])) {
             $configuration->addSearch('type', $request->get('filter')['type']);
         }
         $repository = $this->get('open_orchestra_media.repository.media');
-        $collection = $repository->findForPaginate($configuration);
-        if ($request->get('filter') && isset($request->get('filter')['type'])) {
-            $recordsTotal = $repository->count($request->get('filter')['type']);
+        $collection = $repository->findForPaginate($configuration, $siteId);
+        if ($request->get('filter') && isset($request->get('filter')['type']) && '' !== $request->get('filter')['type']) {
+            $recordsTotal = $repository->count($siteId, $request->get('filter')['type']);
         } else {
-            $recordsTotal = $repository->count();
+            $recordsTotal = $repository->count($siteId);
         }
-        $recordsFiltered = $repository->countWithFilter($configuration);
+        $recordsFiltered = $repository->countWithFilter($configuration, $siteId);
         $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('media_collection');
         $facade = $collectionTransformer->transform($collection);
         $facade->recordsTotal = $recordsTotal;
@@ -136,7 +137,8 @@ class MediaController extends BaseController
         $saveMediaManager = $this->get('open_orchestra_media_admin.manager.save_media');
 
         if ($uploadedFile && $uploadedFile = $saveMediaManager->getFileFromChunks($uploadedFile)) {
-            $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId);
+            $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
+            $media = $saveMediaManager->initializeMediaFromUploadedFile($uploadedFile, $folderId, $siteId);
             $violations = $this->get('validator')->validate($media, null, array('upload'));
             if (count($violations) !== 0) {
                 return new Response(

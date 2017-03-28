@@ -15,6 +15,7 @@ class UpdateReferenceSubscriberTest extends AbstractBaseTestCase
 {
     protected $referenceManager;
     protected $objectManager;
+    protected $subscriber;
 
     /**
      * Set Up the test

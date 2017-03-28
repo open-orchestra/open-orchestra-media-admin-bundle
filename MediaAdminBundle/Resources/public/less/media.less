@@ -17,6 +17,7 @@
 .medias {
     .item {
         background: #fff;
+        margin-bottom: 20px;
     }
     .image {
         background: #dadada;
@@ -34,6 +35,13 @@
         overflow: hidden;
         a {
             text-decoration: none;
+        }
+        span {
+          display: inline-block;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          max-width: ~"calc(100% - 45px)";
         }
     }
     .dossier {
@@ -190,12 +198,21 @@
 /* ===================================================================
  * MEDIA MODAL
  * =================================================================*/
-div.modal-body {
-    div.row.medias {
-        margin-left: 15px;
-        margin-bottom: 25px;
+div.media-modal {
+    .modal-title {
+      margin: 10px 0;
     }
-    #modal-media-format {
+
+    .modal-body {
+        padding: 10px;
+        .row {
+          padding: 10px 0;
+          margin: 0;
+        }
+        .search-engine {
+          margin-bottom: 0;
+          padding: 10px 0;
+        }
 
     }
 }

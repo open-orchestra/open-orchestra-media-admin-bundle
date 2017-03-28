@@ -11,16 +11,17 @@ class MediasView extends AbstractCollectionView
     /**
      * Constructor
      */
-    constructor (options) {
-        super(options);
+    constructor ({siteId, filterType, collection, settings, selectionMod}) {
+        super({collection: collection, settings: settings});
         let noFilter =  {'': 'open_orchestra_media_admin.media_filter.none'};
         let mediaTypes = Application.getConfiguration().getParameter('media_filter_type');
         this.mediaTypes = Object.assign(noFilter, mediaTypes);
         this._filterType = '';
-        if (!_.isUndefined(options.filterType)) {
-            this._filterType = options.filterType;
+        if (!_.isUndefined(filterType)) {
+            this._filterType = filterType;
         }
-        this._selectionMod = options.selectionMod;
+        this._selectionMod = selectionMod;
+        this._siteId = siteId;
     }
 
     /**
@@ -28,7 +29,7 @@ class MediasView extends AbstractCollectionView
      */
     render() {
         new FoldersTree().fetch({
-            siteId: Application.getContext().siteId,
+            siteId: this._siteId,
             success: (foldersTree) => {
                 let template = this._renderTemplate('Media/mediasView', {
                     language    : Application.getContext().language,
@@ -39,11 +40,13 @@ class MediasView extends AbstractCollectionView
                     can_create  : this._collection.rights.can_create
                 });
                 this.$el.html(template);
+                console.log(this._selectionMod);
                 this._listView = new MediaListView({
                     collection  : this._collection,
                     settings    : this._settings,
                     filterType  : this._filterType,
-                    selectionMod: this._selectionMod
+                    selectionMod: this._selectionMod,
+                    siteId      : this._siteId
                 });
                 $('.medias', this.$el).html(this._listView.render().$el);
             }
