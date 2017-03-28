@@ -11,7 +11,7 @@
             <div class="styled-select">
                 <select name='folderId' class="form-control" id="folderId">
                     <% _.each(foldersTree.models[0].get('children'), function(child) { %>
-                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate}) %>
+                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate, selectionMod: false}) %>
                     <% }); %>
                 </select>
             </div>

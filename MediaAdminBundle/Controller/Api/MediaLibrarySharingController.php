@@ -31,11 +31,10 @@ class MediaLibrarySharingController extends BaseController
 
         $siteIdsAllowedShare = array($currentSiteId);
 
-        $mediaLibrarySharing = $this->get('open_orchestra_media.repository.media_library_sharing')->findOneBySiteId($currentSiteId);
-        if ($mediaLibrarySharing instanceof MediaLibrarySharingInterface) {
-            $siteIdsAllowedShare = array_merge($siteIdsAllowedShare, $mediaLibrarySharing->getAllowedSites());
+        $mediaLibrariesSharing = $this->get('open_orchestra_media.repository.media_library_sharing')->findAllowedSites($currentSiteId);
+        foreach ($mediaLibrariesSharing as $mediaLibrarySharing) {
+            $siteIdsAllowedShare[] = $mediaLibrarySharing->getSiteId();
         }
-
         $siteAllowedShare = $this->get('open_orchestra_model.repository.site')->findBySiteIds($siteIdsAllowedShare);
 
         $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('site_collection');
