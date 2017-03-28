@@ -1,20 +1,20 @@
 <div class="row">
-    <span class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.size') %></span>
-    <span class="col-sm-7"><%= media.get('media_informations').size %> <%= Translator.trans('open_orchestra_media_admin.select.bytes') %></span>
+    <span class="col-sm-5"><%- Translator.trans('open_orchestra_media_admin.select.size') %></span>
+    <span class="col-sm-7"><%- media.get('media_informations').size %> <%- Translator.trans('open_orchestra_media_admin.select.bytes') %></span>
 </div>
 
 <div class="row">
-    <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.update_date') %></div>
+    <div class="col-sm-5"><%- Translator.trans('open_orchestra_media_admin.select.update_date') %></div>
     <div class="col-sm-7">
-        <%= DateFormatter.format(media.get('updated_at'))%>
+        <%- DateFormatter.format(media.get('updated_at'))%>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-sm-5"><%= Translator.trans('open_orchestra_media_admin.select.tags') %></div>
+    <div class="col-sm-5"><%- Translator.trans('open_orchestra_media_admin.select.tags') %></div>
     <div class="col-sm-7">
         <% if (media.get('keywords').length > 0) { %>
-        <%= media.get('keywords').join(', ') %>
+        <%- media.get('keywords').join(', ') %>
         <% } else { %>
         -
         <% } %>
