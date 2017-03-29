@@ -40,7 +40,7 @@ class MediasView extends AbstractCollectionView
                     can_create  : this._collection.rights.can_create
                 });
                 this.$el.html(template);
-                console.log(this._selectionMod);
+
                 this._listView = new MediaListView({
                     collection  : this._collection,
                     settings    : this._settings,
