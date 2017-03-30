@@ -14,7 +14,7 @@ services:
             - '%open_orchestra_media_admin.facade.media.class%'
             - '@open_orchestra_media_admin.file_alternatives.manager'
             - '@open_orchestra_backoffice.manager.multi_languages_choice'
-            - '%open_orchestra_media.media_domain%'
+            - '@open_orchestra_media.manager.storage'
             - '@security.authorization_checker'
             - '@open_orchestra_media.repository.media'
             - '@open_orchestra_backoffice.business_rules_manager'

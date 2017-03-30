@@ -2,8 +2,10 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesStrategyInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class AbstractFileAlternativesStrategy
@@ -13,6 +15,21 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     protected $mediaStorageManager;
     protected $tmpDir;
     protected $fileSystem;
+
+    /**
+     * @param Filesystem                   $fileSystem
+     * @param MediaStorageManagerInterface $mediaStorageManager
+     * @param string                       $tmpDir
+     */
+    public function __construct(
+        Filesystem $fileSystem,
+        MediaStorageManagerInterface $mediaStorageManager,
+        $tmpDir
+    ) {
+        $this->fileSystem = $fileSystem;
+        $this->mediaStorageManager = $mediaStorageManager;
+        $this->tmpDir = $tmpDir;
+    }
 
     /**
      * Get the $media type supported by the strategy

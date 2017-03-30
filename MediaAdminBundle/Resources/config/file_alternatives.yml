@@ -16,7 +16,7 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.default.class%'
         arguments:
             - '@filesystem'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '%open_orchestra_media_admin.tmp_dir%'
             - '%open_orchestra_media_admin.files.alternatives.default.thumbnail%'
 
@@ -24,7 +24,7 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.image.class%'
         arguments:
             - '@filesystem'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '@open_orchestra_media_admin.file_utils.manager.image'
             - '%open_orchestra_media_admin.tmp_dir%'
             - '%open_orchestra_media_admin.files.thumbnail_format%'
@@ -36,7 +36,7 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.pdf.class%'
         arguments:
             - '@filesystem'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '@open_orchestra_media_admin.file_utils.manager.image'
             - '%open_orchestra_media_admin.tmp_dir%'
             - '%open_orchestra_media_admin.files.thumbnail_format%'
@@ -47,7 +47,7 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.video.class%'
         arguments:
             - '@filesystem'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '@open_orchestra_media_admin.file_utils.manager.video'
             - '@open_orchestra_media_admin.file_utils.manager.image'
             - '%open_orchestra_media_admin.tmp_dir%'
@@ -59,7 +59,7 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.audio.class%'
         arguments:
             - '@filesystem'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '%open_orchestra_media_admin.tmp_dir%'
             - '%open_orchestra_media_admin.files.alternatives.audio.thumbnail%'
         tags:

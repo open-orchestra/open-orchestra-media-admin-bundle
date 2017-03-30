@@ -68,7 +68,7 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
 
         $this->fileSystem = Phake::mock('Symfony\Component\Filesystem\Filesystem');
 
-        $this->mediaStorageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
+        $this->mediaStorageManager = Phake::mock('OpenOrchestra\Media\Manager\MediaStorageManagerInterface');
         Phake::when($this->mediaStorageManager)->exists($this->fullMediaFileSystemName)->thenReturn(true);
         Phake::when($this->mediaStorageManager)->exists($this->fullMediaThumbnailName)->thenReturn(true);
         Phake::when($this->mediaStorageManager)->exists($this->emptyMediaFileSystemName)->thenReturn(false);

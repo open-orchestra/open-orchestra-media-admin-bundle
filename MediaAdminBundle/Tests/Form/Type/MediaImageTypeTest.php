@@ -22,7 +22,7 @@ class MediaImageTypeTest extends AbstractBaseTestCase
      */
     public function setUp()
     {
-        $this->storageManager = Phake::mock('OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager');
+        $this->storageManager = Phake::mock('OpenOrchestra\Media\Manager\MediaStorageManager');
 
         $this->form = new MediaImageType($this->mediaClass, $this->frontLanguages, $this->thumbnailConfig, $this->storageManager);
     }
