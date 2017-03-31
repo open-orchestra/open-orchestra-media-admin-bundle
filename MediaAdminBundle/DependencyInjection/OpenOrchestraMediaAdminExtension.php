@@ -6,6 +6,7 @@ use OpenOrchestra\Media\DisplayBlock\Strategies\DisplayMediaStrategy;
 use OpenOrchestra\Media\DisplayBlock\Strategies\GalleryStrategy;
 use OpenOrchestra\Media\DisplayBlock\Strategies\MediaListByKeywordStrategy;
 use OpenOrchestra\Media\DisplayBlock\Strategies\SlideshowStrategy;
+use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -40,7 +41,34 @@ class OpenOrchestraMediaAdminExtension extends Extension
         foreach ($config['facades'] as $transformer => $facade) {
             $container->setParameter('open_orchestra_media_admin.facade.' . $transformer . '.class', $facade);
         }
-        $configurationRoles = $config['configuration_roles'];
+        $configurationRoles = array(
+            'open_orchestra_backoffice.role.contribution' => array(
+                'firstpackage' => array(
+                    'folder' => array(
+                        ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR => array(
+                            'label' => 'open_orchestra_backoffice.role.contributor.label',
+                        ),
+                        ContributionRoleInterface::MEDIA_FOLDER_SUPER_EDITOR => array(
+                            'label' => 'open_orchestra_backoffice.role.editor.label',
+                        ),
+                        ContributionRoleInterface::MEDIA_FOLDER_SUPER_SUPRESSOR => array(
+                            'label' => 'open_orchestra_backoffice.role.supressor.label',
+                        ),
+                    ),
+                    'media' => array(
+                        ContributionRoleInterface::MEDIA_CONTRIBUTOR => array(
+                            'label' => 'open_orchestra_backoffice.role.contributor.label',
+                        ),
+                        ContributionRoleInterface::MEDIA_SUPER_EDITOR => array(
+                            'label' => 'open_orchestra_backoffice.role.editor.label',
+                        ),
+                        ContributionRoleInterface::MEDIA_SUPER_SUPRESSOR => array(
+                            'label' => 'open_orchestra_backoffice.role.supressor.label',
+                        ),
+                    ),
+                ),
+            ),
+        );
         if ($container->hasParameter('open_orchestra_backoffice.configuration.roles')) {
             $configurationRoles = array_merge_recursive($container->getParameter('open_orchestra_backoffice.configuration.roles'), $configurationRoles);
         }
