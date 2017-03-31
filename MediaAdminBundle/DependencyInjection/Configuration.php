@@ -98,7 +98,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-            ->append($this->addConfigurationRoleConfiguration())
         ->end();
 
         return $treeBuilder;
