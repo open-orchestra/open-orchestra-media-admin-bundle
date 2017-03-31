@@ -4,7 +4,6 @@ namespace OpenOrchestra\MediaAdminBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 
 /**
  * Class Configuration
