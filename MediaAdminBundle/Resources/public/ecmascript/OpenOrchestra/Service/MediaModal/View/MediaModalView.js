@@ -62,7 +62,6 @@ class MediaModalView extends ModalView
                 'filter[type]': this._filterType
             },
             success: (medias) => {
-                console.log(medias);
                 let mediasView = new MediasView({
                     siteId: this._currentSiteId,
                     filterType: this._filterType,
@@ -140,7 +139,6 @@ class MediaModalView extends ModalView
     _changeSite(event)
     {
         this._currentSiteId = $(event.currentTarget).val();
-        console.log(this._currentSiteId);
         this._renderMedias();
     }
 }
