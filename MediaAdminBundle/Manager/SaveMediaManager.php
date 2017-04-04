@@ -6,7 +6,7 @@ use OpenOrchestra\MediaAdmin\Event\MediaEvent;
 use OpenOrchestra\MediaAdmin\MediaEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,17 +26,17 @@ class SaveMediaManager implements SaveMediaManagerInterface
     protected $dispatcher;
 
     /**
-     * @param string                    $tmpDir
-     * @param MediaStorageManager       $mediaStorageManager
-     * @param array                     $allowedMimeTypes
-     * @param objectManager             $objectManager
-     * @param FolderRepositoryInterface $folderRepository
-     * @param string                    $mediaClass
-     * @param EventDispatcherInterface  $dispatcher
+     * @param string                       $tmpDir
+     * @param MediaStorageManagerInterface $mediaStorageManager
+     * @param array                        $allowedMimeTypes
+     * @param objectManager                $objectManager
+     * @param FolderRepositoryInterface    $folderRepository
+     * @param string                       $mediaClass
+     * @param EventDispatcherInterface     $dispatcher
      */
     public function __construct(
         $tmpDir,
-        MediaStorageManager $mediaStorageManager,
+        MediaStorageManagerInterface $mediaStorageManager,
         array $allowedMimeTypes,
         ObjectManager $objectManager,
         FolderRepositoryInterface $folderRepository,

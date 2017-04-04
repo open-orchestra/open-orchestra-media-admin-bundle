@@ -2,8 +2,8 @@
 
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use OpenOrchestra\MediaAdmin\FileUtils\Image\ImageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
@@ -19,23 +19,21 @@ class PdfStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnailFormat;
 
     /**
-     * @param Filesystem            $fileSystem
-     * @param MediaStorageManager   $mediaStorageManager
-     * @param ImageManagerInterface $imageManager
-     * @param string                $tmpDir
-     * @param array                 $thumbnailFormat
+     * @param Filesystem                   $fileSystem
+     * @param MediaStorageManagerInterface $mediaStorageManager
+     * @param ImageManagerInterface        $imageManager
+     * @param string                       $tmpDir
+     * @param array                        $thumbnailFormat
      */
     public function __construct(
-        Filesystem $fileSystem,
-        MediaStorageManager $mediaStorageManager,
-        ImageManagerInterface $imageManager,
+        Filesystem                   $fileSystem,
+        MediaStorageManagerInterface $mediaStorageManager,
+        ImageManagerInterface        $imageManager,
         $tmpDir,
         array $thumbnailFormat
     ) {
-        $this->fileSystem = $fileSystem;
-        $this->mediaStorageManager = $mediaStorageManager;
+        parent::__construct($fileSystem, $mediaStorageManager, $tmpDir);
         $this->imageManager = $imageManager;
-        $this->tmpDir = $tmpDir;
         $this->thumbnailFormat = $thumbnailFormat;
     }
 

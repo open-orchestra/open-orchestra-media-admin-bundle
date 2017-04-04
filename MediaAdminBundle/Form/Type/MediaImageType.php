@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 
 /**
  * Class MediaImageType
@@ -18,16 +18,16 @@ class MediaImageType extends MediaBaseType
     protected $storageManager;
 
     /**
-     * @param string              $mediaClass
-     * @param array               $frontLanguages
-     * @param array               $thumbnailConfig
-     * @param MediaStorageManager $storageManager
+     * @param string                       $mediaClass
+     * @param array                        $frontLanguages
+     * @param array                        $thumbnailConfig
+     * @param MediaStorageManagerInterface $storageManager
      */
     public function __construct(
         $mediaClass,
         array $frontLanguages,
         array $thumbnailConfig,
-        MediaStorageManager $storageManager
+        MediaStorageManagerInterface $storageManager
     ){
         parent::__construct($mediaClass, $frontLanguages);
         $this->thumbnailConfig = $thumbnailConfig;

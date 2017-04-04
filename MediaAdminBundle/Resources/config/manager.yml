@@ -11,7 +11,7 @@ services:
         class: '%open_orchestra_media_admin.manager.save_media.class%'
         arguments:
             - '%open_orchestra_media_admin.tmp_dir%'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
             - '%open_orchestra_media.allowed_mime_type%'
             - '@object_manager'
             - '@open_orchestra_media.repository.media_folder'

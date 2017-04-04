@@ -3,7 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\FileAlternatives\Strategy;
 
 use Symfony\Component\Filesystem\Filesystem;
-use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 
 /**
@@ -17,20 +17,18 @@ class AudioStrategy extends AbstractFileAlternativesStrategy
     protected $thumbnail;
 
     /**
-     * @param Filesystem          $fileSystem
-     * @param MediaStorageManager $mediaStorageManager
-     * @param string              $tmpDir
-     * @param string              $thumbnail
+     * @param Filesystem                   $fileSystem
+     * @param MediaStorageManagerInterface $mediaStorageManager
+     * @param string                       $tmpDir
+     * @param string                       $thumbnail
      */
     public function __construct(
         Filesystem $fileSystem,
-        MediaStorageManager $mediaStorageManager,
+        MediaStorageManagerInterface $mediaStorageManager,
         $tmpDir,
         $thumbnail
     ) {
-        $this->fileSystem = $fileSystem;
-        $this->mediaStorageManager = $mediaStorageManager;
-        $this->tmpDir = $tmpDir;
+        parent::__construct($fileSystem, $mediaStorageManager, $tmpDir);
         $this->thumbnail = $thumbnail;
     }
 

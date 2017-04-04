@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\Backoffice\BusinessRules\BusinessRulesManager;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Media\Model\MediaInterface;
@@ -21,33 +22,33 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     protected $fileAlternativesManager;
     protected $multiLanguageChoiceManager;
-    protected $mediaDomain;
     protected $mediaRepository;
     protected $businessRulesManager;
+    protected $mediaStorageManager;
 
     /**
      * @param string                               $facadeClass
      * @param FileAlternativesManager              $fileAlternativesManager
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
-     * @param string                               $mediaDomain
+     * @param MediaStorageManagerInterface         $mediaStorageManager
      * @param AuthorizationCheckerInterface        $authorizationChecker
      * @param MediaRepositoryInterface             $mediaRepository
-     * @param BusinessRulesManager           $businessRulesManager
+     * @param BusinessRulesManager                 $businessRulesManager
      */
     public function __construct(
         $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager,
-        $mediaDomain,
+        MediaStorageManagerInterface $mediaStorageManager,
         AuthorizationCheckerInterface $authorizationChecker,
         MediaRepositoryInterface $mediaRepository,
         BusinessRulesManager $businessRulesManager
     ) {
         $this->fileAlternativesManager = $fileAlternativesManager;
         $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
-        $this->mediaDomain = $mediaDomain;
         $this->mediaRepository = $mediaRepository;
         $this->businessRulesManager = $businessRulesManager;
+        $this->mediaStorageManager = $mediaStorageManager;
         parent::__construct($facadeClass, $authorizationChecker);
     }
 
@@ -138,11 +139,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         if ($key === null) {
             return null;
         } else {
-            $route = $this->generateRoute('open_orchestra_media_get',
-                array('key' => $key),
-                UrlGeneratorInterface::ABSOLUTE_PATH);
-
-            return '//' . $this->mediaDomain . $route;
+            return  $this->mediaStorageManager->getUrl($key);
         }
     }
 }

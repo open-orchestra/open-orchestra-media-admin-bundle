@@ -51,6 +51,6 @@ services:
             - '%open_orchestra_media.document.media.class%'
             - '%open_orchestra_backoffice.orchestra_choice.front_language%'
             - '%open_orchestra_media_admin.files.alternatives.image.formats%'
-            - '@open_orchestra_media_file.manager.storage'
+            - '@open_orchestra_media.manager.storage'
         tags:
             - { name: form.type, alias: oo_media_image}
