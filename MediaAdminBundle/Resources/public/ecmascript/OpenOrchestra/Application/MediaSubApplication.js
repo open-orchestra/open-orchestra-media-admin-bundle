@@ -27,7 +27,7 @@ class MediaSubApplication
         Application.getConfiguration().addParameter('mediaViewTemplates', {'image': 'Media/Modal/mediaImageDetailView'});
 
         var user_roles = Application.getContext().user.roles;
-        var is_admin = user_roles.indexOf('ROLE_DEVELOPER') > -1 || user_roles.indexOf('ROLE_DEVELOPER') > -1;
+        var is_admin = user_roles.indexOf('ROLE_DEVELOPER') > -1 || user_roles.indexOf('ROLE_PLATFORM_ADMIN') > -1;
         Application.getContext().updateUserAccessSection(
             'media',
             is_admin || user_roles.indexOf('EDITORIAL_MEDIA_CONTRIBUTOR') > -1
