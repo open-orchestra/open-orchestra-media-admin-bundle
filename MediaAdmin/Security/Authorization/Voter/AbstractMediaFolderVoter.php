@@ -6,6 +6,7 @@ use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface;
 use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractEditorialVoter;
+use OpenOrchestra\MediaAdmin\Security\ContributionActionInterface as MediaContributionActionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -15,6 +16,48 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 abstract class AbstractMediaFolderVoter extends AbstractEditorialVoter
 {
+    /**
+     * @return array
+     */
+    protected function getSupportedAttributes()
+    {
+        return array(
+            ContributionActionInterface::READ,
+            ContributionActionInterface::CREATE,
+            ContributionActionInterface::EDIT,
+            ContributionActionInterface::DELETE,
+            MediaContributionActionInterface::CREATE_MEDIA_UNDER
+        );
+    }
+
+    /**
+     * @param string         $attribute
+     * @param mixed          $subject
+     * @param TokenInterface $token
+     *
+     * @return bool
+     */
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    {
+        if ($this->isSuperAdmin($token)) {
+            return true;
+        }
+
+        if (ContributionActionInterface::READ === $attribute) {
+            return $this->voteForReadAction($subject, $token);
+        }
+
+        if ($this->isCreator($subject, $token->getUser())) {
+            return $this->voteForOwnedSubject($attribute, $subject, $token);
+        }
+
+        if (MediaContributionActionInterface::CREATE_MEDIA_UNDER === $attribute) {
+            return $this->voteForCreateMediaAction($subject, $token);
+        }
+
+        return $this->voteForSomeoneElseSubject($attribute, $subject, $token);
+    }
+
     /**
      * @param mixed $folder
      *
@@ -50,6 +93,17 @@ abstract class AbstractMediaFolderVoter extends AbstractEditorialVoter
     {
         return $this->hasRole($token, ContributionRoleInterface::MEDIA_FOLDER_CONTRIBUTOR)
             && $this->isSubjectInPerimeter($this->getPath($folder), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
+    }
+
+    /**
+     * @param mixed          $folder
+     * @param TokenInterface $token
+     *
+     * @return string
+     */
+    protected function voteForCreateMediaAction($folder, $token)
+    {
+        return $this->isSubjectInPerimeter($this->getPath($folder), $token->getUser(), MediaFolderInterface::ENTITY_TYPE);
     }
 
     /**

@@ -44,7 +44,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         });
 
         $(".table-responsive", this.$el).html(mediaList);
-
     }
 
     /**
