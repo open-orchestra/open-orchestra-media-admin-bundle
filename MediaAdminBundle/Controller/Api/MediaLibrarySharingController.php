@@ -5,7 +5,6 @@ namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
-use OpenOrchestra\Media\Model\MediaLibrarySharingInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 
 /**

@@ -4,8 +4,6 @@ namespace OpenOrchestra\MediaAdmin\EventSubscriber;
 
 use OpenOrchestra\Backoffice\Event\SiteFormEvent;
 use OpenOrchestra\Backoffice\SiteFormEvents;
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
-use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

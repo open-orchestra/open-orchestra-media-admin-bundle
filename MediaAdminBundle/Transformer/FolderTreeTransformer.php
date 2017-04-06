@@ -9,6 +9,7 @@ use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use OpenOrchestra\MediaAdmin\Security\ContributionActionInterface as MediaContributionActionInterface;
 
 /**
  * Class FolderTreeTransformer
@@ -71,6 +72,10 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
         $folderFacade->addRight(
             'can_create',
             $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, $rootFolder)
+        );
+        $folderFacade->addRight(
+            'can_create_media',
+            $this->authorizationChecker->isGranted(MediaContributionActionInterface::CREATE_MEDIA_UNDER, $rootFolder)
         );
 
         $treeFacade = $this->newFacade();
