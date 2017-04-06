@@ -46,7 +46,7 @@ class MediaController extends BaseController
         $configuration = PaginateFinderConfiguration::generateFromRequest($request);
 
         if ($withPerimeter && null === $request->get('filter')['folderId']) {
-            $configuration->addSearch('perimeterFolderIds', $this->getConnectedUserMediaPerimeter());
+            $configuration->addSearch('perimeterFolderIds', $this->getConnectedUserMediaPerimeter($siteId));
         }
 
         if ($request->get('filter') && isset($request->get('filter')['type'])) {
@@ -71,15 +71,16 @@ class MediaController extends BaseController
     /**
      * Return folder ids included in the allowed perimeter to the user for media contribution
      *
+     * @param string $siteId
      * @return null|array
      */
-    protected function getConnectedUserMediaPerimeter()
+    protected function getConnectedUserMediaPerimeter($siteId)
     {
         $userGroups = $this->get('security.token_storage')->getToken()->getUser()->getGroups();
         $folderIds = array();
 
         foreach ($userGroups as $group) {
-            if ($group->hasRole('EDITORIAL_MEDIA_CONTRIBUTOR')) {
+            if ($group->hasRole('EDITORIAL_MEDIA_CONTRIBUTOR') && $group->getSite()->getSiteId() == $siteId) {
                 foreach ($group->getPerimeter(MediaFolderInterface::ENTITY_TYPE)->getItems() as $path) {
                     foreach ($this->get('open_orchestra_media.repository.media_folder')->findSubTreeByPath($path) as $folder) {
                         $folderIds[$folder->getId()] = $folder->getId();
