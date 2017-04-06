@@ -100,6 +100,9 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
                 siteId: this._siteId
             }
         };
+        if (this._selectionMod) {
+            syncOptions.urlParameter.withoutPerimeter = true;
+        }
 
         if ('' != this._filterType) {
             syncOptions.data = {'filter[type]': this._filterType};

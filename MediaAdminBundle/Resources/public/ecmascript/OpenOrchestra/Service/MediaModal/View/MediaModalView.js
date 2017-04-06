@@ -54,7 +54,8 @@ class MediaModalView extends ModalView
         let pageLength = 10;
         new Medias().fetch({
             urlParameter: {
-              siteId: this._currentSiteId
+              siteId: this._currentSiteId,
+              withoutPerimeter: true
             },
             data   : {
                 'start'       : page * pageLength,
