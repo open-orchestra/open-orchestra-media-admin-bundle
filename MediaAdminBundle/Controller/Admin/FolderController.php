@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Controller\Admin;
 
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use Symfony\Component\Form\Form;
@@ -32,7 +33,7 @@ class FolderController extends AbstractAdminController
         $form = $this->createForm('oo_folder', $folder, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId)),
             'delete_button' => $this->isGranted(ContributionActionInterface::DELETE, $folder) &&
-                $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::EDIT, $folder),
+                $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::EDIT, $folder),
         ));
         $form->handleRequest($request);
         if ($this->handleForm($form, $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success'), $folder)) {

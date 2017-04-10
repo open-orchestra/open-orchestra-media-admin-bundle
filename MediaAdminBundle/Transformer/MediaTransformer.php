@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
 use OpenOrchestra\Backoffice\BusinessRules\BusinessRulesManager;
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
 use OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager;
@@ -99,7 +100,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->addRight(
             'can_delete',
             $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $mixed) &&
-            $this->businessRulesManager->isGranted(ContributionActionInterface::DELETE, $mixed)
+            $this->businessRulesManager->isGranted(BusinessActionInterface::DELETE, $mixed)
         );
 
         return $facade;

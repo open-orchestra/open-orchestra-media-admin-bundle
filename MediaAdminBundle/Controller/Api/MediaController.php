@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\MediaAdmin\Event\MediaEvent;
@@ -84,7 +85,7 @@ class MediaController extends BaseController
         $mediasIds = array();
         foreach ($medias as $media) {
             if ($this->isGranted(ContributionActionInterface::DELETE, $media) &&
-                $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::DELETE, $media)) {
+                $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $media)) {
                 $mediasIds[] = $media->getId();
                 $this->dispatchEvent(MediaEvents::MEDIA_DELETE, new MediaEvent($media));
             }
@@ -108,7 +109,7 @@ class MediaController extends BaseController
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
 
         if ($media instanceof MediaInterface) {
-            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::DELETE, $media)) {
+            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $media)) {
                 throw new MediaNotDeletableException();
             }
 
