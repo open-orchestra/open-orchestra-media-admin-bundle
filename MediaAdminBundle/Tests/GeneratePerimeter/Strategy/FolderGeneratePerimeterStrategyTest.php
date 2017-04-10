@@ -19,7 +19,6 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
      */
     public function setUp()
     {
-        $context = Phake::mock('OpenOrchestra\Backoffice\Context\ContextManager');
         $repository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
         Phake::when($repository)->findFolderTree(Phake::anyParameters())->thenReturn(
             array (
@@ -52,7 +51,7 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
             )
         );
 
-        $this->strategy = new FolderGeneratePerimeterStrategy($repository, $context);
+        $this->strategy = new FolderGeneratePerimeterStrategy($repository);
     }
 
     /**
@@ -60,7 +59,7 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
      */
     public function testGetPerimeterConfiguration()
     {
-        $result = $this->strategy->getPerimeterConfiguration();
+        $result = $this->strategy->getPerimeterConfiguration('siteId');
         $this->assertEquals(array (
             array (
                 'root' =>
@@ -94,7 +93,7 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
      */
     public function testGeneratePerimeter()
     {
-        $result = $this->strategy->generatePerimeter();
+        $result = $this->strategy->generatePerimeter('siteId');
         $this->assertEquals(array (
             '/images_folder',
             '/images_folder/first_images_folder',
