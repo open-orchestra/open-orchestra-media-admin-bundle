@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdminBundle\BusinessRules\Strategies;
 
 use OpenOrchestra\Backoffice\BusinessRules\Strategies\AbstractBusinessRulesStrategy;
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
-use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\MediaAdminBundle\Manager\FolderManager;
 
 /**
@@ -37,7 +37,7 @@ class FolderStrategy extends AbstractBusinessRulesStrategy
     public function getActions()
     {
         return array(
-            ContributionActionInterface::DELETE => 'canDelete',
+            BusinessActionInterface::DELETE => 'canDelete',
         );
     }
 
