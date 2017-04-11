@@ -3,8 +3,8 @@
 namespace OpenOrchestra\MediaAdminBundle\BusinessRules\Strategies;
 
 use OpenOrchestra\Backoffice\BusinessRules\Strategies\AbstractBusinessRulesStrategy;
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
-use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * class MediaStrategy
@@ -25,7 +25,7 @@ class MediaStrategy extends AbstractBusinessRulesStrategy
     public function getActions()
     {
         return array(
-            ContributionActionInterface::DELETE => 'canDelete',
+            BusinessActionInterface::DELETE => 'canDelete',
         );
     }
 

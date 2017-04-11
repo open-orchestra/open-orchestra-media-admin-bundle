@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Controller\Api;
 
+use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
@@ -38,7 +39,7 @@ class FolderController extends BaseController
             $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $folder);
             $folderManager = $this->get('open_orchestra_media_admin.manager.media_folder');
 
-            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::DELETE, $folder)) {
+            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $folder)) {
                 throw new FolderNotDeletableException();
             }
             $folderManager->deleteTree($folder);
