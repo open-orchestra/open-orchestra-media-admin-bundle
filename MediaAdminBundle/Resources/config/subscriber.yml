@@ -64,6 +64,8 @@ services:
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'
             - '@open_orchestra_media_admin.event.folder_event.factory'
+            - '@open_orchestra_user.repository.group'
+            - '@open_orchestra_model.repository.site'
         tags:
             - { name: kernel.event_subscriber }
 

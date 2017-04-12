@@ -8,6 +8,9 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\MediaAdmin\Event\FolderEvent;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\MediaAdmin\Event\FolderEventFactory;
+use OpenOrchestra\Backoffice\Repository\GroupRepositoryInterface;
+use OpenOrchestra\Media\Model\MediaFolderInterface;
+use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
 
 /**
  * Class UpdateFolderPathSubscriber
@@ -17,20 +20,27 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     protected $folderRepository;
     protected $eventDispatcher;
     protected $folderEventFactory;
+    protected $groupRepository;
+    protected $siteRepository;
 
     /**
      * @param FolderRepositoryInterface $nodeRepository
      * @param EventDispatcherInterface  $eventDispatcher
      * @param FolderEventFactory        $folderEventFactory
+     * 
      */
     public function __construct(
         FolderRepositoryInterface $folderRepository,
         EventDispatcherInterface $eventDispatcher,
-        FolderEventFactory $folderEventFactory
-    ){
+        FolderEventFactory $folderEventFactory,
+        GroupRepositoryInterface $groupRepository,
+        SiteRepositoryInterface $siteRepository
+    ) {
         $this->folderRepository = $folderRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->folderEventFactory = $folderEventFactory;
+        $this->groupRepository = $groupRepository;
+        $this->siteRepository = $siteRepository;
     }
 
     /**
@@ -38,21 +48,25 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
      */
     public function updatePath(FolderEvent $event)
     {
-        $folder = $event->getFolder();
+        $parentFolder = $event->getFolder();
+        $site = $this->siteRepository->findOneBySiteId($parentFolder->getSiteId());
 
-        $parentPath = '';
-        $parent = $folder->getParent();
-        if (!is_null($parent)) {
-            $parentPath = $parent->getPath();
-        }
-        $folder->setPath($parentPath . '/' . $folder->getFolderId());
+        $this->groupRepository->updatePerimeterItem(
+            MediaFolderInterface::ENTITY_TYPE,
+            $event->getPreviousPath(),
+            $parentFolder->getPath(),
+            $site->getId()
+        );
 
-        $sons = $this->folderRepository->findByParentAndSite($folder->getId(), $folder->getSiteId());
+        $folders = $this->folderRepository->findByParentAndSite($parentFolder->getId(), $parentFolder->getSiteId());
+        foreach ($folders as $folder) {
+            $oldPath = $folder->getPath();
+            $folder->setPath($parentFolder->getPath() . '/' . $folder->getFolderId());
 
-        foreach ($sons as $son) {
             $event = $this->folderEventFactory->createFolderEvent();
-            $event->setFolder($son);
-            $this->eventDispatcher->dispatch(FolderEvents::PARENT_UPDATED, $event);
+            $event->setFolder($folder);
+            $event->setPreviousPath($oldPath);
+            $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
         }
     }
 
@@ -62,7 +76,7 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FolderEvents::PARENT_UPDATED => 'updatePath',
+            FolderEvents::PATH_UPDATED => 'updatePath',
         );
     }
 }
