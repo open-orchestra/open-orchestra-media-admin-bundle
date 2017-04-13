@@ -49,7 +49,7 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     {
         return array(
             'empty' => array('', array('id' => '', 'format' => '', 'alt' => '', 'legend' => '')),
-            'id' => array(array('id' => 'id'), array('id' => 'id')),
+            'id' => array(array('id' => 'id'), array('id' => 'id', 'format' => '', 'alt' => '', 'legend' => '')),
         );
     }
 
@@ -71,7 +71,7 @@ class MediaChoiceTransformerTest extends AbstractBaseTestCase
     {
         return array(
             'empty' => array('', array('id' => '', 'format' => '', 'alt' => '', 'legend' => '')),
-            'id' => array(array('id' => 'id'), array('id' => 'id')),
+            'id' => array(array('id' => 'id'), array('id' => 'id', 'format' => '', 'alt' => '', 'legend' => '')),
         );
     }
 }

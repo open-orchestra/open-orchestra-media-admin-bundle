@@ -43,8 +43,13 @@ class MediaChoiceTransformer implements DataTransformerInterface
      */
     protected function formatValue($value)
     {
-        if ($value == '') {
-            $value = array('id' => '', 'format' => '', 'alt' => '', 'legend' => '');
+        $defaultValue = array('id' => '', 'format' => '', 'alt' => '', 'legend' => '');
+        if ('' === $value|| null === $value) {
+            return $defaultValue;
+        }
+
+        if (is_array($value)) {
+            return array_merge($defaultValue, $value);
         }
 
         return $value;
