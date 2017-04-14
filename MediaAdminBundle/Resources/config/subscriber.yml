@@ -87,5 +87,10 @@ services:
 
     open_orchestra_media_admin.subscriber.delete_site_command:
         class: '%open_orchestra_media_admin.subscriber.delete_site_command.class%'
+        arguments:
+            - '@open_orchestra_media.repository.media'
+            - '@open_orchestra_media.repository.media_folder'
+            - '@open_orchestra_backoffice.command.orchestra_delete_site_tools'
+            - '%open_orchestra_media.document.media.class%'
         tags:
             - { name: kernel.event_subscriber }
