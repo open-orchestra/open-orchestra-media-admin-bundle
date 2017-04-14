@@ -40,7 +40,7 @@ class Medias extends DataTableCollection
      */
     _getSyncUrl(method, options) {
         let urlParameter = options.urlParameter || {};
-        let apiContext = options.apiContext
+        let apiContext = options.apiContext || '';
 
         switch (method) {
             case "read":
