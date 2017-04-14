@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\GeneratePerimeter\Strategy;
 
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\Backoffice\GeneratePerimeter\Strategy\GeneratePerimeterStrategyInterface;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
@@ -17,14 +16,10 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
 
     /**
      * @param FolderRepositoryInterface $folderRepository
-     * @param CurrentSiteIdInterface    $contextManager
      */
-    public function __construct(
-        FolderRepositoryInterface $folderRepository,
-        CurrentSiteIdInterface $contextManager
-    ) {
+    public function __construct(FolderRepositoryInterface $folderRepository)
+    {
         $this->folderRepository = $folderRepository;
-        parent::__construct($contextManager);
     }
 
     /**
@@ -40,11 +35,12 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
     /**
      * Generate perimeter
      *
+     * @param string $siteId
      * @return array
      */
-    public function generatePerimeter()
+    public function generatePerimeter($siteId)
     {
-        $treeFolders = $this->folderRepository->findFolderTree($this->contextManager->getCurrentSiteId());
+        $treeFolders = $this->folderRepository->findFolderTree($siteId);
 
         return $this->generateTreePerimeter($treeFolders);
     }
@@ -52,11 +48,12 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
     /**
      * get perimeter configuration
      *
+     * @param string $siteId
      * @return array
      */
-    public function getPerimeterConfiguration()
+    public function getPerimeterConfiguration($siteId)
     {
-        $treeFolders = $this->folderRepository->findFolderTree($this->contextManager->getCurrentSiteId());
+        $treeFolders = $this->folderRepository->findFolderTree($siteId);
 
         return $this->getTreePerimeterConfiguration($treeFolders);
     }
