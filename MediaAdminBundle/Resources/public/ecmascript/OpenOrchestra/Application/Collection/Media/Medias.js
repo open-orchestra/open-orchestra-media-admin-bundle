@@ -40,12 +40,12 @@ class Medias extends DataTableCollection
      */
     _getSyncUrl(method, options) {
         let urlParameter = options.urlParameter || {};
-        let apiContext = options.apiContext || {};
+        let apiContext = options.apiContext
 
         switch (method) {
             case "read":
                 let route = 'open_orchestra_api_media_list_with_perimeter';
-                if (apiContext.withoutPerimeter) {
+                if ('withoutPerimeter' == apiContext) {
                     route = 'open_orchestra_api_media_list_without_perimeter';
                 }
                 return Routing.generate(route, urlParameter);

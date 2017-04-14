@@ -98,11 +98,12 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         let syncOptions = {
             urlParameter: {
                 siteId: this._siteId
-            },
-            apiContext: {
-                withoutPerimeter: this._selectionMod
             }
         };
+
+        if (this._selectionMod) {
+            syncOptions.apiContext = 'withoutPerimeter';
+        }
 
         if ('' != this._filterType) {
             syncOptions.data = {'filter[type]': this._filterType};
