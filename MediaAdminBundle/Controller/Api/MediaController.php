@@ -18,6 +18,9 @@ use OpenOrchestra\MediaAdminBundle\Context\MediaAdminGroupContext;
 use OpenOrchestra\Media\Model\MediaInterface;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
+use OpenOrchestra\Media\Model\MediaFolderInterface;
+use OpenOrchestra\Backoffice\Security\ContributionRoleInterface;
+use OpenOrchestra\MediaAdmin\Security\ContributionRoleInterface as MediaContributionRoleInterface;
 
 /**
  * Class MediaController
@@ -31,34 +34,71 @@ class MediaController extends BaseController
     /**
      * @param Request $request
      * @param string  $siteId
+     * @param bool    $withPerimeter
      *
-     * @Config\Route("/list/{siteId}", name="open_orchestra_api_media_list")
+     * @Config\Route("/list/with-perimeter/{siteId}", defaults={"withPerimeter": true}, name="open_orchestra_api_media_list_with_perimeter")
+     * @Config\Route("/list/without-perimeter/{siteId}", defaults={"withPerimeter": false}, name="open_orchestra_api_media_list_without_perimeter")
      * @Config\Method({"GET"})
      * @Config\Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Api\Groups({MediaAdminGroupContext::MEDIA_ALTERNATIVES})
      *
      * @return FacadeInterface
      */
-    public function listAction(Request $request, $siteId)
+    public function listAction(Request $request, $siteId, $withPerimeter)
     {
         $configuration = PaginateFinderConfiguration::generateFromRequest($request);
-        if ($request->get('filter') && isset($request->get('filter')['type'])) {
-            $configuration->addSearch('type', $request->get('filter')['type']);
+
+        $foldersId = null;
+        if ($withPerimeter && null === $request->get('filter')['folderId']) {
+            $foldersId = $this->getConnectedUserMediaPerimeter($siteId);
+            $configuration->addSearch('perimeterFolderIds', $foldersId);
         }
-        $repository = $this->get('open_orchestra_media.repository.media');
-        $collection = $repository->findForPaginate($configuration, $siteId);
+
+        $type = null;
         if ($request->get('filter') && isset($request->get('filter')['type']) && '' !== $request->get('filter')['type']) {
-            $recordsTotal = $repository->count($siteId, $request->get('filter')['type']);
-        } else {
-            $recordsTotal = $repository->count($siteId);
+            $type = $request->get('filter')['type'];
+            $configuration->addSearch('type', $type);
         }
-        $recordsFiltered = $repository->countWithFilter($configuration, $siteId);
-        $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('media_collection');
-        $facade = $collectionTransformer->transform($collection);
-        $facade->recordsTotal = $recordsTotal;
-        $facade->recordsFiltered = $recordsFiltered;
+
+        $repository = $this->get('open_orchestra_media.repository.media');
+
+        $facade = $this->get('open_orchestra_api.transformer_manager')->get('media_collection')
+            ->transform($repository->findForPaginate($configuration, $siteId));
+        $facade->recordsTotal = $repository->count($siteId, $type, $foldersId);
+        $facade->recordsFiltered = $repository->countWithFilter($configuration, $siteId);
 
         return $facade;
+    }
+
+    /**
+     * Return folder ids included in the allowed perimeter to the user for media contribution
+     *
+     * @param string $siteId
+     * @return null|array
+     */
+    protected function getConnectedUserMediaPerimeter($siteId)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($user->hasRole(ContributionRoleInterface::PLATFORM_ADMIN)
+            || $user->hasRole(ContributionRoleInterface::DEVELOPER)
+        ) {
+            return null;
+        }
+
+        $userGroups = $user->getGroups();
+        $folderIds = array();
+
+        foreach ($userGroups as $group) {
+            if ($group->hasRole(MediaContributionRoleInterface::MEDIA_CONTRIBUTOR) && $group->getSite()->getSiteId() == $siteId) {
+                foreach ($group->getPerimeter(MediaFolderInterface::ENTITY_TYPE)->getItems() as $path) {
+                    foreach ($this->get('open_orchestra_media.repository.media_folder')->findSubTreeByPath($path) as $folder) {
+                        $folderIds[$folder->getId()] = $folder->getId();
+                    }
+                }
+            }
+        }
+
+        return $folderIds;
     }
 
     /**

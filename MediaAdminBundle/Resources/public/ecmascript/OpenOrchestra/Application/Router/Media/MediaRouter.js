@@ -20,7 +20,7 @@ class MediaRouter extends AbstractMediaRouter
             'media/list(/:page)'            : 'listMedia',
             'media/new'                     : 'newMedia',
             'media/edit/:mediaType/:mediaId': 'editMedia',
-       };
+        };
 
         Application.getConfiguration().addParameter('mediaViews', {'image': MediaImageFormView});
     }

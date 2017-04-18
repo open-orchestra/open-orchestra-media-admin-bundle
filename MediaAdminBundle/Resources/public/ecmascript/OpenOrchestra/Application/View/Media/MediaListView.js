@@ -101,6 +101,10 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             }
         };
 
+        if (this._selectionMod) {
+            syncOptions.apiContext = 'withoutPerimeter';
+        }
+
         if ('' != this._filterType) {
             syncOptions.data = {'filter[type]': this._filterType};
         }

@@ -56,6 +56,7 @@ class MediaModalView extends ModalView
             urlParameter: {
               siteId: this._currentSiteId
             },
+            apiContext: 'withoutPerimeter',
             data   : {
                 'start'       : page * pageLength,
                 'length'      : pageLength,
