@@ -59,14 +59,16 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
         );
 
         $folders = $this->folderRepository->findByParentAndSite($parentFolder->getId(), $parentFolder->getSiteId());
-        foreach ($folders as $folder) {
-            $oldPath = $folder->getPath();
-            $folder->setPath($parentFolder->getPath() . '/' . $folder->getFolderId());
+        if (is_array($folders)) {
+            foreach ($folders as $folder) {
+                $oldPath = $folder->getPath();
+                $folder->setPath($parentFolder->getPath() . '/' . $folder->getFolderId());
 
-            $event = $this->folderEventFactory->createFolderEvent();
-            $event->setFolder($folder);
-            $event->setPreviousPath($oldPath);
-            $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+                $event = $this->folderEventFactory->createFolderEvent();
+                $event->setFolder($folder);
+                $event->setPreviousPath($oldPath);
+                $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+            }
         }
     }
 
