@@ -76,6 +76,7 @@ class FolderController extends AbstractAdminController
             'new_button' => true,
         ));
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $documentManager = $this->get('object_manager');
             $documentManager->persist($folder);
@@ -84,10 +85,12 @@ class FolderController extends AbstractAdminController
             $event->setFolder($folder);
             $this->dispatchEvent(FolderEvents::FOLDER_CREATE, $event);
             $message = $this->get('translator')->trans('open_orchestra_media_admin.form.folder.success');
+            $this->get('session')->getFlashBag()->add('success', $message);
+
             $response = new Response(
-                $message,
+                '',
                 Response::HTTP_CREATED,
-                array('Content-type' => 'text/plain; charset=utf-8', 'folderId' => $folder->getId(), 'name' => $folder->getName())
+                array('Content-type' => 'text/plain; charset=utf-8', 'folderId' => $folder->getId())
             );
             return $response;
         }
