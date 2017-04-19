@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdminBundle\Manager;
 
 use OpenOrchestra\Media\Model\MediaFolderInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
 
 /**
  * Class FolderManager
@@ -11,15 +12,18 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 class FolderManager
 {
     protected $documentManager;
+    protected $mediaRepository;
 
     /**
      * Constructor
      *
-     * @param DocumentManager  $documentManager
+     * @param DocumentManager          $documentManager
+     * @param MediaRepositoryInterface $mediaRepository
      */
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(DocumentManager $documentManager, MediaRepositoryInterface $mediaRepository)
     {
         $this->documentManager = $documentManager;
+        $this->mediaRepository = $mediaRepository;
     }
 
     /**
@@ -49,7 +53,7 @@ class FolderManager
      */
     protected function countMediaTree(MediaFolderInterface $folder)
     {
-        $count = count($folder->getMedias());
+        $count = $this->mediaRepository->countByFolderId($folder->getId());
         $subFolders = $folder->getSubFolders();
         foreach ($subFolders as $subFolder) {
             $count += $this->countMediaTree($subFolder, $count);

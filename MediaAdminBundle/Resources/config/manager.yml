@@ -7,6 +7,7 @@ services:
         class: '%open_orchestra_media_admin.manager.media_folder.class%'
         arguments:
             - '@object_manager'
+            - '@open_orchestra_media.repository.media'
     open_orchestra_media_admin.manager.save_media:
         class: '%open_orchestra_media_admin.manager.save_media.class%'
         arguments:
