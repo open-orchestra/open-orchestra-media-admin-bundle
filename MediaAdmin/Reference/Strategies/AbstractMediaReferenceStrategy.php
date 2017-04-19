@@ -34,7 +34,6 @@ abstract class AbstractMediaReferenceStrategy
     protected function extractMediasFromElement($element)
     {
         $references = array();
-
         if ($this->isMediaAttribute($element)) {
             $references[] = $element['id'];
 

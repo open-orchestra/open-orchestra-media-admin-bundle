@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaAdmin\Reference\Strategies;
 
 use OpenOrchestra\ModelInterface\Model\ContentInterface;
 use OpenOrchestra\Backoffice\Reference\Strategies\ReferenceStrategyInterface;
+use OpenOrchestra\ModelInterface\Model\UseTrackableInterface;
 
 /**
  * Class MediaInContentReferenceStrategy
@@ -29,7 +30,7 @@ class MediaInContentReferenceStrategy extends AbstractMediaReferenceStrategy imp
             $mediaIds = $this->extractMediasFromContent($entity);
 
             foreach ($mediaIds as $mediaId) {
-                /** @var OpenOrchestra\Media\Model\MediaInterface $media */
+                /** @var UseTrackableInterface $media */
                 $media = $this->mediaRepository->find($mediaId);
                 if ($media) {
                     $media->addUseInEntity($entity->getId(), ContentInterface::ENTITY_TYPE);
