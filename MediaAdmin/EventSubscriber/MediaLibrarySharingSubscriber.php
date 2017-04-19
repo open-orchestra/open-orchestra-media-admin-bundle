@@ -55,29 +55,31 @@ class MediaLibrarySharingSubscriber implements EventSubscriberInterface
      */
     public function preSetData(FormEvent $event)
     {
-        $form = $event->getForm();
-        $siteAllowedShare = array();
-        $currentSiteId = null;
-
         if ($event->getData() instanceof SiteInterface) {
             $currentSiteId = $event->getData()->getSiteId();
-            $mediaLibrarySharing = $this->mediaLibrarySharingRepository->findOneBySiteId($currentSiteId);
-            if ($mediaLibrarySharing instanceof MediaLibrarySharingInterface) {
-                $siteAllowedShare = $mediaLibrarySharing->getAllowedSites();
+            $choices = $this->getChoices($currentSiteId);
+
+            if (count($choices) > 0 ) {
+                $siteAllowedShare = array();
+
+                $mediaLibrarySharing = $this->mediaLibrarySharingRepository->findOneBySiteId($currentSiteId);
+                if ($mediaLibrarySharing instanceof MediaLibrarySharingInterface) {
+                    $siteAllowedShare = $mediaLibrarySharing->getAllowedSites();
+                }
+
+                $event->getForm()->add('media_sharing', 'oo_site_choice', array(
+                    'multiple' => true,
+                    'expanded' => true,
+                    'label' => false,
+                    'required' => false,
+                    'mapped' => false,
+                    'choices' => $choices,
+                    'group_id' => 'content',
+                    'sub_group_id' => 'media',
+                    'data' => $siteAllowedShare
+                ));
             }
         }
-
-        $form->add('media_sharing', 'oo_site_choice', array(
-            'multiple' => true,
-            'expanded' => true,
-            'label' => false,
-            'required' => false,
-            'mapped' => false,
-            'choices' => $this->getChoices($currentSiteId),
-            'group_id' => 'content',
-            'sub_group_id' => 'media',
-            'data' => $siteAllowedShare
-        ));
     }
 
     /**
@@ -85,7 +87,7 @@ class MediaLibrarySharingSubscriber implements EventSubscriberInterface
      */
     public function postSubmit(FormEvent $event)
     {
-        if ($event->getForm()->isValid()) {
+        if ($event->getForm()->isValid() && $event->getForm()->has('media_sharing')) {
             $siteId = $event->getData()->getSiteId();
             $mediaLibrarySharing = $this->mediaLibrarySharingRepository->findOneBySiteId($siteId);
             if (!$mediaLibrarySharing instanceof MediaLibrarySharingInterface) {
