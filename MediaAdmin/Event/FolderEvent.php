@@ -11,6 +11,7 @@ use Symfony\Component\EventDispatcher\Event;
 class FolderEvent extends Event
 {
     protected $folder;
+    protected $previousPath;
 
     /**
      * @return FolderInterface
@@ -26,5 +27,21 @@ class FolderEvent extends Event
     public function setFolder(FolderInterface $folder)
     {
         $this->folder = $folder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreviousPath()
+    {
+        return $this->previousPath;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPreviousPath($path)
+    {
+        $this->previousPath = $path;
     }
 }
