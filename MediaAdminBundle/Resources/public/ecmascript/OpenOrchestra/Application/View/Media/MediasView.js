@@ -47,7 +47,7 @@ class MediasView extends AbstractCollectionView
                     filterType  : this._filterType,
                     selectionMod: this._selectionMod,
                     siteId      : this._siteId
-                });
+                });	
                 $('.medias', this.$el).html(this._listView.render().$el);
             }
         });
