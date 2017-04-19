@@ -56,13 +56,13 @@ class FolderManagerTest extends AbstractBaseTestCase
         $subfolder0 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         Phake::when($subfolder0)->getMedias()->thenReturn(new ArrayCollection());
         Phake::when($subfolder0)->getSubFolders()->thenReturn(new ArrayCollection());
-        Phake::when($subfolder0)->getFolderId()->thenReturn('subfolder0');
+        Phake::when($subfolder0)->getId()->thenReturn('subfolder0');
         Phake::when($mediaRepository)->countByFolderId('subfolder0')->thenReturn(0);
 
         $subfolder1 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         Phake::when($subfolder1)->getMedias()->thenReturn(new ArrayCollection());
         Phake::when($subfolder1)->getSubFolders()->thenReturn(new ArrayCollection());
-        Phake::when($subfolder1)->getFolderId()->thenReturn('subfolder1');
+        Phake::when($subfolder1)->getId()->thenReturn('subfolder1');
         Phake::when($mediaRepository)->countByFolderId('subfolder1')->thenReturn(0);
 
         $subfolders = new ArrayCollection();
@@ -71,12 +71,12 @@ class FolderManagerTest extends AbstractBaseTestCase
 
         $folder0 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         Phake::when($folder0)->getSubFolders()->thenReturn($subfolders);
-        Phake::when($folder0)->getFolderId()->thenReturn('folder0');
+        Phake::when($folder0)->getId()->thenReturn('folder0');
         Phake::when($mediaRepository)->countByFolderId('folder0')->thenReturn(2);
 
         $folder1 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         Phake::when($folder1)->getSubFolders()->thenReturn(new ArrayCollection());
-        Phake::when($folder1)->getFolderId()->thenReturn('folder1');
+        Phake::when($folder1)->getId()->thenReturn('folder1');
         Phake::when($mediaRepository)->countByFolderId('folder1')->thenReturn(0);
 
         return array(
