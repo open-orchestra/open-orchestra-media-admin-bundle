@@ -36,7 +36,7 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
 
         $this->groupRepository = Phake::mock('OpenOrchestra\Backoffice\Repository\GroupRepositoryInterface');
 
-        $site = Phake::mock('OpenOrchestra\ModelBundle\Document\Site');
+        $site = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
         Phake::when($site)->getId()->thenReturn($this->siteId);
         $siteRepository = Phake::mock('OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface');
         Phake::when($siteRepository)->findOneBySiteId(Phake::anyParameters())->thenReturn($site);
