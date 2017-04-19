@@ -28,6 +28,35 @@ class MediasView extends AbstractCollectionView
      * Render medias view
      */
     render() {
+        if (0 === this._collection.recordsTotal) {
+            this._renderEmptyList();
+        } else {
+            this._renderList();
+        }
+
+        return this;
+    }
+
+    /**
+     * Render empty list
+     */
+    _renderEmptyList() {
+        let params = {};
+
+        if (!this._selectionMod) {
+            params = {
+                title : Translator.trans('open_orchestra_media_admin.media.title_list'),
+                urlAdd: Backbone.history.generateUrl('newMedia')
+            }
+        }
+        let template = this._renderTemplate('List/emptyListView' , params);
+        this.$el.html(template);
+    }
+
+    /**
+     * Render list
+     */
+    _renderList() {
         new FoldersTree().fetch({
             siteId: this._siteId,
             success: (foldersTree) => {
@@ -51,8 +80,6 @@ class MediasView extends AbstractCollectionView
                 $('.medias', this.$el).html(this._listView.render().$el);
             }
         });
-
-        return this;
     }
 }
 
