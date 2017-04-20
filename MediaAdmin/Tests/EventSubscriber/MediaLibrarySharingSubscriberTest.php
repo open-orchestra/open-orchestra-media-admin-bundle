@@ -68,51 +68,93 @@ class MediaLibrarySharingSubscriberTest extends AbstractBaseTestCase
 
     /**
      * test pre set data
+     *
+     * @dataProvider providePreSetData
      */
-    public function testPreSetData()
+    public function testPreSetData($findSite, $expectedAddCount)
     {
         $fakeSiteId = 'fakeSiteId';
+        $fakeSiteName = 'fakeSiteName';
 
         $mediaLibrarySharing = Phake::mock('OpenOrchestra\Media\Model\MediaLibrarySharingInterface');
         Phake::when($mediaLibrarySharing)->getAllowedSites()->thenReturn(array($fakeSiteId));
         Phake::when($this->mediaLibrarySharingRepository)->findOneBySiteId($this->currentSiteId)->thenReturn($mediaLibrarySharing);
 
-        $site2 = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
-        Phake::when($site2)->getSiteId()->thenReturn($fakeSiteId);
-        Phake::when($site2)->getName()->thenReturn('fakeSiteName');
-        Phake::when($this->siteRepository)->findByDeleted(false)->thenReturn(array($site2));
+        $availableSites = array();
+        if ($findSite) {
+            $site2 = Phake::mock('OpenOrchestra\ModelInterface\Model\SiteInterface');
+            Phake::when($site2)->getSiteId()->thenReturn($fakeSiteId);
+            Phake::when($site2)->getName()->thenReturn($fakeSiteName);
+            $availableSites = array($site2);
+        }
+        Phake::when($this->siteRepository)->findByDeleted(false)->thenReturn($availableSites);
 
         $this->subscriber->preSetData($this->event);
 
-        Phake::verify($this->form)->add('media_sharing', 'oo_site_choice', array(
-            'multiple' => true,
-            'expanded' => true,
-            'label' => false,
-            'required' => false,
-            'mapped' => false,
-            'choices' => array('fakeSiteName' => $fakeSiteId),
-            'group_id' => 'content',
-            'sub_group_id' => 'media',
-            'data' => array($fakeSiteId)
-        ));
+        Phake::verify($this->form, Phake::times($expectedAddCount))
+            ->add('media_sharing', 'oo_site_choice', array(
+                'multiple' => true,
+                'expanded' => true,
+                'label' => false,
+                'required' => false,
+                'mapped' => false,
+                'choices' => array($fakeSiteName => $fakeSiteId),
+                'group_id' => 'content',
+                'sub_group_id' => 'media',
+                'data' => array($fakeSiteId)
+            )
+        );
+    }
+
+    /**
+     * provide pre set data
+     *
+     * @return array
+     */
+    public function providePreSetData()
+    {
+        return array(
+            array(false, 0),
+            array(true, 1)
+        );
     }
 
     /**
      * Test post submit
+     * @param bool $hasMediaSharing
+     * @param int  $expectedSetCount
+     *
+     * @dataProvider providePostSubmitData
      */
-    public function testPostSubmit()
+    public function testPostSubmit($hasMediaSharing, $expectedSetCount)
     {
         Phake::when($this->form)->isValid()->thenReturn(true);
-        Phake::when($this->form)->get('media_sharing')->thenReturn($this->form);
+        Phake::when($this->form)->has('media_sharing')->thenReturn($hasMediaSharing);
+        if ($hasMediaSharing) {
+            Phake::when($this->form)->get('media_sharing')->thenReturn($this->form);
+        }
         Phake::when($this->form)->getData()->thenReturn(array('fakeId'));
         $mediaLibrarySharing = Phake::mock('OpenOrchestra\Media\Model\MediaLibrarySharingInterface');
         Phake::when($this->mediaLibrarySharingRepository)->findOneBySiteId($this->currentSiteId)->thenReturn($mediaLibrarySharing);
 
         $this->subscriber->postSubmit($this->event);
 
-        Phake::verify($mediaLibrarySharing)->setAllowedSites(array('fakeId'));
-        Phake::verify($this->objectManager)->persist($mediaLibrarySharing);
-        Phake::verify($this->objectManager)->flush();
+        Phake::verify($mediaLibrarySharing, Phake::times($expectedSetCount))->setAllowedSites(array('fakeId'));
+        Phake::verify($this->objectManager, Phake::times($expectedSetCount))->persist($mediaLibrarySharing);
+        Phake::verify($this->objectManager, Phake::times($expectedSetCount))->flush();
+    }
+
+    /**
+     * Provide Post submit Data
+     *
+     * @return array
+     */
+    public function providePostSubmitData()
+    {
+        return array(
+            array(false, 0),
+            array(true, 1),
+        );
     }
 
     /**
