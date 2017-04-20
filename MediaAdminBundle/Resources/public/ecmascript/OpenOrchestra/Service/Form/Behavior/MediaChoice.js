@@ -36,6 +36,7 @@ class MediaChoice extends AbstractBehavior
                 $('#' + formId + '_format').val(media.format);
                 $('#' + formId + '_alt').val(media.alt);
                 $('#' + formId + '_legend').val(media.legend);
+                $('#btn-remove-' + formId).show();
             },
             filterType   : $(event.currentTarget).data('media-type')
         });
@@ -61,6 +62,7 @@ class MediaChoice extends AbstractBehavior
         $('#' + formId + '_alt').val('');
         $('#' + formId + '_legend').val('');
         $('#preview-' + formId + ' .no-media').show();
+        $('#btn-remove-' + formId).hide();
     }
 
     /**
