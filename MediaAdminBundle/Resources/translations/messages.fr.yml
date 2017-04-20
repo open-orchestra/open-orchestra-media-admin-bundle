@@ -54,6 +54,7 @@ open_orchestra_media_admin:
             title: Titre
             copyright: Copyright
             keywords: Mot-clés
+            folder: Dossier
             group:
                 information: Information
             sub_group:
