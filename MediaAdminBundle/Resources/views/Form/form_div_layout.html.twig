@@ -5,7 +5,7 @@
         <div class="media-forms orchestra-media-choice">
             {{ block('form_widget') }}
             {% set src = '/img/no-media.png' %}
-            {% set nomedia = true %}
+            {% set mediaSelected = false %}
             {% if
                 value is not null and
                 value.id is defined and
@@ -13,14 +13,14 @@
                 value.id is not empty
             %}
                 {% set src = get_media_url(value.id, value.format) %}
-                {% set nomedia = false %}
+                {% set mediaSelected = true %}
             {% endif %}
 
             <div class="image" id="preview-{{ form.vars.id }}">
                 <img height="100px" src="{{ src }}" alt="{{ value.alt }}" title="{{ value.alt }}" />
                 <div
                     class="no-media"
-                    {% if (false == nomedia) %}
+                    {% if (true == mediaSelected) %}
                         style="display:none"
                     {% endif %}
                 >
@@ -40,7 +40,9 @@
                 </a>
                 <a class="btn btn-border btn-remove"
                     role="button"
+                    id="btn-remove-{{ form.vars.id }}"
                     data-form-id="{{ form.vars.id }}"
+                    {% if (false == mediaSelected) %}style="display: none;"{% endif %}
                 >
                     {{ 'open_orchestra_backoffice.form.remove'|trans }}
                 </a>
