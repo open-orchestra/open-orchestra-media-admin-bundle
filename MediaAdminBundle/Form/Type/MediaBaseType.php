@@ -52,7 +52,6 @@ class MediaBaseType extends AbstractType
         $builder
             ->add('titles', 'oo_multi_languages', array(
                 'label'        => 'open_orchestra_media_admin.form.media.title',
-                'required'     => false,
                 'languages'    => $this->frontLanguages,
                 'group_id'     => 'information',
                 'sub_group_id' => 'properties',
