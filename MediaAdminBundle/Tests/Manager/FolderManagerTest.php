@@ -23,11 +23,11 @@ class FolderManagerTest extends AbstractBaseTestCase
      *
      * @dataProvider provideFolder
      */
-    public function testDeleteTree(MediaFolderInterface $folder, $expectedCall, MediaRepositoryInterface $mediaRepository, $isDeletable)
+    public function testDeleteFolder(MediaFolderInterface $folder, $expectedCall, MediaRepositoryInterface $mediaRepository, $isDeletable)
     {
         $documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
         $manager = new FolderManager($documentManager, $mediaRepository);
-        $manager->deleteTree($folder);
+        $manager->deleteFolder($folder);
         Phake::verify($documentManager, Phake::times($expectedCall))->remove($folder);
     }
 

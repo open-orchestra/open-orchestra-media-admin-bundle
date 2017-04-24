@@ -42,7 +42,7 @@ class FolderController extends BaseController
             if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $folder)) {
                 throw new FolderNotDeletableException();
             }
-            $folderManager->deleteTree($folder);
+            $folderManager->deleteFolder($folder);
 
             $event = $this->get("open_orchestra_media_admin.event.folder_event");
             $event->setFolder($folder);

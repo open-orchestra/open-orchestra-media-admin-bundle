@@ -36,7 +36,7 @@ class FolderManager
     /**
      * @param MediaFolderInterface $folder
      */
-    public function deleteTree($folder)
+    public function deleteFolder($folder)
     {
         if ($this->isDeletable($folder)) {
             $this->documentManager->remove($folder);
