@@ -4,14 +4,14 @@ namespace OpenOrchestra\MediaAdmin\Tests\EventSubscriber;
 
 use OpenOrchestra\BaseBundle\Tests\AbstractTest\AbstractBaseTestCase;
 use Phake;
-use OpenOrchestra\MediaAdmin\EventSubscriber\UpdateFolderPathSubscriber;
 use OpenOrchestra\MediaAdmin\FolderEvents;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
+use OpenOrchestra\MediaAdmin\EventSubscriber\FolderSubscriber;
 
 /**
- * Class UpdateFolderPathSubscriberTest
+ * Class FolderSubscriberTest
  */
-class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
+class FolderSubscriberTest extends AbstractBaseTestCase
 {
     protected $subscriber;
 
@@ -41,7 +41,7 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
         $siteRepository = Phake::mock('OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface');
         Phake::when($siteRepository)->findOneBySiteId(Phake::anyParameters())->thenReturn($site);
 
-        $this->subscriber = new UpdateFolderPathSubscriber(
+        $this->subscriber = new FolderSubscriber(
             $this->folderRepository,
             $this->eventDispatcher,
             $folderEventFactory,
@@ -64,6 +64,7 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
     public function testEventSubscribed()
     {
         $this->assertArrayHasKey(FolderEvents::PATH_UPDATED, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(FolderEvents::FOLDER_DELETE, $this->subscriber->getSubscribedEvents());
     }
 
     /**
@@ -117,5 +118,23 @@ class UpdateFolderPathSubscriberTest extends AbstractBaseTestCase
         Phake::verify($son3)->setPath($parentPath . '/' . $folderId3);
 
         Phake::verify($this->eventDispatcher, Phake::times(3))->dispatch(Phake::anyParameters());
+    }
+
+    public function testRemoveFolderFromPerimeter()
+    {
+        $path = 'folderPath';
+
+        $folder = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
+        Phake::when($folder)->getPath()->thenReturn($path);
+        $event = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
+        Phake::when($event)->getFolder()->thenReturn($folder);
+
+        $this->subscriber->removeFolderFromPerimeter($event);
+
+        Phake::verify($this->groupRepository)->removePerimeterItem(
+            MediaFolderInterface::ENTITY_TYPE,
+            $path,
+            $this->siteId
+        );
     }
 }

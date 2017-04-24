@@ -26,7 +26,8 @@ class FolderManagerTest extends AbstractBaseTestCase
     public function testDeleteFolder(MediaFolderInterface $folder, $expectedCall, MediaRepositoryInterface $mediaRepository, $isDeletable)
     {
         $documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
-        $manager = new FolderManager($documentManager, $mediaRepository);
+        $folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
+        $manager = new FolderManager($documentManager, $mediaRepository, $folderRepository);
         $manager->deleteFolder($folder);
         Phake::verify($documentManager, Phake::times($expectedCall))->remove($folder);
     }
@@ -42,7 +43,8 @@ class FolderManagerTest extends AbstractBaseTestCase
     public function testIsDeletable(MediaFolderInterface $folder, $expectedCall, MediaRepositoryInterface $mediaRepository, $isDeletable)
     {
         $documentManager = Phake::mock('Doctrine\ODM\MongoDB\DocumentManager');
-        $manager = new FolderManager($documentManager, $mediaRepository);
+        $folderRepository = Phake::mock('OpenOrchestra\Media\Repository\FolderRepositoryInterface');
+        $manager = new FolderManager($documentManager, $mediaRepository, $folderRepository);
         $this->assertEquals($isDeletable, $manager->isDeletable($folder));
     }
 
