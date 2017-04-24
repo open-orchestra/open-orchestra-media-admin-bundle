@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaAdminBundle\Manager;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use OpenOrchestra\Media\Repository\MediaRepositoryInterface;
+use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 
 /**
  * Class FolderManager
@@ -13,17 +14,23 @@ class FolderManager
 {
     protected $documentManager;
     protected $mediaRepository;
+    protected $folderRepository;
 
     /**
      * Constructor
      *
-     * @param DocumentManager          $documentManager
-     * @param MediaRepositoryInterface $mediaRepository
+     * @param DocumentManager           $documentManager
+     * @param MediaRepositoryInterface  $mediaRepository
+     * @param FolderRepositoryInterface $folderRepository
      */
-    public function __construct(DocumentManager $documentManager, MediaRepositoryInterface $mediaRepository)
-    {
+    public function __construct(
+        DocumentManager $documentManager,
+        MediaRepositoryInterface $mediaRepository,
+        FolderRepositoryInterface $folderRepository
+    ) {
         $this->documentManager = $documentManager;
         $this->mediaRepository = $mediaRepository;
+        $this->folderRepository = $folderRepository;
     }
 
     /**
@@ -43,22 +50,7 @@ class FolderManager
      */
     public function isDeletable(MediaFolderInterface $folder)
     {
-        return $this->countMediaTree($folder) == 0;
-    }
-
-    /**
-     * @param MediaFolderInterface $folder
-     *
-     * @return int
-     */
-    protected function countMediaTree(MediaFolderInterface $folder)
-    {
-        $count = $this->mediaRepository->countByFolderId($folder->getId());
-        $subFolders = $folder->getSubFolders();
-        foreach ($subFolders as $subFolder) {
-            $count += $this->countMediaTree($subFolder, $count);
-        }
-
-        return $count;
+        return $this->mediaRepository->countByFolderId($folder->getId()) == 0
+            && $this->folderRepository->countChildren($folder->getId(), $folder->getSiteId()) == 0;
     }
 }

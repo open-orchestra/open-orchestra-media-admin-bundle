@@ -1,6 +1,6 @@
 parameters:
     open_orchestra_media_admin.manager.media_folder.class: OpenOrchestra\MediaAdminBundle\Manager\FolderManager
-    open_orchestra_media_admin.manager.save_media.class: OpenOrchestra\MediaAdminBundle\Manager\SaveMediaManager
+    open_orchestra_media_admin.manager.save_media.class  : OpenOrchestra\MediaAdminBundle\Manager\SaveMediaManager
 
 services:
     open_orchestra_media_admin.manager.media_folder:
@@ -8,6 +8,8 @@ services:
         arguments:
             - '@object_manager'
             - '@open_orchestra_media.repository.media'
+            - '@open_orchestra_media.repository.media_folder'
+
     open_orchestra_media_admin.manager.save_media:
         class: '%open_orchestra_media_admin.manager.save_media.class%'
         arguments:
