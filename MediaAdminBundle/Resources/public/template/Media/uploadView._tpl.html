@@ -18,31 +18,38 @@
         </div>
     </div>
 </form>
-<div class="flow-error">
-    <%- Translator.trans('open_orchestra_media_admin.upload.unsupported') %>
-</div>
 
-<div class="dropbox flow-drop">
-    <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
-    <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
-    <a class="btn btn-info flow-browse-folder">
-        <%- Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
-    </a>
-    <a class="btn btn-info flow-browse">
-        <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
-    </a>
-</div>
-
-<div class="progress">
-    <div
-        class="progress-bar progress-bar-success"
-        role="progressbar"
-        aria-valuenow="60"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        style="width:0%;"
-    >
+<% if (!hasPerimeter) { %>
+    <div class="alert alert-danger">
+        <%- Translator.trans('open_orchestra_media_admin.upload.no_perimeter') %>
     </div>
-</div>
+<% } else { %>
+    <div class="flow-error">
+        <%- Translator.trans('open_orchestra_media_admin.upload.unsupported') %>
+    </div>
 
-<ul class="flow-list"></ul>
+    <div class="dropbox flow-drop">
+        <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
+        <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
+        <a class="btn btn-info flow-browse-folder">
+            <%- Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
+        </a>
+        <a class="btn btn-info flow-browse">
+            <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
+        </a>
+    </div>
+
+    <div class="progress">
+        <div
+            class="progress-bar progress-bar-success"
+            role="progressbar"
+            aria-valuenow="60"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width:0%;"
+        >
+        </div>
+    </div>
+
+    <ul class="flow-list"></ul>
+<% } %>

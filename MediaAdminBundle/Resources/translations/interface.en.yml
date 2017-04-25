@@ -46,6 +46,7 @@ open_orchestra_media_admin:
         edit: Edit media
     upload:
         title        : New media
+        no_perimeter : Unfortunately, you can not work in any directory. Contact the administrator to resolve this issue.
         unsupported: >
             Your browser, unfortunately, does not support this upload functionality (Flow.js). The feature
             requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a>.
