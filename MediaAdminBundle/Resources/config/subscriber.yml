@@ -5,7 +5,7 @@ parameters:
     open_orchestra_media_admin.subscriber.create_media.class                : OpenOrchestra\MediaAdmin\EventSubscriber\MediaCreatedSubscriber
     open_orchestra_media_admin.subscriber.create_root_folder.class          : OpenOrchestra\MediaAdmin\EventSubscriber\CreateRootFolderSubscriber
     open_orchestra_media_admin.subscriber.update_reference.class            : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateReferenceSubscriber
-    open_orchestra_media_admin.subscriber.update_folder_path.class          : OpenOrchestra\MediaAdmin\EventSubscriber\UpdateFolderPathSubscriber
+    open_orchestra_media_admin.subscriber.folder.class                      : OpenOrchestra\MediaAdmin\EventSubscriber\FolderSubscriber
     open_orchestra_media_admin.subscriber.add_choice_site_share_media.class : OpenOrchestra\MediaAdmin\EventSubscriber\AddChoiceSiteShareMediaSubscriber
     open_orchestra_media_admin.subscriber.media_library_sharing.class       : OpenOrchestra\MediaAdmin\EventSubscriber\MediaLibrarySharingSubscriber
     open_orchestra_media_admin.subscriber.delete_site_command.class         : OpenOrchestra\MediaAdmin\EventSubscriber\DeleteSiteCommandSubscriber
@@ -58,8 +58,8 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    open_orchestra_media_admin.subscriber.update_folder_path:
-        class: '%open_orchestra_media_admin.subscriber.update_folder_path.class%'
+    open_orchestra_media_admin.subscriber.folder:
+        class: '%open_orchestra_media_admin.subscriber.folder.class%'
         arguments:
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'

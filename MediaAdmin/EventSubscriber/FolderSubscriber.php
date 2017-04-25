@@ -13,9 +13,9 @@ use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\ModelInterface\Repository\SiteRepositoryInterface;
 
 /**
- * Class UpdateFolderPathSubscriber
+ * Class FolderSubscriber
  */
-class UpdateFolderPathSubscriber implements EventSubscriberInterface
+class FolderSubscriber implements EventSubscriberInterface
 {
     protected $folderRepository;
     protected $eventDispatcher;
@@ -73,12 +73,28 @@ class UpdateFolderPathSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param FolderEvent $event
+     */
+    public function removeFolderFromPerimeter(FolderEvent $event)
+    {
+        $folder = $event->getFolder();
+        $site = $this->siteRepository->findOneBySiteId($folder->getSiteId());
+
+        $this->groupRepository->removePerimeterItem(
+            MediaFolderInterface::ENTITY_TYPE,
+            $folder->getPath(),
+            $site->getId()
+        );
+    }
+
+    /**
      * @return array The event names to listen to
      */
     public static function getSubscribedEvents()
     {
         return array(
-            FolderEvents::PATH_UPDATED => 'updatePath',
+            FolderEvents::PATH_UPDATED  => 'updatePath',
+            FolderEvents::FOLDER_DELETE => 'removeFolderFromPerimeter'
         );
     }
 }
