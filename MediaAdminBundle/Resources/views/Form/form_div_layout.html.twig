@@ -38,14 +38,17 @@
                         <br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]
                     {% endif %}
                 </a>
-                <a class="btn btn-border btn-remove"
-                    role="button"
-                    id="btn-remove-{{ form.vars.id }}"
-                    data-form-id="{{ form.vars.id }}"
-                    {% if (false == mediaSelected) %}style="display: none;"{% endif %}
-                >
-                    {{ 'open_orchestra_backoffice.form.remove'|trans }}
-                </a>
+                {% if (form.parent.vars.original_type is not defined
+                    or 'bootstrap_collection' != form.parent.vars.original_type) %}
+                    <a class="btn btn-border btn-remove"
+                        role="button"
+                        id="btn-remove-{{ form.vars.id }}"
+                        data-form-id="{{ form.vars.id }}"
+                        {% if (false == mediaSelected) %}style="display: none;"{% endif %}
+                    >
+                        {{ 'open_orchestra_backoffice.form.remove'|trans }}
+                    </a>
+                {% endif %}
             {% endif %}
             {{ form_errors(form.children.id) }}
             <div id="{{ id }}_modal"></div>
