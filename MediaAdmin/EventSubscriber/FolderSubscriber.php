@@ -59,7 +59,7 @@ class FolderSubscriber implements EventSubscriberInterface
         );
 
         $folders = $this->folderRepository->findByParentAndSite($parentFolder->getId(), $parentFolder->getSiteId());
-        if (is_array($folders)) {
+        if (count($folders) > 0) {
             foreach ($folders as $folder) {
                 $oldPath = $folder->getPath();
                 $folder->setPath($parentFolder->getPath() . '/' . $folder->getFolderId());
