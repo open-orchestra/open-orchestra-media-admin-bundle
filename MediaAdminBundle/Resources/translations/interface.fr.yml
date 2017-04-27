@@ -46,6 +46,7 @@ open_orchestra_media_admin:
         edit: Editer le média
     upload:
         title        : Nouveau média
+        no_perimeter : Malheureusement, vous ne pouvez travailler dans aucun répertoire. Veuillez contacter l'administrateur pour résoudre ce problème.
         unsupported: >
             Votre navigateur ne supporte pas cette fonctionalité d'upload (Flow.js). La fonctionalité requiert le support
             de <a href="http://www.w3.org/TR/FileAPI/">l'API de fichier HTML5</a> ainsi que

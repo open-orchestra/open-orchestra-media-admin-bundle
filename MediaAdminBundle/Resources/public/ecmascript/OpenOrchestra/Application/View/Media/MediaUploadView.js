@@ -45,8 +45,11 @@ class MediaUploadView extends OrchestraView
         new FoldersTree().fetch({
             siteId: Application.getContext().siteId,
             success: (foldersTree) => {
+                let hasPerimeter = this._hasPerimeter(foldersTree.models[0].get('children'));
+
                 let template = this._renderTemplate('Media/uploadView', {
-                    foldersTree : foldersTree
+                    foldersTree : foldersTree,
+                    hasPerimeter: hasPerimeter
                 });
                 this.$el.html(template);
                 this.initFileUpload();
@@ -54,6 +57,23 @@ class MediaUploadView extends OrchestraView
         });
 
         return this;
+    }
+
+    /**
+     * Check if the user can act on a folder
+     */
+    _hasPerimeter(foldersTree) {
+        for (let i = 0; i < foldersTree.length; i++) {
+            if (foldersTree[i].get('folder').get('rights').can_create_media) {
+                return true;
+            }
+
+            if (this._hasPerimeter(foldersTree[i])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
