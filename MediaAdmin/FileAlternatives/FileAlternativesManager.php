@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdmin\FileAlternatives;
 
 use OpenOrchestra\Media\Model\MediaInterface;
+use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 
 /**
  * Class FileAlternativesManager
@@ -11,13 +12,17 @@ class FileAlternativesManager
 {
     protected $strategies = array();
     protected $defaultStrategy;
+    protected $contextManager;
 
     /**
      * @param FileAlternativesStrategyInterface $defaultStrategy
      */
-    public function __construct(FileAlternativesStrategyInterface $defaultStrategy)
-    {
+    public function __construct(
+        FileAlternativesStrategyInterface $defaultStrategy,
+        CurrentSiteIdInterface $contextManager
+    ) {
         $this->defaultStrategy = $defaultStrategy;
+        $this->contextManager = $contextManager;
     }
 
     /**
@@ -74,7 +79,7 @@ class FileAlternativesManager
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->support($media)) {
-                $strategy->setMediaInformation($media);
+                $strategy->setMediaInformation($media, $this->contextManager->getCurrentSiteLanguages());
 
                 return;
             }
