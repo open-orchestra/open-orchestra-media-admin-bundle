@@ -1,0 +1,2 @@
+open_orchestra_media_admin_validators:
+   pattern: Le media doit être de type %type%.

@@ -35,7 +35,7 @@
                 >
                     {{ 'open_orchestra_backoffice.form.browse'|trans({'language':context.currentLocale}) }}
                     {% if form.vars.filter %}
-                        <br />[ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]
+                        [ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]
                     {% endif %}
                 </a>
                 {% if (form.parent.vars.original_type is not defined
@@ -50,8 +50,7 @@
                     </a>
                 {% endif %}
             {% endif %}
-            {{ form_errors(form.children.id) }}
-            <div id="{{ id }}_modal"></div>
+                {{ form_errors(form.children.id) }}
         </div>
     {% endspaceless %}
 {% endblock oo_media_choice_widget %}
