@@ -31,8 +31,9 @@ interface FileAlternativesStrategyInterface
      * Set specific media information (extension, size, ...) in media
      *
      * @param MediaInterface $media;
+     * @param array          $languages;
      */
-    public function setMediaInformation(MediaInterface $media);
+    public function setMediaInformation(MediaInterface $media, array $languages);
 
     /**
      * Generate a thumbnail for $media

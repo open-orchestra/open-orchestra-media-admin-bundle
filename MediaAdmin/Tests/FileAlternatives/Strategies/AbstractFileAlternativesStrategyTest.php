@@ -125,8 +125,9 @@ abstract class AbstractFileAlternativesStrategy extends AbstractBaseTestCase
     {
         $media = $this->{$mediaName};
 
-        $this->strategy->setMediaInformation($media);
+        $this->strategy->setMediaInformation($media, array('en', 'fr', 'de'));
 
+        Phake::verify($media, Phake::times(3))->addTitle(Phake::anyParameters());
         Phake::verify($media, Phake::times(2))->addMediaInformation(Phake::anyParameters());
     }
 
