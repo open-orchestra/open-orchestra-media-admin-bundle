@@ -1,0 +1,10 @@
+parameters:
+    open_orchestra_media_admin.validator.media_type.class : OpenOrchestra\MediaAdmin\Validator\Constraints\MediaTypeValidator
+
+services:
+    open_orchestra_media_admin.validator.media_type:
+        class: '%open_orchestra_media_admin.validator.media_type.class%'
+        arguments:
+            - '@open_orchestra_media.repository.media'
+        tags:
+            - { name: validator.constraint_validator, alias: media_type}

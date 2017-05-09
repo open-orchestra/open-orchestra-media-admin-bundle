@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type\Component;
 
+use OpenOrchestra\MediaAdmin\Validator\Constraints\MediaType;
 use OpenOrchestra\MediaAdminBundle\Form\DataTransformer\MediaChoiceTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,8 +27,14 @@ class MediaChoiceType extends AbstractType
         $builder->addModelTransformer(new MediaChoiceTransformer());
 
         $mediaOptions = array();
+        if (isset($options['filter']) && self::DEFAULT_FILTER !== $options['filter']) {
+            $mediaOptions['constraints'] = array(new MediaType(array(
+                'filter' => $options['filter']
+            )));
+        }
+
         if (isset($options['required']) && true === $options['required']) {
-             $mediaOptions['constraints'] = new NotBlank();
+             $mediaOptions['constraints'][] = new NotBlank();
              $mediaOptions['error_bubbling'] = false;
         }
 
