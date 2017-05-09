@@ -27,6 +27,8 @@ class MediaTypeValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        var_dump($value);
+        var_dump($constraint->filter);
         if (false === $this->mediaRepository->isMediaTypeOf($value, $constraint->filter)) {
             $this->context->buildViolation($constraint->message, array("%type%" => $constraint->filter))
                 ->addViolation();

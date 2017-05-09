@@ -47,17 +47,15 @@ class MediaTypeValidatorTest extends AbstractBaseTestCase
     }
 
     /**
-     * @param string  $filter
      * @param boolean $isType
      * @param int     $violationTimes
      *
      * @dataProvider provideFilterAndViolation
      */
-    public function testValidate($filter, $isType, $violationTimes)
+    public function testValidate($isType, $violationTimes)
     {
-        $this->constraint->filter = $filter;
         $mediaId = 'fakeId';
-        Phake::when($this->mediaRepository)->isMediaTypeOf($mediaId, $filter)->thenReturn($isType);
+        Phake::when($this->mediaRepository)->isMediaTypeOf(Phake::anyParameters())->thenReturn($isType);
         $this->validator->validate($mediaId, $this->constraint);
 
         Phake::verify($this->context, Phake::times($violationTimes))->buildViolation(Phake::anyParameters());
@@ -69,9 +67,8 @@ class MediaTypeValidatorTest extends AbstractBaseTestCase
     public function provideFilterAndViolation()
     {
         return array(
-            array('video', true, 0),
-            array('video', false, 1),
-            array('fake', false, 1),
+            array(true, 0),
+            array(false, 1),
         );
     }
 }

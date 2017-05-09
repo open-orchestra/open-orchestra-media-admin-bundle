@@ -21,7 +21,7 @@ class MediaTypeTest extends AbstractBaseTestCase
      */
     public function setUp()
     {
-        $this->constraint = new MediaType();
+        $this->constraint = new MediaType(array("filter"=> "test"));
     }
 
     /**
@@ -61,6 +61,6 @@ class MediaTypeTest extends AbstractBaseTestCase
      */
     public function testGetRequiredOptions()
     {
-        $this->assertArrayHasKey('filter', $this->constraint->getRequiredOptions());
+        $this->assertContains('filter', $this->constraint->getRequiredOptions());
     }
 }
