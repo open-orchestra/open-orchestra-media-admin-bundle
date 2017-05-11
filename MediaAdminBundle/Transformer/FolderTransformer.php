@@ -58,7 +58,7 @@ class FolderTransformer extends AbstractTransformer
         }
         $facade = $this->newFacade();
         $facade->folderId = $folder->getId();
-        $facade->name = $this->multiLanguageChoiceManager->choose($mixed->getNames());
+        $facade->name = $this->multiLanguageChoiceManager->choose($folder->getNames());
         $facade->createdAt = $folder->getCreatedAt();
         $facade->updatedAt = $folder->getUpdatedAt();
         if ($folder->getParent() instanceof FolderInterface) {

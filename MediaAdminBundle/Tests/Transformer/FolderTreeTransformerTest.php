@@ -20,6 +20,7 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
     protected $transformerManager;
     protected $facadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade';
     protected $folderFacadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade';
+    protected $multiLanguageChoiceManager;
 
     /**
      * Set up the test
@@ -34,8 +35,15 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
         $folderFacade = Phake::mock('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade');
         Phake::when($this->folderTransformer)->transform(Phake::anyParameters())->thenReturn($folderFacade);
 
+        $this->multiLanguageChoiceManager = Phake::mock('OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface');
+
         $autorizationChecker = Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
-        $this->transformer = new FolderTreeTransformer($this->facadeClass, $this->folderFacadeClass, $autorizationChecker);
+        $this->transformer = new FolderTreeTransformer(
+            $this->facadeClass,
+            $this->folderFacadeClass,
+            $autorizationChecker,
+            $this->multiLanguageChoiceManager
+        );
         $this->transformer->setContext($this->transformerManager);
     }
 
@@ -72,8 +80,8 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
      */
     public function provideTree()
     {
-        $rootFolder = $this->generateFolder('Root folder', 'rootId', 'rootFolderId', 'rootType', '2');
-        $subFolder  = $this->generateFolder('Sub folder' , 'subId' , 'subFolderId' , 'rootType', '3');
+        $rootFolder = $this->generateFolder(array('en' => 'Root folder'), 'rootId', 'rootFolderId', 'rootType', '2');
+        $subFolder  = $this->generateFolder(array('en' => 'Sub folder') , 'subId' , 'subFolderId' , 'rootType', '3');
 
         $folderCollection1 = array(
             array(
@@ -110,10 +118,10 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
      *
      * @return array
      */
-    protected function generateFolder($name, $id, $folderId, $type, $siteId)
+    protected function generateFolder(array $names, $id, $folderId, $type, $siteId)
     {
         return array(
-            'name'     => $name,
+            'names'    => $names,
             '_id'      => $id,
             'folderId' => $folderId,
             'type'     => $type,

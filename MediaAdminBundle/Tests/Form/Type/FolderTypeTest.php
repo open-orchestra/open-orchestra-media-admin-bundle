@@ -13,13 +13,14 @@ class FolderTypeTest extends AbstractBaseTestCase
 {
     protected $form;
     protected $class = 'OpenOrchestra\MediaModelBundle\Document\MediaFolder';
+    protected $backLanguages = array('en' => 'English', 'fr' => 'Français');
 
     /**
      * Set up the test
      */
     public function setUp()
     {
-        $this->form = new FolderType($this->class);
+        $this->form = new FolderType($this->class, $this->backLanguages);
     }
 
     /**
