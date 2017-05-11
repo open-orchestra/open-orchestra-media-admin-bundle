@@ -17,10 +17,12 @@ class FolderType extends AbstractType
 
     /**
      * @param string $folderClass
+     * @param array  $backLanguages
      */
-    public function __construct($folderClass)
+    public function __construct($folderClass, array $backLanguages)
     {
         $this->folderClass = $folderClass;
+        $this->backLanguages = $backLanguages;
     }
 
     /**
@@ -30,10 +32,12 @@ class FolderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array(
-                'label' => 'open_orchestra_media_admin.form.folder.name',
+            ->add('names', 'oo_multi_languages', array(
+                'label'        => 'open_orchestra_media_admin.form.folder.name',
+                'languages'    => $this->backLanguages,
                 'sub_group_id' => 'property',
             ));
+
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);
         }

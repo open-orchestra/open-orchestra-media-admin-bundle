@@ -47,6 +47,7 @@ services:
             - '@object_manager'
             - '@translator'
             - '%open_orchestra_media.document.media_folder.class%'
+            - '%open_orchestra_base.administration_languages%'
         tags:
             - { name: kernel.event_subscriber }
 
