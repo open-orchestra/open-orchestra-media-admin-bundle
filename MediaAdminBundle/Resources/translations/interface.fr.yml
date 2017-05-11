@@ -55,7 +55,6 @@ open_orchestra_media_admin:
         or           : ou
         select_folder: Sélectionnez un dossier depuis votre ordinateur
         select_file  : Sélectionnez un fichier depuis votre ordinateur
-        pre_upload   : trasfert en préparation
         failed       : "le fichier n'a pu être uploadé,"
         server_error : "une erreur serveur est survenue : veuillez réessayer plus tard"
         remaining    : restantes
