@@ -20,3 +20,4 @@ services:
             - '@open_orchestra_media.repository.media_folder'
             - '%open_orchestra_media.document.media.class%'
             - '@event_dispatcher'
+            - '%open_orchestra_backoffice.orchestra_choice.front_language%'

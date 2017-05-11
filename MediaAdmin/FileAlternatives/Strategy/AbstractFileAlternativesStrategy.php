@@ -42,14 +42,10 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
 
     /**
      * @param MediaInterface $media
-     * @param array          $languages
      */
-    public function setMediaInformation(MediaInterface $media, array $languages)
+    public function setMediaInformation(MediaInterface $media)
     {
         $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
-        foreach ($languages as $language) {
-            $media->addTitle($language, $media->getName());
-        }
         $media->addMediaInformation('size', filesize($filePath));
         $media->addMediaInformation('extension', pathinfo($filePath, PATHINFO_EXTENSION));
     }

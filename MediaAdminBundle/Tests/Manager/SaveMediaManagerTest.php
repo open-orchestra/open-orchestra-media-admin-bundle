@@ -61,7 +61,8 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
             $this->documentManager,
             $this->folderRepository,
             $this->mediaClass,
-            $this->dispatcher
+            $this->dispatcher,
+            array('fr' => 'label fr', 'en' => 'label en')
         );
     }
 
@@ -70,10 +71,12 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
      */
     public function testInitializeMediaFromUploadedFile()
     {
+        $title = 'fake';
         $media = $this->mediaManager->initializeMediaFromUploadedFile(
             $this->uploadedFile,
             $this->folderId,
-            $this->siteId
+            $this->siteId,
+            $title
         );
 
         $this->assertSame($this->uploadedFile, $media->getFile());
@@ -82,6 +85,8 @@ class SaveMediaManagerTest extends AbstractBaseTestCase
         $this->assertSame($this->originalName, $media->getName());
         $this->assertSame($this->mimeType, $media->getMimeType());
         $this->assertSame($this->siteId, $media->getSiteId());
+        $this->assertSame($title, $media->getTitle('en'));
+        $this->assertSame($title, $media->getTitle('fr'));
     }
 
     /**

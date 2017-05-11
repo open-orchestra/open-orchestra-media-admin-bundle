@@ -24,6 +24,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
     protected $folderRepository;
     protected $mediaClass;
     protected $dispatcher;
+    protected $frontLanguages;
 
     /**
      * @param string                       $tmpDir
@@ -33,6 +34,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * @param FolderRepositoryInterface    $folderRepository
      * @param string                       $mediaClass
      * @param EventDispatcherInterface     $dispatcher
+     * @param array                        $frontLanguages
      */
     public function __construct(
         $tmpDir,
@@ -41,7 +43,8 @@ class SaveMediaManager implements SaveMediaManagerInterface
         ObjectManager $objectManager,
         FolderRepositoryInterface $folderRepository,
         $mediaClass,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        array $frontLanguages
     ) {
         $this->tmpDir = $tmpDir;
         $this->mediaStorageManager = $mediaStorageManager;
@@ -50,6 +53,7 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $this->folderRepository = $folderRepository;
         $this->mediaClass = $mediaClass;
         $this->dispatcher = $dispatcher;
+        $this->frontLanguages = array_keys($frontLanguages);
     }
 
     /**
@@ -78,10 +82,11 @@ class SaveMediaManager implements SaveMediaManagerInterface
      * @param UploadedFile $uploadedFile
      * @param string       $folderId
      * @param string       $siteId
+     * @param string|null  $title
      *
      * @return MediaInterface
      */
-    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId, $siteId)
+    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId, $siteId, $title = null)
     {
         /** @var MediaInterface $media */
         $media = new $this->mediaClass();
@@ -91,6 +96,12 @@ class SaveMediaManager implements SaveMediaManagerInterface
         $media->setMediaFolder($this->folderRepository->find($folderId));
         $media->setName($uploadedFile->getClientOriginalName());
         $media->setMimeType($uploadedFile->getMimeType());
+        if (null === $title) {
+            $title = $uploadedFile->getFilename();
+        }
+        foreach ($this->frontLanguages as $language) {
+            $media->addTitle($language, $title);
+        }
 
         return $media;
     }

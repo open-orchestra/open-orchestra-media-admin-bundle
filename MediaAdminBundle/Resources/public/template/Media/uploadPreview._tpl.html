@@ -1,0 +1,34 @@
+<div class="col-5 preview-upload-file" id="<%- id %>">
+    <div class="item">
+        <div class="image">
+            <% if (null !== src) { %>
+                <img src="<%- src %>" alt="<%- name %>" />
+            <% } else { %>
+                <i class="fa fa-file-o fa-2x fa-lg"></i>
+            <% } %>
+        </div>
+        <div class="title">
+            <span>
+                <input type="text" class="form-control" name="title" value="<%- name %>" />
+            </span>
+            <div class="edit pull-right">
+                <input class="form-control delete-checkbox" type="checkbox" data-file-id="<%- id%>" id="checkbox-<%- id%>">
+                <label for="checkbox-<%- id%>"></label>
+            </div>
+
+            <div class="dossier form-group">
+                <label for="folderId-<%- id %>" class="control-label"><%- Translator.trans('open_orchestra_media_admin.upload.select_media_folder') %> : </label>
+                <div>
+                    <div class="styled-select">
+                        <select name='folderId' class="form-control" id="folderId-<%- id %>">
+                            <% _.each(foldersTree.models[0].get('children'), function(child) { %>
+                                <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate, selectionMod: false}) %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <p class="upload-information text-center"></p>
+        </div>
+    </div>
+</div>
