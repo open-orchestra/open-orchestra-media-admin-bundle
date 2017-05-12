@@ -62,5 +62,5 @@ open_orchestra_media_admin:
         processing   : server is processing, please wait
         completed    : completed
         select_media_folder: Select a folder
-        save: Sauvegarder
+        save: Save
         cancel: Cancel
