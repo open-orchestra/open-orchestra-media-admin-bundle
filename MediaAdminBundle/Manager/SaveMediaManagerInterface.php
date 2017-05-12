@@ -26,10 +26,11 @@ interface SaveMediaManagerInterface
      * @param UploadedFile $uploadedFile
      * @param string       $folderId
      * @param string       $siteId
+     * @param string|null  $title
      *
      * @return MediaInterface
      */
-    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId, $siteId);
+    public function initializeMediaFromUploadedFile(UploadedFile $uploadedFile, $folderId, $siteId, $title = null);
 
     /**
      * Save a media in database

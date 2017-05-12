@@ -56,13 +56,11 @@ open_orchestra_media_admin:
         or           : or
         select_folder: Select a folder on your computer
         select_file  : Select a file from your computer
-        pause        : Pause upload
-        resume       : Resume upload
-        cancel       : Cancel upload
-        pre_upload   : preparing upload
         failed       : "file could not be uploaded, "
         server_error : "there was a server error: please try again later"
         remaining    : remaining
         processing   : server is processing, please wait
         completed    : completed
-
+        select_media_folder: Select a folder
+        save: Save
+        cancel: Cancel

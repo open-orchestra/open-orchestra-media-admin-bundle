@@ -11,7 +11,6 @@ services:
         class: '%open_orchestra_media_admin.file_alternatives.manager.class%'
         arguments:
             - '@open_orchestra_media_admin.file_alternatives.strategy.default'
-            - '@open_orchestra_backoffice.context_manager'
 
     open_orchestra_media_admin.file_alternatives.strategy.default:
         class: '%open_orchestra_media_admin.file_alternatives.strategy.default.class%'

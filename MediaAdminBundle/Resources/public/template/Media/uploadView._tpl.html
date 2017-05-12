@@ -4,20 +4,6 @@
     </a>
 </div>
 <h1><%- Translator.trans('open_orchestra_media_admin.upload.title') %></h1>
-<form class="form-horizontal search-engine">
-    <div class="form-group col-lg-6">
-        <label for="folderId" class="control-label col-md-4"><%- Translator.trans('open_orchestra_media_admin.table.media.folder') %></label>
-        <div class="col-md-8">
-            <div class="styled-select">
-                <select name='folderId' class="form-control" id="folderId">
-                    <% _.each(foldersTree.models[0].get('children'), function(child) { %>
-                        <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: 1, renderTemplate: renderTemplate, selectionMod: false}) %>
-                    <% }); %>
-                </select>
-            </div>
-        </div>
-    </div>
-</form>
 
 <% if (!hasPerimeter) { %>
     <div class="alert alert-danger">
@@ -31,12 +17,16 @@
     <div class="dropbox flow-drop">
         <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
         <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
-        <a class="btn btn-info flow-browse-folder">
+        <button class="btn btn-info flow-browse-folder">
             <%- Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
-        </a>
-        <a class="btn btn-info flow-browse">
+        </button>
+        <button class="btn btn-info flow-browse">
             <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
-        </a>
+        </button>
+    </div>
+
+    <div class="flow-list">
+        <div class="medias"></div>
     </div>
 
     <div class="progress">
@@ -46,10 +36,15 @@
             aria-valuenow="60"
             aria-valuemin="0"
             aria-valuemax="100"
-            style="width:0%;"
+            style="width:0"
         >
         </div>
     </div>
 
-    <ul class="flow-list"></ul>
+    <div class="col-lg-12 flow-action-buttons bottom-action-buttons">
+        <button type="button" class="submit-upload btn btn-success"><%- Translator.trans('open_orchestra_media_admin.upload.save')%></button>
+        <button type="button" class="cancel-upload btn btn-default"><%- Translator.trans('open_orchestra_media_admin.upload.cancel')%></button>
+        <button type="button" class="delete-element btn btn-danger"><%- Translator.trans('open_orchestra_backoffice.table.delete_button')%></button>
+    </div>
+
 <% } %>

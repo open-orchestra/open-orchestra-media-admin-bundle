@@ -44,7 +44,7 @@
           max-width: ~"calc(100% - 45px)";
         }
     }
-    .dossier {
+    .folder-choice {
         margin-top: 8px;
         label {
             font-weight: normal;
@@ -58,7 +58,6 @@
     }
     .fa {
         color: #151722;
-        .fontSize(20);
     }
     .edit [type="checkbox"] + label {
         padding: 0;
@@ -100,10 +99,6 @@
 /* ===================================================================
  * NEW MEDIA
  * =================================================================*/
-.flow-error {
-    display: none;
-}
-
 .page-tabs {
     display: block;
     margin-top: 8px;
@@ -178,6 +173,33 @@
 .progress-bar-success {
     background-color: @green;
 }
+
+.flow-list {
+  .medias {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .col-5 {
+    flex: 0 0 auto;
+  }
+  .title {
+    span {
+      max-width: calc(100% - 25px);
+    }
+    .edit {
+      margin-top: 8px;
+    }
+    .upload-information {
+      min-height: 20px;
+    }
+  }
+}
+
+.flow-error, .flow-action-buttons, .flow-list {
+  display: none;
+}
+
 
 /* ===================================================================
  * EDIT MEDIA - IMAGE

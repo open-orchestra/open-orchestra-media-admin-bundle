@@ -55,12 +55,11 @@ open_orchestra_media_admin:
         or           : ou
         select_folder: Sélectionnez un dossier depuis votre ordinateur
         select_file  : Sélectionnez un fichier depuis votre ordinateur
-        pause        : Mettre en pause l'upload
-        resume       : Reprendre l'upload
-        cancel       : Annuler l'upload
-        pre_upload   : trasfert en préparation
         failed       : "le fichier n'a pu être uploadé,"
         server_error : "une erreur serveur est survenue : veuillez réessayer plus tard"
         remaining    : restantes
         processing   : en cours de traîtement serveur, veuillez attendre svp
         completed    : achevé
+        select_media_folder: Sélectionner un dossier
+        save: Sauvegarder
+        cancel: Annuler

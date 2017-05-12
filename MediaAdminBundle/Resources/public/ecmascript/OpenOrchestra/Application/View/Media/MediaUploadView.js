@@ -1,6 +1,7 @@
-import OrchestraView from '../OrchestraView'
-import Application   from '../../Application'
-import FoldersTree   from '../../Collection/Folder/FoldersTree'
+import OrchestraView    from '../OrchestraView'
+import Application      from '../../Application'
+import FoldersTree      from '../../Collection/Folder/FoldersTree'
+import ApplicationError from '../../../Service/Error/ApplicationError'
 
 /**
  * @class MediaUploadView
@@ -12,9 +13,12 @@ class MediaUploadView extends OrchestraView
      */
     preinitialize() {
         this.events = {
-            'dragenter .flow-drop': '_dragEnter',
-            'dragend .flow-drop'  : '_dragEnd',
-            'drop .flow-drop'     : '_dragEnd'
+            'dragenter .flow-drop' : '_dragEnter',
+            'dragend .flow-drop'   : '_dragEnd',
+            'drop .flow-drop'      : '_dragEnd',
+            'click .submit-upload' : '_submitUpload',
+            'click .cancel-upload' : '_resetUpload',
+            'click .delete-element' : '_deleteElement'
         }
     }
 
@@ -24,16 +28,17 @@ class MediaUploadView extends OrchestraView
     initialize() {
         this._flow = new Flow({
             'target'    : $.proxy(this._getFlowTarget, this),
+            'query'     : $.proxy(this._getFlowQuery, this),
             'chunkSize' : 1024 * 1024,
             'testChunks': false
         });
 
-        this._allowed_mime_types = Application.getConfiguration().getParameter('allowed_mime_types')
-
+        this._allowed_mime_types = Application.getConfiguration().getParameter('allowed_mime_types');
+        this._folderTree = new FoldersTree();
         this._colors = {
-            'success'   : '#38b5e9',
+            'upload'    : '#38b5e9',
             'error'     : '#FF0000',
-            'upload'    : '#24bc7a',
+            'success'   : '#24bc7a',
             'processing': '#FF4500'
         }
     }
@@ -42,13 +47,12 @@ class MediaUploadView extends OrchestraView
      * Render view
      */
     render() {
-        new FoldersTree().fetch({
+        this._folderTree.fetch({
             siteId: Application.getContext().siteId,
-            success: (foldersTree) => {
-                let hasPerimeter = this._hasPerimeter(foldersTree.models[0].get('children'));
+            success: () => {
+                let hasPerimeter = this._hasPerimeter(this._folderTree.models[0].get('children'));
 
                 let template = this._renderTemplate('Media/uploadView', {
-                    foldersTree : foldersTree,
                     hasPerimeter: hasPerimeter
                 });
                 this.$el.html(template);
@@ -84,7 +88,30 @@ class MediaUploadView extends OrchestraView
      * @param {Boolean} isTest
      */
     _getFlowTarget(flowFile, flowChunk, isTest) {
-         return Routing.generate('open_orchestra_api_media_upload', {'folderId' : $('#folderId', this.$el).val()});
+        let folderId = $('.flow-list #'+ flowFile.uniqueIdentifier +' #folderId-'+ flowFile.uniqueIdentifier, this.$el).val();
+        if (null === folderId || typeof folderId == "undefined") {
+            throw new ApplicationError('Invalid folderId');
+        }
+
+        return Routing.generate('open_orchestra_api_media_upload', {'folderId' : folderId});
+    }
+
+    /**
+     * Get parameter added to post data
+     *
+     * @param {Object} flowFile
+     * @param {Object} flowChunk
+     *
+     * @return {Object}
+     */
+    _getFlowQuery(flowFile, flowChunk) {
+        let title = flowFile.name;
+        let $inputTitle = $('.flow-list #'+ flowFile.uniqueIdentifier +' input[name="title"]', this.$el);
+        if ($inputTitle.length > 0) {
+            title = $inputTitle.val()
+        }
+
+        return {title : title};
     }
 
     /**
@@ -114,85 +141,169 @@ class MediaUploadView extends OrchestraView
         $('.flow-drop', this.$el).initialize(() => {
             this._flow.assignDrop($('.flow-drop', this.$el)[0]);
         });
-
         $('.flow-browse-folder', this.$el).initialize(() => {
             this._flow.assignBrowse($('.flow-browse-folder', this.$el)[0], true);
         });
-
         $('.flow-browse', this.$el).initialize(() => {
             this._flow.assignBrowse($('.flow-browse', this.$el)[0], false, false, {accept: this._allowed_mime_types.join(',')});
         });
 
-        let viewContext = this
-
-        this._flow.on('fileAdded', function(file) {
-            $('.progress, .flow-list').show();
-            let template = viewContext._renderTemplate('Media/uploadProgress', {
-                name: file.name,
-                size: viewContext._readablizeBytes(file.size),
-                id  : file.uniqueIdentifier
-            });
-            $('.flow-list', viewContext.$el).append(template);
+        this._flow.on('fileAdded', $.proxy(this._fileAdded, this));
+        this._flow.on('fileSuccess', $.proxy(this._fileSuccess, this));
+        this._flow.on('fileError', $.proxy(this._fileError, this));
+        this._flow.on('fileProgress', $.proxy(this._fileProgress, this));
+        this._flow.on('complete', () => {
+            $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
+            this._flow.assignDrop($('.flow-drop', this.$el)[0]);
         });
+    }
 
-        this._flow.on('filesSubmitted', function(file) {
-            viewContext._flow.upload();
-        });
+    /**
+     * @private
+     */
+    _submitUpload() {
+        $('.progress', this.$el).show();
+        $('.flow-action-buttons', this.$el).hide();
+        $('.flow-browse-folder, .flow-browse', this.$el).attr("disabled","disabled");
+        this._flow.unAssignDrop($('.flow-drop', this.$el)[0]);
+        this._flow.upload();
+    }
 
-        this._flow.on('fileSuccess', function(file, message) {
-            _setInfo(
-                file.uniqueIdentifier,
-                Translator.trans('open_orchestra_media_admin.upload.completed'),
-                viewContext._colors.success
-            );
-        });
+    /**
+     * @private
+     */
+    _resetUpload() {
+        $('.flow-list, .flow-action-buttons, .progress', this.$el).hide();
+        $('.flow-list .medias', this.$el).empty();
+        $('.progress-bar', this.$el).text('');
+        $('.progress-bar', this.$el).css({width: 0});
+        $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
+        this._flow.assignDrop($('.flow-drop', this.$el)[0]);
+        this._flow.cancel();
+    }
 
-        this._flow.on('fileError', function(file, message, chunk) {
-            if (500 == chunk.xhr.status) {
-                message = Translator.trans('open_orchestra_media_admin.upload.server_error');
+    /**
+     * @private
+     */
+    _deleteElement() {
+        let $items = $('.flow-list .delete-checkbox:checked', this.$el);
+        $items.each((key, item) => {
+            let fileId = $(item).attr('data-file-id');
+            if (typeof fileId !== "undefined") {
+                let file = this._flow.getFromUniqueIdentifier(fileId);
+                if (false !== file) {
+                    this._flow.removeFile(file);
+                }
+                $(item).closest('#'+fileId).remove();
             }
-            _hideToolbar(file.uniqueIdentifier);
-            _setInfo(
-                file.uniqueIdentifier,
-                Translator.trans('open_orchestra_media_admin.upload.failed') + message,
-                viewContext._colors.error
-            );
         });
 
-        this._flow.on('fileProgress', function(file) {
-            let progress = '';
-            let colorCode = viewContext._colors.upload;
-            if (file.progress() < 1) {
-                progress = Math.floor(file.progress() * 100) + '% '
-                    + viewContext._readablizeBytes(file.averageSpeed) + '/s '
-                    + viewContext._secondsToStr(file.timeRemaining()) + ' '
-                    + Translator.trans('open_orchestra_media_admin.upload.remaining');
-            } else {
-                progress = Translator.trans('open_orchestra_media_admin.upload.processing');
-                colorCode = viewContext._colors.processing;
-                _hideToolbar(file.uniqueIdentifier);
-            }
-
-            _setInfo(file.uniqueIdentifier, progress, colorCode);
-
-            let progressTotal = Math.floor(viewContext._flow.progress(true) * 100) + '%';
-            $('.progress-bar', viewContext.$el).text(progressTotal);
-            $('.progress-bar', viewContext.$el).css({width: progressTotal});
-        });
-
-        let _setInfo = function(id, text, colorCode) {
-            $('#' + id + '> .flow-file-progress', viewContext.$el).text(text);
-            $("#" + id, viewContext.$el).css({color: colorCode});
-        }
-
-        let _hideToolbar = function(id) {
-            let selector = '#' + id + '> .flow-file-pause, #' + id + '> .flow-file-resume, #' + id + '>  .flow-file-cancel';
-            $(selector , viewContext.$el).remove();
+        if (0 === $('.flow-list .medias', this.$el).children().length) {
+            this._resetUpload();
         }
     }
 
     /**
-     * @param {Int} bytes
+     * @param {FlowFile} flowFile
+     * @private
+     */
+    _fileAdded(flowFile) {
+        if (1 === this._flow.progress()) {
+            this._resetUpload();
+        }
+        if (0 === flowFile.file.type.indexOf('image/')) {
+            let reader = new FileReader();
+            let viewContext = this;
+            reader.onload = (e) => {
+                $.proxy(viewContext._renderUploadPreview(flowFile, e.target.result), viewContext);
+            };
+            reader.readAsDataURL(flowFile.file);
+        } else {
+            this._renderUploadPreview(flowFile);
+        }
+        $('.flow-list, .flow-action-buttons', this.$el).show();
+    }
+
+    /**
+     *
+     * @param {FlowFile} flowFile
+     * @param {string|null}   src
+     * @private
+     */
+    _renderUploadPreview(flowFile, src = null) {
+        let template = this._renderTemplate('Media/uploadPreview', {
+            src: src,
+            id: flowFile.uniqueIdentifier,
+            name: flowFile.name,
+            foldersTree: this._folderTree
+        });
+        $('.flow-list .medias', this.$el).append(template);
+    }
+
+    /**
+     *
+     * @param {FlowFile} flowFile
+     * @param {String}   message
+     * @private
+     */
+    _fileSuccess(flowFile, message) {
+        this._updateInfoFileUpload(
+            flowFile.uniqueIdentifier,
+            Translator.trans('open_orchestra_media_admin.upload.completed'),
+            this._colors.success
+        );
+    }
+
+    /**
+     * @param {FlowFile} flowFile
+     * @param {String}   message
+     * @param {Object}   chunk
+     * @private
+     */
+    _fileError(flowFile, message, chunk) {
+        if (500 == chunk.xhr.status) {
+            message = Translator.trans('open_orchestra_media_admin.upload.server_error');
+        }
+        this._updateInfoFileUpload(flowFile.uniqueIdentifier, Translator.trans('open_orchestra_media_admin.upload.failed') + message, this._colors.error);
+    }
+
+    /**
+     * @param {FlowFile} flowFile
+     * @private
+     */
+    _fileProgress(flowFile) {
+        let progress = '';
+        let colorCode = this._colors.upload;
+        if (flowFile.progress() < 1) {
+            progress = Math.floor(flowFile.progress() * 100) + '% '
+                + this._readablizeBytes(flowFile.averageSpeed) + '/s '
+                + this._secondsToStr(flowFile.timeRemaining()) + ' '
+                + Translator.trans('open_orchestra_media_admin.upload.remaining');
+        } else {
+            progress = Translator.trans('open_orchestra_media_admin.upload.processing');
+            colorCode = this._colors.processing;
+        }
+        $('.flow-list .item .form-control').attr('disabled','disabled');
+        this._updateInfoFileUpload(flowFile.uniqueIdentifier, progress, colorCode);
+
+        let progressTotal = Math.floor(this._flow.progress(true) * 100) + '%';
+        $('.progress-bar', this.$el).text(progressTotal);
+        $('.progress-bar', this.$el).css({width: progressTotal});
+    }
+
+    /**
+     * @param {String} fileId
+     * @param {String} text
+     * @param {String} colorCode
+     * @private
+     */
+    _updateInfoFileUpload(fileId, text, colorCode) {
+        $('#' + fileId + ' .upload-information', this.$el).text(text);
+        $('#' + fileId + ' .upload-information', this.$el).css({color: colorCode});
+    }
+
+    /**
+     * @param {int} bytes
      *
      * @return {String}
      */
@@ -211,12 +322,12 @@ class MediaUploadView extends OrchestraView
     }
 
     /**
-     * @param {Int} time
+     * @param {int} time
      *
      * @return {String}
      */
     _secondsToStr(time) {
-        let years = Math.floor(time / 31536000)
+        let years = Math.floor(time / 31536000);
 
         if (years) {
             return years + ' year' + this._numberEnding(years);
@@ -243,7 +354,7 @@ class MediaUploadView extends OrchestraView
     }
 
     /**
-     * @param {Int} number
+     * @param {int} number
      *
      * @return {String}
      */
