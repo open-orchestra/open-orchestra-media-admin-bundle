@@ -1,5 +1,6 @@
 import AbstractMediaRouter from '../AbstractMediaRouter'
 import Medias              from '../../Collection/Media/Medias'
+import MediaListView          from '../../View/Media/MediaListView'
 import MediasView          from '../../View/Media/MediasView'
 import MediaFormView       from '../../View/Media/MediaFormView'
 import MediaImageFormView  from '../../View/Media/MediaImageFormView'
@@ -61,7 +62,11 @@ class MediaRouter extends AbstractMediaRouter
             },
             data : {
                 start: page * pageLength,
-                length: pageLength
+                length: pageLength,
+                order: {
+                    name :'updated_at',
+                    dir: 'desc'
+                }
             },
             success: (medias) => {
                 let mediasView = new MediasView({

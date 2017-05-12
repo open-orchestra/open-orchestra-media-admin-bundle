@@ -7,6 +7,17 @@ import DeleteCheckboxListViewMixin from '../../../Service/DataTable/Mixin/Delete
  */
 class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin, DeleteCheckboxListViewMixin)
 {
+
+    /**
+     * Pre initialize
+     */
+    preinitialize(options) {
+        this.tagName = 'div';
+        this.events = {
+            'click [name="dt-media_order"] option' : '_changeOrder'
+        }
+    }
+
     /**
      * Constructor
      *
@@ -24,24 +35,63 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         this._countRefresh = 0;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    getColumnsDefinition() {
+        return [
+            {
+                name: "updated_at",
+                title: Translator.trans('open_orchestra_media_admin.table.media.updated_at'),
+                orderable: true,
+                orderDirection: 'desc',
+            },
+            {
+                name: "name",
+                title: Translator.trans('open_orchestra_media_admin.table.media.name'),
+            },
+            {
+                name: "mime_type",
+                title: Translator.trans('open_orchestra_media_admin.table.media.mime_type'),
+            },
+            {
+                name: "size",
+                title: Translator.trans('open_orchestra_media_admin.table.media.size'),
+            }
+        ];
+    }
+
+
     /**
      * @inheritDoc
      */
     _drawCallback(settings)
     {
-        let mediaList = $('<div></div>').addClass('well');
-        var context = this;
-        this._collection.each(function(media) {
-            let templateFile = 'Media/mediaListCellView';
-            if (context._selectionMod) {
-                templateFile = 'Media/Modal/mediaSelectCellView';
-            }
-            let template = context._renderTemplate(templateFile, {
-                media: media
+        let context = this;
+        let mediaList = $('<div></div>').addClass('well').data('context', this);
+        let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
+        let order = typeof settings.aaSorting != 'undefined' && settings.aaSorting.length > 0 ? settings.aaSorting[0] : [undefined, undefined];
+
+        if (!context._selectionMod) {
+            this._collection.each(function(media) {
+                mediaList.append(context._renderTemplate(templateFile, {media: media}));
             });
-            mediaList.append(template);
-            $('input#checkbox' + media.cid + '.delete-checkbox', mediaList).data(media);
-        });
+        } else {
+            this._collection.each(function(media) {
+                let $template = $(context._renderTemplate(templateFile, {media: media}));
+                context._createDeleteCheckbox.apply(mediaList, [$('.delete-button', $template), null, media]);
+                mediaList.append($template);
+            });
+        }
+
+        if($(".header-results-order", this.$el).length == 0) {
+            $(".header-results", this.$el).append('<div class="header-results-order">');
+        }
+        $(".header-results-order", this.$el).html(this._renderTemplate('Media/mediaOrderView', {
+            configuration: this.getColumnsDefinition(),
+            order: order
+        }));
 
         $(".table-responsive", this.$el).html(mediaList);
     }
@@ -63,7 +113,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             clearInterval(this._interval);
         } else {
             this._countRefresh++;
-            this.$table.DataTable().ajax.reload();
+            this.$table.DataTable(this._settings).ajax.reload();
         }
     }
 
@@ -77,15 +127,21 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     /**
      * @inheritDoc
      */
-    getColumnsDefinition() {
-        return [];
+    generateUrlUpdatePage(page) {
+       return Backbone.history.generateUrl('listMedia', {page : page});
     }
 
     /**
-     * @inheritDoc
+     * @param {Object} event
+     * @private
      */
-    generateUrlUpdatePage(page) {
-       return Backbone.history.generateUrl('listMedia', {page : page});
+    _changeOrder(event){
+        let $target = $(event.target);
+        let index = this.$table.DataTable().column($(event.target).val() + ':name').index();
+        let order = $target.hasClass('asc') ? 'desc' : 'asc';
+        $('option', $target.parent()).removeClass('desc').removeClass('asc');
+        $target.addClass(order);
+        this.$table.DataTable().order([index, order]).draw();
     }
 
     /**

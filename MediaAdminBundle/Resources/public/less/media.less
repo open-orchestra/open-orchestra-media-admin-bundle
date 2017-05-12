@@ -95,7 +95,23 @@
         text-align: center;
     }
 }
-
+[name="dt-media_order"] option{
+    &.asc:before {
+        content: "\f062";
+        .FontAwesome;
+        color: #555;
+        float: right;
+   }
+    &.desc:before {
+        content: "\f063";
+        .FontAwesome;
+        color: #555;
+        float: right;
+    }
+}
+.delete-button {
+    display: inline-block;
+}
 /* ===================================================================
  * NEW MEDIA
  * =================================================================*/
