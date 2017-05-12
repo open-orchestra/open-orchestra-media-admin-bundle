@@ -17,6 +17,17 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     }
 
     /**
+     * @param {Object} collection
+     * @param {Array}  settings
+     */
+    initialize({collection, settings}) {
+        super.initialize({collection, settings});
+        this._settings.dom = "<'header-results clearfix' <'nb-results pull-left' i>l B <'header-results-order'>p>" +
+            "<'table-responsive'tr>" +
+            "p";
+    }
+
+    /**
      * Constructor
      *
      * @param {Object} options
@@ -83,10 +94,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             });
         }
         $(".table-responsive", this.$el).html(mediaList);
-
-        if($(".header-results-order", this.$el).length == 0) {
-            $(".header-results", this.$el).append('<div class="header-results-order">');
-        }
         $(".header-results-order", this.$el).html(this._renderTemplate('Media/mediaOrderView', {
             configuration: this.getColumnsDefinition(),
             order: order
