@@ -1,14 +1,18 @@
 <div class="styled-select pull-right list-length" id="dt-media_order">
-    <label>
-        <select name="dt-media_order" aria-controls="dt-media_order" class="form-control">
-            <% _.each(configuration, function(item, rank) { %>
-                <option value="<%= item.name %>"
-                    <% if (order[0] == rank) { %>
-                    selected="selected"
-                    class="<%= order[1]%>"
-                    <% } %>
-                ><%= item.title %></option>
-           <% }) %>
-        </select>
-    </label>
+    <button class="dropdown-toggle btn btn-large" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <% _.each(configuration, function(item, rank) { %>
+            <% if (order[0] == rank) { %>
+                <span><%= item.title %></span>
+            <% } %>
+        <% }) %>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right">
+        <% _.each(configuration, function(item, rank) { %>
+        <li>
+            <a data-name="<%= item.name %>" class="order-value<% if (order[0] == rank) { %> <%= order[1]%><% } %>">
+                <%= item.title %>
+            </a>
+        </li>
+        <% }) %>
+    </ul>
 </div>

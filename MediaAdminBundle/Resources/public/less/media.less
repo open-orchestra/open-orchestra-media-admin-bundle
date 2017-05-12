@@ -96,23 +96,30 @@
     }
 }
 
-[name="dt-media_order"] option{
-    &.asc:before {
-        content: "\f062";
-        .FontAwesome;
-        color: #555;
-        float: right;
-   }
-    &.desc:before {
-        content: "\f063";
-        .FontAwesome;
-        color: #555;
-        float: right;
+.medias {
+    #dt-media_order button {
+        padding-right: 30px;
+        background-color: #fff;
+        line-height: 1.25;
     }
-}
-
-.delete-button {
-    display: inline-block;
+    .delete-button {
+        display: inline-block;
+    }
+    .order-value {
+        text-decoration: none;
+        &.asc:before {
+            content: "\f062";
+            .FontAwesome;
+            color: #555;
+            float: right;
+        }
+        &.desc:before {
+            content: "\f063";
+            .FontAwesome;
+            color: #555;
+            float: right;
+        }
+    }
 }
 
 /* ===================================================================

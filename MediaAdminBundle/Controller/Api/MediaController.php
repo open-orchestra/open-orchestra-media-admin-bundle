@@ -50,7 +50,6 @@ class MediaController extends BaseController
             'updated_at' => 'updatedAt',
             'name' => 'name',
             'size' => 'mediaInformations.size',
-
         );
         $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
 

@@ -13,7 +13,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     preinitialize(options) {
         super.preinitialize(options);
         this.events = this.events || {};
-        this.events['click [name="dt-media_order"] option'] = '_changeOrder';
+        this.events['click .order-value'] = '_changeOrder';
     }
 
     /**
@@ -134,7 +134,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     _changeOrder(event){
         let $target = $(event.target);
-        let index = this.$table.DataTable().column($(event.target).val() + ':name').index();
+        let index = this.$table.DataTable().column($(event.target).data('name') + ':name').index();
         let order = $target.hasClass('asc') ? 'desc' : 'asc';
         $('option', $target.parent()).removeClass('desc').removeClass('asc');
         $target.addClass(order);
