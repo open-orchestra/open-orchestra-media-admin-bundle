@@ -7,15 +7,13 @@ import DeleteCheckboxListViewMixin from '../../../Service/DataTable/Mixin/Delete
  */
 class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin, DeleteCheckboxListViewMixin)
 {
-
     /**
-     * Pre initialize
+     * @param {Object} options
      */
     preinitialize(options) {
-        this.tagName = 'div';
-        this.events = {
-            'click [name="dt-media_order"] option' : '_changeOrder'
-        }
+        super.preinitialize(options);
+        this.events = this.events || {};
+        this.events['click [name="dt-media_order"] option'] = '_changeOrder';
     }
 
     /**
