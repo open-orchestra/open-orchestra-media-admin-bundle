@@ -73,7 +73,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
         let order = typeof settings.aaSorting != 'undefined' && settings.aaSorting.length > 0 ? settings.aaSorting[0] : [undefined, undefined];
 
-        if (!context._selectionMod) {
+        if (context._selectionMod) {
             this._collection.each(function(media) {
                 mediaList.append(context._renderTemplate(templateFile, {media: media}));
             });
@@ -84,6 +84,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
                 mediaList.append($template);
             });
         }
+        $(".table-responsive", this.$el).html(mediaList);
 
         if($(".header-results-order", this.$el).length == 0) {
             $(".header-results", this.$el).append('<div class="header-results-order">');
@@ -92,8 +93,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             configuration: this.getColumnsDefinition(),
             order: order
         }));
-
-        $(".table-responsive", this.$el).html(mediaList);
     }
 
     /**

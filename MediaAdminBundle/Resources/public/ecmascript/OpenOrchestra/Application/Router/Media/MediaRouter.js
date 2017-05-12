@@ -1,6 +1,5 @@
 import AbstractMediaRouter from '../AbstractMediaRouter'
 import Medias              from '../../Collection/Media/Medias'
-import MediaListView          from '../../View/Media/MediaListView'
 import MediasView          from '../../View/Media/MediasView'
 import MediaFormView       from '../../View/Media/MediaFormView'
 import MediaImageFormView  from '../../View/Media/MediaImageFormView'
