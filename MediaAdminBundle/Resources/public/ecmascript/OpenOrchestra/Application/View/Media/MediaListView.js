@@ -17,17 +17,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     }
 
     /**
-     * @param {Object} collection
-     * @param {Array}  settings
-     */
-    initialize({collection, settings}) {
-        super.initialize({collection, settings});
-        this._settings.dom = "<'header-results clearfix' <'nb-results pull-left' i>l B <'header-results-order'>p>" +
-            "<'table-responsive'tr>" +
-            "p";
-    }
-
-    /**
      * Constructor
      *
      * @param {Object} options
@@ -71,6 +60,17 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         ];
     }
 
+    /**
+     *
+     * @returns {string}
+     * @private
+     */
+    _getDomSettings() {
+        super._getDomSettings();
+        return "<'header-results clearfix' <'nb-results pull-left' i>l B <'header-results-order'>p>" +
+            "<'table-responsive'tr>" +
+            "p";
+    }
 
     /**
      * @inheritDoc
