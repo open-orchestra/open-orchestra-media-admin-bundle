@@ -169,10 +169,10 @@ class MediaModalView extends ModalView
     }
 
     /**
-     * @param {Object} event
+     * @param {Array} media
      * @private
      */
-    _editMedia(view, media) {
+    _editMedia(media) {
         this._createPreviewMedia(new Media(media));
     }
 }

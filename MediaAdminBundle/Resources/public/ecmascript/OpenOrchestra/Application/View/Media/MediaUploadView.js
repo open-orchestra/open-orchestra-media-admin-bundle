@@ -256,7 +256,6 @@ class MediaUploadView extends OrchestraView
      * @private
      */
     _fileSuccess(flowFile, message, chunk) {
-        Backbone.Events.trigger('media:uploaded', this, JSON.parse(message));
         let response = JSON.parse(chunk.xhr.response);
         let media = new Media(response);
         let template = this._renderTemplate('Media/uploadPreviewSuccess', {
@@ -264,6 +263,7 @@ class MediaUploadView extends OrchestraView
         });
         $('.medias > #' + flowFile.uniqueIdentifier + ' .title', this.$el).replaceWith(template);
         $('.medias > #' + flowFile.uniqueIdentifier + ' .title .upload-information', this.$el).css({color: this._colors.success});
+        Backbone.Events.trigger('media:uploaded', JSON.parse(message));
     }
 
     /**
