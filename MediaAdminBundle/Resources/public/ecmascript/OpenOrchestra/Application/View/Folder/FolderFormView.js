@@ -23,7 +23,8 @@ class FolderFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritdoc
      */
     render() {
-        let title = $("input[id*='oo_folder_']", this._form.$form).first().val()
+        let context = Application.getContext();
+        let title = $("#oo_folder_names_" + context.language, this._form.$form).val()
         if (null === this._folderId) {
             title = Translator.trans('open_orchestra_media_admin.table.folder.new');
         }
