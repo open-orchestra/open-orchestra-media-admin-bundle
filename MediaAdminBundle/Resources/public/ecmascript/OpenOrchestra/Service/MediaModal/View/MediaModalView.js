@@ -100,11 +100,10 @@ class MediaModalView extends ModalView
         this._createPreviewMedia(mediaList[0]);
     }
 
-
     /**
      * Open the media details screen
      *
-     * @param {Object} event
+     * @param {Object} media
      */
     _createPreviewMedia(media) {
         let template = 'Media/Modal/mediaBaseDetailView';
