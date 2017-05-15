@@ -13,7 +13,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     preinitialize(options) {
         super.preinitialize(options);
         this.events = this.events || {};
-        this.events['click .order-value'] = '_changeOrder';
+        this.events['click a.order-value'] = '_changeOrder';
     }
 
     /**
