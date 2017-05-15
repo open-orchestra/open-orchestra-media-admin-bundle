@@ -61,7 +61,11 @@ class MediaRouter extends AbstractMediaRouter
             },
             data : {
                 start: page * pageLength,
-                length: pageLength
+                length: pageLength,
+                order: {
+                    name :'updated_at',
+                    dir: 'desc'
+                }
             },
             success: (medias) => {
                 let mediasView = new MediasView({

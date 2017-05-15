@@ -37,6 +37,10 @@ open_orchestra_media_admin:
             label : Libellé / Tag
             type  : Type
             folder: Dossier
+            updated_at: Mise à jour
+            name: Nom
+            mime_type: Type mime
+            size : Taille
         folder:
             new: Nouveau répertoire
     search_engine:

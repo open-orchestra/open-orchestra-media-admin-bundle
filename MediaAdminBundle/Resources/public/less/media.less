@@ -96,6 +96,33 @@
     }
 }
 
+.medias {
+    .order-values button {
+        padding-right: 30px;
+        background-color: #fff;
+        line-height: 1.25;
+        min-width: 160px;
+    }
+    .delete-button {
+        display: inline-block;
+    }
+    .order-value {
+        text-decoration: none;
+        &.asc:before {
+            content: "\f062";
+            .FontAwesome;
+            color: #555;
+            float: right;
+        }
+        &.desc:before {
+            content: "\f063";
+            .FontAwesome;
+            color: #555;
+            float: right;
+        }
+    }
+}
+
 /* ===================================================================
  * NEW MEDIA
  * =================================================================*/

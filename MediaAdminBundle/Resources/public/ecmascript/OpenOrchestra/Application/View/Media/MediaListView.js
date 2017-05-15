@@ -8,6 +8,15 @@ import DeleteCheckboxListViewMixin from '../../../Service/DataTable/Mixin/Delete
 class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin, DeleteCheckboxListViewMixin)
 {
     /**
+     * @param {Object} options
+     */
+    preinitialize(options) {
+        super.preinitialize(options);
+        this.events = this.events || {};
+        this.events['click a.order-value'] = '_changeOrder';
+    }
+
+    /**
      * Constructor
      *
      * @param {Object} options
@@ -24,26 +33,72 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         this._countRefresh = 0;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    getColumnsDefinition() {
+        return [
+            {
+                name: "updated_at",
+                title: Translator.trans('open_orchestra_media_admin.table.media.updated_at'),
+                orderable: true,
+                orderDirection: 'desc',
+            },
+            {
+                name: "name",
+                title: Translator.trans('open_orchestra_media_admin.table.media.name'),
+            },
+            {
+                name: "mime_type",
+                title: Translator.trans('open_orchestra_media_admin.table.media.mime_type'),
+            },
+            {
+                name: "size",
+                title: Translator.trans('open_orchestra_media_admin.table.media.size'),
+            }
+        ];
+    }
+
+    /**
+     *
+     * @returns {string}
+     * @private
+     */
+    _getDomSettings() {
+        super._getDomSettings();
+        return "<'header-results clearfix' <'nb-results pull-left' i>l B <'header-results-order'>p>" +
+            "<'table-responsive'tr>" +
+            "p";
+    }
+
     /**
      * @inheritDoc
      */
     _drawCallback(settings)
     {
-        let mediaList = $('<div></div>').addClass('well');
-        var context = this;
-        this._collection.each(function(media) {
-            let templateFile = 'Media/mediaListCellView';
-            if (context._selectionMod) {
-                templateFile = 'Media/Modal/mediaSelectCellView';
-            }
-            let template = context._renderTemplate(templateFile, {
-                media: media
-            });
-            mediaList.append(template);
-            $('input#checkbox' + media.cid + '.delete-checkbox', mediaList).data(media);
-        });
+        let context = this;
+        let $mediaList = $('<div></div>').addClass('well').data('context', this);
+        let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
+        let order = typeof settings.aaSorting != 'undefined' && settings.aaSorting.length > 0 ? settings.aaSorting[0] : [undefined, undefined];
 
-        $(".table-responsive", this.$el).html(mediaList);
+        if (context._selectionMod) {
+            this._collection.each(function(media) {
+                $mediaList.append(context._renderTemplate(templateFile, {media: media}));
+            });
+        } else {
+            this._collection.each(function(media) {
+                let $template = $(context._renderTemplate(templateFile, {media: media}));
+                context._createDeleteCheckbox.apply($mediaList, [$('.delete-button', $template), null, media]);
+                $mediaList.append($template);
+            });
+        }
+        $(".table-responsive", this.$el).html($mediaList);
+        $(".header-results-order", this.$el).html(this._renderTemplate('Media/mediaOrderView', {
+            configuration: this.getColumnsDefinition(),
+            order: order
+        }));
+        this._updatePage({target: this.$table});
     }
 
     /**
@@ -63,7 +118,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             clearInterval(this._interval);
         } else {
             this._countRefresh++;
-            this.$table.DataTable().ajax.reload();
+            this.$table.DataTable(this._settings).ajax.reload();
         }
     }
 
@@ -77,15 +132,21 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     /**
      * @inheritDoc
      */
-    getColumnsDefinition() {
-        return [];
+    generateUrlUpdatePage(page) {
+       return Backbone.history.generateUrl('listMedia', {page : page});
     }
 
     /**
-     * @inheritDoc
+     * @param {Object} event
+     * @private
      */
-    generateUrlUpdatePage(page) {
-       return Backbone.history.generateUrl('listMedia', {page : page});
+    _changeOrder(event){
+        let $target = $(event.target);
+        let index = this.$table.DataTable().column($(event.target).data('name') + ':name').index();
+        let order = $target.hasClass('asc') ? 'desc' : 'asc';
+        $('option', $target.parent()).removeClass('desc').removeClass('asc');
+        $target.addClass(order);
+        this.$table.DataTable().order([index, order]).draw();
     }
 
     /**

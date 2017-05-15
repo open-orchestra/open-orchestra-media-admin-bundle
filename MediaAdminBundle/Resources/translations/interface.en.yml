@@ -37,6 +37,10 @@ open_orchestra_media_admin:
             label : Label / Tag
             type  : Type
             folder: Folder
+            updated_at: Updated at
+            name: Name
+            mime_type: Mime type
+            size : Size
         folder:
             new: New Folder
     search_engine:

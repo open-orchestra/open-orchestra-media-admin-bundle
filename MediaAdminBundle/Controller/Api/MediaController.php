@@ -46,7 +46,12 @@ class MediaController extends BaseController
      */
     public function listAction(Request $request, $siteId, $withPerimeter)
     {
-        $configuration = PaginateFinderConfiguration::generateFromRequest($request);
+        $mapping = array(
+            'updated_at' => 'updatedAt',
+            'name' => 'name',
+            'size' => 'mediaInformations.size',
+        );
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
 
         $foldersId = null;
         if ($withPerimeter && null === $request->get('filter')['folderId']) {

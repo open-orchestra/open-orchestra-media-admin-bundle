@@ -16,10 +16,7 @@
                         <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                     </a>
                 <% }; %>
-                <input class="form-control delete-checkbox" type="checkbox" id="checkbox<%- media.cid%>"
-                    <% if (false === media.get('rights').can_delete) { %> disabled="disabled"<% }; %>
-                >
-                <label for="checkbox<%- media.cid%>"></label>
+                <div class="delete-button"></div>
             </div>
         </div>
     </div>
