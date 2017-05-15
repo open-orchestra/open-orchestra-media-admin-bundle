@@ -1,0 +1,13 @@
+<div class="title">
+    <span><%- media.get('title') %></span>
+    <div class="edit pull-right">
+        <% if (true === media.get('rights').can_edit) { %>
+            <a href="#<%- Backbone.history.generateUrl('editMedia', {'mediaId': media.get('id'), 'mediaType': media.get('media_type')}) %>">
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+            </a>
+        <% }; %>
+    </div>
+    <p class="upload-information text-center">
+        <%- Translator.trans('open_orchestra_media_admin.upload.completed') %>
+    </p>
+</div>

@@ -2,6 +2,7 @@ import OrchestraView    from '../OrchestraView'
 import Application      from '../../Application'
 import FoldersTree      from '../../Collection/Folder/FoldersTree'
 import ApplicationError from '../../../Service/Error/ApplicationError'
+import Media            from '../../Model/Media/Media'
 
 /**
  * @class MediaUploadView
@@ -244,14 +245,17 @@ class MediaUploadView extends OrchestraView
      *
      * @param {FlowFile} flowFile
      * @param {String}   message
+     * @param {Object}   chunk
      * @private
      */
-    _fileSuccess(flowFile, message) {
-        this._updateInfoFileUpload(
-            flowFile.uniqueIdentifier,
-            Translator.trans('open_orchestra_media_admin.upload.completed'),
-            this._colors.success
-        );
+    _fileSuccess(flowFile, message, chunk) {
+        let response = JSON.parse(chunk.xhr.response);
+        let media = new Media(response);
+        let template = this._renderTemplate('Media/uploadPreviewSuccess', {
+            media: media
+        });
+        $('.medias > #' + flowFile.uniqueIdentifier + ' .title', this.$el).replaceWith(template);
+        $('.medias > #' + flowFile.uniqueIdentifier + ' .title .upload-information', this.$el).css({color: this._colors.success});
     }
 
     /**
