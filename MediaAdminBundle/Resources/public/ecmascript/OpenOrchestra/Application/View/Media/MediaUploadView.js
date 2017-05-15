@@ -26,7 +26,7 @@ class MediaUploadView extends OrchestraView
     /**
      * Initialize
      */
-    initialize() {
+    initialize(mode) {
         this._flow = new Flow({
             'target'    : $.proxy(this._getFlowTarget, this),
             'query'     : $.proxy(this._getFlowQuery, this),
@@ -42,6 +42,7 @@ class MediaUploadView extends OrchestraView
             'success'   : '#24bc7a',
             'processing': '#FF4500'
         }
+        this._mode = mode || 'library';
     }
 
     /**
@@ -52,9 +53,9 @@ class MediaUploadView extends OrchestraView
             siteId: Application.getContext().siteId,
             success: () => {
                 let hasPerimeter = this._hasPerimeter(this._folderTree.models[0].get('children'));
-
                 let template = this._renderTemplate('Media/uploadView', {
-                    hasPerimeter: hasPerimeter
+                    hasPerimeter: hasPerimeter,
+                    mode: this._mode
                 });
                 this.$el.html(template);
                 this.initFileUpload();
@@ -155,7 +156,9 @@ class MediaUploadView extends OrchestraView
         this._flow.on('fileProgress', $.proxy(this._fileProgress, this));
         this._flow.on('complete', () => {
             $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
-            this._flow.assignDrop($('.flow-drop', this.$el)[0]);
+            if ($('.flow-drop', this.$el).length > 0) {
+                this._flow.assignDrop($('.flow-drop', this.$el)[0]);
+            }
         });
     }
 
@@ -166,7 +169,9 @@ class MediaUploadView extends OrchestraView
         $('.progress', this.$el).show();
         $('.flow-action-buttons', this.$el).hide();
         $('.flow-browse-folder, .flow-browse', this.$el).attr("disabled","disabled");
-        this._flow.unAssignDrop($('.flow-drop', this.$el)[0]);
+        if ($('.flow-drop', this.$el).length > 0) {
+            this._flow.unAssignDrop($('.flow-drop', this.$el)[0]);
+        }
         this._flow.upload();
     }
 
@@ -179,7 +184,9 @@ class MediaUploadView extends OrchestraView
         $('.progress-bar', this.$el).text('');
         $('.progress-bar', this.$el).css({width: 0});
         $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
-        this._flow.assignDrop($('.flow-drop', this.$el)[0]);
+        if ($('.flow-drop', this.$el).length > 0) {
+            this._flow.assignDrop($('.flow-drop', this.$el)[0]);
+        }
         this._flow.cancel();
     }
 
@@ -249,6 +256,7 @@ class MediaUploadView extends OrchestraView
      * @private
      */
     _fileSuccess(flowFile, message, chunk) {
+        Backbone.Events.trigger('media:uploaded', this, JSON.parse(message));
         let response = JSON.parse(chunk.xhr.response);
         let media = new Media(response);
         let template = this._renderTemplate('Media/uploadPreviewSuccess', {

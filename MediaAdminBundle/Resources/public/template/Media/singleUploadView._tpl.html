@@ -1,14 +1,6 @@
-<% if (mode == 'popup') { %>
-    <div class="top-action-buttons">
-        <button class="btn btn-border btn-return back-popup-mode"><%- Translator.trans('open_orchestra_backoffice.back_to_list') %></button>
-    </div>
-<% } else if (mode == 'library') { %>
-    <div class="top-action-buttons">
-        <a class="btn btn-border btn-return" href="#<%- Backbone.history.generateUrl('listMedia') %>" role="button">
-            <%- Translator.trans('open_orchestra_backoffice.back_to_list') %>
-        </a>
-    </div>
-<% } %>
+<div class="top-action-buttons">
+    <button class="btn btn-info upload-single-image"><%- Translator.trans('open_orchestra_backoffice.add')%></button>
+</div>
 <h1><%- Translator.trans('open_orchestra_media_admin.upload.title') %></h1>
 
 <% if (!hasPerimeter) { %>
@@ -20,26 +12,11 @@
         <%- Translator.trans('open_orchestra_media_admin.upload.unsupported') %>
     </div>
 
-<% if (mode == 'popup') { %>
-    <div class="dropbox">
-        <button class="btn btn-info flow-browse">
-            <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
-        </button>
-    </div>
-<% } %>
-
-<% if (mode == 'library') { %>
     <div class="dropbox flow-drop">
-            <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
-            <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
-        <button class="btn btn-info flow-browse-folder">
-            <%- Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
-        </button>
         <button class="btn btn-info flow-browse">
             <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
         </button>
     </div>
-<% } %>
 
     <div class="flow-list">
         <div class="medias"></div>
