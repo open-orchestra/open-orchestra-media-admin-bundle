@@ -78,26 +78,27 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     _drawCallback(settings)
     {
         let context = this;
-        let mediaList = $('<div></div>').addClass('well').data('context', this);
+        let $mediaList = $('<div></div>').addClass('well').data('context', this);
         let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
         let order = typeof settings.aaSorting != 'undefined' && settings.aaSorting.length > 0 ? settings.aaSorting[0] : [undefined, undefined];
 
         if (context._selectionMod) {
             this._collection.each(function(media) {
-                mediaList.append(context._renderTemplate(templateFile, {media: media}));
+                $mediaList.append(context._renderTemplate(templateFile, {media: media}));
             });
         } else {
             this._collection.each(function(media) {
                 let $template = $(context._renderTemplate(templateFile, {media: media}));
-                context._createDeleteCheckbox.apply(mediaList, [$('.delete-button', $template), null, media]);
-                mediaList.append($template);
+                context._createDeleteCheckbox.apply($mediaList, [$('.delete-button', $template), null, media]);
+                $mediaList.append($template);
             });
         }
-        $(".table-responsive", this.$el).html(mediaList);
+        $(".table-responsive", this.$el).html($mediaList);
         $(".header-results-order", this.$el).html(this._renderTemplate('Media/mediaOrderView', {
             configuration: this.getColumnsDefinition(),
             order: order
         }));
+        this._updatePage({target: this.$table});
     }
 
     /**
