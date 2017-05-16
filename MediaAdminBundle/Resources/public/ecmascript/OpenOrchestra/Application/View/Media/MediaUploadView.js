@@ -17,7 +17,8 @@ class MediaUploadView extends OrchestraView
         this.events = {
             'dragenter .flow-drop' : '_dragEnter',
             'dragend .flow-drop'   : '_dragEnd',
-            'drop .flow-drop'      : '_dragEnd'
+            'drop .flow-drop'      : '_dragEnd',
+            'click .edit .fa-trash': '_deleteUploadItem'
         }
     }
 
@@ -41,13 +42,11 @@ class MediaUploadView extends OrchestraView
             error      : '#FF0000',
             success    : '#24bc7a',
             processing : '#FF4500'
-        }
+        };
         this._mode = mode;
         this.mediaUploadActionView = new MediaUploadActionView();
         this.listenTo(this.mediaUploadActionView, 'submit-upload', $.proxy(this._submitUpload, this));
         this.listenTo(this.mediaUploadActionView, 'cancel-upload', $.proxy(this._resetUpload, this));
-        this.listenTo(this.mediaUploadActionView, 'delete-element', $.proxy(this._deleteElement, this));
-
     }
 
     /**
