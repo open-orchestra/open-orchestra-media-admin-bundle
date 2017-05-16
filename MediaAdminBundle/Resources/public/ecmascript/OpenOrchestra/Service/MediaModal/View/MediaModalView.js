@@ -163,7 +163,7 @@ class MediaModalView extends ModalView
         let mediaUploadView = new MediaUploadView('popup');
         $('.modal-header .form-group', this.$el).hide();
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
-        $('.modal-footer', this.$el).html('');
+        $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
         Backbone.Events.on('media:uploaded', this._editMedia, this);
     }
 

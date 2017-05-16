@@ -1,8 +1,9 @@
-import OrchestraView    from '../OrchestraView'
-import Application      from '../../Application'
-import FoldersTree      from '../../Collection/Folder/FoldersTree'
-import ApplicationError from '../../../Service/Error/ApplicationError'
-import Media            from '../../Model/Media/Media'
+import OrchestraView         from '../OrchestraView'
+import Application           from '../../Application'
+import FoldersTree           from '../../Collection/Folder/FoldersTree'
+import ApplicationError      from '../../../Service/Error/ApplicationError'
+import Media                 from '../../Model/Media/Media'
+import MediaUploadActionView from './MediaUploadActionView'
 
 /**
  * @class MediaUploadView
@@ -17,9 +18,6 @@ class MediaUploadView extends OrchestraView
             'dragenter .flow-drop' : '_dragEnter',
             'dragend .flow-drop'   : '_dragEnd',
             'drop .flow-drop'      : '_dragEnd',
-            'click .submit-upload' : '_submitUpload',
-            'click .cancel-upload' : '_resetUpload',
-            'click .delete-element' : '_deleteElement'
         }
     }
 
@@ -28,21 +26,26 @@ class MediaUploadView extends OrchestraView
      */
     initialize(mode) {
         this._flow = new Flow({
-            'target'    : $.proxy(this._getFlowTarget, this),
-            'query'     : $.proxy(this._getFlowQuery, this),
-            'chunkSize' : 1024 * 1024,
-            'testChunks': false
+            target     : $.proxy(this._getFlowTarget, this),
+            query      : $.proxy(this._getFlowQuery, this),
+            chunkSize  : 1024 * 1024,
+            testChunks : false,
+            singleFile : mode == 'popup'
         });
-
         this._allowed_mime_types = Application.getConfiguration().getParameter('allowed_mime_types');
         this._folderTree = new FoldersTree();
         this._colors = {
-            'upload'    : '#38b5e9',
-            'error'     : '#FF0000',
-            'success'   : '#24bc7a',
-            'processing': '#FF4500'
+            upload     : '#38b5e9',
+            error      : '#FF0000',
+            success    : '#24bc7a',
+            processing : '#FF4500'
         }
         this._mode = mode || 'library';
+        this.mediaUploadActionView = new MediaUploadActionView();
+        this.listenTo(this.mediaUploadActionView, 'submit-upload', $.proxy(this._submitUpload, this));
+        this.listenTo(this.mediaUploadActionView, 'cancel-upload', $.proxy(this._resetUpload, this));
+        this.listenTo(this.mediaUploadActionView, 'delete-element', $.proxy(this._deleteElement, this));
+
     }
 
     /**
@@ -156,9 +159,7 @@ class MediaUploadView extends OrchestraView
         this._flow.on('fileProgress', $.proxy(this._fileProgress, this));
         this._flow.on('complete', () => {
             $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
-            if ($('.flow-drop', this.$el).length > 0) {
-                this._flow.assignDrop($('.flow-drop', this.$el)[0]);
-            }
+            this._flow.assignDrop($('.flow-drop', this.$el)[0]);
         });
     }
 
@@ -167,11 +168,9 @@ class MediaUploadView extends OrchestraView
      */
     _submitUpload() {
         $('.progress', this.$el).show();
-        $('.flow-action-buttons', this.$el).hide();
+        this.mediaUploadActionView.hide();
         $('.flow-browse-folder, .flow-browse', this.$el).attr("disabled","disabled");
-        if ($('.flow-drop', this.$el).length > 0) {
-            this._flow.unAssignDrop($('.flow-drop', this.$el)[0]);
-        }
+        this._flow.unAssignDrop($('.flow-drop', this.$el)[0]);
         this._flow.upload();
     }
 
@@ -179,14 +178,13 @@ class MediaUploadView extends OrchestraView
      * @private
      */
     _resetUpload() {
-        $('.flow-list, .flow-action-buttons, .progress', this.$el).hide();
+        $('.flow-list, .progress', this.$el).hide();
+        this.mediaUploadActionView.hide();
         $('.flow-list .medias', this.$el).empty();
         $('.progress-bar', this.$el).text('');
         $('.progress-bar', this.$el).css({width: 0});
         $('.flow-browse-folder, .flow-browse', this.$el).removeAttr("disabled");
-        if ($('.flow-drop', this.$el).length > 0) {
-            this._flow.assignDrop($('.flow-drop', this.$el)[0]);
-        }
+        this._flow.assignDrop($('.flow-drop', this.$el)[0]);
         this._flow.cancel();
     }
 
@@ -229,7 +227,8 @@ class MediaUploadView extends OrchestraView
         } else {
             this._renderUploadPreview(flowFile);
         }
-        $('.flow-list, .flow-action-buttons', this.$el).show();
+        $('.flow-list', this.$el).show();
+        this.mediaUploadActionView.show();
     }
 
     /**

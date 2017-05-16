@@ -1,7 +1,6 @@
 import AbstractTreeView from '../Tree/AbstractTreeView'
 import Folder           from '../../Model/Folder/Folder'
 import ApplicationError from '../../../Service/Error/ApplicationError'
-import Application      from '../../Application'
 
 /**
  * @class FoldersTreeView
