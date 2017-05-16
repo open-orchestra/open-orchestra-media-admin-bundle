@@ -24,15 +24,15 @@ class MediaUploadView extends OrchestraView
     /**
      * Initialize
      *
-     * @param {Object}  options
+     * @param {String} mode
      */
-    initialize(options) {
+    initialize({mode} = {mode: 'library'}) {
         this._flow = new Flow({
             target     : $.proxy(this._getFlowTarget, this),
             query      : $.proxy(this._getFlowQuery, this),
             chunkSize  : 1024 * 1024,
             testChunks : false,
-            singleFile : typeof options !== 'undefined' && options.mode == 'popup'
+            singleFile : mode == 'popup'
         });
         this._allowed_mime_types = Application.getConfiguration().getParameter('allowed_mime_types');
         this._folderTree = new FoldersTree();
@@ -42,7 +42,7 @@ class MediaUploadView extends OrchestraView
             success    : '#24bc7a',
             processing : '#FF4500'
         }
-        this._mode = (typeof options !== 'undefined' && options.mode) ? options.mode : 'library';
+        this._mode = mode;
         this.mediaUploadActionView = new MediaUploadActionView();
         this.listenTo(this.mediaUploadActionView, 'submit-upload', $.proxy(this._submitUpload, this));
         this.listenTo(this.mediaUploadActionView, 'cancel-upload', $.proxy(this._resetUpload, this));
