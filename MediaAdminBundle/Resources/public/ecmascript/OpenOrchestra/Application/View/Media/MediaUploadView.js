@@ -17,7 +17,7 @@ class MediaUploadView extends OrchestraView
         this.events = {
             'dragenter .flow-drop' : '_dragEnter',
             'dragend .flow-drop'   : '_dragEnd',
-            'drop .flow-drop'      : '_dragEnd',
+            'drop .flow-drop'      : '_dragEnd'
         }
     }
 
@@ -194,20 +194,19 @@ class MediaUploadView extends OrchestraView
     }
 
     /**
+     * @param {Object} event
+     *
      * @private
      */
-    _deleteElement() {
-        let $items = $('.flow-list .delete-checkbox:checked', this.$el);
-        $items.each((key, item) => {
-            let fileId = $(item).attr('data-file-id');
-            if (typeof fileId !== "undefined") {
-                let file = this._flow.getFromUniqueIdentifier(fileId);
-                if (false !== file) {
-                    this._flow.removeFile(file);
-                }
-                $(item).closest('#'+fileId).remove();
+    _deleteUploadItem(event) {
+        let fileId = $(event.currentTarget).attr('data-file-id');
+        if (typeof fileId !== "undefined") {
+            let file = this._flow.getFromUniqueIdentifier(fileId);
+            if (false !== file) {
+                this._flow.removeFile(file);
             }
-        });
+            $(event.currentTarget).closest('#'+fileId).remove();
+        }
 
         if (0 === $('.flow-list .medias', this.$el).children().length) {
             this._resetUpload();
