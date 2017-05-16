@@ -18,6 +18,7 @@ class MediaUploadView extends OrchestraView
             'dragenter .flow-drop' : '_dragEnter',
             'dragend .flow-drop'   : '_dragEnd',
             'drop .flow-drop'      : '_dragEnd',
+            'click .edit .fa-trash': '_deleteUploadItem'
         }
     }
 
@@ -41,13 +42,11 @@ class MediaUploadView extends OrchestraView
             error      : '#FF0000',
             success    : '#24bc7a',
             processing : '#FF4500'
-        }
+        };
         this._mode = mode;
         this.mediaUploadActionView = new MediaUploadActionView();
         this.listenTo(this.mediaUploadActionView, 'submit-upload', $.proxy(this._submitUpload, this));
         this.listenTo(this.mediaUploadActionView, 'cancel-upload', $.proxy(this._resetUpload, this));
-        this.listenTo(this.mediaUploadActionView, 'delete-element', $.proxy(this._deleteElement, this));
-
     }
 
     /**
@@ -194,20 +193,19 @@ class MediaUploadView extends OrchestraView
     }
 
     /**
+     * @param {Object} event
+     *
      * @private
      */
-    _deleteElement() {
-        let $items = $('.flow-list .delete-checkbox:checked', this.$el);
-        $items.each((key, item) => {
-            let fileId = $(item).attr('data-file-id');
-            if (typeof fileId !== "undefined") {
-                let file = this._flow.getFromUniqueIdentifier(fileId);
-                if (false !== file) {
-                    this._flow.removeFile(file);
-                }
-                $(item).closest('#'+fileId).remove();
+    _deleteUploadItem(event) {
+        let fileId = $(event.currentTarget).attr('data-file-id');
+        if (typeof fileId !== "undefined") {
+            let file = this._flow.getFromUniqueIdentifier(fileId);
+            if (false !== file) {
+                this._flow.removeFile(file);
             }
-        });
+            $(event.currentTarget).closest('#'+fileId).remove();
+        }
 
         if (0 === $('.flow-list .medias', this.$el).children().length) {
             this._resetUpload();
