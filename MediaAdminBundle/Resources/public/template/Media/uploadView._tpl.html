@@ -1,8 +1,14 @@
-<div class="top-action-buttons">
-    <a class="btn btn-border btn-return" href="#<%- Backbone.history.generateUrl('listMedia') %>" role="button">
-        <%- Translator.trans('open_orchestra_backoffice.back_to_list') %>
-    </a>
-</div>
+<% if (mode == 'popup') { %>
+    <div class="top-action-buttons">
+        <button class="btn btn-border btn-return back-popup-mode"><%- Translator.trans('open_orchestra_backoffice.back_to_list') %></button>
+    </div>
+<% } else if (mode == 'library') { %>
+    <div class="top-action-buttons">
+        <a class="btn btn-border btn-return" href="#<%- Backbone.history.generateUrl('listMedia') %>" role="button">
+            <%- Translator.trans('open_orchestra_backoffice.back_to_list') %>
+        </a>
+    </div>
+<% } %>
 <h1><%- Translator.trans('open_orchestra_media_admin.upload.title') %></h1>
 
 <% if (!hasPerimeter) { %>
@@ -14,9 +20,16 @@
         <%- Translator.trans('open_orchestra_media_admin.upload.unsupported') %>
     </div>
 
+<% if (mode == 'popup') { %>
     <div class="dropbox flow-drop">
-        <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
-        <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
+        <button class="btn btn-info flow-browse">
+            <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
+        </button>
+    </div>
+<% } else if (mode == 'library') { %>
+    <div class="dropbox flow-drop">
+            <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
+            <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>
         <button class="btn btn-info flow-browse-folder">
             <%- Translator.trans('open_orchestra_media_admin.upload.select_folder') %>
         </button>
@@ -24,6 +37,7 @@
             <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
         </button>
     </div>
+<% } %>
 
     <div class="flow-list">
         <div class="medias"></div>
@@ -40,11 +54,4 @@
         >
         </div>
     </div>
-
-    <div class="col-lg-12 flow-action-buttons bottom-action-buttons">
-        <button type="button" class="submit-upload btn btn-success"><%- Translator.trans('open_orchestra_media_admin.upload.save')%></button>
-        <button type="button" class="cancel-upload btn btn-default"><%- Translator.trans('open_orchestra_media_admin.upload.cancel')%></button>
-        <button type="button" class="delete-element btn btn-danger"><%- Translator.trans('open_orchestra_backoffice.table.delete_button')%></button>
-    </div>
-
 <% } %>

@@ -3,6 +3,7 @@ import Medias                 from '../../../Application/Collection/Media/Medias
 import SitesShareMediaLibrary from '../../../Application/Collection/Site/SitesShareMediaLibrary'
 import Application            from '../../../Application/Application'
 import MediasView             from '../../../Application/View/Media/MediasView'
+import MediaUploadView        from '../../../Application/View/Media/MediaUploadView'
 import DateFormatter          from '../../../Service/DataFormatter/DateFormatter'
 
 /**
@@ -24,6 +25,8 @@ class MediaModalView extends ModalView
         this.events['click #modal-media-select']  = '_selectMedia';
         this.events['click #modal-media-return']  = '_renderMedias';
         this.events['change .select-site']        = '_changeSite';
+        this.events['click .upload-popup-mode']   = '_uploadPopupMode';
+        this.events['click .back-popup-mode']   = 'render';
     }
 
     /**
@@ -93,7 +96,15 @@ class MediaModalView extends ModalView
     _previewMedia(event)
     {
         let mediaList = this._mediaCollection.where({id: $(event.target).data('id') });
-        let media = mediaList[0];
+        this._createPreviewMedia(mediaList[0]);
+    }
+
+    /**
+     * Open the media details screen
+     *
+     * @param {Object} media
+     */
+    _createPreviewMedia(media) {
         let template = 'Media/Modal/mediaBaseDetailView';
         let mediaViewTemplates = Application.getConfiguration().getParameter('mediaViewTemplates');
         if (typeof mediaViewTemplates[media.get('media_type')] !== 'undefined') {
@@ -141,6 +152,18 @@ class MediaModalView extends ModalView
     {
         this._currentSiteId = $(event.currentTarget).val();
         this._renderMedias();
+    }
+
+    /**
+     * @param {Object} event
+     * @private
+     */
+    _uploadPopupMode(event){
+        let mediaUploadView = new MediaUploadView({mode : 'popup'});
+        $('.modal-header .form-group', this.$el).hide();
+        $('.modal-body', this.$el).html(mediaUploadView.render().$el);
+        $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
+        Backbone.Events.on('media:uploaded', $.proxy(this._createPreviewMedia, this));
     }
 }
 
