@@ -159,7 +159,7 @@ class MediaModalView extends ModalView
      * @private
      */
     _uploadPopupMode(event){
-        let mediaUploadView = new MediaUploadView('popup');
+        let mediaUploadView = new MediaUploadView({mode : 'popup'});
         $('.modal-header .form-group', this.$el).hide();
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
         $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();

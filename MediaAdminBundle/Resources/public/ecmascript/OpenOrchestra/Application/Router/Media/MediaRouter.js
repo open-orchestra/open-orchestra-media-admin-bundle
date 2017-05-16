@@ -4,7 +4,6 @@ import MediasView            from '../../View/Media/MediasView'
 import MediaFormView         from '../../View/Media/MediaFormView'
 import MediaImageFormView    from '../../View/Media/MediaImageFormView'
 import MediaUploadView       from '../../View/Media/MediaUploadView'
-import MediaUploadActionView from '../../View/Media/MediaUploadActionView'
 import Application           from '../../Application'
 import FormBuilder           from '../../../Service/Form/Model/FormBuilder'
 

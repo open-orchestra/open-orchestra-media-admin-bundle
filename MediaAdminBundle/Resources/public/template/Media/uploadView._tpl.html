@@ -26,9 +26,7 @@
             <%- Translator.trans('open_orchestra_media_admin.upload.select_file') %>
         </button>
     </div>
-<% } %>
-
-<% if (mode == 'library') { %>
+<% } else if (mode == 'library') { %>
     <div class="dropbox flow-drop">
             <%- Translator.trans('open_orchestra_media_admin.upload.drop_files') %>
             <span><%- Translator.trans('open_orchestra_media_admin.upload.or') %></span>

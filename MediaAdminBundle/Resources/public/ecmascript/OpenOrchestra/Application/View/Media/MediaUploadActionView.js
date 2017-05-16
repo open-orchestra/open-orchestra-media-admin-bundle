@@ -1,7 +1,7 @@
 import OrchestraView from '../OrchestraView'
 
 /**
- * @class MediaFormView
+ * @class MediaUploadActionView
  */
 class MediaUploadActionView extends OrchestraView {
     /**
@@ -40,12 +40,14 @@ class MediaUploadActionView extends OrchestraView {
     _submitUpload() {
         this.trigger('submit-upload');
     }
+
     /**
      * @private
      */
     _resetUpload() {
         this.trigger('cancel-upload');
     }
+
     /**
      * @private
      */
