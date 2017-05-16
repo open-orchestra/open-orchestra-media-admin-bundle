@@ -61,6 +61,9 @@ class MediaUploadView extends OrchestraView
                     mode: this._mode
                 });
                 this.$el.html(template);
+                if (this._mode == 'library') {
+                    this.$el.append(this.mediaUploadActionView.render().$el);
+                }
                 this.initFileUpload();
             }
         });
@@ -262,7 +265,7 @@ class MediaUploadView extends OrchestraView
         });
         $('.medias > #' + flowFile.uniqueIdentifier + ' .title', this.$el).replaceWith(template);
         $('.medias > #' + flowFile.uniqueIdentifier + ' .title .upload-information', this.$el).css({color: this._colors.success});
-        Backbone.Events.trigger('media:uploaded', JSON.parse(message));
+        Backbone.Events.trigger('media:uploaded', new Media(JSON.parse(message)));
     }
 
     /**

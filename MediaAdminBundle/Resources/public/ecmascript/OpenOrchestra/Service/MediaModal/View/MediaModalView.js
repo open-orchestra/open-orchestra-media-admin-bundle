@@ -1,6 +1,5 @@
 import ModalView              from '../../../Service/Modal/View/ModalView'
 import Medias                 from '../../../Application/Collection/Media/Medias'
-import Media                  from '../../../Application/Model/Media/Media'
 import SitesShareMediaLibrary from '../../../Application/Collection/Site/SitesShareMediaLibrary'
 import Application            from '../../../Application/Application'
 import MediasView             from '../../../Application/View/Media/MediasView'
@@ -164,15 +163,7 @@ class MediaModalView extends ModalView
         $('.modal-header .form-group', this.$el).hide();
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
         $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
-        Backbone.Events.on('media:uploaded', this._editMedia, this);
-    }
-
-    /**
-     * @param {Array} media
-     * @private
-     */
-    _editMedia(media) {
-        this._createPreviewMedia(new Media(media));
+        Backbone.Events.on('media:uploaded', $.proxy(this._createPreviewMedia, this));
     }
 }
 

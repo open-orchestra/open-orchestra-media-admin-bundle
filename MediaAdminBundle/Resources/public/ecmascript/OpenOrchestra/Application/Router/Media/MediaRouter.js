@@ -92,7 +92,6 @@ class MediaRouter extends AbstractMediaRouter
     newMedia() {
         let mediaUploadView = new MediaUploadView();
         Application.getRegion('content').html(mediaUploadView.render().$el);
-        Application.getRegion('content').append(mediaUploadView.mediaUploadActionView.render().$el);
     }
 
     /**
