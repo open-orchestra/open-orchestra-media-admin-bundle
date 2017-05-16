@@ -10,6 +10,7 @@ use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use OpenOrchestra\MediaAdmin\Security\ContributionActionInterface as MediaContributionActionInterface;
+use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 
 /**
  * Class FolderTreeTransformer
@@ -22,11 +23,17 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
      * @param string                        $treeFacadeClass
      * @param string                        $folderFacadeClass
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      */
-    public function __construct($treeFacadeClass, $folderFacadeClass, AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        $treeFacadeClass,
+        $folderFacadeClass,
+        AuthorizationCheckerInterface $authorizationChecker,
+        MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
+    ) {
         parent::__construct($treeFacadeClass, $authorizationChecker);
         $this->folderFacadeClass = $folderFacadeClass;
+        $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
     }
 
     /**
@@ -62,7 +69,7 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
         $folderFacade = $this->newFolderFacade();
         $folderFacade->id = (string)$rootFolder['_id'];
         $folderFacade->folderId = $rootFolder['folderId'];
-        $folderFacade->name = $rootFolder['name'];
+        $folderFacade->name = $this->multiLanguageChoiceManager->choose($rootFolder['names']);
         $folderFacade->type = $rootFolder['type'];
         $folderFacade->siteId = $rootFolder['siteId'];
         $folderFacade->addRight(

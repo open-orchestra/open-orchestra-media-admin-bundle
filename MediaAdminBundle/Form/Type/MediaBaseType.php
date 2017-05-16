@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 
 /**
  * Class MediaBaseType
@@ -15,6 +16,7 @@ class MediaBaseType extends AbstractType
 {
     protected $frontLanguages;
     protected $mediaClass;
+    protected $currentSiteManager;
 
     protected $groupRender = array(
         'information' => array(
@@ -34,13 +36,15 @@ class MediaBaseType extends AbstractType
     );
 
     /**
-     * @param string $mediaClass
-     * @param array  $frontLanguages
+     * @param string                 $mediaClass
+     * @param array                  $frontLanguages
+     * @param CurrentSiteIdInterface $currentSiteManager
      */
-    public function __construct($mediaClass, array $frontLanguages)
+    public function __construct($mediaClass, array $frontLanguages, CurrentSiteIdInterface $currentSiteManager)
     {
         $this->mediaClass = $mediaClass;
         $this->frontLanguages = array_keys($frontLanguages);
+        $this->currentSiteManager = $currentSiteManager;
     }
 
     /**
@@ -62,7 +66,7 @@ class MediaBaseType extends AbstractType
                 'group_id'     => 'information',
                 'sub_group_id' => 'properties',
                 'class'        => 'OpenOrchestra\MediaModelBundle\Document\MediaFolder',
-                'property'     => 'name',
+                'property'     => 'names[' . $this->currentSiteManager->getCurrentLocale() . ']',
             ))
             ->add('copyright', null, array(
                 'label'        => 'open_orchestra_media_admin.form.media.copyright',

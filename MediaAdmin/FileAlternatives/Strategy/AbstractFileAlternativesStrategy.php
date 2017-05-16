@@ -46,6 +46,7 @@ abstract class AbstractFileAlternativesStrategy implements FileAlternativesStrat
     public function setMediaInformation(MediaInterface $media)
     {
         $filePath = $this->tmpDir . DIRECTORY_SEPARATOR . $media->getFilesystemName();
+
         $media->addMediaInformation('size', filesize($filePath));
         $media->addMediaInformation('extension', pathinfo($filePath, PATHINFO_EXTENSION));
     }

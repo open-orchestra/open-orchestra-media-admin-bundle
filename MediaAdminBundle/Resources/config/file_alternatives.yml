@@ -1,10 +1,10 @@
 parameters:
-    open_orchestra_media_admin.file_alternatives.manager.class: OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager
+    open_orchestra_media_admin.file_alternatives.manager.class         : OpenOrchestra\MediaAdmin\FileAlternatives\FileAlternativesManager
     open_orchestra_media_admin.file_alternatives.strategy.default.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\DefaultStrategy
-    open_orchestra_media_admin.file_alternatives.strategy.image.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy
-    open_orchestra_media_admin.file_alternatives.strategy.pdf.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\PdfStrategy
-    open_orchestra_media_admin.file_alternatives.strategy.video.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\VideoStrategy
-    open_orchestra_media_admin.file_alternatives.strategy.audio.class: OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\AudioStrategy
+    open_orchestra_media_admin.file_alternatives.strategy.image.class  : OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\ImageStrategy
+    open_orchestra_media_admin.file_alternatives.strategy.pdf.class    : OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\PdfStrategy
+    open_orchestra_media_admin.file_alternatives.strategy.video.class  : OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\VideoStrategy
+    open_orchestra_media_admin.file_alternatives.strategy.audio.class  : OpenOrchestra\MediaAdmin\FileAlternatives\Strategy\AudioStrategy
 
 services:
     open_orchestra_media_admin.file_alternatives.manager:

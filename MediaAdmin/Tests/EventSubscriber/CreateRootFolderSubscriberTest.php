@@ -17,6 +17,7 @@ class CreateRootFolderSubscriberTest extends AbstractBaseTestCase
     protected $subscriber;
     protected $objectManager;
     protected $translator;
+    protected $backLanguages = array('en' => 'English', 'fr' => 'Français');
 
     /**
      * Set Up the test
@@ -27,7 +28,8 @@ class CreateRootFolderSubscriberTest extends AbstractBaseTestCase
         $this->objectManager = Phake::mock('Doctrine\Common\Persistence\ObjectManager');
         $this->translator = Phake::mock('Symfony\Component\Translation\TranslatorInterface');
 
-        $this->subscriber = new CreateRootFolderSubscriber($this->objectManager, $this->translator, $mediaFolderClass);
+        $this->subscriber = 
+            new CreateRootFolderSubscriber($this->objectManager, $this->translator, $mediaFolderClass, $this->backLanguages);
     }
 
     /**

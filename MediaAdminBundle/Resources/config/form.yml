@@ -19,6 +19,7 @@ services:
         class: '%open_orchestra_media_admin.type.folder.class%'
         arguments:
             - '%open_orchestra_media.document.media_folder.class%'
+            - '%open_orchestra_base.administration_languages%'
         tags:
             - { name: form.type, alias: oo_folder}
 
@@ -42,6 +43,7 @@ services:
         arguments:
             - '%open_orchestra_media.document.media.class%'
             - '%open_orchestra_backoffice.orchestra_choice.front_language%'
+            - '@open_orchestra_backoffice.context_manager'
         tags:
             - { name: form.type, alias: oo_media_base}
 
@@ -50,6 +52,7 @@ services:
         arguments:
             - '%open_orchestra_media.document.media.class%'
             - '%open_orchestra_backoffice.orchestra_choice.front_language%'
+            - '@open_orchestra_backoffice.context_manager'
             - '%open_orchestra_media_admin.files.alternatives.image.formats%'
             - '@open_orchestra_media.manager.storage'
         tags:

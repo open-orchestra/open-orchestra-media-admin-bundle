@@ -21,46 +21,58 @@ class LoadFolderData extends AbstractFixture implements OrderedFixtureInterface,
         $site =  $this->getReference('site2');
 
         $rootImages = new MediaFolder();
-        $rootImages->setName('Images');
+        $rootImages->setNames($this->getTranslatedValues('Images'));
         $rootImages->setSiteId($site->getSiteId());
         $manager->persist($rootImages);
         $this->addReference('mediaFolder-rootImages', $rootImages);
 
         $animatedImages = new MediaFolder();
-        $animatedImages->setName('Animated Images');
+        $animatedImages->setNames($this->getTranslatedValues('Animated Images'));
         $animatedImages->setParent($rootImages);
         $animatedImages->setSiteId($site->getSiteId());
         $manager->persist($animatedImages);
         $this->addReference('mediaFolder-animatedImages', $animatedImages);
 
         $transparentImages = new MediaFolder();
-        $transparentImages->setName('Transparent Images');
+        $transparentImages->setNames($this->getTranslatedValues('Transparent Images'));
         $transparentImages->setParent($rootImages);
         $transparentImages->setSiteId($site->getSiteId());
         $manager->persist($transparentImages);
         $this->addReference('mediaFolder-transparentImages', $transparentImages);
 
         $gifImages = new MediaFolder();
-        $gifImages->setName('Gif');
+        $gifImages->setNames($this->getTranslatedValues('Gif'));
         $gifImages->setParent($animatedImages);
         $gifImages->setSiteId($site->getSiteId());
         $manager->persist($gifImages);
         $this->addReference('mediaFolder-gifImages', $gifImages);
 
         $rootFiles = new MediaFolder();
-        $rootFiles->setName('Files');
+        $rootFiles->setNames($this->getTranslatedValues('Files'));
         $rootFiles->setSiteId($site->getSiteId());
         $manager->persist($rootFiles);
         $this->addReference('mediaFolder-rootFiles', $rootFiles);
 
         $pdfFolder = new MediaFolder();
-        $pdfFolder->setName('Pdf');
+        $pdfFolder->setNames($this->getTranslatedValues('Pdf'));
         $pdfFolder->setParent($rootFiles);
         $pdfFolder->setSiteId($site->getSiteId());
         $manager->persist($pdfFolder);
         $this->addReference('mediaFolder-pdfFolder', $pdfFolder);
 
         $manager->flush();
+    }
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    protected function getTranslatedValues($name)
+    {
+        return array(
+            'en' => $name,
+            'fr' => $name
+        );
     }
 
     /**

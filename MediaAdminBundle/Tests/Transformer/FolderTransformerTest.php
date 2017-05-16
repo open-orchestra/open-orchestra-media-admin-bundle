@@ -20,6 +20,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
     protected $facadeClass = 'OpenOrchestra\MediaAdminBundle\Facade\FolderFacade';
     protected $folderRepository;
     protected $eventDispatcher;
+    protected $multiLanguageChoiceManager;
 
     /**
      * Set up the test
@@ -31,12 +32,14 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
         $folderEventFactory = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEventFactory');
         Phake::when($folderEventFactory)->createFolderEvent()->thenReturn($folderEvent);
+        $this->multiLanguageChoiceManager = Phake::mock('OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface');
 
         $this->transformer = new FolderTransformer(
             $this->facadeClass,
             $this->folderRepository,
             $this->eventDispatcher,
-            $folderEventFactory
+            $folderEventFactory,
+            $this->multiLanguageChoiceManager
         );
     }
 
@@ -66,19 +69,20 @@ class FolderTransformerTest extends AbstractBaseTestCase
      *
      * @dataProvider provideTransformData
      */
-    public function testTransform($folderId, $name, $parent, $siteId, $expectedParentId)
+    public function testTransform($folderId, $names, $parent, $siteId, $expectedParentId, $expectedName)
     {
         $folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
         Phake::when($folder)->getId()->thenReturn($folderId);
-        Phake::when($folder)->getName()->thenReturn($name);
+        Phake::when($folder)->getNames()->thenReturn($names);
         Phake::when($folder)->getParent()->thenReturn($parent);
         Phake::when($folder)->getSiteId()->thenReturn($siteId);
+        Phake::when($this->multiLanguageChoiceManager)->choose($names)->thenReturn($expectedName);
 
         $facade = $this->transformer->transform($folder);
 
         $this->assertInstanceOf('OpenOrchestra\MediaAdminBundle\Facade\FolderFacade', $facade);
         $this->assertSame($folderId, $facade->folderId);
-        $this->assertSame($name, $facade->name);
+        $this->assertSame($expectedName, $facade->name);
         $this->assertSame($expectedParentId, $facade->parentId);
         $this->assertSame($siteId, $facade->siteId);
     }
@@ -93,8 +97,8 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $siteId = 'FakeSiteId1';
 
         return array(
-            array('foo', 'bar', $parentFolder, $siteId, 'FakeParentId'),
-            array('foo', 'bar', null, $siteId, '-'),
+            array('foo', array('en' =>'bar'), $parentFolder, $siteId, 'FakeParentId', 'bar'),
+            array('foo', array('en' =>'bar'), null, $siteId, '-', 'bar'),
         );
     }
 

@@ -12,6 +12,7 @@ use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OpenOrchestra\MediaAdmin\Event\FolderEventFactory;
+use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 
 /**
  * Class FolderTransformer
@@ -23,21 +24,24 @@ class FolderTransformer extends AbstractTransformer
     protected $folderEventFactory;
 
     /**
-     * @param string                    $facadeClass
-     * @param FolderRepositoryInterface $folderRepository,
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param FolderEventFactory        $folderEventFactory
+     * @param string                               $facadeClass
+     * @param FolderRepositoryInterface            $folderRepository,
+     * @param EventDispatcherInterface             $eventDispatcher
+     * @param FolderEventFactory                   $folderEventFactory
+     * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      */
     public function __construct(
         $facadeClass = null,
         FolderRepositoryInterface $folderRepository,
         EventDispatcherInterface $eventDispatcher,
-        FolderEventFactory $folderEventFactory
-    ){
+        FolderEventFactory $folderEventFactory,
+        MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
+    ) {
         parent::__construct($facadeClass);
         $this->folderRepository = $folderRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->folderEventFactory = $folderEventFactory;
+        $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
     }
 
     /**
@@ -54,7 +58,7 @@ class FolderTransformer extends AbstractTransformer
         }
         $facade = $this->newFacade();
         $facade->folderId = $folder->getId();
-        $facade->name = $folder->getName();
+        $facade->name = $this->multiLanguageChoiceManager->choose($folder->getNames());
         $facade->createdAt = $folder->getCreatedAt();
         $facade->updatedAt = $folder->getUpdatedAt();
         if ($folder->getParent() instanceof FolderInterface) {

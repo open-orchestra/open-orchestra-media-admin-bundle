@@ -32,13 +32,13 @@ class LogMediaSubscriberTest extends LogAbstractSubscriberTest
         $this->mediaEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\MediaEvent');
         Phake::when($this->mediaEvent)->getMedia()->thenReturn($this->media);
 
-        $this->folder = Phake::mock('OpenOrchestra\Media\Model\FolderInterface');
+        $this->folder = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
 
         $this->folderEvent = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
         Phake::when($this->folderEvent)->getFolder()->thenReturn($this->folder);
 
         $this->mediaContext = array('media_name' => $this->media->getName());
-        $this->folderContext = array('folder_name' => $this->folder->getName());
+        $this->folderContext = array('folder_id' => $this->folder->getFolderId());
 
         $this->subscriber = new LogMediaSubscriber($this->logger);
     }

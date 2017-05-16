@@ -93,6 +93,6 @@ class LogMediaSubscriber extends AbstractLogSubscriber
      */
     protected function folderInfo($message, FolderInterface $folder)
     {
-        $this->logger->info($message, array('folder_name' => $folder->getName()));
+        $this->logger->info($message, array('folder_id' => $folder->getFolderId()));
     }
 }
