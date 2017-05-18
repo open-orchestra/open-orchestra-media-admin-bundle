@@ -18,6 +18,7 @@ use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     protected $folderFacadeClass;
+    protected $multiLanguageChoiceManager;
 
     /**
      * @param string                        $treeFacadeClass

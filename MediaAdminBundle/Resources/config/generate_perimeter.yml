@@ -6,5 +6,6 @@ services:
         class: '%open_orchestra_group.generate_perimeter.folder.class%'
         arguments:
             - '@open_orchestra_media.repository.media_folder'
+            - '@open_orchestra_backoffice.manager.multi_languages_choice'
         tags:
             - { name: open_orchestra_group.generate_perimeter.strategy }

@@ -25,7 +25,7 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
                 array (
                     'folder' =>
                         array (
-                            'name' => 'Images folder',
+                            'names' => array('en' => 'Images folder'),
                             'path' => '/images_folder',
                         ),
                     'children' =>
@@ -33,7 +33,7 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
                             array (
                                 'folder' =>
                                     array (
-                                        'name' => 'First images folder',
+                                        'names' => array('en' => 'First images folder'),
                                         'path' => '/images_folder/first_images_folder',
                                     ),
                                 'children' => array (),
@@ -43,15 +43,18 @@ class FolderGeneratePerimeterStrategyTest extends AbstractBaseTestCase
                 array (
                     'folder' =>
                         array (
-                            'name' => 'Files folder',
+                            'names' => array('en' => 'Files folder'),
                             'path' => '/files_folder',
                         ),
                     'children' => array (),
                 ),
             )
         );
-
-        $this->strategy = new FolderGeneratePerimeterStrategy($repository);
+        $multiChoice = Phake::mock('OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface');
+        Phake::when($multiChoice)->choose(array('en' => 'Images folder'))->thenReturn('Images folder');
+        Phake::when($multiChoice)->choose(array('en' => 'First images folder'))->thenReturn('First images folder');
+        Phake::when($multiChoice)->choose(array('en' => 'Files folder'))->thenReturn('Files folder');
+        $this->strategy = new FolderGeneratePerimeterStrategy($repository, $multiChoice);
     }
 
     /**

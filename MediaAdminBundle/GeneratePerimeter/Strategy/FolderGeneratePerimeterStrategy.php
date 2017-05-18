@@ -6,6 +6,7 @@ use OpenOrchestra\Backoffice\GeneratePerimeter\Strategy\GeneratePerimeterStrateg
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use OpenOrchestra\Media\Model\MediaFolderInterface;
 use OpenOrchestra\Backoffice\GeneratePerimeter\Strategy\GeneratePerimeterStrategy;
+use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 
 /**
  * Class FolderGeneratePerimeterStrategy
@@ -13,13 +14,18 @@ use OpenOrchestra\Backoffice\GeneratePerimeter\Strategy\GeneratePerimeterStrateg
 class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implements GeneratePerimeterStrategyInterface
 {
     protected $folderRepository;
+    protected $multiLanguageChoiceManager;
 
     /**
-     * @param FolderRepositoryInterface $folderRepository
+     * @param FolderRepositoryInterface            $folderRepository
+     * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      */
-    public function __construct(FolderRepositoryInterface $folderRepository)
-    {
+    public function __construct(
+        FolderRepositoryInterface $folderRepository,
+        MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
+    ) {
         $this->folderRepository = $folderRepository;
+        $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
     }
 
     /**
@@ -87,7 +93,8 @@ class FolderGeneratePerimeterStrategy extends GeneratePerimeterStrategy implemen
      */
     protected function formatConfiguration(array $treeFolders)
     {
-        $treeFolders['root'] = array('path' => $treeFolders['folder']['path'], 'name' => $treeFolders['folder']['name']);
+        $name = $this->multiLanguageChoiceManager->choose($treeFolders['folder']['names']);
+        $treeFolders['root'] = array('path' => $treeFolders['folder']['path'], 'name' => $name);
         unset($treeFolders['folder']);
         if (count($treeFolders['children']) == 0) {
             unset($treeFolders['children']);
