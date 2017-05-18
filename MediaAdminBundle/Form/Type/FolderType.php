@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FolderType extends AbstractType
 {
     protected $folderClass;
+    protected $backLanguages;
 
     /**
      * @param string $folderClass

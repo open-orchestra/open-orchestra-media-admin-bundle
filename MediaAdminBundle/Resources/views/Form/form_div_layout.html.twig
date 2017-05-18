@@ -33,9 +33,9 @@
                     data-media-type="{{ form.vars.filter }}"
                     data-form-id="{{ form.vars.id }}"
                 >
-                    {{ 'open_orchestra_backoffice.form.browse'|trans({'language':context.currentLocale}) }}
+                    {{ 'open_orchestra_backoffice.form.browse'|trans({'language':context.backOfficeLanguage}) }}
                     {% if form.vars.filter %}
-                        [ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.currentLocale}) }} ]
+                        [ {{ ('open_orchestra_media_admin.media_filter.' ~ form.vars.filter) |trans({'language':context.backOfficeLanguage}) }} ]
                     {% endif %}
                 </a>
                 {% if (form.parent.vars.original_type is not defined

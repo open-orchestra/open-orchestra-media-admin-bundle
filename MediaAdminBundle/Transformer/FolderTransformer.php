@@ -22,6 +22,7 @@ class FolderTransformer extends AbstractTransformer
     protected $folderRepository;
     protected $eventDispatcher;
     protected $folderEventFactory;
+    protected $multiLanguageChoiceManager;
 
     /**
      * @param string                               $facadeClass

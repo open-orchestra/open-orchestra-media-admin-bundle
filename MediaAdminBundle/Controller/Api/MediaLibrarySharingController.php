@@ -25,8 +25,8 @@ class MediaLibrarySharingController extends BaseController
      */
     public function listSitesAction()
     {
-        $contextManager = $this->get('open_orchestra_backoffice.context_manager');
-        $currentSiteId = $contextManager->getCurrentSiteId();
+        $contextManager = $this->get('open_orchestra_backoffice.context_backoffice_manager');
+        $currentSiteId = $contextManager->getSiteId();
 
         $siteIdsAllowedShare = array($currentSiteId);
 

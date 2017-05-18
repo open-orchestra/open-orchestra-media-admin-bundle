@@ -21,7 +21,7 @@ class MediaBaseTypeTest extends AbstractBaseTestCase
      */
     public function setUp()
     {
-        $this->contextManager = Phake::mock('OpenOrchestra\Backoffice\Context\ContextManager');
+        $this->contextManager = Phake::mock('OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface');
         $this->form = new MediaBaseType($this->mediaClass, $this->frontLanguages, $this->contextManager);
     }
 
