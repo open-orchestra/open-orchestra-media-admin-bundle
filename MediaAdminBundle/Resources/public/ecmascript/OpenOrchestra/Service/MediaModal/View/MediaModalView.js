@@ -80,15 +80,15 @@ class MediaModalView extends ModalView
                     'filter[type]': this._filterType
                 },
                 success: (medias) => {
-                    this._renderMediasWithoutLoad({medias: medias})
+                    this._renderMediasAfterLoad({medias: medias})
                 }
             });
         } else {
-            this._renderMediasWithoutLoad({medias: medias})
+            this._renderMediasAfterLoad({medias: medias})
         }
     }
 
-    _renderMediasWithoutLoad({medias}) {
+    _renderMediasAfterLoad({medias}) {
         let mediasView = new MediasView({
             siteId: this._currentSiteId,
             filterType: this._filterType,

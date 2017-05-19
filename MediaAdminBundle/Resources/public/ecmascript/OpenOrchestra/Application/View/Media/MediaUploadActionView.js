@@ -25,7 +25,8 @@ class MediaUploadActionView extends OrchestraView {
     initialize({mode} = {mode: 'library'}) {
         this._mode = mode;
     }
-        /**
+
+    /**
      * @inheritdoc
      */
     render() {
