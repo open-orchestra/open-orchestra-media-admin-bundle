@@ -2,13 +2,13 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use OpenOrchestra\Media\Manager\MediaStorageManagerInterface;
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 
 /**
  * Class MediaImageType
@@ -21,14 +21,14 @@ class MediaImageType extends MediaBaseType
     /**
      * @param string                       $mediaClass
      * @param array                        $frontLanguages
-     * @param CurrentSiteIdInterface       $currentSiteManager
+     * @param ContextBackOfficeInterface   $currentSiteManager
      * @param array                        $thumbnailConfig
      * @param MediaStorageManagerInterface $storageManager
      */
     public function __construct(
         $mediaClass,
         array $frontLanguages,
-        CurrentSiteIdInterface $currentSiteManager,
+        ContextBackOfficeInterface $currentSiteManager,
         array $thumbnailConfig,
         MediaStorageManagerInterface $storageManager
     ){

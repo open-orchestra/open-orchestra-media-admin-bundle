@@ -64,7 +64,7 @@ class FolderController extends AbstractAdminController
                 $folder->setParent($parentFolder);
             }
         }
-        $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
+        $siteId = $this->get('open_orchestra_backoffice.context_backoffice_manager')->getSiteId();
         $folder->setSiteId($siteId);
         $url = $this->generateUrl('open_orchestra_media_admin_folder_new');
         if (!is_null($parentId)) {
