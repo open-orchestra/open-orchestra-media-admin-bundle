@@ -12,6 +12,9 @@
                             </option>
                         <% }); %>
                     </select>
+                    <% if (can_create) { %>
+                        <button class="btn btn-info upload-popup-mode"><%- Translator.trans('open_orchestra_backoffice.add')%></button>
+                    <% } %>
                 </div>
             </div>
         </div>

@@ -19,6 +19,7 @@ class MediaModalView extends ModalView
         this._selectCallback = options.selectCallback;
         this._filterType = options.filterType;
         this._currentSiteId = Application.getContext().siteId;
+        this._pageLength = 10;
 
         this.events['click #modal-media-choose']  = '_previewMedia';
         this.events['change #modal-media-format'] = '_updatePreview';
@@ -26,7 +27,7 @@ class MediaModalView extends ModalView
         this.events['click #modal-media-return']  = '_renderMedias';
         this.events['change .select-site']        = '_changeSite';
         this.events['click .upload-popup-mode']   = '_uploadPopupMode';
-        this.events['click .back-popup-mode']   = 'render';
+
     }
 
     /**
@@ -35,13 +36,27 @@ class MediaModalView extends ModalView
     render() {
         new SitesShareMediaLibrary().fetch({
             success: (sites) => {
-                let template = this._renderTemplate('Media/Modal/mediaModalContainer', {
-                    'sites': sites.models,
-                    'currentSiteId':  this._currentSiteId
-                });
+                new Medias().fetch({
+                    urlParameter: {
+                        siteId: this._currentSiteId
+                    },
+                    apiContext: 'withoutPerimeter',
+                    data: {
+                        'start': 0,
+                        'length': this._pageLength,
+                        'filter[type]': this._filterType
+                    },
+                    success: (medias) => {
+                        let template = this._renderTemplate('Media/Modal/mediaModalContainer', {
+                            sites: sites.models,
+                            currentSiteId: this._currentSiteId,
+                            can_create: medias.rights.can_create
+                        });
 
-                this.$el.html(template);
-                this._renderMedias();
+                        this.$el.html(template);
+                        this._renderMedias({medias : medias});
+                    }
+                })
             }
         });
 
@@ -51,41 +66,47 @@ class MediaModalView extends ModalView
     /**
      * @private
      */
-    _renderMedias() {
+    _renderMedias({medias} = {}) {
         this._displayLoader($('.modal-body', this.$el));
-        let page = 0;
-        let pageLength = 10;
-        new Medias().fetch({
-            urlParameter: {
-              siteId: this._currentSiteId
-            },
-            apiContext: 'withoutPerimeter',
-            data   : {
-                'start'       : page * pageLength,
-                'length'      : pageLength,
-                'filter[type]': this._filterType
-            },
-            success: (medias) => {
-                let mediasView = new MediasView({
-                    siteId: this._currentSiteId,
-                    filterType: this._filterType,
-                    collection: medias,
-                    settings  : {
-                        page        : page,
-                        deferLoading: [medias.recordsTotal, medias.recordsFiltered],
-                        data        : medias.models,
-                        pageLength  : pageLength
-                    },
-                    selectionMod: true
-                });
-                this._mediaCollection = medias;
-                let el = mediasView.render().$el;
+        if (typeof medias == 'undefined') {
+            new Medias().fetch({
+                urlParameter: {
+                    siteId: this._currentSiteId
+                },
+                apiContext: 'withoutPerimeter',
+                data   : {
+                    'start': 0,
+                    'length': this._pageLength,
+                    'filter[type]': this._filterType
+                },
+                success: (medias) => {
+                    this._renderMediasWithoutLoad({medias: medias})
+                }
+            });
+        } else {
+            this._renderMediasWithoutLoad({medias: medias})
+        }
+    }
 
-                $('.modal-title', this.$el).html(Translator.trans('open_orchestra_media_admin.select.choose'));
-                $('.modal-body', this.$el).html(el);
-                $('.modal-footer', this.$el).html('').hide();
-            }
+    _renderMediasWithoutLoad({medias}) {
+        let mediasView = new MediasView({
+            siteId: this._currentSiteId,
+            filterType: this._filterType,
+            collection: medias,
+            settings  : {
+                page        : 0,
+                deferLoading: [medias.recordsTotal, medias.recordsFiltered],
+                data        : medias.models,
+                pageLength  : this._pageLength
+            },
+            selectionMod: true
         });
+        this._mediaCollection = medias;
+        let el = mediasView.render().$el;
+
+        $('.modal-title', this.$el).html(Translator.trans('open_orchestra_media_admin.select.choose'));
+        $('.modal-body', this.$el).html(el);
+        $('.modal-footer', this.$el).html('').hide();
     }
 
     /**
@@ -160,7 +181,7 @@ class MediaModalView extends ModalView
      */
     _uploadPopupMode(event){
         let mediaUploadView = new MediaUploadView({mode : 'popup'});
-        $('.modal-header .form-group', this.$el).hide();
+        this.listenTo(mediaUploadView, 'modal-media-return', $.proxy(this._renderMedias, this));
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
         $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
         Backbone.Events.on('media:uploaded', $.proxy(this._createPreviewMedia, this));

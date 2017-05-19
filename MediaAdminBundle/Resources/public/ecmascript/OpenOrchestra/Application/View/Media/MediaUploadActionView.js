@@ -9,17 +9,29 @@ class MediaUploadActionView extends OrchestraView {
      */
     preinitialize() {
         this.events = {
-            'click .submit-upload': '_submitUpload',
-            'click .cancel-upload': '_resetUpload',
-            'click .delete-element': '_deleteElement'
+            'click .submit-upload'     : '_submitUpload',
+            'click .cancel-upload'     : '_resetUpload',
+            'click .delete-element'    : '_deleteElement',
+            'click .modal-media-return': '_renderMedias'
         }
+        this.className = 'modal-footer-button';
     }
 
     /**
+     * Initialize
+     *
+     * @param {String} mode
+     */
+    initialize({mode} = {mode: 'library'}) {
+        this._mode = mode;
+    }
+        /**
      * @inheritdoc
      */
     render() {
-        let template = this._renderTemplate('Media/uploadActionView');
+        let template = this._renderTemplate('Media/uploadActionView', {
+            mode: this._mode
+        });
         this.$el.html(template);
         this.hide();
 
@@ -27,11 +39,11 @@ class MediaUploadActionView extends OrchestraView {
     }
 
     show() {
-        this.$el.show();
+        $('button.optionnal', this.$el).show();
     }
 
     hide() {
-        this.$el.hide();
+        $('button.optionnal', this.$el).hide();
     }
 
     /**
@@ -53,6 +65,14 @@ class MediaUploadActionView extends OrchestraView {
      */
     _deleteElement() {
         this.trigger('delete-element');
+    }
+
+    /**
+     * @private
+     */
+    _renderMedias() {
+        $('button', this.$el).hide();
+        this.trigger('modal-media-return');
     }
 }
 export default MediaUploadActionView;
