@@ -50,7 +50,6 @@ class FolderChoiceType extends AbstractType
                 'query_builder' => function (Options $options) {
                     return function(DocumentRepository $documentRepository) use ($options) {
                         return $documentRepository->createQueryBuilder()
-                            ->field('parent')->exists(false)
                             ->field('siteId')->equals($options['site_id']);
                     };
                 },
@@ -74,6 +73,7 @@ class FolderChoiceType extends AbstractType
     protected function buildTreeFolders(array $folders, $depth = 0)
     {
         $lastFolder = end($folders);
+        $result = array();
         foreach ($folders as $folder) {
             $options = array(
                 'data-depth' => $depth,
@@ -82,17 +82,19 @@ class FolderChoiceType extends AbstractType
             if (!$this->authorizationChecker->isGranted(MediaContributionActionInterface::CREATE_MEDIA_UNDER, $folder)) {
                 $options['disabled'] = 'disabled';
             }
-            $result[] = new ChoiceView(
-                $folder,
-                $folder->getId(),
-                $folder->getName($this->currentSiteManager->getBackOfficeLanguage()),
-                $options
-            );
-            if (!$folder->getSubFolders()->isEmpty()) {
-                $result = array_merge(
-                    $result,
-                    $this->buildTreeFolders($folder->getSubFolders()->toArray(), $depth + 1)
+            if (!array_key_exists($folder->getId(), $result)) {
+                $result[$folder->getId()] = new ChoiceView(
+                    $folder,
+                    $folder->getId(),
+                    $folder->getName($this->currentSiteManager->getBackOfficeLanguage()),
+                    $options
                 );
+                if (!$folder->getSubFolders()->isEmpty()) {
+                    $result = array_merge(
+                        $result,
+                        $this->buildTreeFolders($folder->getSubFolders()->toArray(), $depth + 1)
+                    );
+                }
             }
         }
 
