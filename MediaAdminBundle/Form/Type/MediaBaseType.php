@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
-use OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
