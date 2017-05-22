@@ -75,15 +75,18 @@ class FolderChoiceType extends AbstractType
     {
         $lastFolder = end($folders);
         foreach ($folders as $folder) {
+            $options = array(
+                'data-depth' => $depth,
+                'data-last' => $folder === $lastFolder,
+            );
+            if (!$this->authorizationChecker->isGranted(MediaContributionActionInterface::CREATE_MEDIA_UNDER, $folder)) {
+                $options['disabled'] = 'disabled';
+            }
             $result[] = new ChoiceView(
                 $folder,
                 $folder->getId(),
                 $folder->getName($this->currentSiteManager->getBackOfficeLanguage()),
-                array(
-                    'disabled' => !$this->authorizationChecker->isGranted(MediaContributionActionInterface::CREATE_MEDIA_UNDER, $folder),
-                    'data-depth' => $depth,
-                    'data-last' => $folder === $lastFolder,
-                )
+                $options
             );
             if (!$folder->getSubFolders()->isEmpty()) {
                 $result = array_merge(
