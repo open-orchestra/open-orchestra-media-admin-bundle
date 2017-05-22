@@ -51,6 +51,7 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
             foreach ($folderCollection as $folder) {
                 $facade->addChild($this->transformSubTree($folder));
             }
+
         }
 
         return $facade;

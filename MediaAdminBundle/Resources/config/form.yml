@@ -5,6 +5,7 @@ parameters:
     open_orchestra_media_admin.type.site_for_folder_choice.class: OpenOrchestra\MediaAdminBundle\Form\Type\SiteForFolderChoiceType
     open_orchestra_media_admin.type.media_base.class            : OpenOrchestra\MediaAdminBundle\Form\Type\MediaBaseType
     open_orchestra_media_admin.type.media_image.class           : OpenOrchestra\MediaAdminBundle\Form\Type\MediaImageType
+    open_orchestra_media_admin.type.folder_choice.class         : OpenOrchestra\MediaAdminBundle\Form\Type\Component\FolderChoiceType
 
 services:
     open_orchestra_media_admin.type.media:
@@ -43,7 +44,6 @@ services:
         arguments:
             - '%open_orchestra_media.document.media.class%'
             - '%open_orchestra_backoffice.orchestra_choice.front_language%'
-            - '@open_orchestra_backoffice.context_backoffice_manager'
         tags:
             - { name: form.type, alias: oo_media_base}
 
@@ -52,8 +52,16 @@ services:
         arguments:
             - '%open_orchestra_media.document.media.class%'
             - '%open_orchestra_backoffice.orchestra_choice.front_language%'
-            - '@open_orchestra_backoffice.context_backoffice_manager'
             - '%open_orchestra_media_admin.files.alternatives.image.formats%'
             - '@open_orchestra_media.manager.storage'
         tags:
             - { name: form.type, alias: oo_media_image}
+
+    open_orchestra_media_admin.type.folder_choice:
+        class: '%open_orchestra_media_admin.type.folder_choice.class%'
+        arguments:
+            - '@open_orchestra_backoffice.context_backoffice_manager'
+            - '@security.authorization_checker'
+            - '%open_orchestra_media.document.media_folder.class%'
+        tags:
+            - { name: form.type, alias: oo_folder_choice}

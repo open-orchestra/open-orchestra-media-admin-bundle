@@ -3,6 +3,7 @@
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
 use OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface;
+use OpenOrchestra\Media\Model\MediaInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,6 @@ class MediaBaseType extends AbstractType
 {
     protected $frontLanguages;
     protected $mediaClass;
-    protected $currentSiteManager;
 
     protected $groupRender = array(
         'information' => array(
@@ -36,15 +36,15 @@ class MediaBaseType extends AbstractType
     );
 
     /**
-     * @param string                     $mediaClass
-     * @param array                      $frontLanguages
-     * @param ContextBackOfficeInterface $currentSiteManager
+     * @param string $mediaClass
+     * @param array  $frontLanguages
      */
-    public function __construct($mediaClass, array $frontLanguages, ContextBackOfficeInterface $currentSiteManager)
-    {
+    public function __construct(
+        $mediaClass,
+        array $frontLanguages
+    ) {
         $this->mediaClass = $mediaClass;
         $this->frontLanguages = array_keys($frontLanguages);
-        $this->currentSiteManager = $currentSiteManager;
     }
 
     /**
@@ -53,6 +53,11 @@ class MediaBaseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $siteId = null;
+        if ($builder->getData() instanceof MediaInterface) {
+            $siteId = $builder->getData()->getSiteId();
+        }
+
         $builder
             ->add('titles', 'oo_multi_languages', array(
                 'label'        => 'open_orchestra_media_admin.form.media.title',
@@ -60,13 +65,12 @@ class MediaBaseType extends AbstractType
                 'group_id'     => 'information',
                 'sub_group_id' => 'properties',
             ))
-            ->add('mediaFolder', 'document', array(
+            ->add('mediaFolder', 'oo_folder_choice', array(
                 'label'        => 'open_orchestra_media_admin.form.media.folder',
                 'required'     => true,
                 'group_id'     => 'information',
                 'sub_group_id' => 'properties',
-                'class'        => 'OpenOrchestra\MediaModelBundle\Document\MediaFolder',
-                'property'     => 'names[' . $this->currentSiteManager->getBackOfficeLanguage() . ']',
+                'site_id'      => $siteId,
             ))
             ->add('copyright', null, array(
                 'label'        => 'open_orchestra_media_admin.form.media.copyright',
