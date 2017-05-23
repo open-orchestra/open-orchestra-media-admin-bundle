@@ -21,18 +21,19 @@ class MediaImageType extends MediaBaseType
     /**
      * @param string                       $mediaClass
      * @param array                        $frontLanguages
-     * @param ContextBackOfficeInterface   $currentSiteManager
      * @param array                        $thumbnailConfig
      * @param MediaStorageManagerInterface $storageManager
      */
     public function __construct(
         $mediaClass,
         array $frontLanguages,
-        ContextBackOfficeInterface $currentSiteManager,
         array $thumbnailConfig,
         MediaStorageManagerInterface $storageManager
     ){
-        parent::__construct($mediaClass, $frontLanguages, $currentSiteManager);
+        parent::__construct(
+            $mediaClass,
+            $frontLanguages
+        );
         $this->thumbnailConfig = $thumbnailConfig;
         $this->storageManager = $storageManager;
     }

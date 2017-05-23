@@ -16,7 +16,6 @@ class MediaImageTypeTest extends AbstractBaseTestCase
     protected $frontLanguages = array('fr', 'en');
     protected $thumbnailConfig = array('format1' => 'params1', 'format2' => 'params2');
     protected $storageManager;
-    protected $contextManager;
 
     /**
      * Set up the test
@@ -24,12 +23,10 @@ class MediaImageTypeTest extends AbstractBaseTestCase
     public function setUp()
     {
         $this->storageManager = Phake::mock('OpenOrchestra\Media\Manager\MediaStorageManager');
-        $this->contextManager = Phake::mock('OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface');
 
         $this->form = new MediaImageType(
             $this->mediaClass,
             $this->frontLanguages,
-            $this->contextManager,
             $this->thumbnailConfig,
             $this->storageManager
         );
