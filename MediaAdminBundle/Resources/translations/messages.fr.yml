@@ -31,6 +31,7 @@ open_orchestra_media_admin:
             sub_group:
                 media: Médiathèque
         folder:
+            business_rules_help_text: Le dossier doit être vide et ne doit pas avoir d'enfants
             success: Le répertoire a été sauvegardé
             delete: Ce répertoire contient des média, vous ne pouvez pas le supprimer.
             name: Nom

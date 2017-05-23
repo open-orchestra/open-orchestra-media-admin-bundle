@@ -58,6 +58,8 @@ class FolderTypeTest extends AbstractBaseTestCase
             'data_class' => $this->class,
             'group_enabled' => true,
             'delete_button' => false,
+            'delete_business_rules' => false,
+            'business_rules_help_text' => 'open_orchestra_backoffice.form.folder.business_rules_help_text',
             'new_button' => false,
             'sub_group_render' => array(
                 'property' => array(
