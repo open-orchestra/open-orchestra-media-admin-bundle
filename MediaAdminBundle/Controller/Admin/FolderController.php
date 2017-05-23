@@ -31,7 +31,7 @@ class FolderController extends AbstractAdminController
         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $folder);
         $form = $this->createForm('oo_folder', $folder, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_folder_form', array('folderId' => $folderId)),
-            'delete_business_rules' => $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $folder),
+            'enable_delete_button' => $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $folder),
             'delete_button' => $this->isGranted(ContributionActionInterface::DELETE, $folder)
         ));
         $form->handleRequest($request);
