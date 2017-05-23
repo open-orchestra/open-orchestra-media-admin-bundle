@@ -172,6 +172,12 @@ class MediaModalView extends ModalView
     _changeSite(event)
     {
         this._currentSiteId = $(event.currentTarget).val();
+
+        $('.modal-header .upload-popup-mode', this.$el).hide();
+        if (this._currentSiteId == Application.getContext().siteId) {
+            $('.modal-header .upload-popup-mode', this.$el).show();
+        }
+
         this._renderMedias();
     }
 

@@ -5,6 +5,7 @@ open_orchestra_media_admin:
             media: Media
     media:
         title_list: Media
+        add: Add a media
     folder:
         edit      : Edit folder
         add       : Add a folder
