@@ -52,6 +52,8 @@ class FolderType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['delete_button'] = $options['delete_button'];
+        $view->vars['enable_delete_button'] = $options['enable_delete_button'];
+        $view->vars['delete_help_text'] = $options['delete_help_text'];
         $view->vars['new_button'] = $options['new_button'];
     }
 
@@ -64,6 +66,8 @@ class FolderType extends AbstractType
             'data_class' => $this->folderClass,
             'group_enabled' => true,
             'delete_button' => false,
+            'enable_delete_button' => false,
+            'delete_help_text' => 'open_orchestra_backoffice.form.folder.delete_help_text',
             'new_button' => false,
             'sub_group_render' => array(
                 'property' => array(

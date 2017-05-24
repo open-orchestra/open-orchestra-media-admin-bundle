@@ -31,6 +31,7 @@ open_orchestra_media_admin:
           sub_group:
             media: Media library
         folder:
+            delete_help_text: The folder should be empty and not have children
             success: The folder has been saved
             delete: This folder contains media, you can't delete it.
             name: Name
