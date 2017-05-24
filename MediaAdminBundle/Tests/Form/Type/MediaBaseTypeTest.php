@@ -15,6 +15,7 @@ class MediaBaseTypeTest extends AbstractBaseTestCase
     protected $mediaClass = 'OpenOrchestra\MediaModelBundle\Document\Media';
     protected $frontLanguages = array('fr', 'en');
     protected $contextManager;
+    protected $language = 'fr';
 
     /**
      * Set up the test
@@ -22,7 +23,8 @@ class MediaBaseTypeTest extends AbstractBaseTestCase
     public function setUp()
     {
         $this->contextManager = Phake::mock('OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface');
-        $this->form = new MediaBaseType($this->mediaClass, $this->frontLanguages, $this->contextManager);
+        Phake::when($this->contextManager)->getBackOfficeLanguage()->thenReturn($this->language);
+        $this->form = new MediaBaseType($this->contextManager, $this->mediaClass, $this->frontLanguages);
     }
 
     /**

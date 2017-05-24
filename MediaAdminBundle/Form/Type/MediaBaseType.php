@@ -2,7 +2,9 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Form\Type;
 
+use OpenOrchestra\Backoffice\Context\ContextBackOfficeInterface;
 use OpenOrchestra\Media\Model\MediaInterface;
+use OpenOrchestra\MediaAdmin\Security\ContributionActionInterface as MediaContributionActionInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
  */
 class MediaBaseType extends AbstractType
 {
+    protected $currentSiteManager;
     protected $frontLanguages;
     protected $mediaClass;
 
@@ -35,13 +38,16 @@ class MediaBaseType extends AbstractType
     );
 
     /**
-     * @param string $mediaClass
-     * @param array  $frontLanguages
+     * @param ContextBackOfficeInterface $currentSiteManager
+     * @param string                     $mediaClass
+     * @param array                      $frontLanguages
      */
     public function __construct(
+        ContextBackOfficeInterface $currentSiteManager,
         $mediaClass,
         array $frontLanguages
     ) {
+        $this->currentSiteManager = $currentSiteManager;
         $this->mediaClass = $mediaClass;
         $this->frontLanguages = array_keys($frontLanguages);
     }
@@ -65,11 +71,15 @@ class MediaBaseType extends AbstractType
                 'sub_group_id' => 'properties',
             ))
             ->add('mediaFolder', 'oo_folder_choice', array(
-                'label'        => 'open_orchestra_media_admin.form.media.folder',
-                'required'     => true,
-                'group_id'     => 'information',
-                'sub_group_id' => 'properties',
-                'site_id'      => $siteId,
+                'label'              => 'open_orchestra_media_admin.form.media.folder',
+                'required'           => true,
+                'group_id'           => 'information',
+                'sub_group_id'       => 'properties',
+                'site_id'            => $siteId,
+                'property'           => 'names[' . $this->currentSiteManager->getBackOfficeLanguage() . ']',
+                'language'           => $this->currentSiteManager->getBackOfficeLanguage(),
+                'contribution_rigth' => MediaContributionActionInterface::CREATE_MEDIA_UNDER,
+
             ))
             ->add('copyright', null, array(
                 'label'        => 'open_orchestra_media_admin.form.media.copyright',
