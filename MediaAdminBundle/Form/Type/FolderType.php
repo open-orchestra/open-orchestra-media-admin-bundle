@@ -67,7 +67,7 @@ class FolderType extends AbstractType
             'group_enabled' => true,
             'delete_button' => false,
             'enable_delete_button' => false,
-            'delete_help_text' => 'open_orchestra_backoffice.form.folder.delete_help_text',
+            'delete_help_text' => 'open_orchestra_media_admin.form.folder.delete_help_text',
             'new_button' => false,
             'sub_group_render' => array(
                 'property' => array(
