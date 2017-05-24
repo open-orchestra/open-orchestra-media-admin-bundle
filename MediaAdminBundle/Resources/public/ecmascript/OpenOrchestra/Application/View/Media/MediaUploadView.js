@@ -44,9 +44,10 @@ class MediaUploadView extends OrchestraView
             processing : '#FF4500'
         };
         this._mode = mode;
-        this.mediaUploadActionView = new MediaUploadActionView();
+        this.mediaUploadActionView = new MediaUploadActionView({mode: this._mode});
         this.listenTo(this.mediaUploadActionView, 'submit-upload', $.proxy(this._submitUpload, this));
         this.listenTo(this.mediaUploadActionView, 'cancel-upload', $.proxy(this._resetUpload, this));
+        this.listenTo(this.mediaUploadActionView, 'modal-media-return', $.proxy(this._renderMedias, this));
     }
 
     /**
@@ -217,7 +218,7 @@ class MediaUploadView extends OrchestraView
      * @private
      */
     _fileAdded(flowFile) {
-        if (1 === this._flow.progress()) {
+        if (1 === this._flow.progress() || this._mode == 'popup') {
             this._resetUpload();
         }
         if (0 === flowFile.file.type.indexOf('image/')) {
@@ -378,6 +379,13 @@ class MediaUploadView extends OrchestraView
         }
 
         return '';
+    }
+
+    /**
+     * @private
+     */
+    _renderMedias() {
+        this.trigger('modal-media-return');
     }
 }
 
