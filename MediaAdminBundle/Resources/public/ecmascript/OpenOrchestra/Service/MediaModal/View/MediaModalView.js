@@ -190,6 +190,7 @@ class MediaModalView extends ModalView
         this.listenTo(mediaUploadView, 'modal-media-return', $.proxy(this._renderMedias, this));
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
         $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
+        $('.modal-header h4', this.$el).html(Translator.trans('open_orchestra_media_admin.media.add'));
         Backbone.Events.on('media:uploaded', $.proxy(this._createPreviewMedia, this));
     }
 }
