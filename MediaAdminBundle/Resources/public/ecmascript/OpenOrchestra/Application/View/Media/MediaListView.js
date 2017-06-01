@@ -118,7 +118,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             clearInterval(this._interval);
         } else {
             this._countRefresh++;
-            this.$table.DataTable(this._settings).ajax.reload();
+            this.$table.DataTable().ajax.reload();
         }
     }
 
