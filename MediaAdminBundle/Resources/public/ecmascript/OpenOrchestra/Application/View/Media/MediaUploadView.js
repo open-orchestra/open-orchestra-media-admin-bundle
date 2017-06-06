@@ -55,7 +55,7 @@ class MediaUploadView extends OrchestraView
      */
     render() {
         this._folderTree.fetch({
-            siteId: Application.getContext().siteId,
+            siteId: Application.getContext().get('siteId'),
             success: () => {
                 let hasPerimeter = this._hasPerimeter(this._folderTree.models[0].get('children'));
                 let template = this._renderTemplate('Media/uploadView', {

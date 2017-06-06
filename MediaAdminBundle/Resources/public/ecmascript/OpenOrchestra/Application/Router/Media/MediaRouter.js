@@ -57,7 +57,7 @@ class MediaRouter extends AbstractMediaRouter
         page = Number(page) - 1;
         new Medias().fetch({
             urlParameter: {
-                siteId: Application.getContext().siteId
+                siteId: Application.getContext().get('siteId')
             },
             data : {
                 start: page * pageLength,
@@ -77,7 +77,7 @@ class MediaRouter extends AbstractMediaRouter
                         pageLength: pageLength
                     },
                     selectionMod: false,
-                    siteId: Application.getContext().siteId
+                    siteId: Application.getContext().get('siteId')
                 });
                 let el = mediasView.render().$el;
                 Application.getRegion('content').html(el);
