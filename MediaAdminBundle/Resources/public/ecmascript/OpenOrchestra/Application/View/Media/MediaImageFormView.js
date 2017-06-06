@@ -1,9 +1,4 @@
 import MediaFormView    from './MediaFormView'
-import Application      from '../../Application'
-import Media            from '../../Model/Media/Media'
-import ApplicationError from '../../../Service/Error/ApplicationError'
-import FlashMessageBag  from '../../../Service/FlashMessage/FlashMessageBag'
-import FlashMessage     from '../../../Service/FlashMessage/FlashMessage'
 
 /**
  * @class MediaImageFormView
