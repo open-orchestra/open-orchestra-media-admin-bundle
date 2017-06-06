@@ -45,7 +45,7 @@ class FolderRouer extends AbstractMediaRouter
     listFolders() {
         this._displayLoader(Application.getRegion('content'));
         new FoldersTree().fetch({
-            siteId: Application.getContext().siteId,
+            siteId: Application.getContext().get('siteId'),
             success: (foldersTree) => {
                 let foldersTreeView = new FoldersTreeView({
                     foldersTree: foldersTree,

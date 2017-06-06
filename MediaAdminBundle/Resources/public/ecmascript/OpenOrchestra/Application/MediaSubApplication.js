@@ -25,16 +25,16 @@ class MediaSubApplication
      */
     _initConfiguration() {
         Application.getConfiguration().addParameter('mediaViewTemplates', {'image': 'Media/Modal/mediaImageDetailView'});
-
-        var user_roles = Application.getContext().user.roles;
-        var is_admin = user_roles.indexOf('ROLE_DEVELOPER') > -1 || user_roles.indexOf('ROLE_PLATFORM_ADMIN') > -1;
+        let user = Application.getContext().get('user');
+        let roles = user.roles;
+        let is_admin = roles.indexOf('ROLE_DEVELOPER') > -1 || roles.indexOf('ROLE_PLATFORM_ADMIN') > -1;
         Application.getContext().updateUserAccessSection(
             'media',
-            is_admin || user_roles.indexOf('EDITORIAL_MEDIA_CONTRIBUTOR') > -1
+            is_admin || roles.indexOf('EDITORIAL_MEDIA_CONTRIBUTOR') > -1
         );
         Application.getContext().updateUserAccessSection(
             'media_folder',
-            is_admin || user_roles.indexOf('EDITORIAL_MEDIA_FOLDER_CONTRIBUTOR') > -1
+            is_admin || roles.indexOf('EDITORIAL_MEDIA_FOLDER_CONTRIBUTOR') > -1
         );
 
         let toolbar = TinymceManager.getSetting('toolbar');

@@ -61,7 +61,7 @@ class MediasView extends AbstractCollectionView
             siteId: this._siteId,
             success: (foldersTree) => {
                 let template = this._renderTemplate('Media/mediasView', {
-                    language    : Application.getContext().language,
+                    language    : Application.getContext().get('language'),
                     types       : this.mediaTypes,
                     foldersTree : foldersTree,
                     selectionMod: this._selectionMod,

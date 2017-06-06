@@ -18,7 +18,7 @@ class MediaModalView extends ModalView
         super.preinitialize(options);
         this._selectCallback = options.selectCallback;
         this._filterType = options.filterType;
-        this._currentSiteId = Application.getContext().siteId;
+        this._currentSiteId = Application.getContext().get('siteId');
         this._pageLength = 10;
 
         this.events['click #modal-media-choose']  = '_previewMedia';
@@ -174,7 +174,7 @@ class MediaModalView extends ModalView
         this._currentSiteId = $(event.currentTarget).val();
 
         $('.modal-header .upload-popup-mode', this.$el).hide();
-        if (this._currentSiteId == Application.getContext().siteId) {
+        if (this._currentSiteId == Application.getContext().get('siteId')) {
             $('.modal-header .upload-popup-mode', this.$el).show();
         }
 

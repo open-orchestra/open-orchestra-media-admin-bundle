@@ -11,14 +11,15 @@ class AbstractMediaRouter extends OrchestraRouter
      */
     getBreadcrumb() {
         var subMenuItem = [];
-        if (Application.getContext().user.access_section.media) {
+        let user = Application.getContext().get('user');
+        if (user.access_section.media) {
             subMenuItem.push({
                 label: Translator.trans('open_orchestra_media_admin.media.title_list'),
                 link : '#'+Backbone.history.generateUrl('listMedia'),
                 id   : 'navigation-media'
             });
         }
-        if (Application.getContext().user.access_section.media_folder) {
+        if (user.access_section.media_folder) {
             subMenuItem.push({
                 label: Translator.trans('open_orchestra_media_admin.folder.title_list'),
                 link : '#'+Backbone.history.generateUrl('listFolders'),
