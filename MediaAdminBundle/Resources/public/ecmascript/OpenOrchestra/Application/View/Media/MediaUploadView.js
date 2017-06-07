@@ -148,13 +148,13 @@ class MediaUploadView extends OrchestraView
             return;
         }
 
-        $('.flow-drop', this.$el).initialize(() => {
+        $(this.$el).initialize('.flow-drop', () => {
             this._flow.assignDrop($('.flow-drop', this.$el)[0]);
         });
-        $('.flow-browse-folder', this.$el).initialize(() => {
+        $(this.$el).initialize('.flow-browse-folder', () => {
             this._flow.assignBrowse($('.flow-browse-folder', this.$el)[0], true);
         });
-        $('.flow-browse', this.$el).initialize(() => {
+        $(this.$el).initialize('.flow-browse', () => {
             this._flow.assignBrowse($('.flow-browse', this.$el)[0], false, false, {accept: this._allowed_mime_types.join(',')});
         });
 
