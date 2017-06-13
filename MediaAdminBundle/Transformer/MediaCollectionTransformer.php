@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use Doctrine\Common\Cache\ArrayCache;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use OpenOrchestra\Media\Repository\FolderRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,19 +21,17 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $user;
 
     /**
-     * @param ArrayCache                    $arrayCache
      * @param string                        $facadeClass
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param FolderRepositoryInterface     $folderRepository
      */
     public function __construct(
-        ArrayCache $arrayCache,
         $facadeClass,
         AuthorizationCheckerInterface $authorizationChecker,
         FolderRepositoryInterface $folderRepository,
         TokenStorage $tokenStorage
     ) {
-        parent::__construct($arrayCache, $facadeClass, $authorizationChecker);
+        parent::__construct($facadeClass, $authorizationChecker);
         $this->folderRepository = $folderRepository;
         $this->user = $tokenStorage->getToken()->getUser();
     }

@@ -11,7 +11,6 @@ services:
     open_orchestra_api.transformer.media:
         class: '%open_orchestra_api.transformer.media.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.media.class%'
             - '@open_orchestra_media_admin.file_alternatives.manager'
             - '@open_orchestra_backoffice.manager.multi_languages_choice'
@@ -25,7 +24,6 @@ services:
     open_orchestra_api.transformer.media_collection:
         class: '%open_orchestra_api.transformer.media_collection.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.media_collection.class%'
             - '@security.authorization_checker'
             - '@open_orchestra_media.repository.media_folder'
@@ -36,7 +34,6 @@ services:
     open_orchestra_api.transformer.media_type:
         class: '%open_orchestra_api.transformer.media_type.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.media_type.class%'
             - '@security.authorization_checker'
             - '@translator'
@@ -46,7 +43,6 @@ services:
     open_orchestra_api.transformer.media_type_collection:
         class: '%open_orchestra_api.transformer.media_type_collection.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.media_type_collection.class%'
         tags:
             - { name: open_orchestra_api.transformer.strategy}
@@ -54,7 +50,6 @@ services:
     open_orchestra_api.transformer.folder:
         class: '%open_orchestra_api.transformer.folder.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.folder.class%'
             - '@open_orchestra_media.repository.media_folder'
             - '@event_dispatcher'
@@ -66,7 +61,6 @@ services:
     open_orchestra_api.transformer.folder_tree:
         class: '%open_orchestra_api.transformer.folder_tree.class%'
         arguments:
-            - '@doctrine_mongodb.odm.cache.array'
             - '%open_orchestra_media_admin.facade.folder_tree.class%'
             - '%open_orchestra_media_admin.facade.folder.class%'
             - '@security.authorization_checker'

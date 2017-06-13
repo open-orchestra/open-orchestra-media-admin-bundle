@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use Doctrine\Common\Cache\ArrayCache;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractSecurityCheckerAwareTransformer;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -16,18 +15,16 @@ class MediaTypeTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $translator;
 
     /**
-     * @param ArrayCache                    $arrayCache
      * @param string                        $facadeClass
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param TranslatorInterface           $translator
      */
     public function __construct(
-        ArrayCache $arrayCache,
         $facadeClass,
         AuthorizationCheckerInterface $authorizationChecker,
         TranslatorInterface $translator
     ){
-        parent::__construct($arrayCache, $facadeClass, $authorizationChecker);
+        parent::__construct($facadeClass, $authorizationChecker);
         $this->translator = $translator;
     }
 

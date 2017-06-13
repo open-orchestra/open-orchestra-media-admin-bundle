@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use Doctrine\Common\Cache\ArrayCache;
 use OpenOrchestra\MediaAdminBundle\Facade\FolderTreeFacade;
 use OpenOrchestra\BaseApi\Exceptions\HttpException\FacadeClassNotSetException;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
@@ -22,20 +21,18 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $multiLanguageChoiceManager;
 
     /**
-     * @param ArrayCache                           $arrayCache
      * @param string                        $treeFacadeClass
      * @param string                        $folderFacadeClass
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      */
     public function __construct(
-        ArrayCache $arrayCache,
         $treeFacadeClass,
         $folderFacadeClass,
         AuthorizationCheckerInterface $authorizationChecker,
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
     ) {
-        parent::__construct($arrayCache, $treeFacadeClass, $authorizationChecker);
+        parent::__construct($treeFacadeClass, $authorizationChecker);
         $this->folderFacadeClass = $folderFacadeClass;
         $this->multiLanguageChoiceManager = $multiLanguageChoiceManager;
     }

@@ -2,7 +2,6 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
-use Doctrine\Common\Cache\ArrayCache;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use OpenOrchestra\Media\Model\FolderInterface;
@@ -26,7 +25,6 @@ class FolderTransformer extends AbstractTransformer
     protected $multiLanguageChoiceManager;
 
     /**
-     * @param ArrayCache                           $arrayCache
      * @param string                               $facadeClass
      * @param FolderRepositoryInterface            $folderRepository,
      * @param EventDispatcherInterface             $eventDispatcher
@@ -34,14 +32,13 @@ class FolderTransformer extends AbstractTransformer
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
      */
     public function __construct(
-        ArrayCache $arrayCache,
         $facadeClass = null,
         FolderRepositoryInterface $folderRepository,
         EventDispatcherInterface $eventDispatcher,
         FolderEventFactory $folderEventFactory,
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
     ) {
-        parent::__construct($arrayCache, $facadeClass);
+        parent::__construct($facadeClass);
         $this->folderRepository = $folderRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->folderEventFactory = $folderEventFactory;

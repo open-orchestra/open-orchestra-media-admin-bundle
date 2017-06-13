@@ -35,7 +35,6 @@ class FolderTransformerTest extends AbstractBaseTestCase
         $this->multiLanguageChoiceManager = Phake::mock('OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface');
 
         $this->transformer = new FolderTransformer(
-            Phake::mock('Doctrine\Common\Cache\ArrayCache'),
             $this->facadeClass,
             $this->folderRepository,
             $this->eventDispatcher,
