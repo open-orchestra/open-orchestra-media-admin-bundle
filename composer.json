@@ -18,6 +18,7 @@
     "php": "~5.6.0",
     "ext-imagick": "~3.4.1",
     "doctrine/data-fixtures": "~1.2.0",
+    "doctrine/cache": "~1.6.1",
     "flowjs/flow-php-server": "~1.0.0",
     "alav/composer-assets": "~1.0.0",
     "php-ffmpeg/php-ffmpeg": "~0.6.1",

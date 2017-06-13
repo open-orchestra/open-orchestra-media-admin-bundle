@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaAdminBundle\Transformer;
 
+use Doctrine\Common\Cache\ArrayCache;
 use OpenOrchestra\Backoffice\BusinessRules\BusinessRulesManager;
 use OpenOrchestra\Backoffice\BusinessRules\Strategies\BusinessActionInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
@@ -27,6 +28,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $mediaStorageManager;
 
     /**
+     * @param ArrayCache                    $arrayCache
      * @param string                               $facadeClass
      * @param FileAlternativesManager              $fileAlternativesManager
      * @param MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager
@@ -36,6 +38,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
      * @param BusinessRulesManager                 $businessRulesManager
      */
     public function __construct(
+        ArrayCache $arrayCache,
         $facadeClass,
         FileAlternativesManager $fileAlternativesManager,
         MultiLanguagesChoiceManagerInterface $multiLanguageChoiceManager,
@@ -49,7 +52,7 @@ class MediaTransformer extends AbstractSecurityCheckerAwareTransformer
         $this->mediaRepository = $mediaRepository;
         $this->businessRulesManager = $businessRulesManager;
         $this->mediaStorageManager = $mediaStorageManager;
-        parent::__construct($facadeClass, $authorizationChecker);
+        parent::__construct($arrayCache, $facadeClass, $authorizationChecker);
     }
 
     /**

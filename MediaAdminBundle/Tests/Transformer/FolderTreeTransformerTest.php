@@ -39,6 +39,7 @@ class FolderTreeTransformerTest extends AbstractBaseTestCase
 
         $autorizationChecker = Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
         $this->transformer = new FolderTreeTransformer(
+            Phake::mock('Doctrine\Common\Cache\ArrayCache'),
             $this->facadeClass,
             $this->folderFacadeClass,
             $autorizationChecker,
