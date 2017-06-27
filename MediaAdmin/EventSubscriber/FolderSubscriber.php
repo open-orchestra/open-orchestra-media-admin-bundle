@@ -58,7 +58,7 @@ class FolderSubscriber implements EventSubscriberInterface
             $site->getId()
         );
 
-        $folders = $this->folderRepository->findByParentAndSite($parentFolder->getId(), $parentFolder->getSiteId());
+        $folders = $this->folderRepository->findByPathAndSite($parentFolder->getPath(), $parentFolder->getSiteId());
         if (count($folders) > 0) {
             foreach ($folders as $folder) {
                 $oldPath = $folder->getPath();
@@ -67,7 +67,14 @@ class FolderSubscriber implements EventSubscriberInterface
                 $event = $this->folderEventFactory->createFolderEvent();
                 $event->setFolder($folder);
                 $event->setPreviousPath($oldPath);
-                $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+                $this->eventDispatcher->dispatch(FolderEvents::CHILD_PATH_UPDATED, $event);
+
+                $this->groupRepository->updatePerimeterItem(
+                    MediaFolderInterface::ENTITY_TYPE,
+                    $oldPath,
+                    $folder->getPath(),
+                    $site->getId()
+                );
             }
         }
     }

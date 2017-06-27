@@ -98,7 +98,7 @@ class FolderSubscriberTest extends AbstractBaseTestCase
 
         $sons = array($son1, $son2, $son3);
 
-        Phake::when($this->folderRepository)->findByParentAndSite(Phake::anyParameters())->thenReturn($sons);
+        Phake::when($this->folderRepository)->findByPathAndSite(Phake::anyParameters())->thenReturn($sons);
 
         $event = Phake::mock('OpenOrchestra\MediaAdmin\Event\FolderEvent');
         Phake::when($event)->getFolder()->thenReturn($parent);
