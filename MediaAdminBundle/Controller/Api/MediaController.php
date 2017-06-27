@@ -67,8 +67,8 @@ class MediaController extends BaseController
 
         $repository = $this->get('open_orchestra_media.repository.media');
 
-        $facade = $this->get('open_orchestra_api.transformer_manager')->get('media_collection')
-            ->transform($repository->findForPaginate($configuration, $siteId));
+        $facade = $this->get('open_orchestra_api.transformer_manager')
+            ->transform('media_collection', $repository->findForPaginate($configuration, $siteId));
         $facade->recordsTotal = $repository->count($siteId, $type, $foldersId);
         $facade->recordsFiltered = $repository->countWithFilter($configuration, $siteId);
 
@@ -125,7 +125,7 @@ class MediaController extends BaseController
             );
 
         $mediaRepository = $this->get('open_orchestra_media.repository.media');
-        $medias = $this->get('open_orchestra_api.transformer_manager')->get('media_collection')->reverseTransform($facade);
+        $medias = $this->get('open_orchestra_api.transformer_manager')->reverseTransform('media_collection', $facade);
 
         $mediasIds = array();
         foreach ($medias as $media) {
@@ -197,7 +197,7 @@ class MediaController extends BaseController
 
             $saveMediaManager->saveMedia($media);
 
-            return $this->get('open_orchestra_api.transformer_manager')->get('media')->transform($media);
+            return $this->get('open_orchestra_api.transformer_manager')->transform('media', $media);
 
         }
 
@@ -221,7 +221,7 @@ class MediaController extends BaseController
         $mediaCollection = $this->get('open_orchestra_media.repository.media')->findByFolderId($folderId);
 
         return $this->get('open_orchestra_api.transformer_manager')
-            ->get('media_type_collection')->transform($mediaCollection, $folderId);
+            ->transform('media_type_collection', $mediaCollection, $folderId);
     }
 
     /**

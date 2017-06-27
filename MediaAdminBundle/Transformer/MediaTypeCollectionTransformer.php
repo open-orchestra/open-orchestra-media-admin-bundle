@@ -23,7 +23,7 @@ class MediaTypeCollectionTransformer extends AbstractTransformer
 
         foreach ($mixed as $media) {
             if ($media->getMediaType() != "") {
-                $facade->addMediaType($this->getTransformer('media_type')->transform($media, $folderId));
+                $facade->addMediaType($this->getContext()->transform('media_type', $media, $folderId));
             }
         }
 

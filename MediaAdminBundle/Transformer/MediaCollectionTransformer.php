@@ -46,7 +46,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade = $this->newFacade();
 
         foreach ($mixed as $media) {
-            $facade->addMedia($this->getTransformer('media')->transform($media));
+            $facade->addMedia($this->getContext()->transform('media', $media));
         }
 
         $facade->addRight(
@@ -70,7 +70,7 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
         $medias = array();
         $mediasFacade = $facade->getMedias();
         foreach ($mediasFacade as $mediaFacade) {
-            $media = $this->getTransformer('media')->reverseTransform($mediaFacade);
+            $media = $this->getContext()->reverseTransform('media', $mediaFacade);
             if (null !== $media) {
                 $medias[] = $media;
             }
