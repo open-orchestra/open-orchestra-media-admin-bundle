@@ -48,31 +48,46 @@ class FolderSubscriber implements EventSubscriberInterface
      */
     public function updatePath(FolderEvent $event)
     {
-        $parentFolder = $event->getFolder();
-        $site = $this->siteRepository->findOneBySiteId($parentFolder->getSiteId());
+        $folder = $event->getFolder();
+
+        $parentFolder = $folder->getParent();
+        $site = $this->siteRepository->findOneBySiteId($folder->getSiteId());
+
+        $oldPath = $folder->getPath();
+        $newPath = $parentFolder->getPath() . '/' . $folder->getFolderId();
+        $folder->setPath($newPath);
+
+        $event = $this->folderEventFactory->createFolderEvent();
+        $event->setFolder($folder);
+        $event->setPreviousPath($oldPath);
+        $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
 
         $this->groupRepository->updatePerimeterItem(
             MediaFolderInterface::ENTITY_TYPE,
-            $event->getPreviousPath(),
-            $parentFolder->getPath(),
+            $oldPath,
+            $newPath,
             $site->getId()
         );
 
-        $folders = $this->folderRepository->findByPathAndSite($parentFolder->getPath(), $parentFolder->getSiteId());
-        if (count($folders) > 0) {
-            foreach ($folders as $folder) {
-                $oldPath = $folder->getPath();
-                $folder->setPath($parentFolder->getPath() . '/' . $folder->getFolderId());
+        $children = $this->folderRepository->findByPathAndSite($oldPath, $folder->getSiteId());
 
-                $event = $this->folderEventFactory->createFolderEvent();
-                $event->setFolder($folder);
-                $event->setPreviousPath($oldPath);
-                $this->eventDispatcher->dispatch(FolderEvents::CHILD_PATH_UPDATED, $event);
-
+        if (count($children) > 0) {
+            $childrenId = array();
+            foreach ($children as $child) {
+                $childOldPath = $child->getPath();
+                $childFolderId = $child->getFolderId();
+                $child->setPath(str_replace($oldPath, $newPath, $childOldPath));
+                if (!in_array($childFolderId, $childrenId)) {
+                    $childrenId[] = $childFolderId;
+                    $event = $this->folderEventFactory->createFolderEvent();
+                    $event->setFolder($child);
+                    $event->setPreviousPath($childOldPath);
+                    $this->eventDispatcher->dispatch(FolderEvents::PATH_UPDATED, $event);
+                }
                 $this->groupRepository->updatePerimeterItem(
                     MediaFolderInterface::ENTITY_TYPE,
-                    $oldPath,
-                    $folder->getPath(),
+                    $childOldPath,
+                    $child->getPath(),
                     $site->getId()
                 );
             }
@@ -100,7 +115,7 @@ class FolderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FolderEvents::PATH_UPDATED  => 'updatePath',
+            FolderEvents::FOLDER_MOVE  => 'updatePath',
             FolderEvents::FOLDER_DELETE => 'removeFolderFromPerimeter'
         );
     }

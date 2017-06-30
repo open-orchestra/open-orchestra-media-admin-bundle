@@ -63,7 +63,7 @@ class FolderSubscriberTest extends AbstractBaseTestCase
      */
     public function testEventSubscribed()
     {
-        $this->assertArrayHasKey(FolderEvents::PATH_UPDATED, $this->subscriber->getSubscribedEvents());
+        $this->assertArrayHasKey(FolderEvents::FOLDER_MOVE, $this->subscriber->getSubscribedEvents());
         $this->assertArrayHasKey(FolderEvents::FOLDER_DELETE, $this->subscriber->getSubscribedEvents());
     }
 
@@ -89,12 +89,15 @@ class FolderSubscriberTest extends AbstractBaseTestCase
         $son1 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         $folderId1 = 'folderId1';
         Phake::when($son1)->getFolderId()->thenReturn($folderId1);
+        Phake::when($son1)->getPath()->thenReturn($parentPath . '/' . $folderId1);
         $son2 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         $folderId2 = 'folderId2';
         Phake::when($son2)->getFolderId()->thenReturn($folderId2);
+        Phake::when($son2)->getPath()->thenReturn($parentPath . '/' . $folderId2);
         $son3 = Phake::mock('OpenOrchestra\Media\Model\MediaFolderInterface');
         $folderId3 = 'folderId3';
         Phake::when($son3)->getFolderId()->thenReturn($folderId3);
+        Phake::when($son3)->getPath()->thenReturn($parentPath . '/' . $folderId3);
 
         $sons = array($son1, $son2, $son3);
 
@@ -108,16 +111,16 @@ class FolderSubscriberTest extends AbstractBaseTestCase
 
         Phake::verify($this->groupRepository)->updatePerimeterItem(
             MediaFolderInterface::ENTITY_TYPE,
-            $previousPath,
             $parentPath,
+            $grandParentPath . '/' . $parentFolderId,
             $this->siteId
         );
 
-        Phake::verify($son1)->setPath($parentPath . '/' . $folderId1);
-        Phake::verify($son2)->setPath($parentPath . '/' . $folderId2);
-        Phake::verify($son3)->setPath($parentPath . '/' . $folderId3);
+        Phake::verify($son1)->setPath($grandParentPath . '/' . $parentFolderId . '/' . $folderId1);
+        Phake::verify($son2)->setPath($grandParentPath . '/' . $parentFolderId . '/' . $folderId2);
+        Phake::verify($son3)->setPath($grandParentPath . '/' . $parentFolderId . '/' . $folderId3);
 
-        Phake::verify($this->eventDispatcher, Phake::times(3))->dispatch(Phake::anyParameters());
+        Phake::verify($this->eventDispatcher, Phake::times(4))->dispatch(Phake::anyParameters());
     }
 
     public function testRemoveFolderFromPerimeter()
