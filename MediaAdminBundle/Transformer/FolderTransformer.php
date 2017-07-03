@@ -81,7 +81,7 @@ class FolderTransformer extends AbstractTransformer
      */
     public function reverseTransform(FacadeInterface $facade, array $params = null)
     {
-        $source = is_array($params) && array_keys_exists('source', $params) ? $params['source'] : null;
+        $source = is_array($params) && array_key_exists('source', $params) ? $params['source'] : null;
         if ($source instanceof MediaFolderInterface) {
             $parent = $this->folderRepository->findOneById($facade->parentId);
             $source->setParent($parent);
