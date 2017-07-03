@@ -38,10 +38,11 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param ArrayCollection $mixed
+     * @param array|null      $params
      *
      * @return FacadeInterface
      */
-    public function transform($mixed)
+    public function transform($mixed, array $params = null)
     {
         $facade = $this->newFacade();
 
@@ -61,11 +62,11 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param FacadeInterface $facade
-     * @param null $source
+     * @param array|null      $params
      *
      * @return FacadeInterface|null
      */
-    public function reverseTransform(FacadeInterface $facade, $source = null)
+    public function reverseTransform(FacadeInterface $facade, array $params = null)
     {
         $medias = array();
         $mediasFacade = $facade->getMedias();

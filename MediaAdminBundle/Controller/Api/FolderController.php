@@ -87,7 +87,7 @@ class FolderController extends BaseController
         $folder = $this->get('open_orchestra_media.repository.media_folder')->findOneById($facade->id);
         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $folder);
 
-        $this->get('open_orchestra_api.transformer_manager')->reverseTransform('folder', $facade, $folder);
+        $this->get('open_orchestra_api.transformer_manager')->reverseTransform('folder', $facade, array('source' => $folder));
 
         $this->get('object_manager')->flush();
 
