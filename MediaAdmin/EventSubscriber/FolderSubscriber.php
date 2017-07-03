@@ -76,7 +76,7 @@ class FolderSubscriber implements EventSubscriberInterface
             foreach ($children as $child) {
                 $childOldPath = $child->getPath();
                 $childFolderId = $child->getFolderId();
-                $child->setPath(preg_replace('/^' . $oldPath . '\//', $newPath . '/', $childOldPath));
+                $child->setPath(preg_replace('/^' . preg_quote($oldPath) . '\//', $newPath . '/', $childOldPath));
                 if (!in_array($childFolderId, $childrenId)) {
                     $childrenId[] = $childFolderId;
                     $event = $this->folderEventFactory->createFolderEvent();
