@@ -47,13 +47,13 @@ class FolderTransformer extends AbstractTransformer
 
     /**
      * @param FolderInterface $folder
-     * @param array|null      $params
+     * @param array           $params
      *
      * @return FolderFacade
      *
      * @throws TransformerParameterTypeException
      */
-    public function transform($folder, array $params = null)
+    public function transform($folder, array $params = array())
     {
         if (!$folder instanceof FolderInterface) {
             throw new TransformerParameterTypeException();
@@ -75,13 +75,13 @@ class FolderTransformer extends AbstractTransformer
 
     /**
      * @param FacadeInterface $facade
-     * @param array|null      $params
+     * @param array           $params
      *
      * @return mixed
      */
-    public function reverseTransform(FacadeInterface $facade, array $params = null)
+    public function reverseTransform(FacadeInterface $facade, array $params = array())
     {
-        $source = is_array($params) && array_key_exists('source', $params) ? $params['source'] : null;
+        $source = array_key_exists('source', $params) ? $params['source'] : null;
         if ($source instanceof MediaFolderInterface) {
             $parent = $this->folderRepository->findOneById($facade->parentId);
             $source->setParent($parent);

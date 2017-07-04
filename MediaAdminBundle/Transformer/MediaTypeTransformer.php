@@ -30,11 +30,11 @@ class MediaTypeTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param MediaInterface $mixed
-     * @param array|null     $params
+     * @param array          $params
      *
      * @return FacadeInterface
      */
-    public function transform($mixed, array $params = null)
+    public function transform($mixed, array $params = array())
     {
         $facade = $this->newFacade();
 
