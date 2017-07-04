@@ -38,15 +38,16 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param ArrayCollection $mixed
+     * @param array           $params
      *
      * @return FacadeInterface
      */
-    public function transform($mixed)
+    public function transform($mixed, array $params = array())
     {
         $facade = $this->newFacade();
 
         foreach ($mixed as $media) {
-            $facade->addMedia($this->getTransformer('media')->transform($media));
+            $facade->addMedia($this->getContext()->transform('media', $media));
         }
 
         $facade->addRight(
@@ -61,16 +62,16 @@ class MediaCollectionTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param FacadeInterface $facade
-     * @param null $source
+     * @param array           $params
      *
      * @return FacadeInterface|null
      */
-    public function reverseTransform(FacadeInterface $facade, $source = null)
+    public function reverseTransform(FacadeInterface $facade, array $params = array())
     {
         $medias = array();
         $mediasFacade = $facade->getMedias();
         foreach ($mediasFacade as $mediaFacade) {
-            $media = $this->getTransformer('media')->reverseTransform($mediaFacade);
+            $media = $this->getContext()->reverseTransform('media', $mediaFacade);
             if (null !== $media) {
                 $medias[] = $media;
             }

@@ -36,8 +36,7 @@ class MediaLibrarySharingController extends BaseController
         }
         $siteAllowedShare = $this->get('open_orchestra_model.repository.site')->findBySiteIds($siteIdsAllowedShare);
 
-        $collectionTransformer = $this->get('open_orchestra_api.transformer_manager')->get('site_collection');
-        $facade = $collectionTransformer->transform($siteAllowedShare);
+        $facade = $this->get('open_orchestra_api.transformer_manager')->transform('site_collection', $siteAllowedShare);
 
         return $facade;
     }

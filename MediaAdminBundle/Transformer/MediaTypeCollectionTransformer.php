@@ -13,17 +13,17 @@ class MediaTypeCollectionTransformer extends AbstractTransformer
 {
     /**
      * @param ArrayCollection $mixed
-     * @param string|null     $folderId
+     * @param array           $params
      *
      * @return FacadeInterface
      */
-    public function transform($mixed, $folderId = null)
+    public function transform($mixed, array $params = array())
     {
         $facade = $this->newFacade();
 
         foreach ($mixed as $media) {
             if ($media->getMediaType() != "") {
-                $facade->addMediaType($this->getTransformer('media_type')->transform($media, $folderId));
+                $facade->addMediaType($this->getContext()->transform('media_type', $media));
             }
         }
 

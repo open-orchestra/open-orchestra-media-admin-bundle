@@ -39,10 +39,11 @@ class FolderTreeTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param array $folderCollection
+     * @param array $params
      *
      * @return FolderTreeFacade
      */
-    public function transform($folderCollection)
+    public function transform($folderCollection, array $params = array())
     {
         $facade = $this->newFacade();
         $facade->folder = null;

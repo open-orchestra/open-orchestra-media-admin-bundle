@@ -117,7 +117,7 @@ class FolderTransformerTest extends AbstractBaseTestCase
         Phake::when($parentFolder)->getPath()->thenReturn('parentPath');
         Phake::when($this->folderRepository)->findOneById(Phake::anyParameters())->thenReturn($parentFolder);
 
-        $this->transformer->reverseTransform($facade, $source);
+        $this->transformer->reverseTransform($facade, array('source' => $source));
         Phake::verify($source)->setParent($parentFolder);
         Phake::verify($this->eventDispatcher)->dispatch(Phake::anyParameters());
     }
