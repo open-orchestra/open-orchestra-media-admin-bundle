@@ -128,7 +128,8 @@ class MediaBaseType extends AbstractType
     {
         return array(
             'data_class'       => $this->mediaClass,
-            'delete_button'    => false,
+            'delete_button' => false,
+            'enable_delete_button' => false,
             'group_enabled'    => true,
             'group_render'     => $this->groupRender,
             'sub_group_render' => $this->subGroupRender
