@@ -28,6 +28,11 @@
                     <%- Translator.trans('open_orchestra_media_admin.folder.add') %>
                 </a>
             <% } %>
+            <% if (true === folderTree.get('folder').get('rights').can_create_media) {%>
+                <a href="#<%- Backbone.history.generateUrl('filterMedia', {folderId : folderTree.get('folder').get('id')}) %>">
+                    <%- Translator.trans('open_orchestra_media_admin.folder.list_media') %>
+                </a>
+            <% } %>
         </div>
     </div>
     <ul class="children <% if (true === folderTree.get('folder').get('rights').can_edit) {%> sortable-container<% }%>">

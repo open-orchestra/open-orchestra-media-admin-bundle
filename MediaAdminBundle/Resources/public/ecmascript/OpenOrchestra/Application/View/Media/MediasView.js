@@ -11,7 +11,7 @@ class MediasView extends AbstractCollectionView
     /**
      * Constructor
      */
-    constructor ({siteId, filterType, collection, settings, selectionMod}) {
+    constructor ({siteId, filterType, collection, settings, selectionMod, folderId = null}) {
         super({collection: collection, settings: settings});
         let noFilter =  {'': 'open_orchestra_media_admin.media_filter.none'};
         let mediaTypes = Application.getConfiguration().getParameter('media_filter_type');
@@ -22,6 +22,7 @@ class MediasView extends AbstractCollectionView
         }
         this._selectionMod = selectionMod;
         this._siteId = siteId;
+        this._folderId = folderId;
     }
 
     /**
@@ -66,7 +67,8 @@ class MediasView extends AbstractCollectionView
                     foldersTree : foldersTree,
                     selectionMod: this._selectionMod,
                     filterType  : this._filterType,
-                    can_create  : this._collection.rights.can_create
+                    can_create  : this._collection.rights.can_create,
+                    folderId    : this._folderId
                 });
                 this.$el.html(template);
 
@@ -75,7 +77,8 @@ class MediasView extends AbstractCollectionView
                     settings    : this._settings,
                     filterType  : this._filterType,
                     selectionMod: this._selectionMod,
-                    siteId      : this._siteId
+                    siteId      : this._siteId,
+                    folderId    : this._folderId
                 });
                 $('.medias', this.$el).html(this._listView.render().$el);
             }

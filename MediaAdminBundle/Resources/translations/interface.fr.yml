@@ -10,6 +10,7 @@ open_orchestra_media_admin:
         edit      : Editer le dossier
         add       : Ajouter un dossier
         title_list: Dossiers
+        list_media: Lister les media
     select:
         choose     : Choisissez un média
         size       : "Taille :"

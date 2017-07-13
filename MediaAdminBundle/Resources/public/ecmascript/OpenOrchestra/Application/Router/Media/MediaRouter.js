@@ -18,10 +18,11 @@ class MediaRouter extends AbstractMediaRouter
     preinitialize(options) {
         this.routes = {
             'media/list(/:page)'            : 'listMedia',
+            'media/filter(/:folderId)'      : 'filterMedia',
             'media/new'                     : 'newMedia',
             'media/edit/:mediaType/:mediaId': 'editMedia',
         };
-
+        this.pageLength = 10;
         Application.getConfiguration().addParameter('mediaViews', {'image': MediaImageFormView});
     }
 
@@ -46,6 +47,47 @@ class MediaRouter extends AbstractMediaRouter
     /**
      *  List Media
      *
+     * @param {string} folderId
+     */
+    filterMedia(folderId) {
+        this._displayLoader(Application.getRegion('content'));
+        new Medias().fetch({
+            urlParameter: {
+                siteId: Application.getContext().get('siteId')
+            },
+            data : {
+                start: 0,
+                length: this.pageLength,
+                order: {
+                    name: 'updated_at',
+                    dir: 'desc'
+                },
+                search: {
+                    folderId: folderId
+                }
+            },
+            success: (medias) => {
+                let mediasView = new MediasView({
+                    collection: medias,
+                    settings: {
+                        page: 0,
+                        deferLoading: [medias.recordsFiltered, medias.recordsFiltered],
+                        data: medias.models,
+                        pageLength: this.pageLength
+                    },
+                    selectionMod: false,
+                    siteId: Application.getContext().get('siteId'),
+                    folderId: folderId
+                });
+                let el = mediasView.render().$el;
+                Application.getRegion('content').html(el);
+            }
+        });
+    }
+
+    /**
+     *  List Media
+     *
      * @param {String} page
      */
     listMedia(page) {
@@ -53,17 +95,16 @@ class MediaRouter extends AbstractMediaRouter
             page = 1
         }
         this._displayLoader(Application.getRegion('content'));
-        let pageLength = 10;
         page = Number(page) - 1;
         new Medias().fetch({
             urlParameter: {
                 siteId: Application.getContext().get('siteId')
             },
             data : {
-                start: page * pageLength,
-                length: pageLength,
+                start: page * this.pageLength,
+                length: this.pageLength,
                 order: {
-                    name :'updated_at',
+                    name: 'updated_at',
                     dir: 'desc'
                 }
             },
@@ -74,7 +115,7 @@ class MediaRouter extends AbstractMediaRouter
                         page: page,
                         deferLoading: [medias.recordsTotal, medias.recordsFiltered],
                         data: medias.models,
-                        pageLength: pageLength
+                        pageLength: this.pageLength
                     },
                     selectionMod: false,
                     siteId: Application.getContext().get('siteId')
