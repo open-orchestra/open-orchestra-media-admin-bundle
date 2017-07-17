@@ -114,7 +114,8 @@ class MediaImageTypeTest extends AbstractBaseTestCase
 
         Phake::verify($resolverMock)->setDefaults(array(
             'data_class'       => $this->mediaClass,
-            'delete_button'    => false,
+            'delete_button' => false,
+            'enable_delete_button' => false,
             'group_enabled'    => true,
             'group_render'     => array(
                 'information' => array(

@@ -1,10 +1,7 @@
 import AbstractFormView     from '../../../Service/Form/View/AbstractFormView'
-import Application          from '../../Application'
 import Media                from '../../Model/Media/Media'
 import FormViewButtonsMixin from '../../../Service/Form/Mixin/FormViewButtonsMixin'
 import ApplicationError     from '../../../Service/Error/ApplicationError'
-import FlashMessageBag      from '../../../Service/FlashMessage/FlashMessageBag'
-import FlashMessage         from '../../../Service/FlashMessage/FlashMessage'
 
 /**
  * @class MediaFormView
@@ -42,6 +39,22 @@ class MediaFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
         super.render();
 
         return this;
+    }
+
+    /**
+     * Delete
+     */
+    _deleteElement() {
+        if (null === this._mediaId) {
+            throw new ApplicationError('Invalid mediaId');
+        }
+        let media = new Media({'id': this._mediaId});
+        media.destroy({
+            success: () => {
+                let url = Backbone.history.generateUrl('listMedia');
+                Backbone.history.navigate(url, true);
+            }
+        });
     }
 }
 

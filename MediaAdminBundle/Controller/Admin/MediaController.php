@@ -34,7 +34,9 @@ class MediaController extends AbstractAdminController
         $form = $this->createForm($formTypeAlias, $media, array(
             'action' => $this->generateUrl('open_orchestra_media_admin_media_form', array(
                 'mediaId' => $mediaId,
-            ))
+            )),
+            'enable_delete_button' => $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(ContributionActionInterface::DELETE, $media),
+            'delete_button' => $this->isGranted(ContributionActionInterface::DELETE, $media)
         ));
 
         $form->handleRequest($request);
