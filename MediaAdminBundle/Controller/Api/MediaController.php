@@ -154,7 +154,10 @@ class MediaController extends BaseController
         $media = $this->get('open_orchestra_media.repository.media')->find($mediaId);
         $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $media);
 
-        if ($media instanceof MediaInterface && $this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $media)) {
+        if ($media instanceof MediaInterface) {
+            if (!$this->get('open_orchestra_backoffice.business_rules_manager')->isGranted(BusinessActionInterface::DELETE, $media)) {
+                throw new MediaNotDeletableException();
+            }
             $documentManager = $this->get('object_manager');
             $documentManager->remove($media);
             $documentManager->flush();
