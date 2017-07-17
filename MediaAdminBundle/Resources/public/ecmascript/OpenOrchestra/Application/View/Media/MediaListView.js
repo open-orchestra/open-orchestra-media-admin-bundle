@@ -79,7 +79,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
     _drawCallback(settings)
     {
         if (null != this._folderId) {
-            this.$table.data('filter', {folderId: this._folderId});
         }
         let context = this;
         let $mediaList = $('<div></div>').addClass('well').data('context', this);
