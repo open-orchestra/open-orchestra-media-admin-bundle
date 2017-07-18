@@ -78,8 +78,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      */
     _drawCallback(settings)
     {
-        if (null != this._folderId) {
-        }
         let context = this;
         let $mediaList = $('<div></div>').addClass('well').data('context', this);
         let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
@@ -101,6 +99,10 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             order: order
         }));
         this._updatePage({target: this.$table});
+        if (null != this._folderId) {
+            this.filter({folderId: this._folderId});
+            this._folderId = null;
+        }
     }
 
     /**
