@@ -1,6 +1,6 @@
-import Application              from '../../../../Application/Application'
-import MediaModalView           from '../../../MediaModal/View/MediaModalView'
-import BBcodeTransformerManager from '../OrchestraBBCode/BBcodeTransformerManager'
+import Application              from 'OpenOrchestra/Application/Application'
+import MediaModalView           from 'OpenOrchestra/Service/MediaModal/View/MediaModalView'
+import BBcodeTransformerManager from 'OpenOrchestra/Service/Tinymce/Plugins/OrchestraBBCode/BBcodeTransformerManager'
 
 /**
  * @class MediaPlugin

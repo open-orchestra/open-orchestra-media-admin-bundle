@@ -1,10 +1,10 @@
-import ModalView              from '../../../Service/Modal/View/ModalView'
-import Medias                 from '../../../Application/Collection/Media/Medias'
-import SitesShareMediaLibrary from '../../../Application/Collection/Site/SitesShareMediaLibrary'
-import Application            from '../../../Application/Application'
-import MediasView             from '../../../Application/View/Media/MediasView'
-import MediaUploadView        from '../../../Application/View/Media/MediaUploadView'
-import DateFormatter          from '../../../Service/DataFormatter/DateFormatter'
+import ModalView              from 'OpenOrchestra/Service/Modal/View/ModalView'
+import Medias                 from 'OpenOrchestra/Application/Collection/Media/Medias'
+import SitesShareMediaLibrary from 'OpenOrchestra/Application/Collection/Site/SitesShareMediaLibrary'
+import Application            from 'OpenOrchestra/Application/Application'
+import MediasView             from 'OpenOrchestra/Application/View/Media/MediasView'
+import MediaUploadView        from 'OpenOrchestra/Application/View/Media/MediaUploadView'
+import DateFormatter          from 'OpenOrchestra/Service/DataFormatter/DateFormatter'
 
 /**
  * @class MediaModalView

@@ -1,7 +1,7 @@
-import AbstractCollectionView from '../../../Service/DataTable/View/AbstractCollectionView'
-import MediaListView          from '../../View/Media/MediaListView'
-import Application            from '../../Application'
-import FoldersTree            from '../../Collection/Folder/FoldersTree'
+import AbstractCollectionView from 'OpenOrchestra/Service/DataTable/View/AbstractCollectionView'
+import MediaListView          from 'OpenOrchestra/Application/View/Media/MediaListView'
+import Application            from 'OpenOrchestra/Application/Application'
+import FoldersTree            from 'OpenOrchestra/Application/Collection/Folder/FoldersTree'
 
 /**
  * @class MediasView

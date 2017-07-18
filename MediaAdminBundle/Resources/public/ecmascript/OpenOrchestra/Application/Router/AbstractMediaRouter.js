@@ -1,5 +1,5 @@
-import OrchestraRouter from './OrchestraRouter'
-import Application     from '../../Application/Application'
+import OrchestraRouter from 'OpenOrchestra/Application/Router/OrchestraRouter'
+import Application     from 'OpenOrchestra/Application/Application'
 
 /**
  * @class AbstractMediaRouter
