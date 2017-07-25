@@ -105,6 +105,7 @@ class MediaModalView extends ModalView
         let el = mediasView.render().$el;
 
         $('.modal-title', this.$el).html(Translator.trans('open_orchestra_media_admin.select.choose'));
+        $('.modal-header .upload-popup-mode', this.$el).show();
         $('.modal-body', this.$el).html(el);
         $('.modal-footer', this.$el).html('').hide();
     }
@@ -191,6 +192,7 @@ class MediaModalView extends ModalView
         $('.modal-body', this.$el).html(mediaUploadView.render().$el);
         $('.modal-footer', this.$el).html(mediaUploadView.mediaUploadActionView.render().$el).show();
         $('.modal-header h4', this.$el).html(Translator.trans('open_orchestra_media_admin.media.add'));
+        $('.modal-header .upload-popup-mode', this.$el).hide();
         Backbone.Events.on('media:uploaded', $.proxy(this._createPreviewMedia, this));
     }
 }
