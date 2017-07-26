@@ -108,6 +108,7 @@ class MediaBaseType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['delete_button'] = $options['delete_button'];
+        $view->vars['enable_delete_button'] = $options['enable_delete_button'];
         $view->vars['new_button'] = false;
     }
 
