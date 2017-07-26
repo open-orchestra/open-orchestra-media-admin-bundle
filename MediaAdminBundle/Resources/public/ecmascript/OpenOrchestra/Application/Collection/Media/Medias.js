@@ -1,5 +1,5 @@
-import DataTableCollection from '../../../Service/DataTable/Collection/DataTableCollection'
-import Media               from '../../Model/Media/Media'
+import DataTableCollection from 'OpenOrchestra/Service/DataTable/Collection/DataTableCollection'
+import Media               from 'OpenOrchestra/Application/Model/Media/Media'
 
 /**
  * @class Medias

@@ -1,7 +1,7 @@
-import AbstractFormView     from '../../../Service/Form/View/AbstractFormView'
-import Media                from '../../Model/Media/Media'
-import FormViewButtonsMixin from '../../../Service/Form/Mixin/FormViewButtonsMixin'
-import ApplicationError     from '../../../Service/Error/ApplicationError'
+import AbstractFormView     from 'OpenOrchestra/Service/Form/View/AbstractFormView'
+import Media                from 'OpenOrchestra/Application/Model/Media/Media'
+import FormViewButtonsMixin from 'OpenOrchestra/Service/Form/Mixin/FormViewButtonsMixin'
+import ApplicationError     from 'OpenOrchestra/Service/Error/ApplicationError'
 
 /**
  * @class MediaFormView

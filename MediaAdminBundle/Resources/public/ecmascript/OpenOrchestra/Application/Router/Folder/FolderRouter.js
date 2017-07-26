@@ -1,9 +1,9 @@
-import AbstractMediaRouter from '../AbstractMediaRouter'
-import Application         from '../../Application'
-import FoldersTree         from '../../Collection/Folder/FoldersTree'
-import FoldersTreeView     from '../../View/Folder/FoldersTreeView'
-import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
-import FolderFormView      from '../../View/Folder/FolderFormView'
+import AbstractMediaRouter from 'OpenOrchestra/Application/Router/AbstractMediaRouter'
+import Application         from 'OpenOrchestra/Application/Application'
+import FoldersTree         from 'OpenOrchestra/Application/Collection//Folder/FoldersTree'
+import FoldersTreeView     from 'OpenOrchestra/Application/View/Folder/FoldersTreeView'
+import FormBuilder         from 'OpenOrchestra/Service/Form/Model/FormBuilder'
+import FolderFormView      from 'OpenOrchestra/Application/View/Folder/FolderFormView'
 
 /**
  * @class MediaRouter

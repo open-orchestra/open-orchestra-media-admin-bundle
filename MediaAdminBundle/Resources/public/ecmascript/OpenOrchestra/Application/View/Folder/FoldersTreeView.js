@@ -1,6 +1,6 @@
-import AbstractTreeView from '../Tree/AbstractTreeView'
-import Folder           from '../../Model/Folder/Folder'
-import ApplicationError from '../../../Service/Error/ApplicationError'
+import AbstractTreeView from 'OpenOrchestra/Application/View/Tree/AbstractTreeView'
+import Folder           from 'OpenOrchestra/Application/Model/Folder/Folder'
+import ApplicationError from 'OpenOrchestra/Service/Error/ApplicationError'
 
 /**
  * @class FoldersTreeView

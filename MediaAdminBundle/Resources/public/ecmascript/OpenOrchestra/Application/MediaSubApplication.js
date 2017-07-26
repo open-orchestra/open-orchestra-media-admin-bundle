@@ -1,9 +1,9 @@
-import MediaRouter         from './Router/Media/MediaRouter'
-import FolderRouter        from './Router/Folder/FolderRouter'
-import FormBehaviorManager from '../Service/Form/Behavior/Manager'
-import MediaChoice         from '../Service/Form/Behavior/MediaChoice'
-import Application         from '../Application/Application'
-import TinymceManager      from '../Service/Tinymce/TinymceManager'
+import MediaRouter         from 'OpenOrchestra/Application/Router/Media/MediaRouter'
+import FolderRouter        from 'OpenOrchestra/Application/Router/Folder/FolderRouter'
+import FormBehaviorManager from 'OpenOrchestra/Service/Form/Behavior/Manager'
+import MediaChoice         from 'OpenOrchestra/Service/Form/Behavior/MediaChoice'
+import Application         from 'OpenOrchestra/Application/Application'
+import TinymceManager      from 'OpenOrchestra/Service/Tinymce/TinymceManager'
 
 /**
  * @class MediaSubApplication

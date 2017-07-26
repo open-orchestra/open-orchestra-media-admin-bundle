@@ -1,9 +1,9 @@
-import OrchestraView         from '../OrchestraView'
-import Application           from '../../Application'
-import FoldersTree           from '../../Collection/Folder/FoldersTree'
-import ApplicationError      from '../../../Service/Error/ApplicationError'
-import Media                 from '../../Model/Media/Media'
-import MediaUploadActionView from './MediaUploadActionView'
+import OrchestraView         from 'OpenOrchestra/Application/View/OrchestraView'
+import Application           from 'OpenOrchestra/Application/Application'
+import FoldersTree           from 'OpenOrchestra/Application/Collection/Folder/FoldersTree'
+import ApplicationError      from 'OpenOrchestra/Service/Error/ApplicationError'
+import Media                 from 'OpenOrchestra/Application/Model/Media/Media'
+import MediaUploadActionView from 'OpenOrchestra/Application/View/Media/MediaUploadActionView'
 
 /**
  * @class MediaUploadView

@@ -1,6 +1,6 @@
-import AbstractBehavior from './AbstractBehavior'
-import MediaModalView   from '../../MediaModal/View/MediaModalView'
-import Application      from '../../../Application/Application'
+import AbstractBehavior from 'OpenOrchestra/Service/Form/Behavior/AbstractBehavior'
+import MediaModalView   from 'OpenOrchestra/Service/MediaModal/View/MediaModalView'
+import Application      from 'OpenOrchestra/Application/Application'
 
 /**
  * @class MediaChoice

@@ -1,11 +1,11 @@
-import AbstractMediaRouter   from '../AbstractMediaRouter'
-import Medias                from '../../Collection/Media/Medias'
-import MediasView            from '../../View/Media/MediasView'
-import MediaFormView         from '../../View/Media/MediaFormView'
-import MediaImageFormView    from '../../View/Media/MediaImageFormView'
-import MediaUploadView       from '../../View/Media/MediaUploadView'
-import Application           from '../../Application'
-import FormBuilder           from '../../../Service/Form/Model/FormBuilder'
+import AbstractMediaRouter   from 'OpenOrchestra/Application/Router/AbstractMediaRouter'
+import Medias                from 'OpenOrchestra/Application/Collection/Media/Medias'
+import MediasView            from 'OpenOrchestra/Application/View/Media/MediasView'
+import MediaFormView         from 'OpenOrchestra/Application/View/Media/MediaFormView'
+import MediaImageFormView    from 'OpenOrchestra/Application/View/Media/MediaImageFormView'
+import MediaUploadView       from 'OpenOrchestra/Application/View/Media/MediaUploadView'
+import Application           from 'OpenOrchestra/Application/Application'
+import FormBuilder           from 'OpenOrchestra/Service/Form/Model/FormBuilder'
 
 /**
  * @class MediaRouter

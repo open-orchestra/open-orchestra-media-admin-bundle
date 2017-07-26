@@ -1,4 +1,4 @@
-import MediaFormView    from './MediaFormView'
+import MediaFormView    from 'OpenOrchestra/Application/View/Media/MediaFormView'
 
 /**
  * @class MediaImageFormView
