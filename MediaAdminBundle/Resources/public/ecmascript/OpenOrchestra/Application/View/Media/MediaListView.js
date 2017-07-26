@@ -21,7 +21,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      *
      * @param {Object} options
      */
-    constructor({filterType, selectionMod, siteId, collection, settings}) {
+    constructor({filterType, selectionMod, siteId, collection, settings, folderId}) {
         settings.initComplete = () => {
             this._interval = setInterval($.proxy(this._refreshList, this), 5000);
         };
@@ -29,6 +29,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         this._filterType = filterType;
         this._selectionMod = selectionMod;
         this._siteId = siteId;
+        this._folderId = folderId;
         this._maxRefresh = 5;
         this._countRefresh = 0;
     }
@@ -81,7 +82,6 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
         let $mediaList = $('<div></div>').addClass('well').data('context', this);
         let templateFile = (context._selectionMod) ? 'Media/Modal/mediaSelectCellView' : 'Media/mediaListCellView';
         let order = typeof settings.aaSorting != 'undefined' && settings.aaSorting.length > 0 ? settings.aaSorting[0] : [undefined, undefined];
-
         if (context._selectionMod) {
             this._collection.each(function(media) {
                 $mediaList.append(context._renderTemplate(templateFile, {media: media}));
@@ -99,6 +99,10 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
             order: order
         }));
         this._updatePage({target: this.$table});
+        if (null != this._folderId) {
+            this.filter({folderId: this._folderId});
+            this._folderId = null;
+        }
     }
 
     /**
@@ -133,7 +137,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      * @inheritDoc
      */
     generateUrlUpdatePage(page) {
-       return Backbone.history.generateUrl('listMedia', {page : page});
+       return Backbone.history.generateUrl('listMedia', {page: page});
     }
 
     /**

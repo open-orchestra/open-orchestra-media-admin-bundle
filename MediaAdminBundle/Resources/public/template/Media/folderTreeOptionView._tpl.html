@@ -1,7 +1,10 @@
-<option value="<%- tree.get('folder').id %>" <% if (false === selectionMod && false === tree.get('folder').get('rights').can_create_media) {%> disabled="disabled"<% }%>>
+<option value="<%- tree.get('folder').id %>"
+    <% if (false === selectionMod && false === tree.get('folder').get('rights').can_create_media) {%> disabled="disabled"<% }%>
+    <% if (folderId === tree.get('folder').get('id')) {%> selected="selected"<% }%>
+>
     <% for (i = 0; i < depth; i++) { %>&nbsp;&nbsp;<% }; %><%= tree.get('folder').get('name') %>
 </option>
 
 <% _.each(tree.get('children'), function(child) { %>
-    <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: depth +1, renderTemplate: renderTemplate, selectionMod: selectionMod}) %>
+    <%= renderTemplate('Media/folderTreeOptionView', {tree: child, depth: depth +1, renderTemplate: renderTemplate, selectionMod: selectionMod, folderId: folderId}) %>
 <% }); %>
