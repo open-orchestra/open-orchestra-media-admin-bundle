@@ -26,11 +26,13 @@ class ImageStrategy implements MediaFormStrategyInterface
     public function __construct(
         FileAlternativesStrategyInterface $imageAlternativeStrategy,
         ObjectManager $objectManager,
-        $tmpDir
+        $tmpDir,
+        array $thumbnailConfig
     ){
         $this->imageAlternativeStrategy = $imageAlternativeStrategy;
         $this->objectManager = $objectManager;
         $this->tmpDir = $tmpDir;
+        $this->thumbnailConfig = $thumbnailConfig;
     }
 
     /**
@@ -72,19 +74,19 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function cropAlternative(FormInterface $form)
     {
-        $x = $form->get('x')->getData();
-        $y = $form->get('y')->getData();
-        $h = $form->get('h')->getData();
-        $w = $form->get('w')->getData();
-        $format = $form->get('format')->getData();
+        foreach ($this->thumbnailConfig as $format => $parameters) {
+            $x = $form->get('coordinates')->get($format)->get('x')->getData();
+            $y = $form->get('coordinates')->get($format)->get('y')->getData();
+            $h = $form->get('coordinates')->get($format)->get('h')->getData();
+            $w = $form->get('coordinates')->get($format)->get('w')->getData();
+            if (null !== $x && null !== $y && null !== $h && null !== $w) {
+                $media = $form->getData();
 
-        if (null !== $x && null !== $y && null !== $h && null !== $w && null !== $format) {
-            $media = $form->getData();
+                $this->imageAlternativeStrategy->cropAlternative($media, $x, $y, $h, $w, $format);
 
-            $this->imageAlternativeStrategy->cropAlternative($media, $x, $y, $h, $w, $format);
-
-            $this->objectManager->persist($media);
-            $this->objectManager->flush();
+                $this->objectManager->persist($media);
+                $this->objectManager->flush();
+            }
         }
     }
 
@@ -95,20 +97,20 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function overrideAlternative(FormInterface $form)
     {
-        $file = $form->get('file')->getData();
-        $format = $form->get('format')->getData();
+        foreach ($this->thumbnailConfig as $format => $parameters) {
+            $file = $form->get('files')->get($format)->get('file')->getData();
+            if (null !== $file) {
+                $media = $form->getData();
 
-        if (null !== $file && null !== $format) {
-            $media = $form->getData();
+                $tmpFileName = time() . '-' . $file->getClientOriginalName();
+                $file->move($this->tmpDir, $tmpFileName);
+                $tmpFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
 
-            $tmpFileName = time() . '-' . $file->getClientOriginalName();
-            $file->move($this->tmpDir, $tmpFileName);
-            $tmpFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
+                $this->imageAlternativeStrategy->overrideAlternative($media, $tmpFilePath, $format);
 
-            $this->imageAlternativeStrategy->overrideAlternative($media, $tmpFilePath, $format);
-
-            $this->objectManager->persist($media);
-            $this->objectManager->flush();
+                $this->objectManager->persist($media);
+                $this->objectManager->flush();
+            }
         }
     }
 

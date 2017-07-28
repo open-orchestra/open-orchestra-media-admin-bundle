@@ -19,6 +19,7 @@ class ImageStrategyTest extends AbstractBaseTestCase
     protected $strategy;
     protected $alternativeStrategy;
     protected $objectManager;
+    protected $thumbnailConfig = array('format1' => 'params1');
 
     /**
      * Set up the test
@@ -29,7 +30,7 @@ class ImageStrategyTest extends AbstractBaseTestCase
         $this->objectManager = Phake::mock('Doctrine\Common\Persistence\ObjectManager');
         $tmpDir = 'phakeDire';
 
-        $this->strategy = new MediaFormImageStrategy($this->alternativeStrategy, $this->objectManager, $tmpDir);
+        $this->strategy = new MediaFormImageStrategy($this->alternativeStrategy, $this->objectManager, $tmpDir, $this->thumbnailConfig);
     }
 
     /**
@@ -84,18 +85,20 @@ class ImageStrategyTest extends AbstractBaseTestCase
         $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         $form = Phake::mock('Symfony\Component\Form\FormInterface');
         Phake::when($form)->getData()->thenReturn($media);
+        Phake::when($form)->get('coordinates')->thenReturn($form);
+        Phake::when($form)->get('files')->thenReturn($form);
+        Phake::when($form)->get('format1')->thenReturn($form);
 
         $this->addChildForm($form, 'x', $crop['x']);
         $this->addChildForm($form, 'y', $crop['y']);
         $this->addChildForm($form, 'h', $crop['h']);
         $this->addChildForm($form, 'w', $crop['w']);
-        $this->addChildForm($form, 'format', 'fakeFormat');
         $this->addChildForm($form, 'file', $file);
 
         $this->strategy->runAdditionalProcess($media, $form);
 
         Phake::verify($this->alternativeStrategy, Phake::times($cropCount))
-            ->cropAlternative($media, $crop['x'], $crop['y'], $crop['h'], $crop['w'], 'fakeFormat');
+            ->cropAlternative($media, $crop['x'], $crop['y'], $crop['h'], $crop['w'], 'format1');
         Phake::verify($this->objectManager, Phake::times($cropCount + $overrideCount))->persist($media);
         Phake::verify($this->objectManager, Phake::times($cropCount + $overrideCount))->flush();
     }
@@ -115,12 +118,14 @@ class ImageStrategyTest extends AbstractBaseTestCase
         $media = Phake::mock('OpenOrchestra\Media\Model\MediaInterface');
         $form = Phake::mock('Symfony\Component\Form\FormInterface');
         Phake::when($form)->getData()->thenReturn($media);
+        Phake::when($form)->get('coordinates')->thenReturn($form);
+        Phake::when($form)->get('files')->thenReturn($form);
+        Phake::when($form)->get('format1')->thenReturn($form);
 
         $this->addChildForm($form, 'x', $crop['x']);
         $this->addChildForm($form, 'y', $crop['y']);
         $this->addChildForm($form, 'h', $crop['h']);
         $this->addChildForm($form, 'w', $crop['w']);
-        $this->addChildForm($form, 'format', 'fakeFormat');
         $this->addChildForm($form, 'file', $file);
 
         $this->strategy->runAdditionalProcess($media, $form);
