@@ -74,6 +74,7 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function cropAlternative(FormInterface $form)
     {
+        $needFlush = false;
         foreach ($this->thumbnailConfig as $format => $parameters) {
             $x = $form->get('coordinates')->get($format)->get('x')->getData();
             $y = $form->get('coordinates')->get($format)->get('y')->getData();
@@ -81,12 +82,13 @@ class ImageStrategy implements MediaFormStrategyInterface
             $w = $form->get('coordinates')->get($format)->get('w')->getData();
             if (null !== $x && null !== $y && null !== $h && null !== $w) {
                 $media = $form->getData();
-
                 $this->imageAlternativeStrategy->cropAlternative($media, $x, $y, $h, $w, $format);
-
                 $this->objectManager->persist($media);
-                $this->objectManager->flush();
+                $needFlush = true;
             }
+        }
+        if ($needFlush) {
+            $this->objectManager->flush();
         }
     }
 
@@ -97,20 +99,21 @@ class ImageStrategy implements MediaFormStrategyInterface
      */
     protected function overrideAlternative(FormInterface $form)
     {
+        $needFlush = false;
         foreach ($this->thumbnailConfig as $format => $parameters) {
             $file = $form->get('files')->get($format)->get('file')->getData();
             if (null !== $file) {
                 $media = $form->getData();
-
                 $tmpFileName = time() . '-' . $file->getClientOriginalName();
                 $file->move($this->tmpDir, $tmpFileName);
                 $tmpFilePath = $this->tmpDir . DIRECTORY_SEPARATOR . $tmpFileName;
-
                 $this->imageAlternativeStrategy->overrideAlternative($media, $tmpFilePath, $format);
-
-                $this->objectManager->persist($media);
-                $this->objectManager->flush();
+               $this->objectManager->persist($media);
+                $needFlush = true;
             }
+        }
+        if ($needFlush) {
+            $this->objectManager->flush();
         }
     }
 
