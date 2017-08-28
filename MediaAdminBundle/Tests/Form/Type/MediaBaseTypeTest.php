@@ -56,7 +56,8 @@ class MediaBaseTypeTest extends AbstractBaseTestCase
         $formInterface = Phake::mock('Symfony\Component\Form\FormInterface');
         $formView = Phake::mock('Symfony\Component\Form\FormView');
         $options = array(
-            'delete_button' => 'fakeValue'
+            'delete_button' => 'fakeValue',
+            'enable_delete_button' => 'fakeValue',
         );
 
         $this->form->buildView($formView, $formInterface, $options);
