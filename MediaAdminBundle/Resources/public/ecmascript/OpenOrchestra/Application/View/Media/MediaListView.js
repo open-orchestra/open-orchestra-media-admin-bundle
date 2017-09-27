@@ -137,7 +137,7 @@ class MediaListView extends mix(AbstractDataTableView).with(UrlPaginateViewMixin
      * @inheritDoc
      */
     generateUrlUpdatePage(page) {
-       return Backbone.history.generateUrl('listMedia', {page: page});
+        return this._selectionMod ? Backbone.history.getFragment() : Backbone.history.generateUrl('listMedia', {page : page});
     }
 
     /**
