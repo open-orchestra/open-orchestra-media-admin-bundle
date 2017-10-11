@@ -11,9 +11,11 @@ class MediaImageFormView extends MediaFormView
     preinitialize(options) {
         super.preinitialize();
 
-        this.events['change select#oo_media_image_format'] = '_selectAlternative';
-        this.events['click a#crop_action_button']          = '_setupCrop';
-        this.events['click a#upload_action_button']        = '_setupOverride';
+        this.events['change select#oo_media_image_format']          = '_selectAlternative';
+        this.events['click a#crop_action_button']                   = '_setupCrop';
+        this.events['click a#upload_action_button']                 = '_setupOverride';
+        this.events['change [name^="oo_media_image[coordinates]"]'] = '_refreshCrop';
+        this.events['keyup [name^="oo_media_image[coordinates]"]']  = '_refreshCrop';
 
         this._template = 'Media/mediaImageFormView';
         this._cropParam = [];
@@ -42,6 +44,7 @@ class MediaImageFormView extends MediaFormView
      * @private
      */
     _onRenderEnd() {
+        this._hideCropTool();
         this._hideOverrideTool();
     }
 
@@ -50,11 +53,12 @@ class MediaImageFormView extends MediaFormView
      * @private
      */
     _selectAlternative(event) {
+        this._format = $('#oo_media_image_format', this.$el).val();
         this._hideCropTool();
         this._hideOverrideTool();
         this._hideAlternatives();
         this._destroyCropApi();
-        this._showPreview($('#oo_media_image_format', this.$el).val());
+        this._showPreview(this._format);
     }
 
     /**
@@ -113,6 +117,9 @@ class MediaImageFormView extends MediaFormView
                 viewContext._cropParam['boundy'] = bounds[1];
                 viewContext._cropParam['jcrop_api'] = this;
                 viewContext._cropParam['$preview'].appendTo(this.ui.holder);
+                viewContext._jcrop_api = this;
+                this.viewContext = viewContext;
+                viewContext._refreshCrop();
 
                 return;
             }
@@ -129,6 +136,26 @@ class MediaImageFormView extends MediaFormView
         event.preventDefault();
         this._hideCropTool();
         this._showOverrideTool();
+    }
+
+    /**
+     * refresh crop
+     * @private
+     */
+    _refreshCrop() {
+        let x = $('#oo_media_image_coordinates_' + this._format + '_x', this.$el).val();
+        let y = $('#oo_media_image_coordinates_' + this._format + '_y', this.$el).val();
+        let w = $('#oo_media_image_coordinates_' + this._format + '_w', this.$el).val();
+        let h = $('#oo_media_image_coordinates_' + this._format + '_h', this.$el).val();
+
+        if (x !== '' && y !== '' && w !==  '' && h !== '') {
+            this._jcrop_api.setSelect([
+                parseInt(x),
+                parseInt(y),
+                parseInt(x) + parseInt(w),
+                parseInt(y) + parseInt(h),
+            ]);
+        }
     }
 
     /**
@@ -149,10 +176,10 @@ class MediaImageFormView extends MediaFormView
      * @private
      */
     _updateCoords(selectedBox) {
-        $('#oo_media_image_x', this.$el).val(selectedBox.x);
-        $('#oo_media_image_y', this.$el).val(selectedBox.y);
-        $('#oo_media_image_w', this.$el).val(selectedBox.w);
-        $('#oo_media_image_h', this.$el).val(selectedBox.h);
+        $('#oo_media_image_coordinates_' + this.viewContext._format + '_x', this.$el).val(parseInt(selectedBox.x));
+        $('#oo_media_image_coordinates_' + this.viewContext._format + '_y', this.$el).val(parseInt(selectedBox.y));
+        $('#oo_media_image_coordinates_' + this.viewContext._format + '_w', this.$el).val(parseInt(selectedBox.w));
+        $('#oo_media_image_coordinates_' + this.viewContext._format + '_h', this.$el).val(parseInt(selectedBox.h));
     }
 
     /**
@@ -162,6 +189,9 @@ class MediaImageFormView extends MediaFormView
      */
     _showCropTool() {
         $('#crop-group', this.$el).show();
+        $('#oo_media_image_coordinates > .form-group', this.$el).hide();
+        $('#oo_media_image_coordinates_' + this._format, this.$el).closest('.form-group').show();
+        $('#oo_media_image_coordinates', this.$el).closest('.form-group').show();
     }
 
     /**
@@ -171,6 +201,7 @@ class MediaImageFormView extends MediaFormView
      */
     _hideCropTool() {
         $('#crop-group', this.$el).hide();
+        $('#oo_media_image_coordinates', this.$el).closest('.form-group').hide();
     }
 
     /**
@@ -179,7 +210,9 @@ class MediaImageFormView extends MediaFormView
      * @private
      */
     _showOverrideTool() {
-        $('#oo_media_image_file', this.$el).closest('.form-group').show();
+        $('#oo_media_image_files > .form-group', this.$el).hide();
+        $('#oo_media_image_files_' + this._format, this.$el).closest('.form-group').show();
+        $('#oo_media_image_files', this.$el).closest('.form-group').show();
     }
 
     /**
@@ -188,7 +221,7 @@ class MediaImageFormView extends MediaFormView
      * @private
      */
     _hideOverrideTool() {
-        $('#oo_media_image_file', this.$el).closest('.form-group').hide();
+        $('#oo_media_image_files', this.$el).closest('.form-group').hide();
     }
 
     /**

@@ -57,32 +57,50 @@ class MediaImageType extends MediaBaseType
                 'group_id'     => 'information',
                 'sub_group_id' => 'format',
             ))
-            ->add('x', 'hidden', array(
-                'mapped'   => false,
+            ->add('coordinates', 'form', array(
+                'mapped'       => false,
+                'label'        => false,
                 'group_id'     => 'information',
                 'sub_group_id' => 'format',
             ))
-            ->add('y', 'hidden', array(
-                'mapped'   => false,
+            ->add('files', 'form', array(
+                'mapped'       => false,
+                'label'        => false,
                 'group_id'     => 'information',
                 'sub_group_id' => 'format',
-            ))
-            ->add('h', 'hidden', array(
-                'mapped'   => false,
-                'group_id'     => 'information',
-                'sub_group_id' => 'format',
-            ))
-            ->add('w', 'hidden', array(
-                'mapped'   => false,
-                'group_id'     => 'information',
-                'sub_group_id' => 'format',
-            ))
-            ->add('file', 'file', array(
-                'mapped'   => false,
-                'group_id'     => 'information',
-                'sub_group_id' => 'format',
-            ))
-        ;
+            ));
+        $coordinates =  $builder->get('coordinates');
+        $files =  $builder->get('files');
+        foreach ($this->thumbnailConfig as $format => $parameters) {
+            $coordinates->add($format, 'form', array(
+                'label' => 'open_orchestra_media_admin.form.media.' . $format,
+            ));
+            $files->add($format, 'form', array(
+                'label' => 'open_orchestra_media_admin.form.media.' . $format,
+            ));
+            $coordinates->get($format)
+                ->add('x', 'integer', array(
+                    'label'    => 'open_orchestra_media_admin.form.media.x',
+                    'required' => false,
+                ))
+                ->add('y', 'integer', array(
+                    'label'    => 'open_orchestra_media_admin.form.media.y',
+                    'required' => false,
+                ))
+                ->add('w', 'integer', array(
+                    'label'    => 'open_orchestra_media_admin.form.media.w',
+                    'required' => false,
+                ))
+                ->add('h', 'integer', array(
+                    'label'        => 'open_orchestra_media_admin.form.media.h',
+                    'required' => false,
+                ));
+            $files->get($format)
+                ->add('file', 'file', array(
+                    'label' => false,
+                    'mapped'   => false,
+                ));
+        }
     }
 
     /**

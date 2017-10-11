@@ -60,10 +60,11 @@ class MediaImageTypeTest extends AbstractBaseTestCase
     {
         $builder = Phake::mock('Symfony\Component\Form\FormBuilder');
         Phake::when($builder)->add(Phake::anyParameters())->thenReturn($builder);
+        Phake::when($builder)->get(Phake::anyParameters())->thenReturn($builder);
 
         $this->form->buildForm($builder, array());
 
-        Phake::verify($builder, Phake::times(6))->add(Phake::anyParameters());
+        Phake::verify($builder, Phake::times(17))->add(Phake::anyParameters());
     }
 
     /**

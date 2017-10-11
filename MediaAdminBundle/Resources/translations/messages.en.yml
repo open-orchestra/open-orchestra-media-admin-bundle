@@ -56,6 +56,10 @@ open_orchestra_media_admin:
             copyright: Copyright
             keywords: Keywords
             folder: Folder
+            x: Abscissa
+            y: Ordinate
+            w: Width
+            h: Height
             group:
                 information: Information
             sub_group:
