@@ -4,6 +4,7 @@ addons:
   apt:
     packages:
       - libav-tools
+      - ghostscript
 
 language: php
 
